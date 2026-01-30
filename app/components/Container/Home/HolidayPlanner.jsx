@@ -39,7 +39,7 @@ const HolidayPlanner = () => {
   };
 
   return (
-    <MainLayout className="px-6 md:px-20 py-20">
+    <MainLayout className="px-6 md:px-30 py-20">
       <div className="flex justify-between items-center mb-6">
         <h3 className="text-3xl font-bold leading-tight">
           Quick and easy <br /> Holiday Trip Planner

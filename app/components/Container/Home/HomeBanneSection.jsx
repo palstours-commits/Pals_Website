@@ -16,7 +16,7 @@ const HomeBannerSection = () => {
       />
       <div className="absolute inset-0 bg-black/30" />
       <div className="relative z-10 h-full flex items-center px-4 md:px-30">
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto">
           <h1 className="text-white  font-bold max-w-2xl leading-10 xl:leading-16">
             Live the Moments.
             <br />
@@ -27,8 +27,8 @@ const HomeBannerSection = () => {
           </p>
           <div className="w-full max-w-[90%] md:max-w-xl  bg-white rounded-full flex items-center shadow-lg px-2 py-3 md:py-2">
             <Camera
-              size={16}
-              className="text-gray-500 ml-2 md:ml-0 md:size-[18]"
+              size={20}
+              className="text-gray-500 ml-2  md:size-[18]"
             />
             <input
               type="text"
