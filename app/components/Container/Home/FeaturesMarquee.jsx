@@ -8,7 +8,7 @@ const features = [
   "Domestic + International expertise",
 ];
 
-export default function FeaturesMarquee() {
+const FeaturesMarquee = () => {
   return (
     <div className="bg-[#9adbe8] overflow-hidden py-3">
       <motion.div
@@ -28,4 +28,6 @@ export default function FeaturesMarquee() {
       </motion.div>
     </div>
   );
-}
+};
+
+export default FeaturesMarquee;

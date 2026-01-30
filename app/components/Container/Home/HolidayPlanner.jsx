@@ -28,9 +28,9 @@ const cards = [
   { title: "Kashmir", img: Kashmir },
   { title: "Himachal", img: Himachal },
 ];
+
 const HolidayPlanner = () => {
   const sliderRef = useRef(null);
-
   const scroll = (dir) => {
     sliderRef.current.scrollBy({
       left: dir === "left" ? -300 : 300,

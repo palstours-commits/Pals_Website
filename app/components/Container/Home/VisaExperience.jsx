@@ -1,5 +1,6 @@
 "use client";
 import { UserCheck, BadgeDollarSign, Sparkles, Headphones } from "lucide-react";
+
 const FEATURES = [
   {
     title: "Expert Guidance",

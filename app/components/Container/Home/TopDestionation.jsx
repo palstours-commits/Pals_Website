@@ -30,7 +30,6 @@ const destinations = [
 
 const TopDestionation = () => {
   const sliderRef = useRef(null);
-
   const scroll = (dir) => {
     sliderRef.current.scrollBy({
       left: dir === "left" ? -300 : 300,

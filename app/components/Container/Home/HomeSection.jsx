@@ -7,9 +7,11 @@ import TopDestionation from "./TopDestionation";
 import VisaExperience from "./VisaExperience";
 import HolidayPlanner from "./HolidayPlanner";
 import FeaturesMarquee from "./FeaturesMarquee";
+import HomeBanneSection from "./HomeBanneSection";
 const HomeSection = () => {
   return (
     <>
+      <HomeBanneSection />
       <FeaturesMarquee />
       <HolidayPlanner />
       <VisaExperience />

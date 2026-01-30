@@ -11,6 +11,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
+import MainLayout from "@/app/common/MainLayout";
 
 const services = [
   { title: "Flight\nBookings", Icon: Plane },
@@ -33,7 +34,7 @@ const OurServices = () => {
   };
 
   return (
-    <section className="bg-accent">
+    <MainLayout className="bg-accent">
       <div className="px-4 md:px-30 py-15">
         <div className="flex justify-between items-start mb-16 text-white">
           <div>
@@ -75,7 +76,7 @@ const OurServices = () => {
           ))}
         </div>
       </div>
-    </section>
+    </MainLayout>
   );
 };
 

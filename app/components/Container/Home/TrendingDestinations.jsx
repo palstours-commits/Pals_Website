@@ -6,6 +6,7 @@ import Malaysia from "@/app/assets/malaysia.png";
 import Singapore from "@/app/assets/singapore.png";
 import Indonesia from "@/app/assets/indonesia.png";
 import Thailand from "@/app/assets/thailand.png";
+import MainLayout from "@/app/common/MainLayout";
 
 const destinations = [
   {
@@ -38,12 +39,13 @@ const TrendingDestinations = () => {
   };
 
   return (
-    <section className="px-4 md:px-30 py-20">
+    <MainLayout className="px-4 md:px-30 py-20">
       <div className="flex items-center justify-between mb-10">
         <div>
           <h4 className="font-bold">Trending International Destinations</h4>
           <p className="text-gray-500 mt-2 text-xs">
-            Fly beyond borders with customized itineraries for the world’s most loved spots.
+            Fly beyond borders with customized itineraries for the world’s most
+            loved spots.
           </p>
         </div>
         <div className="flex items-center gap-3">
@@ -90,7 +92,7 @@ const TrendingDestinations = () => {
           </div>
         ))}
       </div>
-    </section>
+    </MainLayout>
   );
 };
 

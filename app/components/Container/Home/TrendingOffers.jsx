@@ -25,7 +25,7 @@ const offers = [
   },
 ];
 
-export default function TrendingOffers() {
+const TrendingOffers = () => {
   const sliderRef = useRef(null);
 
   const scroll = (dir) => {
@@ -86,4 +86,6 @@ export default function TrendingOffers() {
       </div>
     </section>
   );
-}
+};
+
+export default TrendingOffers;
