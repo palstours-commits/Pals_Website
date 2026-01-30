@@ -9,6 +9,7 @@ import Andaman from "@/app/assets/andhaman.png";
 import Kashmir from "@/app/assets/kashmir.png";
 import Himachal from "@/app/assets/himachal.png";
 import MainLayout from "@/app/common/MainLayout";
+import { useRouter } from "next/navigation";
 
 const tabs = [
   "India Holidays",
@@ -21,15 +22,16 @@ const tabs = [
 ];
 
 const cards = [
-  { title: "South India", img: South, isNew: true },
-  { title: "North India", img: North },
-  { title: "North East India", img: NorthEast },
-  { title: "Andaman", img: Andaman },
-  { title: "Kashmir", img: Kashmir },
-  { title: "Himachal", img: Himachal },
+  { title: "South India", img: South, slug: "south-india", isNew: true },
+  { title: "North India", img: North, slug: "north-india" },
+  { title: "North East India", img: NorthEast, slug: "north-east-india" },
+  { title: "Andaman", img: Andaman, slug: "andaman" },
+  { title: "Kashmir", img: Kashmir, slug: "kashmir" },
+  { title: "Himachal", img: Himachal, slug: "himachal" },
 ];
 
 const HolidayPlanner = () => {
+  const router = useRouter();
   const sliderRef = useRef(null);
   const scroll = (dir) => {
     sliderRef.current.scrollBy({
@@ -78,6 +80,7 @@ const HolidayPlanner = () => {
         {cards?.map((item, i) => (
           <div
             key={i}
+            onClick={() => router.push(`/packages/${item.slug}`)}
             className="relative min-w-[220px] h-[300px] rounded-xl overflow-hidden"
           >
             <Image
