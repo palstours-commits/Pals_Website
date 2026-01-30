@@ -9,7 +9,6 @@ import {
   Phone,
   ChevronDown,
   Mail,
-  ArrowUpRight,
   ChevronUp,
 } from "lucide-react";
 import navbar_logo from "@/app/assets/navbar_logo.svg";

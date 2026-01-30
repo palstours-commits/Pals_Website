@@ -4,8 +4,8 @@ import ReduxProvider from "./provider/ReduxProvider";
 import { Poppins, Inter } from "next/font/google";
 
 export const metadata = {
-  title: "Pals",
-  description: "Pals – Smart holiday and travel management platform",
+  title: "Pals Holidays",
+  description: "Smart holiday and travel management platform",
 };
 
 const poppins = Poppins({
