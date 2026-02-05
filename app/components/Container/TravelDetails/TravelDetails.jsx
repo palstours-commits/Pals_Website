@@ -1,6 +1,5 @@
+"use client";
 import MainLayout from "@/app/common/MainLayout";
-import bannerimg from "@/app/assets/detailsBanner.svg";
-import Link from "next/link";
 import travel1 from "@/app/assets/travelimg1.svg";
 import travel2 from "@/app/assets/travelimg2.svg";
 import travel3 from "@/app/assets/travelimg3.svg";
@@ -8,6 +7,10 @@ import travel4 from "@/app/assets/travelimg4.svg";
 import travel5 from "@/app/assets/travelimg5.svg";
 import travel6 from "@/app/assets/travelimg6.svg";
 import TravelCard from "@/app/common/TravelCard";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import TravelHero from "./TravelHero";
+import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
 
 const travelCards = [
   {
@@ -44,54 +47,255 @@ const travelCards = [
 
 const TravelDetails = ({ slug }) => {
   const title = slug?.replace(/-/g, " ");
+  const southRef = useRef(null);
+  const northRef = useRef(null);
+  const northeastRef = useRef(null);
+  const andamanRef = useRef(null);
+  const kashmirRef = useRef(null);
+
+  useEffect(() => {
+    if (!slug) return;
+
+    const sections = {
+      "south-india": southRef,
+      "north-india": northRef,
+      "north-east": northeastRef,
+      andaman: andamanRef,
+      kashmir: kashmirRef,
+    };
+
+    const target = sections[slug];
+
+    if (target?.current) {
+      setTimeout(() => {
+        target.current.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }, 400);
+    }
+  }, [slug]);
 
   return (
-    <MainLayout>
-      <div
-        className="relative w-full h-[321px] flex items-center justify-center"
-        style={{
-          backgroundImage: `url(${bannerimg.src})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
+    <>
+      <TravelHero title={title} />
+      <motion.div
+        ref={northRef}
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.1 }}
       >
-        <div className="absolute inset-0 bg-black/40" />
-        <div className="relative text-center text-white px-4">
-          <p className="text-sm mb-3  space-x-2">
-            <Link href="/" className=" opacity-80">
-              Home
-            </Link>
-            <span>/</span>
-            <Link href="/packages" className=" opacity-80">
-              India Holidays
-            </Link>
-            <span>/</span>
-            <span className="capitalize text-white">{title}</span>
-          </p>
-          <h3 className="text-3xl md:text-5xl font-bold capitalize">
-            Experience the Timeless Beauty of {title}
-          </h3>
-        </div>
+        <MainLayout className="px-4 md:px-20 py-10 md:pt-15">
+          <div className="flex items-center justify-between mb-10">
+            <div>
+              <h4 className="font-bold">Experience South India Your Way</h4>
+              <p className="text-gray-500 mt-2 text-xs">
+                From ancient temples to misty mountains enjoy personalized
+                journeys across South India designed around you.
+              </p>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="flex gap-2">
+                <button
+                  onClick={() => scroll("left")}
+                  className="w-6 h-6 rounded-lg border-2 flex items-center justify-center text-[#da251c] font-medium border-[#da251c] "
+                >
+                  <ChevronLeft size={18} />
+                </button>
+                <button
+                  onClick={() => scroll("right")}
+                  className="w-6 h-6 rounded-lg border-2 border-gray-300 text-gray-300 flex items-center justify-center  "
+                >
+                  <ChevronRight size={18} />
+                </button>
+              </div>
+              <button className="bg-red-600 text-white px-6 py-2 rounded-full text-xs font-semibold hidden lg:block">
+                Discover more
+              </button>
+            </div>
+          </div>
+          <div
+            className="
+                                flex gap-6 overflow-x-auto
+                                md:grid md:grid-cols-3
+                                lg:grid-cols-4
+                                md:overflow-visible
+                                scrollbar-hide
+                            "
+          >
+            {travelCards?.slice(0, 4).map((item, i) => (
+              <TravelCard
+                key={i}
+                img={item?.img}
+                title={item?.title}
+                duration={item?.days}
+              />
+            ))}
+          </div>
+        </MainLayout>
+      </motion.div>
+
+      <motion.div
+        ref={northRef}
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.1 }}
+      >
+        <MainLayout className="px-4 md:px-20">
+          <div className="flex items-center justify-between my-10">
+            <div>
+              <h4 className="font-bold">Explore the Heart of North India</h4>
+              <p className="text-gray-500 mt-2 text-xs">
+                Discover iconic landmarks, vibrant cultures, and unforgettable
+                experiences across North India.
+              </p>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="flex gap-2">
+                <button
+                  onClick={() => scroll("left")}
+                  className="w-6 h-6 rounded-lg border-2 flex items-center justify-center text-[#da251c] font-medium border-[#da251c] "
+                >
+                  <ChevronLeft size={18} />
+                </button>
+                <button
+                  onClick={() => scroll("right")}
+                  className="w-6 h-6 rounded-lg border-2 border-gray-300 text-gray-300 flex items-center justify-center  "
+                >
+                  <ChevronRight size={18} />
+                </button>
+              </div>
+              <button className="bg-red-600 text-white px-6 py-2 rounded-full text-xs font-semibold hidden lg:block">
+                Discover more
+              </button>
+            </div>
+          </div>
+          <div
+            className="
+                                flex gap-10 overflow-x-auto
+                                md:grid md:grid-cols-3
+                                lg:grid-cols-4
+                                md:overflow-visible
+                                scrollbar-hide
+                            "
+          >
+            {travelCards?.slice(0, 4).map((item, i) => (
+              <TravelCard
+                key={i}
+                img={item?.img}
+                title={item?.title}
+                duration={item?.days}
+              />
+            ))}
+          </div>
+        </MainLayout>
+      </motion.div>
+      <div className="bg-[#FAF3E1] my-10 md:my-15 py-10">
+        <motion.div
+          ref={northRef}
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+        >
+          <motion.div
+            ref={northRef}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+          ></motion.div>
+        </motion.div>
+        <MainLayout ref={northeastRef} className="px-4 md:px-20">
+          <div className="flex items-center justify-between py-10 ">
+            <div>
+              <h4 className="font-bold">Where Andaman Feels Like Paradise</h4>
+              <p className="text-gray-500 mt-2 text-xs">
+                Relax, explore, and unwind amidst turquoise seas and serene
+                island life.
+              </p>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="flex gap-2">
+                <button
+                  onClick={() => scroll("left")}
+                  className="w-6 h-6 rounded-lg border-2 flex items-center justify-center text-[#da251c] font-medium border-[#da251c] "
+                >
+                  <ChevronLeft size={18} />
+                </button>
+                <button
+                  onClick={() => scroll("right")}
+                  className="w-6 h-6 rounded-lg border-2 border-gray-300 text-gray-300 flex items-center justify-center  "
+                >
+                  <ChevronRight size={18} />
+                </button>
+              </div>
+              <button className="bg-red-600 text-white px-6 py-2 rounded-full text-xs font-semibold hidden lg:block">
+                Discover more
+              </button>
+            </div>
+          </div>
+          <div
+            className="
+                                flex gap-10 overflow-x-auto
+                                md:grid md:grid-cols-3
+                                lg:grid-cols-4
+                                md:overflow-visible
+                                scrollbar-hide
+                            "
+          >
+            {travelCards?.slice(0, 4).map((item, i) => (
+              <TravelCard
+                key={i}
+                img={item?.img}
+                title={item?.title}
+                duration={item?.days}
+              />
+            ))}
+          </div>
+        </MainLayout>
       </div>
-      <div className="px-4 md:px-30 py-10 md:py-15">
-        <div>
-          <h4 className="font-semibold">Feel the Magic of{title} </h4>
-          <p className="max-w-lg py-3 text-gray-600 text-xs">
-            Discover handpicked destinations, flexible itineraries, and
-            unforgettable experiences across India—planned just the way you
-            like.
-          </p>
+      <MainLayout className="px-4 md:px-20">
+        <div className="flex items-center justify-between mb-10">
+          <div>
+            <h4 className="font-bold">Fall in Love with Kashmir</h4>
+            <p className="text-gray-500 mt-2 text-xs">
+              Relax, explore, and unwind amidst turquoise seas and serene island
+              life.
+            </p>
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="flex gap-2">
+              <button
+                onClick={() => scroll("left")}
+                className="w-6 h-6 rounded-lg border-2 flex items-center justify-center text-[#da251c] font-medium border-[#da251c] "
+              >
+                <ChevronLeft size={18} />
+              </button>
+              <button
+                onClick={() => scroll("right")}
+                className="w-6 h-6 rounded-lg border-2 border-gray-300 text-gray-300 flex items-center justify-center  "
+              >
+                <ChevronRight size={18} />
+              </button>
+            </div>
+            <button className="bg-red-600 text-white px-6 py-2 rounded-full text-xs font-semibold hidden lg:block">
+              Discover more
+            </button>
+          </div>
         </div>
         <div
           className="
-                                flex gap-4 overflow-x-auto
+                                flex gap-10 overflow-x-auto
                                 md:grid md:grid-cols-3
-                                2xl:grid-cols-4
+                                lg:grid-cols-4
                                 md:overflow-visible
                                 scrollbar-hide
                             "
         >
-          {travelCards?.map((item, i) => (
+          {travelCards?.slice(0, 4).map((item, i) => (
             <TravelCard
               key={i}
               img={item?.img}
@@ -100,8 +304,55 @@ const TravelDetails = ({ slug }) => {
             />
           ))}
         </div>
-      </div>
-    </MainLayout>
+      </MainLayout>
+      <MainLayout className="px-4 md:px-20 py-10 md:pt-15">
+        <div className="flex items-center justify-between mb-10">
+          <div>
+            <h4 className="font-bold">Fall in Love with Kashmir</h4>
+            <p className="text-gray-500 mt-2 text-xs">
+              Unspoiled nature, peaceful moments, and unforgettable journeys.
+            </p>
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="flex gap-2">
+              <button
+                onClick={() => scroll("left")}
+                className="w-6 h-6 rounded-lg border-2 flex items-center justify-center text-[#da251c] font-medium border-[#da251c] "
+              >
+                <ChevronLeft size={18} />
+              </button>
+              <button
+                onClick={() => scroll("right")}
+                className="w-6 h-6 rounded-lg border-2 border-gray-300 text-gray-300 flex items-center justify-center  "
+              >
+                <ChevronRight size={18} />
+              </button>
+            </div>
+            <button className="bg-red-600 text-white px-6 py-2 rounded-full text-xs font-semibold hidden lg:block">
+              Discover more
+            </button>
+          </div>
+        </div>
+        <div
+          className="
+                                flex gap-6 overflow-x-auto
+                                md:grid md:grid-cols-3
+                                lg:grid-cols-4
+                                md:overflow-visible
+                                scrollbar-hide
+                            "
+        >
+          {travelCards?.slice(0, 4).map((item, i) => (
+            <TravelCard
+              key={i}
+              img={item?.img}
+              title={item?.title}
+              duration={item?.days}
+            />
+          ))}
+        </div>
+      </MainLayout>
+    </>
   );
 };
 

@@ -39,7 +39,7 @@ const TrendingDestinations = () => {
   };
 
   return (
-    <MainLayout className="px-4 md:px-30 py-20">
+    <MainLayout className="px-4 md:px-20 py-20">
       <div className="flex items-center justify-between mb-10">
         <div>
           <h4 className="font-bold">Trending International Destinations</h4>
@@ -51,13 +51,13 @@ const TrendingDestinations = () => {
         <div className="flex items-center gap-3">
           <button
             onClick={() => scroll("left")}
-            className="w-6 h-6 rounded-lg border-2 flex items-center justify-center text-[#da251c] font-medium border-[#da251c] hover:text-white"
+            className="w-6 h-6 rounded-lg border-2 flex items-center justify-center text-[#da251c] font-medium border-[#da251c] "
           >
             <ChevronLeft size={18} />
           </button>
           <button
             onClick={() => scroll("right")}
-            className="w-6 h-6 rounded-lg border-2 border-gray-300 text-gray-300 flex items-center justify-center  hover:bg-red-600 hover:text-white"
+            className="w-6 h-6 rounded-lg border-2 border-gray-300 text-gray-300 flex items-center justify-center  "
           >
             <ChevronRight size={18} />
           </button>

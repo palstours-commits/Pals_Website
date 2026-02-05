@@ -3,16 +3,10 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Menu,
-  X,
-  Phone,
-  ChevronDown,
-  Mail,
-  ChevronUp,
-} from "lucide-react";
+import { Menu, X, Phone, ChevronDown, Mail, ChevronUp } from "lucide-react";
 import navbar_logo from "@/app/assets/navbar_logo.svg";
 import navItemIcon from "@/app/assets/navlink_icon.svg";
+import navActiveIcon from "@/app/assets/nav_active-icon.svg";
 
 const navItems = [
   { label: "Holidays", dropdown: true },
@@ -25,6 +19,7 @@ const navItems = [
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const [active, setActive] = useState(0);
 
   return (
     <>
@@ -48,39 +43,49 @@ export default function Header() {
           </Link>
           <nav className="hidden lg:flex ml-10  max-w-[600px]  2xl:max-w-[520px] overflow-x-auto scrollbar-hide">
             <div className="flex items-center gap-6 min-w-max">
-              {navItems?.map((item, index) => (
-                <div
-                  key={item.label}
-                  className="flex items-center gap-2 shrink-0"
-                >
-                  <Image
-                    src={navItemIcon}
-                    alt="icon"
-                    className="w-5 h-5 object-contain"
-                  />
+              {navItems.map((item, index) => {
+                const isActive = active === index;
 
-                  {item.dropdown ? (
-                    <button
-                      className={`flex items-center gap-1 px-3 py-2 rounded-full text-sm font-medium transition
-                      ${
-                        index === 0
-                          ? "border border-red-500 text-red-500"
-                          : "text-gray-700 hover:text-red-500"
-                      }`}
-                    >
-                      {item.label}
-                      <ChevronDown size={16} />
-                    </button>
-                  ) : (
-                    <Link
-                      href="#"
-                      className="text-sm font-medium text-gray-700 hover:text-red-500 whitespace-nowrap"
-                    >
-                      {item.label}
-                    </Link>
-                  )}
-                </div>
-              ))}
+                return (
+                  <div key={item.label} className="shrink-0">
+                    {item.dropdown ? (
+                      <button
+                        onClick={() => setActive(index)}
+                        className={`flex items-center gap-2 px-3 py-2 rounded-full text-sm font-medium transition
+          ${
+            isActive
+              ? "border border-red-500 text-red-500"
+              : "text-gray-700 hover:text-red-500"
+          }`}
+                      >
+                        <Image
+                          src={isActive ? navActiveIcon : navItemIcon}
+                          alt="icon"
+                          className="w-5 h-5 object-contain"
+                        />
+
+                        {item.label}
+                        <ChevronDown size={16} />
+                      </button>
+                    ) : (
+                      <Link
+                        href="#"
+                        onClick={() => setActive(index)}
+                        className={`flex items-center gap-2 px-3 py-2 text-sm font-medium transition whitespace-nowrap
+          ${isActive ? "text-red-500" : "text-gray-700 hover:text-red-500"}`}
+                      >
+                        <Image
+                          src={isActive ? navActiveIcon : navItemIcon}
+                          alt="icon"
+                          className="w-5 h-5 object-contain"
+                        />
+
+                        {item.label}
+                      </Link>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </nav>
           <div className="hidden lg:flex items-center gap-6 ml-auto">

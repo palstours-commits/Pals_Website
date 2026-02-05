@@ -15,7 +15,7 @@ const HomeBannerSection = () => {
         className="object-cover"
       />
       <div className="absolute inset-0 bg-black/30" />
-      <div className="relative z-10 h-full flex items-center px-4 md:px-30">
+      <div className="relative z-10 h-full flex items-center px-4 md:px-20">
         <div className="container mx-auto">
           <h1 className="text-white  font-bold max-w-2xl leading-10 xl:leading-16">
             Live the Moments.

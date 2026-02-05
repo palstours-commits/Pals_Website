@@ -37,7 +37,7 @@ const TrendingOffers = () => {
 
   return (
     <section className="py-20">
-      <div className="px-4 md:px-30">
+      <div className="px-4 md:px-20">
         <div className="flex justify-between items-start mb-10">
           <div>
             <h4 className="font-bold">Trending Offers</h4>

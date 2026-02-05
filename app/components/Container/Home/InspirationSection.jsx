@@ -32,7 +32,7 @@ const InspirationSection = () => {
   };
 
   return (
-    <MainLayout className="w-full  mb-20 px-4 md:px-30">
+    <MainLayout className="w-full  mb-20 px-4 md:px-20">
       <h4 className=" font-bold text-center mb-8">
         Get inspiration for your next trip
       </h4>

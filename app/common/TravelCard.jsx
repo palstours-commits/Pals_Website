@@ -1,10 +1,7 @@
 import Image from "next/image";
-const TravelCard = ({ img, title, duration, key }) => {
+const TravelCard = ({ img, title, duration }) => {
   return (
-    <div
-      key={key}
-      className="relative rounded-2xl overflow-hidden min-w-[260px] h-[300px] cursor-pointer group shadow"
-    >
+    <div className="relative rounded-2xl overflow-hidden min-w-[220px] h-[300px] cursor-pointer group shadow">
       <Image
         src={img}
         alt={title}
