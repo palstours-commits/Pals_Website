@@ -12,86 +12,226 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-6">Quick Links</h4>
             <ul className="space-y-3 text-sm text-gray-300">
-              <li>About us</li>
-              <li>Blog</li>
-              <li>Career</li>
-              <li>Contact Us</li>
+              <li>
+                <Link href="/about" className="hover:text-white transition">
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link href="/blog" className="hover:text-white transition">
+                  Blog
+                </Link>
+              </li>
+              <li>
+                <Link href="/career" className="hover:text-white transition">
+                  Career
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className="hover:text-white transition">
+                  Contact Us
+                </Link>
+              </li>
             </ul>
           </div>
           <div>
             <h4 className="font-semibold mb-6">Package</h4>
             <ul className="space-y-3 text-sm text-gray-300">
-              <li>India Holidays</li>
-              <li>International Holidays</li>
-              <li>Domestic Holidays</li>
-              <li>Train Tours</li>
-              <li>Hill Station</li>
-              <li>Ayurveda & Yoga Retreats</li>
-              <li>Spiritual Tours</li>
+              <li>
+                <Link
+                  href="/packages/india-holidays"
+                  className="hover:text-white transition"
+                >
+                  India Holidays
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/packages/international-holidays"
+                  className="hover:text-white transition"
+                >
+                  International Holidays
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/packages/domestic-holidays"
+                  className="hover:text-white transition"
+                >
+                  Domestic Holidays
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/packages/train-tours"
+                  className="hover:text-white transition"
+                >
+                  Train Tours
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/packages/hill-station"
+                  className="hover:text-white transition"
+                >
+                  Hill Station
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/packages/ayurveda-yoga"
+                  className="hover:text-white transition"
+                >
+                  Ayurveda & Yoga Retreats
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/packages/spiritual-tours"
+                  className="hover:text-white transition"
+                >
+                  Spiritual Tours
+                </Link>
+              </li>
             </ul>
           </div>
           <div>
             <h4 className="font-semibold mb-6">Services</h4>
             <ul className="space-y-3 text-sm text-gray-300">
-              <li>Flights</li>
-              <li>Hotels</li>
-              <li>Transportation Services</li>
-              <li>Visa</li>
+              <li>
+                <Link
+                  href="/flight"
+                  className="hover:text-white transition"
+                >
+                  Flights
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/services/hotels"
+                  className="hover:text-white transition"
+                >
+                  Hotels
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/services/transportation"
+                  className="hover:text-white transition"
+                >
+                  Transportation Services
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/services/visa"
+                  className="hover:text-white transition"
+                >
+                  Visa
+                </Link>
+              </li>
             </ul>
           </div>
           <div>
             <h4 className="font-semibold mb-6">Contact Us</h4>
             <div className="text-sm text-gray-300 space-y-4">
               <p>
-                Call / Whatsapp
+                Call / Whatsapp <br />
+                <a
+                  href="tel:+919841255715"
+                  className="hover:text-white transition"
+                >
+                  +91 98412 55715
+                </a>
                 <br />
-                +91 98412 55715
-                <br />
-                +91 98412 55715
+                <a
+                  href="tel:+919003012226"
+                  className="hover:text-white transition"
+                >
+                  +91 90030 12226
+                </a>
               </p>
+
               <p>
-                Mail us at
+                Mail us at <br />
+                <a
+                  href="mailto:mail@palsholidays.com"
+                  className="hover:text-white transition"
+                >
+                  mail@palsholidays.com
+                </a>
                 <br />
-                mail@palsholidays.com
-                <br />
-                palstours@gmail.com
+                <a
+                  href="mailto:palstours@gmail.com"
+                  className="hover:text-white transition"
+                >
+                  palstours@gmail.com
+                </a>
               </p>
+
               <p>
-                Our Websites
+                Our Websites <br />
+                <a
+                  href="https://palsholidays.com"
+                  target="_blank"
+                  className="hover:text-white transition"
+                >
+                  Palsholidays.com
+                </a>
                 <br />
-                Palsholidays.com
+                <a
+                  href="https://tour2india.com"
+                  target="_blank"
+                  className="hover:text-white transition"
+                >
+                  Tour2india.com
+                </a>
                 <br />
-                Tour2india.com
-                <br />
-                Trip2southindia.com
+                <a
+                  href="https://trip2southindia.com"
+                  target="_blank"
+                  className="hover:text-white transition"
+                >
+                  Trip2southindia.com
+                </a>
               </p>
             </div>
           </div>
           <div>
             <h4 className="font-semibold mb-6">Review Us</h4>
             <div className="space-y-4">
-              <div className="bg-white rounded-full w-[161px] h-[50px] flex items-center justify-center">
+              <a
+                href="#"
+                target="_blank"
+                className="bg-white rounded-full w-[161px] h-[50px] flex items-center justify-center hover:scale-105 transition"
+              >
                 <Image
                   src={tripadvisor}
                   alt="Tripadvisor"
                   className="h-[30px] w-auto"
                 />
-              </div>
-              <div className="bg-white rounded-full w-[161px] h-[50px] flex items-center justify-center">
+              </a>
+
+              <a
+                href="#"
+                target="_blank"
+                className="bg-white rounded-full w-[161px] h-[50px] flex items-center justify-center hover:scale-105 transition"
+              >
                 <Image
                   src={google}
                   alt="Google Reviews"
                   className="h-[30px] w-auto"
                 />
-              </div>
+              </a>
             </div>
           </div>
         </div>
         <div className="border-t border-gray-800 mt-16 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-gray-400">
+          <p className="text-xs text-gray-400 text-center md:text-left">
             © 2025 PALS HOLIDAYS All rights reserved | Designed by Webdads2u PVT
             LTD.
           </p>
+
           <div className="flex gap-3">
             {socialLinks?.map(({ href, Icon }, i) => (
               <Link

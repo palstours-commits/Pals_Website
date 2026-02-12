@@ -100,7 +100,7 @@ const FlightBookingSection = () => {
               <div className="flex justify-center pt-4">
                 <div className="flex justify-center">
                   <button
-                    className="w-full md:w-[500px] bg-red-600 hover:bg-red-700 
+                    className="px-3 w-full md:w-[500px] bg-red-600 hover:bg-red-700 
   transition text-white font-semibold py-4 rounded-full text-sm md:text-base"
                   >
                     Claim Your Free Spot
