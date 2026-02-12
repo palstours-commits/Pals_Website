@@ -36,8 +36,8 @@ const TrendingOffers = () => {
   };
 
   return (
-    <section className="py-20">
-      <div className="px-4 md:px-20">
+    <section className="py-10 md:py-20">
+      <div className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="flex justify-between items-start mb-10">
           <div>
             <h4 className="font-bold">Trending Offers</h4>

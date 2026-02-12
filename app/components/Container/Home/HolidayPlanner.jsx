@@ -41,7 +41,7 @@ const HolidayPlanner = () => {
   };
 
   return (
-    <MainLayout className="px-6 md:px-20 py-20">
+    <MainLayout className="px-4 sm:px-6 lg:px-8  max-w-7xl mx-auto py-10 md:py-20">
       <div className="flex justify-between items-center mb-6">
         <h3 className="text-3xl font-bold leading-tight">
           Quick and easy <br /> Holiday Trip Planner
@@ -80,8 +80,8 @@ const HolidayPlanner = () => {
         {cards?.map((item, i) => (
           <div
             key={i}
-            onClick={() => router.push(`/packages/${item.slug}`)}
-            className="relative min-w-[220px] h-[300px] rounded-xl overflow-hidden"
+            onClick={() => router.push(`/destination/${item.slug}`)}
+            className="relative min-w-[220px] h-[300px] rounded-xl overflow-hidden cursor-pointer"
           >
             <Image
               src={item.img}

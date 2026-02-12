@@ -1,355 +1,326 @@
 "use client";
-import MainLayout from "@/app/common/MainLayout";
-import travel1 from "@/app/assets/travelimg1.svg";
-import travel2 from "@/app/assets/travelimg2.svg";
-import travel3 from "@/app/assets/travelimg3.svg";
-import travel4 from "@/app/assets/travelimg4.svg";
-import travel5 from "@/app/assets/travelimg5.svg";
-import travel6 from "@/app/assets/travelimg6.svg";
-import TravelCard from "@/app/common/TravelCard";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import React, { useState } from "react";
+import { ChevronDown, Clock } from "lucide-react";
 import TravelHero from "./TravelHero";
-import { motion } from "framer-motion";
-import { useEffect, useRef } from "react";
+import MainLayout from "@/app/common/MainLayout";
+import { Utensils, Binoculars, Hotel, Car } from "lucide-react";
+import Image from "next/image";
 
-const travelCards = [
-  {
-    title: "Heritage Of South India",
-    days: "12 Nights / 13 Days",
-    img: travel1,
-  },
-  {
-    title: "Charming South India",
-    days: "6 Nights / 7 Days",
-    img: travel2,
-  },
-  {
-    title: "Chennai Shopping",
-    days: "3 Nights / 4 Days",
-    img: travel3,
-  },
-  {
-    title: "Enchanting Tamilnadu",
-    days: "8 Nights / 9 Days",
-    img: travel4,
-  },
-  {
-    title: "Highlights of South India",
-    days: "5 Nights / 6 Days",
-    img: travel5,
-  },
-  {
-    title: "Authentic Homestays",
-    days: "4 Nights / 5 Days",
-    img: travel6,
-  },
-];
+const TravelDetails = () => {
+  const [active, setActive] = useState("Overview");
+  const [activeTab, setActiveTab] = useState("Hotel Detail");
 
-const TravelDetails = ({ slug }) => {
-  const title = slug?.replace(/-/g, " ");
-  const southRef = useRef(null);
-  const northRef = useRef(null);
-  const northeastRef = useRef(null);
-  const andamanRef = useRef(null);
-  const kashmirRef = useRef(null);
+  const tabs = [
+    "Overview",
+    "Trip Highlights",
+    "Destinations",
+    "Tour Itinerary",
+    "Information",
+    "Get a Quote",
+  ];
 
-  useEffect(() => {
-    if (!slug) return;
+  const services = [
+    { title: "Breakfast", icon: Utensils },
+    { title: "Sightseeing", icon: Binoculars },
+    { title: "Hotel", icon: Hotel },
+    { title: "Transport", icon: Car },
+  ];
 
-    const sections = {
-      "south-india": southRef,
-      "north-india": northRef,
-      "north-east": northeastRef,
-      andaman: andamanRef,
-      kashmir: kashmirRef,
-    };
+  const images = [
+    "https://source.unsplash.com/600x400/?mountain",
+    "https://source.unsplash.com/600x400/?temple",
+    "https://source.unsplash.com/600x400/?beach",
+    "https://source.unsplash.com/600x400/?statue",
+    "https://source.unsplash.com/600x400/?forest",
+    "https://source.unsplash.com/600x800/?india-temple",
+  ];
 
-    const target = sections[slug];
+  const points = [
+    "Visit Lalbagh Botanical Gardens and ISKCON Temple",
+    "Visit Mysore Maharaja’s palace and Brindavan Garden",
+    "Day-trip to Belur and Halebid Temples, UNESCO World Heritage Site, Hassan",
+    "Savor the haunting ruins of Vijayanagara Empire in Hampi",
+    "Admire the great architecture of Pattadakal and Aihole Temples, Badami",
+    "Visit the popular churches of Goa including the Basilica of Bom Jesus",
+    "Enjoy local Goa and seafood at the shacks by Goa beaches",
+    "Take Photos in Gateway of India and have panoramic view of Marine Drive",
+  ];
 
-    if (target?.current) {
-      setTimeout(() => {
-        target.current.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-      }, 400);
-    }
-  }, [slug]);
+  const hotelTabs = [
+    "Hotel Detail",
+    "Transportation Details",
+    "Notes",
+    "Packages Exclude",
+  ];
+
+  const hotelPoints = [
+    "The Hotels used are normally First Class Hotel ranging in the 3 Star Category. Even we also provide optional hotels which you can choose to enhances based on your budget.",
+    "Hotel accommodation is on Double Sharing Basis.",
+    "Daily Buffet / Fixed Menu Breakfast as per Plan mentioned in the Package.",
+    "The Hotels are subject to availability. In case of unavailability in the mentioned Hotels, alternate accommodation will be arranged in a similar category Hotel.",
+    "Standard Check-in at 12.00 Noon & Check-out at 09.00AM. But for some Hotels, Check-in & Check-out at 10.00, 11.00 AM or 12.00 or 01.00 Noon it depends upon the Hotel rule. Kindly coordinate.",
+    "Non AC Rooms are provided in Hill Stations due to low temperature.",
+  ];
 
   return (
     <>
-      <TravelHero title={title} />
-      <motion.div
-        ref={northRef}
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, delay: 0.1 }}
-      >
-        <MainLayout className="px-4 md:px-20 py-10 md:pt-15">
-          <div className="flex items-center justify-between mb-10">
-            <div>
-              <h4 className="font-bold">Experience South India Your Way</h4>
-              <p className="text-gray-500 mt-2 text-xs">
-                From ancient temples to misty mountains enjoy personalized
-                journeys across South India designed around you.
-              </p>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="flex gap-2">
-                <button
-                  onClick={() => scroll("left")}
-                  className="w-6 h-6 rounded-lg border-2 flex items-center justify-center text-[#da251c] font-medium border-[#da251c] "
-                >
-                  <ChevronLeft size={18} />
-                </button>
-                <button
-                  onClick={() => scroll("right")}
-                  className="w-6 h-6 rounded-lg border-2 border-gray-300 text-gray-300 flex items-center justify-center  "
-                >
-                  <ChevronRight size={18} />
-                </button>
-              </div>
-              <button className="bg-red-600 text-white px-6 py-2 rounded-full text-xs font-semibold hidden lg:block">
-                Discover more
-              </button>
-            </div>
-          </div>
-          <div
-            className="
-                                flex gap-6 overflow-x-auto
-                                md:grid md:grid-cols-3
-                                lg:grid-cols-4
-                                md:overflow-visible
-                                scrollbar-hide
-                            "
-          >
-            {travelCards?.slice(0, 4).map((item, i) => (
-              <TravelCard
-                key={i}
-                img={item?.img}
-                title={item?.title}
-                duration={item?.days}
-              />
-            ))}
-          </div>
-        </MainLayout>
-      </motion.div>
-
-      <motion.div
-        ref={northRef}
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, delay: 0.1 }}
-      >
-        <MainLayout className="px-4 md:px-20">
-          <div className="flex items-center justify-between my-10">
-            <div>
-              <h4 className="font-bold">Explore the Heart of North India</h4>
-              <p className="text-gray-500 mt-2 text-xs">
-                Discover iconic landmarks, vibrant cultures, and unforgettable
-                experiences across North India.
-              </p>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="flex gap-2">
-                <button
-                  onClick={() => scroll("left")}
-                  className="w-6 h-6 rounded-lg border-2 flex items-center justify-center text-[#da251c] font-medium border-[#da251c] "
-                >
-                  <ChevronLeft size={18} />
-                </button>
-                <button
-                  onClick={() => scroll("right")}
-                  className="w-6 h-6 rounded-lg border-2 border-gray-300 text-gray-300 flex items-center justify-center  "
-                >
-                  <ChevronRight size={18} />
-                </button>
-              </div>
-              <button className="bg-red-600 text-white px-6 py-2 rounded-full text-xs font-semibold hidden lg:block">
-                Discover more
-              </button>
-            </div>
-          </div>
-          <div
-            className="
-                                flex gap-10 overflow-x-auto
-                                md:grid md:grid-cols-3
-                                lg:grid-cols-4
-                                md:overflow-visible
-                                scrollbar-hide
-                            "
-          >
-            {travelCards?.slice(0, 4).map((item, i) => (
-              <TravelCard
-                key={i}
-                img={item?.img}
-                title={item?.title}
-                duration={item?.days}
-              />
-            ))}
-          </div>
-        </MainLayout>
-      </motion.div>
-      <div className="bg-[#FAF3E1] my-10 md:my-15 py-10">
-        <motion.div
-          ref={northRef}
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-        >
-          <motion.div
-            ref={northRef}
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-          ></motion.div>
-        </motion.div>
-        <MainLayout ref={northeastRef} className="px-4 md:px-20">
-          <div className="flex items-center justify-between py-10 ">
-            <div>
-              <h4 className="font-bold">Where Andaman Feels Like Paradise</h4>
-              <p className="text-gray-500 mt-2 text-xs">
-                Relax, explore, and unwind amidst turquoise seas and serene
-                island life.
-              </p>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="flex gap-2">
-                <button
-                  onClick={() => scroll("left")}
-                  className="w-6 h-6 rounded-lg border-2 flex items-center justify-center text-[#da251c] font-medium border-[#da251c] "
-                >
-                  <ChevronLeft size={18} />
-                </button>
-                <button
-                  onClick={() => scroll("right")}
-                  className="w-6 h-6 rounded-lg border-2 border-gray-300 text-gray-300 flex items-center justify-center  "
-                >
-                  <ChevronRight size={18} />
-                </button>
-              </div>
-              <button className="bg-red-600 text-white px-6 py-2 rounded-full text-xs font-semibold hidden lg:block">
-                Discover more
-              </button>
-            </div>
-          </div>
-          <div
-            className="
-                                flex gap-10 overflow-x-auto
-                                md:grid md:grid-cols-3
-                                lg:grid-cols-4
-                                md:overflow-visible
-                                scrollbar-hide
-                            "
-          >
-            {travelCards?.slice(0, 4).map((item, i) => (
-              <TravelCard
-                key={i}
-                img={item?.img}
-                title={item?.title}
-                duration={item?.days}
-              />
-            ))}
-          </div>
-        </MainLayout>
-      </div>
-      <MainLayout className="px-4 md:px-20">
-        <div className="flex items-center justify-between mb-10">
-          <div>
-            <h4 className="font-bold">Fall in Love with Kashmir</h4>
-            <p className="text-gray-500 mt-2 text-xs">
-              Relax, explore, and unwind amidst turquoise seas and serene island
-              life.
+      <TravelHero />
+      <MainLayout className="w-full bg-secondary py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+          <div className="text-white">
+            <h4 className="mb-1 font-semibold capitalize">
+              Heritage Of South India
+            </h4>
+            <p className="flex items-center gap-2">
+              <Clock size={18} />
+              12 Nights / 13 Days
             </p>
           </div>
-          <div className="flex items-center gap-4">
-            <div className="flex gap-2">
-              <button
-                onClick={() => scroll("left")}
-                className="w-6 h-6 rounded-lg border-2 flex items-center justify-center text-[#da251c] font-medium border-[#da251c] "
-              >
-                <ChevronLeft size={18} />
-              </button>
-              <button
-                onClick={() => scroll("right")}
-                className="w-6 h-6 rounded-lg border-2 border-gray-300 text-gray-300 flex items-center justify-center  "
-              >
-                <ChevronRight size={18} />
-              </button>
-            </div>
-            <button className="bg-red-600 text-white px-6 py-2 rounded-full text-xs font-semibold hidden lg:block">
-              Discover more
-            </button>
-          </div>
-        </div>
-        <div
-          className="
-                                flex gap-10 overflow-x-auto
-                                md:grid md:grid-cols-3
-                                lg:grid-cols-4
-                                md:overflow-visible
-                                scrollbar-hide
-                            "
-        >
-          {travelCards?.slice(0, 4).map((item, i) => (
-            <TravelCard
-              key={i}
-              img={item?.img}
-              title={item?.title}
-              duration={item?.days}
-            />
-          ))}
+          <button className="text-xs bg-primary hover:opacity-90 transition text-white px-6 py-2 rounded-full font-semibold">
+            Get a Quote
+          </button>
         </div>
       </MainLayout>
-      <MainLayout className="px-4 md:px-20 py-10 md:pt-15">
-        <div className="flex items-center justify-between mb-10">
-          <div>
-            <h4 className="font-bold">Fall in Love with Kashmir</h4>
-            <p className="text-gray-500 mt-2 text-xs">
-              Unspoiled nature, peaceful moments, and unforgettable journeys.
-            </p>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="flex gap-2">
-              <button
-                onClick={() => scroll("left")}
-                className="w-6 h-6 rounded-lg border-2 flex items-center justify-center text-[#da251c] font-medium border-[#da251c] "
-              >
-                <ChevronLeft size={18} />
-              </button>
-              <button
-                onClick={() => scroll("right")}
-                className="w-6 h-6 rounded-lg border-2 border-gray-300 text-gray-300 flex items-center justify-center  "
-              >
-                <ChevronRight size={18} />
-              </button>
+      <MainLayout>
+        <div className="w-full pt-10">
+          <div className="max-w-4xl mx-auto px-6 md:px-0">
+            <div className="flex gap-3 items-center overflow-x-auto scrollbar-hide">
+              {tabs?.map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActive(tab)}
+                  className={`px-6 py-2 rounded-full transition-all duration-300 whitespace-nowrap
+                ${
+                  active === tab
+                    ? "border border-primary text-primary bg-primary-light"
+                    : "text-black hover:text-primary"
+                }`}
+                >
+                  {tab}
+                </button>
+              ))}
             </div>
-            <button className="bg-red-600 text-white px-6 py-2 rounded-full text-xs font-semibold hidden lg:block">
-              Discover more
-            </button>
           </div>
         </div>
-        <div
-          className="
-                                flex gap-6 overflow-x-auto
-                                md:grid md:grid-cols-3
-                                lg:grid-cols-4
-                                md:overflow-visible
-                                scrollbar-hide
-                            "
-        >
-          {travelCards?.slice(0, 4).map((item, i) => (
-            <TravelCard
-              key={i}
-              img={item?.img}
-              title={item?.title}
-              duration={item?.days}
-            />
-          ))}
+      </MainLayout>
+      <MainLayout>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <h4 className="text-2xl font-semibold mb-4">{active}</h4>
+          <p className="text-gray-900 leading-relaxed">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur.
+          </p>
+        </div>
+        <div className="max-w-4xl mx-auto px-6 md:px-0 flex justify-center   gap-6 md:gap-20">
+          {services?.map((item, index) => {
+            const Icon = item.icon;
+            return (
+              <div key={index} className="flex flex-col items-center gap-4">
+                <div className="w-20 h-20 flex items-center justify-center rounded-full border-4 border-red-600">
+                  <Icon size={36} className="text-red-600" strokeWidth={2.5} />
+                </div>
+                <h5 className="text-lg font-semibold text-gray-800">
+                  {item.title}
+                </h5>
+              </div>
+            );
+          })}
+        </div>
+      </MainLayout>
+      <MainLayout>
+        <div className="bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <h4 className="text-2xl font-semibold mb-10">Trip Highlights</h4>
+            <div className="grid md:grid-cols-2 gap-12 items-stretch">
+              <div className=" rounded-2xl p-8 h-full flex">
+                <ul className="space-y-5  text-[17px] leading-relaxed">
+                  {points.map((item, index) => (
+                    <li key={index} className="flex items-start gap-3">
+                      <span className="mt-2 w-2 h-2 bg-gray-600 rounded-full shrink-0"></span>
+                      <p>{item}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-6 gap-6 auto-rows-[220px] h-full">
+                <div className="relative md:col-span-3 rounded-2xl overflow-hidden">
+                  <Image
+                    src={images[0]}
+                    alt=""
+                    fill
+                    className="object-cover transition duration-500 hover:scale-105"
+                  />
+                </div>
+                <div className="relative md:col-span-3 rounded-2xl overflow-hidden">
+                  <Image
+                    src={images[1]}
+                    alt=""
+                    fill
+                    className="object-cover transition duration-500 hover:scale-105"
+                  />
+                </div>
+                <div className="relative md:col-span-2 rounded-2xl overflow-hidden">
+                  <Image
+                    src={images[2]}
+                    alt=""
+                    fill
+                    className="object-cover transition duration-500 hover:scale-105"
+                  />
+                </div>
+
+                <div className="relative md:col-span-2 rounded-2xl overflow-hidden">
+                  <Image
+                    src={images[3]}
+                    alt=""
+                    fill
+                    className="object-cover transition duration-500 hover:scale-105"
+                  />
+                </div>
+                <div className="relative md:col-span-2 md:row-span-2 rounded-2xl overflow-hidden">
+                  <Image
+                    src={images[5]}
+                    alt=""
+                    fill
+                    className="object-cover transition duration-500 hover:scale-105"
+                  />
+                </div>
+                <div className="relative md:col-span-4 rounded-2xl overflow-hidden">
+                  <Image
+                    src={images[4]}
+                    alt=""
+                    fill
+                    className="object-cover transition duration-500 hover:scale-105"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </MainLayout>
+      <MainLayout>
+        <div className="bg-gray-100 py-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid md:grid-cols-2 gap-16">
+              <div>
+                <h2 className="text-4xl font-bold mb-8">
+                  Important Information
+                </h2>
+                <div className="flex gap-6 mb-8 overflow-x-auto whitespace-nowrap scrollbar-hide">
+                  {hotelTabs?.map((tab) => (
+                    <button
+                      key={tab}
+                      onClick={() => setActiveTab(tab)}
+                      className={`px-6 py-2 rounded-full border transition ${
+                        activeTab === tab
+                          ? "bg-red-100 text-red-600 border-red-600"
+                          : " border-transparent"
+                      }`}
+                    >
+                      {tab}
+                    </button>
+                  ))}
+                </div>
+                <h4 className="font-semibold mb-4">
+                  Hotel Accommodation Details
+                </h4>
+                <ul className="space-y-4  leading-relaxed">
+                  {hotelPoints?.map((item, index) => (
+                    <li key={index} className="flex gap-3 items-start">
+                      <span className="w-2 h-2 bg-gray-700 rounded-full mt-2 shrink-0"></span>
+                      <p>{item}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm text-gray-500 mb-2">
+                      First name
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Enter Your First Name"
+                      className="w-full border border-gray-400 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm text-gray-500 mb-2">
+                      Last name
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Enter Your Last Name"
+                      className="w-full border border-gray-400 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-500"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-500 mb-2">
+                    Email address
+                  </label>
+                  <input
+                    type="email"
+                    placeholder="Enter your Address"
+                    className="w-full border border-gray-400 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-500 mb-2">
+                    Mobile number
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="+91"
+                    className="w-full border border-gray-400 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-500"
+                  />
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div className="relative">
+                    <label className="block text-sm text-gray-500 mb-2">
+                      Person
+                    </label>
+                    <select className="w-full border border-gray-400 rounded-md px-4 py-3 appearance-none focus:outline-none focus:ring-2 focus:ring-red-500">
+                      <option>Select</option>
+                    </select>
+                    <ChevronDown
+                      size={18}
+                      className="absolute right-4 top-[45px] text-gray-600 pointer-events-none"
+                    />
+                  </div>
+                  <div className="relative">
+                    <label className="block text-sm text-gray-500 mb-2">
+                      Plan
+                    </label>
+                    <select className="w-full border border-gray-400 rounded-md px-4 py-3 appearance-none focus:outline-none focus:ring-2 focus:ring-red-500">
+                      <option>Select</option>
+                    </select>
+                    <ChevronDown
+                      size={18}
+                      className="absolute right-4 top-[45px] text-gray-600 pointer-events-none"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-500 mb-2">
+                    Note
+                  </label>
+                  <textarea
+                    rows="4"
+                    className="w-full border border-gray-400 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-500"
+                  ></textarea>
+                </div>
+                <button className="w-full bg-red-600 hover:bg-red-700 transition text-white font-semibold py-5 rounded-full text-lg">
+                  Claim Your Free Spot
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </MainLayout>
     </>

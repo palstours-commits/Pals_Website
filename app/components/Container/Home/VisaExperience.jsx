@@ -26,8 +26,8 @@ const FEATURES = [
 
 const VisaExperience = () => {
   return (
-    <section className="bg-[#FA812F]  px-6 md:px-20 text-white py-10">
-      <div className="max-w-7xl mx-auto">
+    <section className="bg-[#FA812F]  text-white py-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h3 className="text-3xl md:text-4xl font-bold leading-tight max-w-3xl">
           Experience Hassle-free, Unforgettable Visa Journey With Expert
           Guidance

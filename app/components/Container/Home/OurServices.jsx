@@ -35,11 +35,11 @@ const OurServices = () => {
 
   return (
     <MainLayout className="bg-accent">
-      <div className="px-4 md:px-20 py-15">
+      <div className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-10 md:py-15">
         <div className="flex justify-between items-start mb-16 text-white">
           <div>
             <h4 className="font-bold">Our Services</h4>
-            <p className="text-xs opacity-90">
+            <p className="text-sm opacity-90">
               We offer end-to-end travel solutions designed for convenience and
               value.
             </p>

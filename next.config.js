@@ -3,7 +3,6 @@ const nextConfig = {
   reactStrictMode: true,
 
   logging: {
-    // hide noisy warnings from Turbopack & baseline-browser-mapping
     warnings: false,
   },
 
@@ -20,6 +19,24 @@ const nextConfig = {
         hostname: "localhost",
         port: "3000",
         pathname: "/storage/**",
+      },
+
+      // Unsplash direct CDN
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
+
+      // Unsplash random source
+      {
+        protocol: "https",
+        hostname: "source.unsplash.com",
+      },
+
+      // Picsum
+      {
+        protocol: "https",
+        hostname: "picsum.photos",
       },
     ],
   },

@@ -29,7 +29,7 @@ export default function Header() {
       </div>
 
       <header className="sticky top-0 z-50 bg-white shadow-2xl">
-        <div className="max-w-7xl mx-auto px-4 h-16 flex items-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center">
           <Link
             href="/"
             className="flex items-center gap-3 z-10 md:relative top-2"

@@ -39,11 +39,11 @@ const TrendingDestinations = () => {
   };
 
   return (
-    <MainLayout className="px-4 md:px-20 py-20">
+    <MainLayout className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-10 md:py-20">
       <div className="flex items-center justify-between mb-10">
         <div>
           <h4 className="font-bold">Trending International Destinations</h4>
-          <p className="text-gray-500 mt-2 text-xs">
+          <p className="text-gray-500 mt-2 text-sm">
             Fly beyond borders with customized itineraries for the world’s most
             loved spots.
           </p>
