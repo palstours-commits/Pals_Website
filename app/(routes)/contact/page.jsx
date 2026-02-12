@@ -1,9 +1,8 @@
-import React from 'react'
+import Contactsection from "@/app/components/Container/Contactsection/Contactsection";
+import React from "react";
 
 function page() {
-  return (
-    <div>page</div>
-  )
+  return <Contactsection />;
 }
 
-export default page
+export default page;

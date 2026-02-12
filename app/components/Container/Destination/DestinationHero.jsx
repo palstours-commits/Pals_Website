@@ -26,7 +26,7 @@ const DestinationHero = ({ title }) => {
             <span>/</span>
             <span className="capitalize text-white">{title}</span>
           </p>
-          <h3 className="text-3xl md:text-5xl font-bold capitalize">
+          <h3 className=" font-bold capitalize">
             Experience the Timeless Beauty of {title}
           </h3>
         </div>

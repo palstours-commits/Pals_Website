@@ -1,7 +1,8 @@
-import TravelDetails from "@/app/components/Container/TravelDetails/TravelDetails";
-async function page({ params }) {
-  const { slug } = await params;
-  return <TravelDetails slug={slug} />;
+import Contactsection from "@/app/components/Container/Contactsection/Contactsection";
+import React from "react";
+
+function page() {
+  return <FlightBookingsection />;
 }
 
 export default page;
