@@ -1,6 +1,6 @@
 import CommonHeroSection from "@/app/common/CommonHeroSection";
 import React from "react";
-import bannerimg from "@/app/assets/tample.svg";
+import bannerimg from "@/app/assets/contact-banner.svg";
 import { ChevronDown, Mail, MapPin, Phone } from "lucide-react";
 import MainLayout from "@/app/common/MainLayout";
 import ContactBgimg from "@/app/assets/contact-bg.svg";

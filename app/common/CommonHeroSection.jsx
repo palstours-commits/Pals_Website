@@ -7,7 +7,7 @@ const CommonHeroSection = ({
   backgroundImage,
   breadcrumbs = [],
   height = "h-[350px]",
-  overlay = "bg-black/30",
+  overlay = "bg-black/10",
 }) => {
   return (
     <div
@@ -39,7 +39,7 @@ const CommonHeroSection = ({
             ))}
           </p>
         )}
-        <h3 className=" font-bold capitalize">{title}</h3>
+        <h3 className=" font-semibold capitalize">{title}</h3>
         {subtitle && (
           <p className="mt-4 text-base md:text-lg text-white/90">{subtitle}</p>
         )}

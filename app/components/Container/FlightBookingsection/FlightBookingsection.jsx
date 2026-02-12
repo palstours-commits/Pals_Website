@@ -1,6 +1,6 @@
 import CommonHeroSection from "@/app/common/CommonHeroSection";
 import React from "react";
-import bannerimg from "@/app/assets/tample.svg";
+import bannerimg from "@/app/assets/flight-bg.svg";
 import { ChevronDown } from "lucide-react";
 import MainLayout from "@/app/common/MainLayout";
 

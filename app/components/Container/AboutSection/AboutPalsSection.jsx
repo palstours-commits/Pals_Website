@@ -5,7 +5,7 @@ import rightimg from "@/app/assets/about-bg-2.svg";
 import { FaUsers, FaHeadset, FaTags } from "react-icons/fa";
 import MainLayout from "@/app/common/MainLayout";
 import CommonHeroSection from "@/app/common/CommonHeroSection";
-import bannerimg from "@/app/assets/tample.svg";
+import bannerimg from "@/app/assets/about-bg.svg";
 
 const AboutPalsSection = () => {
   const title = "About Pals Holidays";

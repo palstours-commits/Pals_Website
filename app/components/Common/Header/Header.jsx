@@ -120,12 +120,12 @@ export default function Header() {
                 <Mail size={16} />
               </a>
             </div>
-            <button className="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-full text-xs font-semibold transition flex items-center gap-2">
+            <Link href={"/contact"} className="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-full text-xs font-semibold transition flex items-center gap-2">
               <span className="w-4 h-4 rounded-md border border-white flex items-center justify-center ">
                 <ChevronUp size={15} />
               </span>
               Plan My Tour
-            </button>
+            </Link>
           </div>
           <button className="lg:hidden ml-auto" onClick={() => setOpen(true)}>
             <Menu size={26} />

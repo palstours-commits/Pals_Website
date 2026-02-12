@@ -1,8 +1,10 @@
-import Contactsection from "@/app/components/Container/Contactsection/Contactsection";
+import TravelDetails from "@/app/components/Container/TravelDetails/TravelDetails";
 import React from "react";
 
-function page() {
-  return <FlightBookingsection />;
+async function page({ params }) {
+  const { slug } = await params;
+
+  return <TravelDetails slug={slug} />;
 }
 
 export default page;
