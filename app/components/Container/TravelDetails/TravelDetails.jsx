@@ -1,10 +1,17 @@
 "use client";
 import React, { useState } from "react";
-import { ChevronDown, Clock } from "lucide-react";
+import { ChevronDown, Clock, MapPin } from "lucide-react";
 import TravelHero from "./TravelHero";
 import MainLayout from "@/app/common/MainLayout";
 import { Utensils, Binoculars, Hotel, Car } from "lucide-react";
 import Image from "next/image";
+import { ItineraryAccordion } from "./ItineraryAccordion";
+import travel1 from "@/app/assets/travelimg1.svg";
+import travel2 from "@/app/assets/travelimg2.svg";
+import travel3 from "@/app/assets/travelimg3.svg";
+import travel4 from "@/app/assets/travelimg4.svg";
+import travel5 from "@/app/assets/travelimg5.svg";
+import travel6 from "@/app/assets/travelimg6.svg";
 
 const TravelDetails = () => {
   const [active, setActive] = useState("Overview");
@@ -26,14 +33,7 @@ const TravelDetails = () => {
     { title: "Transport", icon: Car },
   ];
 
-  const images = [
-    "https://source.unsplash.com/600x400/?mountain",
-    "https://source.unsplash.com/600x400/?temple",
-    "https://source.unsplash.com/600x400/?beach",
-    "https://source.unsplash.com/600x400/?statue",
-    "https://source.unsplash.com/600x400/?forest",
-    "https://source.unsplash.com/600x800/?india-temple",
-  ];
+  const images = [travel1, travel2, travel3, travel4, travel5, travel6];
 
   const points = [
     "Visit Lalbagh Botanical Gardens and ISKCON Temple",
@@ -62,6 +62,22 @@ const TravelDetails = () => {
     "Non AC Rooms are provided in Hill Stations due to low temperature.",
   ];
 
+  const itineraryData = [
+    {
+      title: "Day 01: Bangalore",
+      content:
+        "On arrival in Bangalore you’ll be met and transferred to your hotel. Rest of the day is at leisure...",
+    },
+    {
+      title: "Day 02: Bangalore – Mysore",
+      content: "After breakfast drive to Mysore...",
+    },
+    {
+      title: "Day 03: Mysore",
+      content: "Full day sightseeing in Mysore...",
+    },
+  ];
+
   return (
     <>
       <TravelHero />
@@ -76,7 +92,7 @@ const TravelDetails = () => {
               12 Nights / 13 Days
             </p>
           </div>
-          <button className="text-xs bg-primary hover:opacity-90 transition text-white px-6 py-2 rounded-full font-semibold">
+          <button className="text-sm bg-primary hover:opacity-90 transition text-white px-6 py-2 rounded-full font-semibold">
             Get a Quote
           </button>
         </div>
@@ -146,8 +162,8 @@ const TravelDetails = () => {
                   ))}
                 </ul>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-6 gap-6 auto-rows-[220px] h-full">
-                <div className="relative md:col-span-3 rounded-2xl overflow-hidden">
+              <div className="grid grid-cols-1 md:grid-cols-6 gap-4 auto-rows-[220px] h-full">
+                <div className="relative md:col-span-3 rounded-3xl overflow-hidden">
                   <Image
                     src={images[0]}
                     alt=""
@@ -155,7 +171,7 @@ const TravelDetails = () => {
                     className="object-cover transition duration-500 hover:scale-105"
                   />
                 </div>
-                <div className="relative md:col-span-3 rounded-2xl overflow-hidden">
+                <div className="relative md:col-span-3 rounded-3xl overflow-hidden">
                   <Image
                     src={images[1]}
                     alt=""
@@ -163,7 +179,7 @@ const TravelDetails = () => {
                     className="object-cover transition duration-500 hover:scale-105"
                   />
                 </div>
-                <div className="relative md:col-span-2 rounded-2xl overflow-hidden">
+                <div className="relative md:col-span-2 rounded-3xl overflow-hidden">
                   <Image
                     src={images[2]}
                     alt=""
@@ -172,7 +188,7 @@ const TravelDetails = () => {
                   />
                 </div>
 
-                <div className="relative md:col-span-2 rounded-2xl overflow-hidden">
+                <div className="relative md:col-span-2 rounded-3xl overflow-hidden">
                   <Image
                     src={images[3]}
                     alt=""
@@ -180,7 +196,7 @@ const TravelDetails = () => {
                     className="object-cover transition duration-500 hover:scale-105"
                   />
                 </div>
-                <div className="relative md:col-span-2 md:row-span-2 rounded-2xl overflow-hidden">
+                <div className="relative md:col-span-2 md:row-span-2 rounded-3xl overflow-hidden">
                   <Image
                     src={images[5]}
                     alt=""
@@ -188,7 +204,7 @@ const TravelDetails = () => {
                     className="object-cover transition duration-500 hover:scale-105"
                   />
                 </div>
-                <div className="relative md:col-span-4 rounded-2xl overflow-hidden">
+                <div className="relative md:col-span-4 rounded-3xl overflow-hidden">
                   <Image
                     src={images[4]}
                     alt=""
@@ -201,33 +217,49 @@ const TravelDetails = () => {
           </div>
         </div>
       </MainLayout>
+      <MainLayout className="w-full bg-accent py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-center text-white">
+          <div className="flex items-center gap-2 text-center">
+            <MapPin className="text-2xl shrink-0" />
+            <h4 className="font-semibold">
+              Bangalore - Mysore - Hassan – Hospet - Hampi – Badami - Goa -
+              Mumbai.
+            </h4>
+          </div>
+        </div>
+      </MainLayout>
+      <MainLayout className={"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-25"}>
+        <ItineraryAccordion items={itineraryData} />
+      </MainLayout>
       <MainLayout>
-        <div className="bg-gray-100 py-16">
+        <div className="py-12 md:py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid md:grid-cols-2 gap-16">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
               <div>
-                <h2 className="text-4xl font-bold mb-8">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 md:mb-8">
                   Important Information
                 </h2>
-                <div className="flex gap-6 mb-8 overflow-x-auto whitespace-nowrap scrollbar-hide">
+                <div className="flex gap-3 mb-6 overflow-x-auto whitespace-nowrap scrollbar-hide pb-2">
                   {hotelTabs?.map((tab) => (
                     <button
                       key={tab}
                       onClick={() => setActiveTab(tab)}
-                      className={`px-6 py-2 rounded-full border transition ${
+                      className={`px-4 sm:px-6 py-2 rounded-full border text-sm sm:text-base transition shrink-0 ${
                         activeTab === tab
                           ? "bg-red-100 text-red-600 border-red-600"
-                          : " border-transparent"
+                          : "border-gray-300 text-gray-600"
                       }`}
                     >
                       {tab}
                     </button>
                   ))}
                 </div>
-                <h4 className="font-semibold mb-4">
+
+                <h4 className="font-semibold mb-4 text-lg">
                   Hotel Accommodation Details
                 </h4>
-                <ul className="space-y-4  leading-relaxed">
+
+                <ul className="space-y-3 leading-relaxed text-sm sm:text-base">
                   {hotelPoints?.map((item, index) => (
                     <li key={index} className="flex gap-3 items-start">
                       <span className="w-2 h-2 bg-gray-700 rounded-full mt-2 shrink-0"></span>
@@ -236,91 +268,112 @@ const TravelDetails = () => {
                   ))}
                 </ul>
               </div>
-              <div className="space-y-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="space-y-5 sm:space-y-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                    <label className="block text-sm text-gray-500 mb-2">
+                    <label className="block text-sm text-gray-500 mb-1">
                       First name
                     </label>
                     <input
                       type="text"
                       placeholder="Enter Your First Name"
-                      className="w-full border border-gray-400 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-500"
+                      className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none transition"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm text-gray-500 mb-2">
+                    <label className="block text-sm text-gray-500 mb-1">
                       Last name
                     </label>
                     <input
                       type="text"
                       placeholder="Enter Your Last Name"
-                      className="w-full border border-gray-400 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-500"
+                      className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none transition"
                     />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm text-gray-500 mb-2">
+                  <label className="block text-sm text-gray-500 mb-1">
                     Email address
                   </label>
                   <input
                     type="email"
                     placeholder="Enter your Address"
-                    className="w-full border border-gray-400 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-500"
+                    className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none transition"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm text-gray-500 mb-2">
+                  <label className="block text-sm text-gray-500 mb-1">
                     Mobile number
                   </label>
                   <input
                     type="text"
                     placeholder="+91"
-                    className="w-full border border-gray-400 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-500"
+                    className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none transition"
                   />
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div className="relative">
-                    <label className="block text-sm text-gray-500 mb-2">
+                    <label className="block text-sm text-gray-500 mb-1">
                       Person
                     </label>
-                    <select className="w-full border border-gray-400 rounded-md px-4 py-3 appearance-none focus:outline-none focus:ring-2 focus:ring-red-500">
+                    <select className="w-full border border-gray-300 rounded-lg px-4 py-3 appearance-none focus:ring-2 focus:ring-red-500 outline-none transition">
                       <option>Select</option>
                     </select>
                     <ChevronDown
                       size={18}
-                      className="absolute right-4 top-[45px] text-gray-600 pointer-events-none"
+                      className="absolute right-4 top-[42px] text-gray-500 pointer-events-none"
                     />
                   </div>
                   <div className="relative">
-                    <label className="block text-sm text-gray-500 mb-2">
+                    <label className="block text-sm text-gray-500 mb-1">
                       Plan
                     </label>
-                    <select className="w-full border border-gray-400 rounded-md px-4 py-3 appearance-none focus:outline-none focus:ring-2 focus:ring-red-500">
+                    <select className="w-full border border-gray-300 rounded-lg px-4 py-3 appearance-none focus:ring-2 focus:ring-red-500 outline-none transition">
                       <option>Select</option>
                     </select>
                     <ChevronDown
                       size={18}
-                      className="absolute right-4 top-[45px] text-gray-600 pointer-events-none"
+                      className="absolute right-4 top-[42px] text-gray-500 pointer-events-none"
                     />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm text-gray-500 mb-2">
+                  <label className="block text-sm text-gray-500 mb-1">
                     Note
                   </label>
                   <textarea
                     rows="4"
-                    className="w-full border border-gray-400 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-500"
+                    className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none transition"
                   ></textarea>
                 </div>
-                <button className="w-full bg-red-600 hover:bg-red-700 transition text-white font-semibold py-5 rounded-full text-lg">
+                <button className="w-full bg-red-600 hover:bg-red-700 transition text-white font-semibold py-4 sm:py-5 rounded-full text-sm">
                   Claim Your Free Spot
                 </button>
               </div>
             </div>
           </div>
+        </div>
+      </MainLayout>
+      <MainLayout className="w-full bg-[#e6dcc8] py-3">
+        <div
+          className="max-w-7xl mx-auto px-6 lg:px-8 
+                  flex flex-col md:flex-row 
+                  items-start md:items-center 
+                  justify-between gap-10"
+        >
+          <div className="max-w-xl">
+            <h4 className="mb-1 font-semibold capitalize">
+              Customize Your Trip
+            </h4>
+            <p className="text-gray-900 text-sm leading-relaxed">
+              Create a travel experience tailored to your preferences, budget,
+              and schedule for a truly personalized journey.
+            </p>
+          </div>
+          <button className="text-sm bg-primary hover:opacity-90 transition text-white px-6 py-2 rounded-full font-semibold">
+            Customize your Trip
+          </button>
         </div>
       </MainLayout>
     </>
