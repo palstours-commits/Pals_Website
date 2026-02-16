@@ -131,7 +131,7 @@ const TravelDetails = () => {
             pariatur.
           </p>
         </div>
-        <div className="max-w-4xl mx-auto px-6 md:px-0 flex justify-center   gap-6 md:gap-20">
+        <div className="max-w-4xl mx-auto px-10 md:px-0 flex justify-center   gap-1 md:gap-20">
           {services?.map((item, index) => {
             const Icon = item.icon;
             return (
