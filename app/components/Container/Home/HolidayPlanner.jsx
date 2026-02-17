@@ -1,5 +1,5 @@
 "use client";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import South from "@/app/assets/south.png";
@@ -10,16 +10,11 @@ import Kashmir from "@/app/assets/kashmir.png";
 import Himachal from "@/app/assets/himachal.png";
 import MainLayout from "@/app/common/MainLayout";
 import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { getIdSubMenus } from "@/app/store/slice/submenuSlice";
+import CustomImage from "@/app/common/Image";
 
-const tabs = [
-  "India Holidays",
-  "International",
-  "Domestic",
-  "India on Wheels",
-  "Hill Stations",
-  "Ayurveda & Yoga Retreats",
-  "Spiritual Tours",
-];
+
 
 const cards = [
   { title: "South India", img: South, slug: "south-india", isNew: true },
@@ -39,6 +34,15 @@ const HolidayPlanner = () => {
       behavior: "smooth",
     });
   };
+
+  const dispatch = useDispatch();
+  const { submenus ,selectedSubmenu} = useSelector((state) => state.submenu);
+
+  const handleSlug = (slug) => () => {
+    dispatch(getIdSubMenus(slug));
+  }
+
+
 
   return (
     <MainLayout className="px-4 sm:px-6 lg:px-8  max-w-7xl mx-auto py-10 md:py-20">
@@ -62,29 +66,30 @@ const HolidayPlanner = () => {
         </div>
       </div>
       <div className="flex gap-3 overflow-x-auto pb-6 text-sm scrollbar-hide">
-        {tabs?.map((tab, i) => (
-          <button
-            key={i}
-            className={`px-4 py-2 rounded-full whitespace-nowrap ${
-              i === 0 ? "bg-red-100 text-red-600 border-[#da251c] border" : ""
-            }`}
-          >
-            {tab}
-          </button>
-        ))}
+        {submenus?.map((menu) =>
+          menu.submenus?.map((sub, i) => (
+            <button
+              key={sub._id}
+              onClick={handleSlug(sub.slug)}
+              className={`px-4 py-2 rounded-full cursor-pointer whitespace-nowrap text-gray-700  hover:bg-red-100 hover:text-red-600 transition`}
+            >
+              {sub.name}
+            </button>
+          ))
+        )}
       </div>
       <div
         ref={sliderRef}
         className="flex gap-5 overflow-x-auto scrollbar-hide"
       >
-        {cards?.map((item, i) => (
+        {selectedSubmenu?.map((item, i) => (
           <div
             key={i}
             onClick={() => router.push(`/destination/${item.slug}`)}
             className="relative min-w-[220px] h-[300px] rounded-xl overflow-hidden cursor-pointer"
           >
-            <Image
-              src={item.img}
+            <CustomImage
+              src={item.image}
               alt={item.title}
               fill
               className="object-cover"
@@ -96,7 +101,7 @@ const HolidayPlanner = () => {
             )}
             <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent" />
             <h5 className="absolute bottom-4 left-4 text-white   font-semibold">
-              {item.title}
+              {item.name}
             </h5>
           </div>
         ))}
