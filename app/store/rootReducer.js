@@ -1,6 +1,8 @@
 import { combineReducers } from "redux";
-import productReducer from "./slice/product";
+import menuReducer from "./slice/menuSlice";
+import submenuReducer from "./slice/submenuSlice";
 const reducer = combineReducers({
-  product: productReducer,
+  menu: menuReducer,
+  submenu: submenuReducer,
 });
 export default reducer;
