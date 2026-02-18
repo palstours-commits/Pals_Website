@@ -1,33 +1,19 @@
 "use client";
-import { useEffect, useRef } from "react";
-import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import South from "@/app/assets/south.png";
-import North from "@/app/assets/north.png";
-import NorthEast from "@/app/assets/northeast.png";
-import Andaman from "@/app/assets/andhaman.png";
-import Kashmir from "@/app/assets/kashmir.png";
-import Himachal from "@/app/assets/himachal.png";
 import MainLayout from "@/app/common/MainLayout";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import { getIdSubMenus } from "@/app/store/slice/submenuSlice";
+import { getSlugBySubmenu } from "@/app/store/slice/submenuSlice";
 import CustomImage from "@/app/common/Image";
-
-
-
-const cards = [
-  { title: "South India", img: South, slug: "south-india", isNew: true },
-  { title: "North India", img: North, slug: "north-india" },
-  { title: "North East India", img: NorthEast, slug: "north-east-india" },
-  { title: "Andaman", img: Andaman, slug: "andaman" },
-  { title: "Kashmir", img: Kashmir, slug: "kashmir" },
-  { title: "Himachal", img: Himachal, slug: "himachal" },
-];
 
 const HolidayPlanner = () => {
   const router = useRouter();
   const sliderRef = useRef(null);
+  const dispatch = useDispatch();
+  const [activeSlug, setActiveSlug] = useState(null);
+  const { submenus, selectedSubmenu } = useSelector((state) => state.submenu);
+
   const scroll = (dir) => {
     sliderRef.current.scrollBy({
       left: dir === "left" ? -300 : 300,
@@ -35,14 +21,20 @@ const HolidayPlanner = () => {
     });
   };
 
-  const dispatch = useDispatch();
-  const { submenus ,selectedSubmenu} = useSelector((state) => state.submenu);
+  useEffect(() => {
+    if (submenus?.length) {
+      const firstSubmenu = submenus[0]?.submenus?.[0];
+      if (firstSubmenu?.slug) {
+        setActiveSlug(firstSubmenu.slug);
+        dispatch(getSlugBySubmenu(firstSubmenu.slug));
+      }
+    }
+  }, [submenus, dispatch]);
 
   const handleSlug = (slug) => () => {
-    dispatch(getIdSubMenus(slug));
-  }
-
-
+    setActiveSlug(slug);
+    dispatch(getSlugBySubmenu(slug));
+  };
 
   return (
     <MainLayout className="px-4 sm:px-6 lg:px-8  max-w-7xl mx-auto py-10 md:py-20">
@@ -67,15 +59,21 @@ const HolidayPlanner = () => {
       </div>
       <div className="flex gap-3 overflow-x-auto pb-6 text-sm scrollbar-hide">
         {submenus?.map((menu) =>
-          menu.submenus?.map((sub, i) => (
+          menu?.submenus?.map((sub, i) => (
             <button
               key={sub._id}
               onClick={handleSlug(sub.slug)}
-              className={`px-4 py-2 rounded-full cursor-pointer whitespace-nowrap text-gray-700  hover:bg-red-100 hover:text-red-600 transition`}
+              className={`px-4 py-2 rounded-full cursor-pointer whitespace-nowrap transition
+    ${
+      activeSlug === sub.slug
+        ? "bg-red-100 text-red-600 font-medium"
+        : "text-gray-700 hover:bg-red-100 hover:text-red-600"
+    }
+  `}
             >
               {sub.name}
             </button>
-          ))
+          )),
         )}
       </div>
       <div

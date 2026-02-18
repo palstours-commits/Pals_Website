@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import { getImageUrl } from "../utils/getImageUrl";
 
 const CommonHeroSection = ({
   title,
@@ -9,11 +10,12 @@ const CommonHeroSection = ({
   height = "h-[350px]",
   overlay = "bg-black/10",
 }) => {
+  const bgImage = getImageUrl(backgroundImage);
   return (
     <div
       className={`relative w-full ${height} flex items-center justify-center`}
       style={{
-        backgroundImage: `url(${backgroundImage})`,
+        backgroundImage: `url(${bgImage})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}

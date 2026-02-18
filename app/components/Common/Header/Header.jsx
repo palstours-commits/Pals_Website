@@ -3,32 +3,30 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Phone, ChevronDown, ChevronRight, Mail, ChevronUp } from "lucide-react";
+import {
+  Menu,
+  X,
+  Phone,
+  ChevronDown,
+  ChevronRight,
+  Mail,
+  ChevronUp,
+} from "lucide-react";
 import navbar_logo from "@/app/assets/navbar_logo.svg";
 import navItemIcon from "@/app/assets/navlink_icon.svg";
 import navActiveIcon from "@/app/assets/nav_active-icon.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { getSubMenus } from "@/app/store/slice/submenuSlice";
 
-const navItems = [
-  { label: "Holidays", dropdown: true },
-  { label: "Honeymoon" },
-  { label: "Cruise" },
-  { label: "Services" },
-  { label: "Offers" },
-  { label: "Company" },
-];
-
 export default function Header() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(null);
-  const { submenus} = useSelector((state) => state.submenu);
-
+  const { submenus } = useSelector((state) => state.submenu);
 
   useEffect(() => {
     dispatch(getSubMenus());
-  }, [dispatch])
+  }, [dispatch]);
 
   return (
     <>
@@ -38,7 +36,6 @@ export default function Header() {
       </div>
 
       <header className="sticky top-0 z-9999 bg-white shadow-2xl">
-
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center">
           <Link
             href="/"
@@ -54,67 +51,65 @@ export default function Header() {
           <nav className="hidden lg:flex ml-10  max-w-[600px]  2xl:max-w-[520px] ">
             <div className="flex items-center gap-1 min-w-max">
               {submenus?.map((menu, index) => {
-  const isActive = active === index;
-  const hasSubmenu = menu?.submenus?.length > 0;
+                const isActive = active === index;
+                const hasSubmenu = menu?.submenus?.length > 0;
 
-  return (
-    <div
-      key={menu._id}
-      className="relative shrink-0"
-      onMouseEnter={() => hasSubmenu && setActive(index)}
-      onMouseLeave={() => hasSubmenu && setActive(null)}
-    >
-      {hasSubmenu ? (
-        <button
-          className={`flex items-center gap-2 px-3 py-2 rounded-full text-sm font-medium transition
-            ${isActive
-              ? "border border-red-500 text-red-500 bg-[#FFDCDA]"
-              : "text-gray-700 hover:text-red-500"
+                return (
+                  <div
+                    key={menu._id}
+                    className="relative shrink-0"
+                    onMouseEnter={() => hasSubmenu && setActive(index)}
+                    onMouseLeave={() => hasSubmenu && setActive(null)}
+                  >
+                    {hasSubmenu ? (
+                      <button
+                        className={`flex items-center gap-2 px-3 py-2 rounded-full text-sm font-medium transition
+            ${
+              isActive
+                ? "border border-red-500 text-red-500 bg-[#FFDCDA]"
+                : "text-gray-700 hover:text-red-500"
             }`}
-        >
-          <Image
-            src={isActive ? navActiveIcon : navItemIcon}
-            alt="icon"
-            className="w-5 h-5 object-contain"
-          />
-          {menu.name}
-          <ChevronDown
-            size={16}
-            className={`transition-transform ${isActive ? "rotate-180" : ""}`}
-          />
-        </button>
-      ) : (
-        <Link
-          href={`/${menu.slug}`}
-          className="flex items-center gap-2 px-3 py-2 rounded-full text-sm font-medium text-gray-700 hover:text-red-500"
-        >
-          <Image
-            src={navItemIcon}
-            alt="icon"
-            className="w-5 h-5 object-contain"
-          />
-          {menu.name}
-        </Link>
-      )}
-
-      {hasSubmenu && isActive && (
-        <div className="absolute top-full left-0 pt-3 w-48 bg-white shadow-lg rounded-lg py-2 z-50">
-          {menu.submenus.map((sub) => (
-            <Link
-              key={sub._id}
-              href={`/${menu.slug}/${sub.slug}`}
-              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-            >
-              {sub.name}
-            </Link>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-})}
-
-
+                      >
+                        <Image
+                          src={isActive ? navActiveIcon : navItemIcon}
+                          alt="icon"
+                          className="w-5 h-5 object-contain"
+                        />
+                        {menu.name}
+                        <ChevronDown
+                          size={16}
+                          className={`transition-transform ${isActive ? "rotate-180" : ""}`}
+                        />
+                      </button>
+                    ) : (
+                      <Link
+                        href={`/${menu.slug}`}
+                        className="flex items-center gap-2 px-3 py-2 rounded-full text-sm font-medium text-gray-700 hover:text-red-500"
+                      >
+                        <Image
+                          src={navItemIcon}
+                          alt="icon"
+                          className="w-5 h-5 object-contain"
+                        />
+                        {menu.name}
+                      </Link>
+                    )}
+                    {hasSubmenu && isActive && (
+                      <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 w-48 bg-white shadow-lg rounded-lg py-2 z-50">
+                        {menu.submenus.map((sub) => (
+                          <Link
+                            key={sub._id}
+                            href={`/${menu.slug}/${sub.slug}`}
+                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          >
+                            {sub.name}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </nav>
           <div className="hidden lg:flex items-center gap-6 ml-auto">
@@ -149,7 +144,10 @@ export default function Header() {
                 <Mail size={16} />
               </a>
             </div>
-            <Link href={"/contact"} className="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-full text-xs font-semibold transition flex items-center gap-2">
+            <Link
+              href={"/contact"}
+              className="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-full text-xs font-semibold transition flex items-center gap-2"
+            >
               <span className="w-4 h-4 rounded-md border border-white flex items-center justify-center ">
                 <ChevronUp size={15} />
               </span>
@@ -172,75 +170,72 @@ export default function Header() {
               />
 
               <motion.aside
-  className="fixed top-0 right-0 h-full w-80 bg-white p-6"
-  initial={{ x: "100%" }}
-  animate={{ x: 0 }}
-  exit={{ x: "100%" }}
-  transition={{ type: "spring", stiffness: 260, damping: 28 }}
->
-  <div className="flex items-center justify-end mb-8">
-    <X
-      size={24}
-      className="cursor-pointer"
-      onClick={() => setOpen(false)}
-    />
-  </div>
+                className="fixed top-0 right-0 h-full w-80 bg-white p-6"
+                initial={{ x: "100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "100%" }}
+                transition={{ type: "spring", stiffness: 260, damping: 28 }}
+              >
+                <div className="flex items-center justify-end mb-8">
+                  <X
+                    size={24}
+                    className="cursor-pointer"
+                    onClick={() => setOpen(false)}
+                  />
+                </div>
 
-  <nav className="flex flex-col gap-2">
-    {submenus?.map((menu, index) => {
-      const isActive = active === index;
-      const hasSubmenu = menu?.submenus?.length > 0;
+                <nav className="flex flex-col gap-2">
+                  {submenus?.map((menu, index) => {
+                    const isActive = active === index;
+                    const hasSubmenu = menu?.submenus?.length > 0;
 
-      return (
-        <div key={menu._id} className="flex flex-col gap-1">
-         
-          <button
-            onClick={() => hasSubmenu && setActive(isActive ? null : index)}
-            className={`flex items-center justify-between px-4 py-2 rounded-md text-gray-700 font-medium hover:bg-gray-100 transition ${
-              isActive ? "bg-gray-100 text-red-500" : ""
-            }`}
-          >
-            <div className="flex items-center gap-2">
-              <Image
-                src={isActive ? navActiveIcon : navItemIcon}
-                alt="icon"
-                className="w-5 h-5 object-contain"
-              />
-              {menu.name}
-            </div>
-            {hasSubmenu && (
-              <ChevronRight
-                size={16}
-                className={`transition-transform ${isActive ? "rotate-180" : ""}`}
-              />
-            )}
-          </button>
-
-          {/* Submenu items */}
-          {hasSubmenu && isActive && (
-            <div className="flex flex-col ml-6 mt-1 gap-1">
-              {menu.submenus.map((sub) => (
-                <Link
-                  key={sub._id}
-                  href={`/${menu.slug}/${sub.slug}`}
-                  onClick={() => setOpen(false)}
-                  className="text-sm text-gray-700 py-1 px-2 rounded-md hover:bg-gray-100 transition"
-                >
-                  {sub.name}
-                </Link>
-              ))}
-            </div>
-          )}
-        </div>
-      );
-    })}
-  </nav>
-
-  <button className="mt-10 text-sm bg-red-600 text-white py-3 w-32 rounded-full font-semibold">
-    Plan My Tour
-  </button>
-</motion.aside>
-
+                    return (
+                      <div key={menu._id} className="flex flex-col gap-1">
+                        <button
+                          onClick={() =>
+                            hasSubmenu && setActive(isActive ? null : index)
+                          }
+                          className={`flex items-center justify-between px-4 py-2 rounded-md text-gray-700 font-medium hover:bg-gray-100 transition ${
+                            isActive ? "bg-gray-100 text-red-500" : ""
+                          }`}
+                        >
+                          <div className="flex items-center gap-2">
+                            <Image
+                              src={isActive ? navActiveIcon : navItemIcon}
+                              alt="icon"
+                              className="w-5 h-5 object-contain"
+                            />
+                            {menu.name}
+                          </div>
+                          {hasSubmenu && (
+                            <ChevronRight
+                              size={16}
+                              className={`transition-transform ${isActive ? "rotate-180" : ""}`}
+                            />
+                          )}
+                        </button>
+                        {hasSubmenu && isActive && (
+                          <div className="flex flex-col ml-6 mt-1 gap-1">
+                            {menu.submenus.map((sub) => (
+                              <Link
+                                key={sub._id}
+                                href={`/${menu.slug}/${sub.slug}`}
+                                onClick={() => setOpen(false)}
+                                className="text-sm text-gray-700 py-1 px-2 rounded-md hover:bg-gray-100 transition"
+                              >
+                                {sub.name}
+                              </Link>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </nav>
+                <button className="mt-10 text-sm bg-red-600 text-white py-3 w-32 rounded-full font-semibold">
+                  Plan My Tour
+                </button>
+              </motion.aside>
             </>
           )}
         </AnimatePresence>

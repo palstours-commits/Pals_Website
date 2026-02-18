@@ -1,12 +1,84 @@
+"use client";
 import CommonHeroSection from "@/app/common/CommonHeroSection";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import bannerimg from "@/app/assets/contact-banner.svg";
-import { ChevronDown, Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
 import MainLayout from "@/app/common/MainLayout";
 import ContactBgimg from "@/app/assets/contact-bg.svg";
 import Image from "next/image";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  clearContactState,
+  submitContact,
+} from "@/app/store/slice/contactSlice";
+import { notifyAlert } from "@/app/hooks/NotificationService";
+import { getPackages } from "@/app/store/slice/packagesSlice";
+import SingleSelectDropdown from "@/app/common/SingleSelectDropdown";
+
+const initialFormState = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  mobile: "",
+  noOfPersons: "",
+  plan: "",
+  message: "",
+};
+
 const Contactsection = () => {
+  const { error, message, loading } = useSelector((state) => state.contact);
+  const { packages } = useSelector((state) => state.packages);
+  const dispatch = useDispatch();
+  const [form, setForm] = useState(initialFormState);
   const title = "Contact Us";
+
+  useEffect(() => {
+    dispatch(getPackages());
+  }, [dispatch]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const payload = {
+      name: `${form.firstName} ${form.lastName}`.trim(),
+      email: form.email,
+      mobile: form.mobile,
+      noOfPersons: form.noOfPersons === "family" ? 4 : Number(form.noOfPersons),
+      plan: form.plan,
+      message: form.message,
+    };
+    setForm(initialFormState);
+    dispatch(submitContact(payload));
+  };
+
+  useEffect(() => {
+    if (message) {
+      notifyAlert({
+        title: "Success",
+        message,
+        type: "success",
+      });
+      dispatch(clearContactState());
+    }
+
+    if (error) {
+      notifyAlert({
+        title: "Error",
+        message: error,
+        type: "error",
+      });
+      dispatch(clearContactState());
+    }
+  }, [message, error, dispatch]);
+
   return (
     <>
       <CommonHeroSection
@@ -72,90 +144,120 @@ const Contactsection = () => {
                   </div>
                 </div>
               </div>
-
-              <div className="space-y-5 sm:space-y-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <form onSubmit={handleSubmit}>
+                <div className="space-y-5 sm:space-y-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div>
+                      <label className="block text-sm text-gray-500 mb-1">
+                        First name
+                      </label>
+                      <input
+                        type="text"
+                        name="firstName"
+                        value={form.firstName}
+                        onChange={handleChange}
+                        placeholder="Enter Your First Name"
+                        className="w-full border border-gray-300 rounded-lg px-4 py-3  outline-0 transition"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm text-gray-500 mb-1">
+                        Last name
+                      </label>
+                      <input
+                        type="text"
+                        name="lastName"
+                        value={form.lastName}
+                        onChange={handleChange}
+                        placeholder="Enter Your Last Name"
+                        className="w-full border border-gray-300 rounded-lg px-4 py-3  outline-0 transition"
+                      />
+                    </div>
+                  </div>
                   <div>
                     <label className="block text-sm text-gray-500 mb-1">
-                      First name
+                      Email address
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={form.email}
+                      onChange={handleChange}
+                      placeholder="Enter your Address"
+                      className="w-full border border-gray-300 rounded-lg px-4 py-3  outline-0 transition"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm text-gray-500 mb-1">
+                      Mobile number
                     </label>
                     <input
                       type="text"
-                      placeholder="Enter Your First Name"
-                      className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none transition"
+                      name="mobile"
+                      value={form.mobile}
+                      onChange={handleChange}
+                      placeholder="+91"
+                      className="w-full border border-gray-300 rounded-lg px-4 py-3  outline-0 transition"
                     />
                   </div>
-
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div className="relative">
+                      <label className="block text-sm text-gray-500 mb-1">
+                        Persons
+                      </label>
+                      <select
+                        name="noOfPersons"
+                        value={form.noOfPersons}
+                        onChange={handleChange}
+                        className="w-full border border-gray-300 rounded-lg px-4 py-3  text-gray-500  outline-0"
+                      >
+                        <option value="">Select</option>
+                        <option value="1">1 Person</option>
+                        <option value="2">2 Persons</option>
+                        <option value="family">Family</option>
+                      </select>
+                    </div>
+                    <div className="relative">
+                      <SingleSelectDropdown
+                        label="Plan"
+                        options={packages}
+                        value={form.plan}
+                        labelKey="packageName"
+                        onChange={(id) =>
+                          setForm((prev) => ({
+                            ...prev,
+                            plan: id,
+                          }))
+                        }
+                        placeholder="Select Plan"
+                        searchable
+                      />
+                    </div>
+                  </div>
                   <div>
                     <label className="block text-sm text-gray-500 mb-1">
-                      Last name
+                      message
                     </label>
-                    <input
-                      type="text"
-                      placeholder="Enter Your Last Name"
-                      className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none transition"
+                    <textarea
+                      name="message"
+                      value={form.message}
+                      onChange={handleChange}
+                      rows="6"
+                      placeholder="Write your message"
+                      className="w-full border border-gray-300 rounded-lg px-4 py-3  outline-0 transition"
                     />
                   </div>
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className={`w-full bg-red-600 hover:bg-red-700 transition text-white font-semibold py-4 sm:py-5 rounded-full text-sm
+    ${loading ? "opacity-60 cursor-not-allowed hover:bg-red-600" : ""}
+  `}
+                  >
+                    {loading ? "Submitting..." : "Claim Your Free Spot"}
+                  </button>
                 </div>
-                <div>
-                  <label className="block text-sm text-gray-500 mb-1">
-                    Email address
-                  </label>
-                  <input
-                    type="email"
-                    placeholder="Enter your Address"
-                    className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none transition"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm text-gray-500 mb-1">
-                    Mobile number
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="+91"
-                    className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none transition"
-                  />
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <div className="relative">
-                    <label className="block text-sm text-gray-500 mb-1">
-                      Person
-                    </label>
-                    <select className="w-full border border-gray-300 rounded-lg px-4 py-3 appearance-none focus:ring-2 focus:ring-red-500 outline-none transition">
-                      <option>Select</option>
-                    </select>
-                    <ChevronDown
-                      size={18}
-                      className="absolute right-4 top-[42px] text-gray-500 pointer-events-none"
-                    />
-                  </div>
-                  <div className="relative">
-                    <label className="block text-sm text-gray-500 mb-1">
-                      Plan
-                    </label>
-                    <select className="w-full border border-gray-300 rounded-lg px-4 py-3 appearance-none focus:ring-2 focus:ring-red-500 outline-none transition">
-                      <option>Select</option>
-                    </select>
-                    <ChevronDown
-                      size={18}
-                      className="absolute right-4 top-[42px] text-gray-500 pointer-events-none"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-sm text-gray-500 mb-1">
-                    Note
-                  </label>
-                  <textarea
-                    rows="4"
-                    className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-red-500 outline-none transition"
-                  ></textarea>
-                </div>
-                <button className="w-full bg-red-600 hover:bg-red-700 transition text-white font-semibold py-4 sm:py-5 rounded-full text-sm">
-                  Claim Your Free Spot
-                </button>
-              </div>
+              </form>
             </div>
           </div>
         </div>
