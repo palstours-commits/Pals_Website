@@ -3,8 +3,10 @@ import React, { useRef, useState } from "react";
 import Image from "next/image";
 import Inspiration from "@/app/assets/inspiration.png";
 import MainLayout from "@/app/common/MainLayout";
+import { motion } from "framer-motion";
+import { fadeUpContainer, fadeUpItem } from "@/app/common/animations";
 
-const blogs = Array.from({ length: 6 })?.map((_, i) => ({
+const blogs = Array.from({ length: 6 }).map((_, i) => ({
   id: i + 1,
   img: Inspiration,
   date: "28/11/2025",
@@ -32,59 +34,62 @@ const InspirationSection = () => {
   };
 
   return (
-    <MainLayout className="w-full  mb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      <h4 className=" font-bold text-center mb-8">
-        Get inspiration for your next trip
-      </h4>
-      <div
-        ref={containerRef}
-        onScroll={handleScroll}
-        className="
-                    flex gap-6 overflow-x-auto scroll-smooth
-                    scrollbar-hide
-                "
+    <MainLayout className="w-full mb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <motion.div
+        variants={fadeUpContainer}
+        initial="hidden"
+        animate="visible"
+        viewport={{ once: true }}
       >
-        {blogs?.map((item) => (
-          <div
-            key={item.id}
-            className="
-                        min-w-[241px]
-                            lg:min-w-[400px]
-                            text-left
-                        "
-          >
-            <div className="w-full h-44 rounded-xl overflow-hidden mb-3">
-              <Image
-                src={item.img}
-                alt={item.title}
-                className="w-full h-full object-cover"
-              />
-            </div>
+        <motion.h4 variants={fadeUpItem} className="font-bold text-center mb-8">
+          Get inspiration for your next trip
+        </motion.h4>
+        <div
+          ref={containerRef}
+          onScroll={handleScroll}
+          className="flex gap-6 overflow-x-auto scroll-smooth scrollbar-hide"
+        >
+          {blogs.map((item) => (
+            <motion.div
+              key={item.id}
+              variants={fadeUpItem}
+              className="min-w-[241px] lg:min-w-[400px] text-left"
+            >
+              <div className="w-full h-44 rounded-xl overflow-hidden mb-3">
+                <Image
+                  src={item.img}
+                  alt={item.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
 
-            <p className="text-xs text-gray-500 mb-1">{item.date}</p>
+              <p className="text-xs text-gray-500 mb-1">{item.date}</p>
 
-            <p className="text-sm font-medium leading-snug line-clamp-2">
-              {item.title}
-            </p>
+              <p className="text-sm font-medium leading-snug line-clamp-2">
+                {item.title}
+              </p>
 
-            <button className="mt-3 border border-gray-700 text-xs rounded-full px-4 py-1">
-              Know more
-            </button>
-          </div>
-        ))}
-      </div>
-      <div className="flex justify-center gap-2 mt-6">
-        {Array.from({ length: totalDots }).map((_, i) => (
-          <button
-            key={i}
-            onClick={() => scrollToIndex(i)}
-            className={`
-                            h-[3px] w-10 transition-all
-                            ${active === i ? "bg-black" : "bg-gray-300"}
-                        `}
-          />
-        ))}
-      </div>
+              <button className="mt-3 border border-gray-700 text-xs rounded-full px-4 py-1">
+                Know more
+              </button>
+            </motion.div>
+          ))}
+        </div>
+        <motion.div
+          variants={fadeUpItem}
+          className="flex justify-center gap-2 mt-6 cursor-pointer"
+        >
+          {Array.from({ length: totalDots }).map((_, i) => (
+            <button
+              key={i}
+              onClick={() => scrollToIndex(i)}
+              className={`h-[3px] w-10 transition-all ${
+                active === i ? "bg-black" : "bg-gray-300"
+              }`}
+            />
+          ))}
+        </motion.div>
+      </motion.div>
     </MainLayout>
   );
 };

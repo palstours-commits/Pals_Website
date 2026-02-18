@@ -8,12 +8,12 @@ const CommonHeroSection = ({
   backgroundImage,
   breadcrumbs = [],
   height = "h-[350px]",
-  overlay = "bg-black/10",
+  overlay = "bg-gradient-to-t from-black/70 via-black/40 to-black/20",
 }) => {
   const bgImage = getImageUrl(backgroundImage);
   return (
     <div
-      className={`relative w-full ${height} flex items-center justify-center`}
+      className={`relative w-full ${height} flex items-center justify-center `}
       style={{
         backgroundImage: `url(${bgImage})`,
         backgroundSize: "cover",
@@ -23,7 +23,7 @@ const CommonHeroSection = ({
       <div className={`absolute inset-0 ${overlay}`} />
       <div className="relative text-center text-white px-4 max-w-4xl">
         {breadcrumbs?.length > 0 && (
-          <p className="text-sm mb-4 space-x-2">
+          <p className="text-sm mb-4 space-x-2 text-white/90 drop-shadow">
             {breadcrumbs?.map((item, index) => (
               <span key={index}>
                 {item.href ? (
@@ -41,9 +41,14 @@ const CommonHeroSection = ({
             ))}
           </p>
         )}
-        <h3 className=" font-semibold capitalize">{title}</h3>
+        <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold drop-shadow-lg capitalize">
+          {title}
+        </h3>
+
         {subtitle && (
-          <p className="mt-4 text-base md:text-lg text-white/90">{subtitle}</p>
+          <p className="mt-4 text-base md:text-lg text-white/90 drop-shadow">
+            {subtitle}
+          </p>
         )}
       </div>
     </div>

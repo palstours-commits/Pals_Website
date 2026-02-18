@@ -12,6 +12,8 @@ import {
   ChevronRight,
 } from "lucide-react";
 import MainLayout from "@/app/common/MainLayout";
+import { motion } from "framer-motion";
+import { fadeUpContainer, fadeUpItem } from "@/app/common/animations";
 
 const services = [
   { title: "Flight\nBookings", Icon: Plane },
@@ -35,8 +37,16 @@ const OurServices = () => {
 
   return (
     <MainLayout className="bg-accent">
-      <div className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-10 md:py-15">
-        <div className="flex justify-between items-start mb-16 text-white">
+      <motion.div
+        variants={fadeUpContainer}
+        initial="hidden"
+        animate="visible"
+        className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-10 md:py-15"
+      >
+        <motion.div
+          variants={fadeUpItem}
+          className="flex justify-between items-start mb-16 text-white"
+        >
           <div>
             <h4 className="font-bold">Our Services</h4>
             <p className="text-sm opacity-90">
@@ -44,10 +54,11 @@ const OurServices = () => {
               value.
             </p>
           </div>
+
           <div className="flex gap-3">
             <button
               onClick={() => scroll("left")}
-              className="w-8 h-8 rounded-lg  border-2 border-white text-white flex items-center justify-center"
+              className="w-8 h-8 rounded-lg border-2 border-white text-white flex items-center justify-center"
             >
               <ChevronLeft size={18} />
             </button>
@@ -59,23 +70,27 @@ const OurServices = () => {
               <ChevronRight size={18} />
             </button>
           </div>
-        </div>
+        </motion.div>
         <div
           ref={sliderRef}
           className="flex gap-18 overflow-x-auto scrollbar-hide"
         >
-          {services?.map(({ title, Icon }, i) => (
-            <div key={i} className="flex flex-col items-center text-center">
+          {services.map(({ title, Icon }, i) => (
+            <motion.div
+              key={i}
+              variants={fadeUpItem}
+              className="flex flex-col items-center text-center"
+            >
               <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mb-4">
                 <Icon size={36} className="text-primary" />
               </div>
               <p className="text-white text-xs font-medium whitespace-pre-line">
                 {title}
               </p>
-            </div>
+            </motion.div>
           ))}
         </div>
-      </div>
+      </motion.div>
     </MainLayout>
   );
 };

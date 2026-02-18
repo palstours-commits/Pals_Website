@@ -6,8 +6,31 @@ import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { getSlugBySubmenu } from "@/app/store/slice/submenuSlice";
 import CustomImage from "@/app/common/Image";
+import { motion } from "framer-motion";
 
-const HolidayPlanner = () => {
+const container = {
+  hidden: { opacity: 0, y: 40 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut",
+      staggerChildren: 0.08,
+    },
+  },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, ease: "easeOut" },
+  },
+};
+
+const HolidayPlanner = ({ activeSlugFromRoute }) => {
   const router = useRouter();
   const sliderRef = useRef(null);
   const dispatch = useDispatch();
@@ -22,6 +45,11 @@ const HolidayPlanner = () => {
   };
 
   useEffect(() => {
+    if (activeSlugFromRoute) {
+      setActiveSlug(activeSlugFromRoute);
+      dispatch(getSlugBySubmenu(activeSlugFromRoute));
+      return;
+    }
     if (submenus?.length) {
       const firstSubmenu = submenus[0]?.submenus?.[0];
       if (firstSubmenu?.slug) {
@@ -29,7 +57,7 @@ const HolidayPlanner = () => {
         dispatch(getSlugBySubmenu(firstSubmenu.slug));
       }
     }
-  }, [submenus, dispatch]);
+  }, [activeSlugFromRoute, submenus, dispatch]);
 
   const handleSlug = (slug) => () => {
     setActiveSlug(slug);
@@ -37,73 +65,82 @@ const HolidayPlanner = () => {
   };
 
   return (
-    <MainLayout className="px-4 sm:px-6 lg:px-8  max-w-7xl mx-auto py-10 md:py-20">
-      <div className="flex justify-between items-center mb-6">
-        <h3 className="text-3xl font-bold leading-tight">
-          Quick and easy <br /> Holiday Trip Planner
-        </h3>
-        <div className="flex gap-2">
-          <button
-            onClick={() => scroll("left")}
-            className="w-6 h-6 rounded-lg border-2 flex items-center justify-center text-[#da251c] font-medium border-[#da251c]"
+    <MainLayout className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-10 md:py-20">
+      <motion.div variants={container} initial="hidden" animate="visible">
+        <div className="flex justify-between items-center mb-6">
+          <motion.h3
+            variants={item}
+            className="text-3xl font-bold leading-tight"
           >
-            <ChevronLeft size={18} />
-          </button>
-          <button
-            onClick={() => scroll("right")}
-            className="w-6 h-6 rounded-lg border-2 border-gray-300 text-gray-300 flex items-center justify-center  "
-          >
-            <ChevronRight size={18} />
-          </button>
-        </div>
-      </div>
-      <div className="flex gap-3 overflow-x-auto pb-6 text-sm scrollbar-hide">
-        {submenus?.map((menu) =>
-          menu?.submenus?.map((sub, i) => (
+            Quick and easy <br /> Holiday Trip Planner
+          </motion.h3>
+
+          <motion.div variants={item} className="flex gap-2">
             <button
-              key={sub._id}
-              onClick={handleSlug(sub.slug)}
-              className={`px-4 py-2 rounded-full cursor-pointer whitespace-nowrap transition
-    ${
-      activeSlug === sub.slug
-        ? "bg-red-100 text-red-600 font-medium"
-        : "text-gray-700 hover:bg-red-100 hover:text-red-600"
-    }
-  `}
+              onClick={() => scroll("left")}
+              className="w-6 h-6 rounded-lg border-2 flex items-center justify-center text-[#da251c] font-medium border-[#da251c]"
             >
-              {sub.name}
+              <ChevronLeft size={18} />
             </button>
-          )),
-        )}
-      </div>
-      <div
-        ref={sliderRef}
-        className="flex gap-5 overflow-x-auto scrollbar-hide"
-      >
-        {selectedSubmenu?.map((item, i) => (
-          <div
-            key={i}
-            onClick={() => router.push(`/destination/${item.slug}`)}
-            className="relative min-w-[220px] h-[300px] rounded-xl overflow-hidden cursor-pointer"
-          >
-            <CustomImage
-              src={item.image}
-              alt={item.title}
-              fill
-              className="object-cover"
-            />
-            {item.isNew && (
-              <span className="absolute top-0 left-0 bg-yellow-400 text-[10px] px-2 py-1 rounded font-semibold">
-                NEW
-              </span>
-            )}
-            <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent" />
-            <h5 className="absolute bottom-4 left-4 text-white   font-semibold">
-              {item.name}
-            </h5>
-          </div>
-        ))}
-      </div>
+            <button
+              onClick={() => scroll("right")}
+              className="w-6 h-6 rounded-lg border-2 border-gray-300 text-gray-300 flex items-center justify-center"
+            >
+              <ChevronRight size={18} />
+            </button>
+          </motion.div>
+        </div>
+        <div className="flex gap-3 overflow-x-auto pb-6 text-sm scrollbar-hide">
+          {submenus?.map((menu) =>
+            menu?.submenus?.map((sub) => (
+              <motion.button
+                variants={item}
+                key={sub._id}
+                onClick={handleSlug(sub.slug)}
+                className={`px-4 py-2 rounded-full cursor-pointer whitespace-nowrap transition
+                  ${
+                    activeSlug === sub.slug
+                      ? "bg-red-100 text-red-600 font-medium"
+                      : "text-gray-700 hover:bg-red-100 hover:text-red-600"
+                  }
+                `}
+              >
+                {sub.name}
+              </motion.button>
+            )),
+          )}
+        </div>
+        <div
+          ref={sliderRef}
+          className="flex gap-5 overflow-x-auto scrollbar-hide"
+        >
+          {selectedSubmenu?.map((itemData, i) => (
+            <motion.div
+              variants={item}
+              key={i}
+              onClick={() => router.push(`/destination/${itemData.slug}`)}
+              className="relative min-w-[260px] h-[300px] rounded-xl overflow-hidden cursor-pointer"
+            >
+              <CustomImage
+                src={itemData.image}
+                alt={itemData.title}
+                fill
+                className="object-cover"
+              />
+
+              {itemData.isNew && (
+                <span className="absolute top-0 left-0 bg-yellow-400 text-[10px] px-2 py-1 rounded font-semibold">
+                  NEW
+                </span>
+              )}
+              <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent" />
+              <h5 className="absolute bottom-4 left-4 text-white font-semibold">
+                {itemData.name}
+              </h5>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
     </MainLayout>
   );
 };

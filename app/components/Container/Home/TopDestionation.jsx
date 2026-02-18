@@ -7,7 +7,8 @@ import Singapore from "@/app/assets/agra.svg";
 import Indonesia from "@/app/assets/goa.svg";
 import Thailand from "@/app/assets/darjeeling.svg";
 import MainLayout from "@/app/common/MainLayout";
-
+import { fromLeftContainer } from "@/app/common/animations";
+import { motion } from "framer-motion";
 const destinations = [
   {
     title: "Malaysia",
@@ -39,7 +40,13 @@ const TopDestionation = () => {
 
   return (
     <MainLayout className=" bg-[#FAF3E1] py-10 md:py-20">
-      <div className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <motion.div
+        variants={fromLeftContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto"
+      >
         <div className="flex items-center justify-between gap-3 md:gap-0">
           <div className="mb-5 md:mb-10">
             <h4 className="font-bold">Top Indian Destinations</h4>
@@ -92,7 +99,7 @@ const TopDestionation = () => {
             </div>
           ))}
         </div>
-      </div>
+      </motion.div>
     </MainLayout>
   );
 };
