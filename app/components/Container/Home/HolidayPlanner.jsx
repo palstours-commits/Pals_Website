@@ -9,12 +9,11 @@ import CustomImage from "@/app/common/Image";
 import { motion } from "framer-motion";
 
 const container = {
-  hidden: { opacity: 0, y: 40 },
+  hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    y: 0,
     transition: {
-      duration: 0.6,
+      duration: 0.4,
       ease: "easeOut",
       staggerChildren: 0.08,
     },
@@ -22,11 +21,11 @@ const container = {
 };
 
 const item = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, scale: 0.96 },
   visible: {
     opacity: 1,
-    y: 0,
-    transition: { duration: 0.4, ease: "easeOut" },
+    scale: 1,
+    transition: { duration: 0.35, ease: "easeOut" },
   },
 };
 
@@ -66,7 +65,12 @@ const HolidayPlanner = ({ activeSlugFromRoute }) => {
 
   return (
     <MainLayout className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-10 md:py-20">
-      <motion.div variants={container} initial="hidden" animate="visible">
+      <motion.div
+        variants={container}
+        initial="hidden"
+        animate="visible"
+        viewport={{ once: true, amount: 0.2 }}
+      >
         <div className="flex justify-between items-center mb-6">
           <motion.h3
             variants={item}
@@ -119,7 +123,7 @@ const HolidayPlanner = ({ activeSlugFromRoute }) => {
               variants={item}
               key={i}
               onClick={() => router.push(`/destination/${itemData.slug}`)}
-              className="relative min-w-[260px] h-[300px] rounded-xl overflow-hidden cursor-pointer"
+              className="relative min-w-[260px] h-[300px] shrink-0 rounded-xl overflow-hidden cursor-pointer"
             >
               <CustomImage
                 src={itemData.image}

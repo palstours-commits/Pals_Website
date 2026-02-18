@@ -4,7 +4,7 @@ import Image from "next/image";
 import Inspiration from "@/app/assets/inspiration.png";
 import MainLayout from "@/app/common/MainLayout";
 import { motion } from "framer-motion";
-import { fadeUpContainer, fadeUpItem } from "@/app/common/animations";
+import { fadeContainer, fadeItem } from "@/app/common/animations";
 
 const blogs = Array.from({ length: 6 }).map((_, i) => ({
   id: i + 1,
@@ -21,12 +21,14 @@ const InspirationSection = () => {
   const totalDots = Math.ceil(blogs.length / visibleCards);
 
   const handleScroll = () => {
+    if (!containerRef.current) return;
     const scrollLeft = containerRef.current.scrollLeft;
     const index = Math.round(scrollLeft / (cardWidth * visibleCards));
     setActive(index);
   };
 
   const scrollToIndex = (index) => {
+    if (!containerRef.current) return;
     containerRef.current.scrollTo({
       left: index * cardWidth * visibleCards,
       behavior: "smooth",
@@ -34,26 +36,27 @@ const InspirationSection = () => {
   };
 
   return (
-    <MainLayout className="w-full mb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <MainLayout className="w-full mb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto overflow-x-hidden">
       <motion.div
-        variants={fadeUpContainer}
+        variants={fadeContainer}
         initial="hidden"
-        animate="visible"
-        viewport={{ once: true }}
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
       >
-        <motion.h4 variants={fadeUpItem} className="font-bold text-center mb-8">
+        <motion.h4 variants={fadeItem} className="font-bold text-center mb-8">
           Get inspiration for your next trip
         </motion.h4>
+
         <div
           ref={containerRef}
           onScroll={handleScroll}
-          className="flex gap-6 overflow-x-auto scroll-smooth scrollbar-hide"
+          className="flex gap-6 overflow-x-auto scrollbar-hide scroll-smooth whitespace-nowrap pb-2"
         >
           {blogs.map((item) => (
             <motion.div
               key={item.id}
-              variants={fadeUpItem}
-              className="min-w-[241px] lg:min-w-[400px] text-left"
+              variants={fadeItem}
+              className="min-w-[241px] lg:min-w-[400px] shrink-0 text-left will-change-transform translate-z-0"
             >
               <div className="w-full h-44 rounded-xl overflow-hidden mb-3">
                 <Image
@@ -75,8 +78,9 @@ const InspirationSection = () => {
             </motion.div>
           ))}
         </div>
+
         <motion.div
-          variants={fadeUpItem}
+          variants={fadeItem}
           className="flex justify-center gap-2 mt-6 cursor-pointer"
         >
           {Array.from({ length: totalDots }).map((_, i) => (

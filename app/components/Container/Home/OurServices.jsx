@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import MainLayout from "@/app/common/MainLayout";
 import { motion } from "framer-motion";
-import { fadeUpContainer, fadeUpItem } from "@/app/common/animations";
+import { fadeContainer, fadeItem } from "@/app/common/animations";
 
 const services = [
   { title: "Flight\nBookings", Icon: Plane },
@@ -29,22 +29,24 @@ const OurServices = () => {
   const sliderRef = useRef(null);
 
   const scroll = (dir) => {
+    if (!sliderRef.current) return;
     sliderRef.current.scrollBy({
-      left: dir === "left" ? -300 : 300,
+      left: dir === "left" ? -260 : 260,
       behavior: "smooth",
     });
   };
 
   return (
-    <MainLayout className="bg-accent">
+    <MainLayout className="bg-accent overflow-x-hidden">
       <motion.div
-        variants={fadeUpContainer}
+        variants={fadeContainer}
         initial="hidden"
-        animate="visible"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
         className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-10 md:py-15"
       >
         <motion.div
-          variants={fadeUpItem}
+          variants={fadeItem}
           className="flex justify-between items-start mb-16 text-white"
         >
           <div>
@@ -73,13 +75,13 @@ const OurServices = () => {
         </motion.div>
         <div
           ref={sliderRef}
-          className="flex gap-18 overflow-x-auto scrollbar-hide"
+          className="flex gap-14 overflow-x-auto scrollbar-hide whitespace-nowrap pb-2"
         >
-          {services.map(({ title, Icon }, i) => (
+          {services?.map(({ title, Icon }, i) => (
             <motion.div
               key={i}
-              variants={fadeUpItem}
-              className="flex flex-col items-center text-center"
+              variants={fadeItem}
+              className="flex flex-col items-center text-center shrink-0 w-[140px] will-change-transform translate-z-0"
             >
               <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mb-4">
                 <Icon size={36} className="text-primary" />

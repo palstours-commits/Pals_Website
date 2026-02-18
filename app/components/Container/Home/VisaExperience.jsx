@@ -3,8 +3,8 @@ import { motion } from "framer-motion";
 import MainLayout from "@/app/common/MainLayout";
 import { UserCheck, BadgeDollarSign, Sparkles, Headphones } from "lucide-react";
 import {
-  fadeUpContainer,
-  fromCenter,
+  fadeContainer,
+  fadeItem,
   fromLeft,
   fromRight,
 } from "@/app/common/animations";
@@ -34,9 +34,9 @@ const FEATURES = [
 
 const VisaExperience = () => {
   return (
-    <MainLayout className="bg-[#FA812F] text-white py-10">
+    <MainLayout className="bg-[#FA812F] text-white py-10 overflow-x-hidden">
       <motion.div
-        variants={fadeUpContainer}
+        variants={fadeContainer}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
@@ -50,24 +50,24 @@ const VisaExperience = () => {
           Guidance
         </motion.h3>
         <motion.p
-          variants={fromCenter}
+          variants={fromRight}
           className="mt-4 text-sm opacity-90 max-w-xl"
         >
           We handle every detail of your visa process, ensuring a smooth and
           stress-free start to your journey.
         </motion.p>
         <div className="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-4 gap-12 mt-16">
-          {FEATURES?.map((item, i) => {
-            return (
-              <motion.div key={i}>
-                <item.Icon size={28} className="mb-4" />
-                <h4 className="font-semibold mb-2">{item.title}</h4>
-                <p className="text-xs opacity-90 leading-relaxed">
-                  {item.desc}
-                </p>
-              </motion.div>
-            );
-          })}
+          {FEATURES?.map((item, i) => (
+            <motion.div
+              key={i}
+              variants={fadeItem}
+              className="will-change-transform translate-z-0"
+            >
+              <item.Icon size={28} className="mb-4" />
+              <h4 className="font-semibold mb-2">{item.title}</h4>
+              <p className="text-xs opacity-90 leading-relaxed">{item.desc}</p>
+            </motion.div>
+          ))}
         </div>
       </motion.div>
     </MainLayout>
