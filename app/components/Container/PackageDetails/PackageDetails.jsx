@@ -104,7 +104,7 @@ const PackageDetails = ({ slug }) => {
   return (
     <>
       <PackageBaneer />
-      <MainLayout className="w-full bg-secondary py-8">
+      <div className="w-full bg-secondary py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           <div className="text-white">
             <h4 className="mb-1 font-semibold capitalize">
@@ -119,9 +119,11 @@ const PackageDetails = ({ slug }) => {
             Get a Quote
           </button>
         </div>
-      </MainLayout>
-      <MainLayout>
-        <div className="w-full pt-10">
+      </div>
+      <div>
+     
+    
+        <div className="w-full pt-10 sticky top-10 pb-6 z-40 bg-white">
           <div className="max-w-4xl mx-auto px-6 md:px-0">
             <div className="flex gap-3 items-center overflow-x-auto scrollbar-hide">
               {tabs?.map((tab) => (
@@ -141,8 +143,8 @@ const PackageDetails = ({ slug }) => {
             </div>
           </div>
         </div>
-      </MainLayout>
-      <MainLayout>
+      
+      <div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <h4 id="overview" className="font-semibold mb-4 scroll-mt-[140px]">
             Overview
@@ -166,8 +168,8 @@ const PackageDetails = ({ slug }) => {
             );
           })}
         </div>
-      </MainLayout>
-      <MainLayout>
+      </div>
+      <div>
         <div className="bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <h4
@@ -240,24 +242,25 @@ const PackageDetails = ({ slug }) => {
             </div>
           </div>
         </div>
-      </MainLayout>
-      <MainLayout className="w-full bg-accent py-8">
+      </div>
+     
+      <div className="w-full bg-accent py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-center text-white">
           <div className="flex items-center gap-2 text-center">
             <MapPin className=" shrink-0" />
-            <h4 id="destinations" className="font-semibold scroll-mt-[140px]">
+            <h4 id="destinations" className="font-semibold scroll-mt-[120px]">
               Bangalore - Mysore - Hassan – Hospet - Hampi – Badami - Goa -
               Mumbai.
             </h4>
           </div>
         </div>
-      </MainLayout>
-      <MainLayout className={"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-25"}>
+      </div>
+      <div className={"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-25"}>
         <div id="tour-itinerary">
           <ItineraryAccordion items={singlePackage?.itinerary} />
         </div>
-      </MainLayout>
-      <MainLayout>
+      </div>
+      <div>
         <div className="py-12 md:py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
@@ -300,7 +303,8 @@ const PackageDetails = ({ slug }) => {
             </div>
           </div>
         </div>
-      </MainLayout>
+      </div>
+       </div>
       <MainLayout className="w-full bg-[#e6dcc8] py-3">
         <div
           className="max-w-7xl mx-auto px-6 lg:px-8 
