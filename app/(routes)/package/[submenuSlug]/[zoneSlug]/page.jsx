@@ -1,7 +1,7 @@
 import TravelDestination from "@/app/components/Container/Destination/Destination";
 async function page({ params }) {
-  const { slug } = await params;
-  return <TravelDestination slug={slug} />;
+  const { submenuSlug, zoneSlug } = await params;
+  return <TravelDestination submenuSlug={submenuSlug} zoneSlug={zoneSlug} />;
 }
 
 export default page;

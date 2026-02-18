@@ -116,6 +116,7 @@ const submenuSlice = createSlice({
       })
       .addCase(getSlugBySubmenu.rejected, (state, action) => {
         state.loading = false;
+        state.selectedSubmenu = [];
         state.error = action.payload;
       });
   },

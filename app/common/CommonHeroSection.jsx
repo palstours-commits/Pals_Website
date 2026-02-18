@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { getImageUrl } from "../utils/getImageUrl";
+import { slugToTitle } from "../utils/slugToTitle";
 
 const CommonHeroSection = ({
   title,
@@ -29,12 +30,14 @@ const CommonHeroSection = ({
                 {item.href ? (
                   <Link
                     href={item.href}
-                    className="opacity-80 hover:opacity-100 transition"
+                    className="no-underline opacity-80 hover:opacity-100 transition capitalize"
                   >
-                    {item.label}
+                    {slugToTitle(item.label)}
                   </Link>
                 ) : (
-                  <span className="text-white capitalize">{item.label}</span>
+                  <span className="text-white capitalize">
+                    {slugToTitle(item.label)}
+                  </span>
                 )}
                 {index !== breadcrumbs.length - 1 && <span> / </span>}
               </span>

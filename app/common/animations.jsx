@@ -1,4 +1,3 @@
-
 export const fadeContainer = {
   hidden: { opacity: 0 },
   visible: {
@@ -23,7 +22,6 @@ export const fadeItem = {
   },
 };
 
-
 export const fastFade = {
   hidden: { opacity: 0 },
   visible: {
@@ -34,7 +32,6 @@ export const fastFade = {
     },
   },
 };
-
 
 export const scaleIn = {
   hidden: { opacity: 0, scale: 0.9 },
@@ -47,8 +44,6 @@ export const scaleIn = {
     },
   },
 };
-
-
 
 export const fromLeft = {
   hidden: { opacity: 0, x: -40 },
@@ -74,7 +69,6 @@ export const fromRight = {
   },
 };
 
-
 export const heroFade = {
   hidden: { opacity: 0, scale: 0.98 },
   visible: {
@@ -87,7 +81,6 @@ export const heroFade = {
   },
 };
 
-
 export const staggerOnly = {
   hidden: {},
   visible: {
@@ -95,4 +88,30 @@ export const staggerOnly = {
       staggerChildren: 0.1,
     },
   },
+};
+
+const SkeletonBox = ({ className }) => (
+  <div className={`animate-pulse bg-gray-200 ${className}`} />
+);
+
+export const HolidayPlannerSkeleton = () => {
+  return (
+    <>
+      <div className="flex gap-3 overflow-x-auto pb-6">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <SkeletonBox key={i} className="h-9 w-24 rounded-full shrink-0" />
+        ))}
+      </div>
+      <div className="flex gap-5 overflow-x-auto scrollbar-hide">
+        {Array.from({ length: 5 }).map((_, i) => (
+          <div
+            key={i}
+            className="min-w-[260px] h-[300px] rounded-xl overflow-hidden"
+          >
+            <SkeletonBox className="w-full h-full" />
+          </div>
+        ))}
+      </div>
+    </>
+  );
 };

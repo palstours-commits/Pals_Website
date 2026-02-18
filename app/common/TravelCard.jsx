@@ -1,10 +1,10 @@
-import Image from "next/image";
 import Link from "next/link";
+import CustomImage from "./Image";
 const TravelCard = ({ img, title, duration, slug }) => {
   return (
     <Link href={`/travel/${slug}`}>
-      <div className="relative rounded-2xl overflow-hidden min-w-[220px] h-[300px] cursor-pointer group shadow">
-        <Image
+      <div className="relative rounded-xl overflow-hidden min-w-[220px] h-[360px] cursor-pointer group shadow">
+        <CustomImage
           src={img}
           alt={title}
           fill

@@ -19,10 +19,29 @@ export const getPackages = createAsyncThunk(
   },
 );
 
+export const getPackagesBySubmenu = createAsyncThunk(
+  "package/getPackagesBySubmenu",
+  async (slug, thunkAPI) => {
+    try {
+      const response = await FetchApi({
+        endpoint: `/user/package/by-submenu/${slug}`,
+        method: "GET",
+      });
+
+      return response?.data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(
+        err?.message || "Failed to fetch packages by submenu",
+      );
+    }
+  },
+);
+
 const packageSlice = createSlice({
   name: "package",
   initialState: {
     packages: [],
+    packagesBySubmenu: [],
     loading: false,
     error: null,
   },
@@ -42,6 +61,19 @@ const packageSlice = createSlice({
         state.packages = action.payload?.packages || [];
       })
       .addCase(getPackages.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      .addCase(getPackagesBySubmenu.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getPackagesBySubmenu.fulfilled, (state, action) => {
+        state.loading = false;
+        state.packagesBySubmenu = action.payload || [];
+      })
+      .addCase(getPackagesBySubmenu.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });
