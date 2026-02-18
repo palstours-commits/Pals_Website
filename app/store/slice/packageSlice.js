@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { FetchApi } from "../../api/FetchApi";
+import { parseHtmlList } from "@/app/utils/textConvertor";
 
 export const getPackages = createAsyncThunk(
   "menu/getAllPackages",
@@ -14,6 +15,24 @@ export const getPackages = createAsyncThunk(
     } catch (err) {
       return thunkAPI.rejectWithValue(
         err.message || "Failed to fetch packages",
+      );
+    }
+  },
+);
+
+export const getPackagesById = createAsyncThunk(
+  "package/getPackagesById",
+  async (id, thunkAPI) => {
+    try {
+      const response = await FetchApi({
+        endpoint: `/user/package/getPackageById/${id}`,
+        method: "GET",
+      });
+
+      return response?.data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(
+        err?.message || "Failed to fetch packages by submenu",
       );
     }
   },
@@ -42,6 +61,7 @@ const packageSlice = createSlice({
   initialState: {
     packages: [],
     packagesBySubmenu: [],
+    singlePackage: null,
     loading: false,
     error: null,
   },
@@ -61,6 +81,24 @@ const packageSlice = createSlice({
         state.packages = action.payload?.packages || [];
       })
       .addCase(getPackages.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      .addCase(getPackagesById.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getPackagesById.fulfilled, (state, action) => {
+        state.loading = false;
+        const packageData = action?.payload;
+        state.singlePackage = {
+          ...packageData,
+          tripHighlightsPoints: parseHtmlList(packageData?.tripHighlights),
+          importantInfoPoints: parseHtmlList(packageData?.importantInfo),
+        };
+      })
+      .addCase(getPackagesById.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

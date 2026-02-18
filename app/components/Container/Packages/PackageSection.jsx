@@ -5,13 +5,14 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getPackagesBySubmenu } from "@/app/store/slice/packagesSlice";
+import { getPackagesBySubmenu } from "@/app/store/slice/packageSlice";
 import CommonHeroSection from "@/app/common/CommonHeroSection";
+import { TravelCardSkeleton } from "@/app/common/animations";
 
-const Destination = ({ zoneSlug, submenuSlug }) => {
+const PackageSection = ({ zoneSlug, submenuSlug }) => {
   const dispatch = useDispatch();
   const title = zoneSlug?.replace(/-/g, " ");
-  const { packagesBySubmenu } = useSelector((state) => state.packages);
+  const { packagesBySubmenu, loading } = useSelector((state) => state.packages);
   const zones = packagesBySubmenu?.zones || [];
 
   useEffect(() => {
@@ -78,15 +79,19 @@ const Destination = ({ zoneSlug, submenuSlug }) => {
             </div>
             <div
               className="
-          flex gap-6 overflow-x-auto
+          flex gap-4 overflow-x-auto
           md:grid md:grid-cols-3
           lg:grid-cols-4
           md:overflow-visible
           scrollbar-hide
         "
             >
-              {zone?.packages?.length ? (
-                zone?.packages.map((pkg) => (
+              {loading ? (
+                Array.from({ length: 4 }).map((_, i) => (
+                  <TravelCardSkeleton key={i} />
+                ))
+              ) : zone?.packages?.length ? (
+                zone.packages.map((pkg) => (
                   <TravelCard
                     key={pkg._id}
                     img={pkg.images?.[0]}
@@ -108,4 +113,4 @@ const Destination = ({ zoneSlug, submenuSlug }) => {
   );
 };
 
-export default Destination;
+export default PackageSection;

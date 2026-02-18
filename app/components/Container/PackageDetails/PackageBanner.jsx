@@ -1,7 +1,7 @@
 import React from "react";
 import bannerimg from "@/app/assets/tample.svg";
 
-const TravelHero = () => {
+const Packagebanner = () => {
   return (
     <div
       className="relative w-full h-[500px]"
@@ -10,9 +10,8 @@ const TravelHero = () => {
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
-    >
-    </div>
+    ></div>
   );
 };
 
-export default TravelHero;
+export default Packagebanner;

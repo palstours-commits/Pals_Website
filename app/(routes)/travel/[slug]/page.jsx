@@ -1,10 +1,10 @@
-import TravelDetails from "@/app/components/Container/TravelDetails/TravelDetails";
+import PackageDetails from "@/app/components/Container/PackageDetails/PackageDetails";
 import React from "react";
 
 async function page({ params }) {
   const { slug } = await params;
 
-  return <TravelDetails slug={slug} />;
+  return <PackageDetails slug={slug} />;
 }
 
 export default page;

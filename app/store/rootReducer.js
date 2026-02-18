@@ -2,7 +2,7 @@ import { combineReducers } from "redux";
 import menuReducer from "./slice/menuSlice";
 import submenuReducer from "./slice/submenuSlice";
 import contactReducer from "./slice/contactSlice";
-import packagesReducer from "./slice/packagesSlice";
+import packagesReducer from "./slice/packageSlice";
 import enquiryReducer from "./slice/enquirySlice";
 const reducer = combineReducers({
   menu: menuReducer,

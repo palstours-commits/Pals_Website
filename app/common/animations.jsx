@@ -115,3 +115,16 @@ export const HolidayPlannerSkeleton = () => {
     </>
   );
 };
+
+export const TravelCardSkeleton = () => {
+  return (
+    <div className="relative rounded-xl overflow-hidden min-w-[220px] h-[360px] bg-gray-200 animate-pulse">
+      <div className="absolute inset-0 bg-linear-to-t from-gray-300/60 to-gray-200" />
+
+      <div className="absolute bottom-4 left-4 right-4">
+        <div className="h-4 bg-gray-300 rounded w-3/4 mb-2" />
+        <div className="h-3 bg-gray-300 rounded w-1/2" />
+      </div>
+    </div>
+  );
+};

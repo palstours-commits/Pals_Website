@@ -12,7 +12,7 @@ export const ItineraryAccordion = ({ items }) => {
     <div className="space-y-4">
       {items?.map((item, index) => (
         <div
-          key={index}
+          key={item?._id}
           className="bg-gray-100 rounded-xl overflow-hidden relative"
         >
           <div className="absolute left-0 top-0 h-full w-2 bg-orange-500 rounded-l-xl"></div>
@@ -22,7 +22,7 @@ export const ItineraryAccordion = ({ items }) => {
                        px-6 py-5 text-left"
           >
             <h5 className="text-orange-500 font-semibold text-lg">
-              {item.title}
+              Day {item.title} {item?.location}
             </h5>
             {openIndex === index ? (
               <ChevronUp size={20} />

@@ -12,7 +12,7 @@ import {
   submitContact,
 } from "@/app/store/slice/contactSlice";
 import { notifyAlert } from "@/app/hooks/NotificationService";
-import { getPackages } from "@/app/store/slice/packagesSlice";
+import { getPackages } from "@/app/store/slice/packageSlice";
 import SingleSelectDropdown from "@/app/common/SingleSelectDropdown";
 
 const initialFormState = {
