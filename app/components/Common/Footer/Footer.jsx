@@ -3,8 +3,18 @@ import tripadvisor from "@/app/assets/tripadvisor.svg";
 import google from "@/app/assets/google.svg";
 import { socialLinks } from "@/app/utils/siteConstants";
 import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
+import { getPackages } from "@/app/store/slice/packageSlice";
+import { useEffect } from "react";
 
 export default function Footer() {
+  const dispatch = useDispatch();
+  const { packages } = useSelector((state) => state.packages);
+
+  useEffect(() => {
+    dispatch(getPackages());
+  }, [dispatch]);
+
   return (
     <footer className="bg-black text-white pt-20">
       <div className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
@@ -37,72 +47,23 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-6">Package</h4>
             <ul className="space-y-3 text-sm text-gray-300">
-              <li>
-                <Link
-                  href="/packages/india-holidays"
-                  className="hover:text-white transition"
-                >
-                  India Holidays
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/packages/international-holidays"
-                  className="hover:text-white transition"
-                >
-                  International Holidays
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/packages/domestic-holidays"
-                  className="hover:text-white transition"
-                >
-                  Domestic Holidays
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/packages/train-tours"
-                  className="hover:text-white transition"
-                >
-                  Train Tours
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/packages/hill-station"
-                  className="hover:text-white transition"
-                >
-                  Hill Station
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/packages/ayurveda-yoga"
-                  className="hover:text-white transition"
-                >
-                  Ayurveda & Yoga Retreats
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/packages/spiritual-tours"
-                  className="hover:text-white transition"
-                >
-                  Spiritual Tours
-                </Link>
-              </li>
+              {packages?.map((item) => (
+                <li key={item._id}>
+                  <Link
+                    href={`/package/${item.slug || item._id}`}
+                    className="hover:text-white transition"
+                  >
+                    {item.packageName}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
           <div>
             <h4 className="font-semibold mb-6">Services</h4>
             <ul className="space-y-3 text-sm text-gray-300">
               <li>
-                <Link
-                  href="/flight"
-                  className="hover:text-white transition"
-                >
+                <Link href="/flight" className="hover:text-white transition">
                   Flights
                 </Link>
               </li>
