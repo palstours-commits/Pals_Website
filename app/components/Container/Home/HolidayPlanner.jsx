@@ -130,26 +130,35 @@ const HolidayPlanner = ({ activeSlugFromRoute }) => {
                   variants={item}
                   key={i}
                   onClick={() =>
-                    router.push(
-                      `/package/${activeSlug}/${itemData.slug}`,
-                    )
+                    router.push(`/packages/${activeSlug}/${itemData.slug}`)
                   }
-                  className="relative min-w-[260px] h-[300px] shrink-0 rounded-xl overflow-hidden cursor-pointer"
+                  whileHover="hover"
+                  initial="rest"
+                  animate="rest"
+                  className="relative min-w-[260px] h-[300px] shrink-0 rounded-xl overflow-hidden cursor-pointer group"
                 >
-                  <CustomImage
-                    src={itemData.image}
-                    alt={itemData.title}
-                    fill
-                    className="object-cover"
-                  />
-
+                  <motion.div
+                    variants={{
+                      rest: { scale: 1 },
+                      hover: { scale: 1.1 },
+                    }}
+                    transition={{ duration: 0.4, ease: "easeOut" }}
+                    className="absolute inset-0"
+                  >
+                    <CustomImage
+                      src={itemData.image}
+                      alt={itemData.title}
+                      fill
+                      className="object-cover"
+                    />
+                  </motion.div>
                   {itemData.isNew && (
-                    <span className="absolute top-0 left-0 bg-yellow-400 text-[10px] px-2 py-1 rounded font-semibold">
+                    <span className="absolute top-0 left-0 bg-yellow-400 text-[10px] px-2 py-1 rounded font-semibold z-10">
                       NEW
                     </span>
                   )}
-                  <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent" />
-                  <h5 className="absolute bottom-4 left-4 text-white font-semibold">
+                  <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent z-10" />
+                  <h5 className="absolute bottom-4 left-4 text-white font-semibold z-10">
                     {itemData.name}
                   </h5>
                 </motion.div>
