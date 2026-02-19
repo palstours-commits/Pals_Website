@@ -6,9 +6,12 @@ import { FaUsers, FaHeadset, FaTags } from "react-icons/fa";
 import MainLayout from "@/app/common/MainLayout";
 import CommonHeroSection from "@/app/common/CommonHeroSection";
 import bannerimg from "@/app/assets/about-bg.svg";
+import { motion } from "framer-motion";
+import { fadeFromTop, fadeFromBottom } from "@/app/common/animations";
 
 const AboutPalsSection = () => {
   const title = "About Pals Holidays";
+
   return (
     <>
       <CommonHeroSection
@@ -20,11 +23,21 @@ const AboutPalsSection = () => {
           { label: title || "Destination" },
         ]}
       />
+
       <MainLayout className="bg-[#f3f3f3] py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+
             <div className="lg:col-span-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+
+     
+              <motion.div
+                variants={fadeFromBottom}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: false }}
+                className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center"
+              >
                 <div className="relative h-[321px] rounded-2xl overflow-hidden">
                   <Image
                     src={leftimg}
@@ -33,6 +46,7 @@ const AboutPalsSection = () => {
                     className="object-cover"
                   />
                 </div>
+
                 <div>
                   <h4 className="text-2xl md:text-3xl font-bold mb-4">
                     About Pals Holidays
@@ -45,14 +59,24 @@ const AboutPalsSection = () => {
                     continuously monitor global safety and weather conditions to
                     deliver reliable travel services.
                   </p>
-                  <button className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-full text-sm font-medium transition">
+                  <button className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-full text-sm cursor-pointer font-medium transition">
                     Get a Quote
                   </button>
                 </div>
-              </div>
-              <div className="mt-16">
+              </motion.div>
+
+          
+              <motion.div
+                variants={fadeFromTop}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: false }}
+                className="mt-16"
+              >
                 <h4 className="text-xl font-bold mb-8">Why Pals?</h4>
+
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+
                   <div className="flex gap-4">
                     <div>
                       <FaUsers
@@ -66,6 +90,7 @@ const AboutPalsSection = () => {
                       </p>
                     </div>
                   </div>
+
                   <div className="flex gap-4">
                     <div>
                       <FaHeadset
@@ -79,6 +104,7 @@ const AboutPalsSection = () => {
                       </p>
                     </div>
                   </div>
+
                   <div className="flex gap-4">
                     <div>
                       <FaTags
@@ -94,19 +120,30 @@ const AboutPalsSection = () => {
                       </p>
                     </div>
                   </div>
+
                 </div>
-              </div>
+              </motion.div>
+
             </div>
+
+         
             <div className="lg:col-span-4">
-              <div className="relative h-[600px] rounded-2xl overflow-hidden shadow-lg">
+              <motion.div
+                variants={fadeFromBottom}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: false }}
+                className="relative h-[600px] rounded-2xl overflow-hidden shadow-lg"
+              >
                 <Image
                   src={rightimg}
                   alt="Travel Destination"
                   fill
                   className="object-cover"
                 />
-              </div>
+              </motion.div>
             </div>
+
           </div>
         </div>
       </MainLayout>
