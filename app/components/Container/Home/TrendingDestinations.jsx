@@ -1,24 +1,18 @@
 "use client";
-import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef } from "react";
-import Malaysia from "@/app/assets/malaysia.png";
-import Singapore from "@/app/assets/singapore.png";
-import Indonesia from "@/app/assets/indonesia.png";
-import Thailand from "@/app/assets/thailand.png";
 import MainLayout from "@/app/common/MainLayout";
 import { fadeContainer, fadeItem } from "@/app/common/animations";
 import { motion } from "framer-motion";
-
-const destinations = [
-  { title: "Malaysia", image: Malaysia, isNew: true },
-  { title: "Singapore", image: Singapore },
-  { title: "Indonesia", image: Indonesia },
-  { title: "Thailand", image: Thailand },
-];
+import { useSelector } from "react-redux";
+import CustomImage from "@/app/common/Image";
+import { useRouter } from "next/navigation";
 
 const TrendingDestinations = () => {
   const sliderRef = useRef(null);
+  const router = useRouter();
+  const { zones } = useSelector((state) => state.zones);
+  const istrending = zones?.filter((zone) => zone.istrending === true);
 
   const scroll = (dir) => {
     if (!sliderRef.current) return;
@@ -69,31 +63,29 @@ const TrendingDestinations = () => {
         </motion.div>
         <div
           ref={sliderRef}
-          className="flex gap-6 overflow-x-auto scrollbar-hide whitespace-nowrap pb-2"
+          className="flex gap-6 overflow-x-auto scrollbar-hide whitespace-nowrap pb-2 cursor-pointer"
         >
-          {destinations?.map((item, i) => (
-            <motion.div
+          {istrending?.map((item, i) => (
+            <div
               key={i}
-              variants={fadeItem}
-              className="relative min-w-[280px] h-[300px] shrink-0 rounded-xl overflow-hidden will-change-transform translate-z-0"
+              onClick={() =>
+                router.push(`/packages/${item?.subMenuId?.slug}/${item.slug}`)
+              }
+              className="relative min-w-[280px] h-[300px] shrink-0 rounded-xl overflow-hidden group"
             >
-              <Image
-                src={item.image}
-                alt={item.title}
-                fill
-                className="object-cover"
-              />
-
-              {item.isNew && (
-                <span className="absolute top-4 left-4 bg-yellow-400 text-xs font-semibold px-3 py-1 rounded">
-                  NEW
-                </span>
-              )}
-
-              <h5 className="absolute bottom-4 left-4 text-white font-semibold">
-                {item.title}
+              <div className="absolute inset-0 transition-transform duration-500 ease-out group-hover:scale-110">
+                <CustomImage
+                  src={item.image}
+                  alt={item.name}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/30 to-transparent" />
+              <h5 className="absolute bottom-4 left-4 text-white font-semibold z-10">
+                {item.name}
               </h5>
-            </motion.div>
+            </div>
           ))}
         </div>
       </motion.div>

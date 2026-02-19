@@ -5,6 +5,7 @@ import contactReducer from "./slice/contactSlice";
 import packagesReducer from "./slice/packageSlice";
 import enquiryReducer from "./slice/enquirySlice";
 import serviceReducer from "./slice/serviceFormSlice";
+import zonesReducer from "./slice/zonesSlice";
 const reducer = combineReducers({
   menu: menuReducer,
   submenu: submenuReducer,
@@ -12,5 +13,6 @@ const reducer = combineReducers({
   packages: packagesReducer,
   enquiry: enquiryReducer,
   service: serviceReducer,
+  zones: zonesReducer,
 });
 export default reducer;

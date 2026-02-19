@@ -96,7 +96,7 @@ const PackageSection = ({ zoneSlug, submenuSlug }) => {
                     img={pkg.images?.[0]}
                     title={pkg.packageName}
                     duration={`${pkg.nights} Nights / ${pkg.days} Days`}
-                    slug={pkg._id}
+                    slug={pkg.slug}
                     zoneSlug={zone.slug}
                     submenuSlug={submenuSlug}
                     newArrivals={pkg?.newArrivals}
