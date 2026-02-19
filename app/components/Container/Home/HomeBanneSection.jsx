@@ -37,17 +37,17 @@ const slides = [
 
 const HomeBannerSection = () => {
   return (
-    <MainLayout className="relative w-full h-screen p-0">
+    <MainLayout className="relative w-full h-[500px] md:h-screen p-0">
       <Swiper
         modules={[Autoplay, EffectFade]}
         effect="fade"
         loop={true}
         autoplay={{ delay: 4000 }}
-        className="h-screen"
+        className="h-[500px] md:h-screen"
       >
         {slides.map((slide, index) => (
           <SwiperSlide key={index}>
-            <div className="relative w-full h-screen">
+            <div className="relative w-full h-[500px] md:h-screen">
               <Image
                 src={slide.image}
                 alt="Hero Banner"

@@ -34,16 +34,21 @@ const HolidayPlanner = ({ activeSlugFromRoute }) => {
   const router = useRouter();
   const sliderRef = useRef(null);
   const dispatch = useDispatch();
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
   const [activeSlug, setActiveSlug] = useState(null);
   const { submenus, selectedSubmenu, loading } = useSelector(
     (state) => state.submenu,
   );
 
   const scroll = (dir) => {
-    sliderRef.current.scrollBy({
+    const el = sliderRef.current;
+    if (!el) return;
+    el.scrollBy({
       left: dir === "left" ? -300 : 300,
       behavior: "smooth",
     });
+    setTimeout(checkScroll, 350);
   };
 
   useEffect(() => {
@@ -66,6 +71,26 @@ const HolidayPlanner = ({ activeSlugFromRoute }) => {
     dispatch(getSlugBySubmenu(slug));
   };
 
+  const checkScroll = () => {
+    const el = sliderRef.current;
+    if (!el) return;
+    const { scrollLeft, scrollWidth, clientWidth } = el;
+    setCanScrollLeft(scrollLeft > 0);
+    setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 1);
+  };
+
+  useEffect(() => {
+    const el = sliderRef.current;
+    if (!el) return;
+    checkScroll();
+    el.addEventListener("scroll", checkScroll);
+    window.addEventListener("resize", checkScroll);
+    return () => {
+      el.removeEventListener("scroll", checkScroll);
+      window.removeEventListener("resize", checkScroll);
+    };
+  }, [selectedSubmenu]);
+
   return (
     <MainLayout className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-10 md:py-20">
       <motion.div
@@ -81,17 +106,30 @@ const HolidayPlanner = ({ activeSlugFromRoute }) => {
           >
             Quick and easy <br /> Holiday Trip Planner
           </motion.h3>
-
           <motion.div variants={item} className="flex gap-2">
             <button
               onClick={() => scroll("left")}
-              className="w-6 h-6 rounded-lg border-2 flex items-center justify-center text-[#da251c] font-medium border-[#da251c]"
+              disabled={!canScrollLeft}
+              className={`w-7 h-7 rounded-lg border-2 flex items-center justify-center transition
+      ${
+        canScrollLeft
+          ? "border-[#da251c] text-[#da251c]"
+          : "border-gray-300 text-gray-300 cursor-not-allowed"
+      }
+    `}
             >
               <ChevronLeft size={18} />
             </button>
             <button
               onClick={() => scroll("right")}
-              className="w-6 h-6 rounded-lg border-2 border-gray-300 text-gray-300 flex items-center justify-center"
+              disabled={!canScrollRight}
+              className={`w-7 h-7 rounded-lg border-2 flex items-center justify-center transition
+      ${
+        canScrollRight
+          ? "border-[#da251c] text-[#da251c]"
+          : "border-gray-300 text-gray-300 cursor-not-allowed"
+      }
+    `}
             >
               <ChevronRight size={18} />
             </button>

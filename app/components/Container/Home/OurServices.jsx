@@ -1,5 +1,5 @@
 "use client";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Plane,
   Hotel,
@@ -10,6 +10,8 @@ import {
   Ship,
   ChevronLeft,
   ChevronRight,
+  Banknote,
+  Car,
 } from "lucide-react";
 import MainLayout from "@/app/common/MainLayout";
 import { motion } from "framer-motion";
@@ -23,18 +25,44 @@ const services = [
   { title: "Travel\nInsurance", Icon: ShieldCheck },
   { title: "Adventure Travel\n& Activities", Icon: Mountain },
   { title: "Cruise\nBookings", Icon: Ship },
+  { title: "Money\nExchange", Icon: Banknote },
+  { title: "Transport\n& Transfers", Icon: Car },
 ];
 
 const OurServices = () => {
   const sliderRef = useRef(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  const checkScroll = () => {
+    const el = sliderRef.current;
+    if (!el) return;
+    const { scrollLeft, scrollWidth, clientWidth } = el;
+    setCanScrollLeft(scrollLeft > 0);
+    setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 1);
+  };
 
   const scroll = (dir) => {
-    if (!sliderRef.current) return;
-    sliderRef.current.scrollBy({
+    const el = sliderRef.current;
+    if (!el) return;
+    el.scrollBy({
       left: dir === "left" ? -260 : 260,
       behavior: "smooth",
     });
+    setTimeout(checkScroll, 300);
   };
+
+  useEffect(() => {
+    const el = sliderRef.current;
+    if (!el) return;
+    checkScroll();
+    el.addEventListener("scroll", checkScroll);
+    window.addEventListener("resize", checkScroll);
+    return () => {
+      el.removeEventListener("scroll", checkScroll);
+      window.removeEventListener("resize", checkScroll);
+    };
+  }, []);
 
   return (
     <MainLayout className="bg-accent overflow-x-hidden">
@@ -56,18 +84,30 @@ const OurServices = () => {
               value.
             </p>
           </div>
-
           <div className="flex gap-3">
             <button
               onClick={() => scroll("left")}
-              className="w-8 h-8 rounded-lg border-2 border-white text-white flex items-center justify-center"
+              disabled={!canScrollLeft}
+              className={`w-8 h-8 rounded-lg border-2 flex items-center justify-center transition
+      ${
+        canScrollLeft
+          ? "border-white text-white"
+          : "border-white/40 text-white/40 cursor-not-allowed"
+      }
+    `}
             >
               <ChevronLeft size={18} />
             </button>
-
             <button
               onClick={() => scroll("right")}
-              className="w-8 h-8 rounded-lg border-2 border-white text-white flex items-center justify-center"
+              disabled={!canScrollRight}
+              className={`w-8 h-8 rounded-lg border-2 flex items-center justify-center transition
+      ${
+        canScrollRight
+          ? "border-white text-white"
+          : "border-white/40 text-white/40 cursor-not-allowed"
+      }
+    `}
             >
               <ChevronRight size={18} />
             </button>
@@ -75,7 +115,7 @@ const OurServices = () => {
         </motion.div>
         <div
           ref={sliderRef}
-          className="flex gap-14 overflow-x-auto scrollbar-hide whitespace-nowrap pb-2"
+          className="flex gap-8 overflow-x-auto scrollbar-hide whitespace-nowrap pb-2"
         >
           {services?.map(({ title, Icon }, i) => (
             <motion.div

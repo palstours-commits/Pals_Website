@@ -16,7 +16,7 @@ const initialFormState = {
   message: "",
 };
 
-const PackageForm = () => {
+const PackageForm = ({ packageId }) => {
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.enquiry);
   const [form, setForm] = useState(initialFormState);
@@ -44,7 +44,7 @@ const PackageForm = () => {
       phone: form.mobile,
       numberOfPersons:
         form.numberOfPersons === "family" ? 4 : Number(form.numberOfPersons),
-      packageId: form.plan,
+      packageId,
       message: form.message,
     };
     setForm(initialFormState);
@@ -107,7 +107,7 @@ const PackageForm = () => {
               name="date"
               value={form.date}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none transition"
+              className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none transition text-gray-500"
               required
             />
           </div>
@@ -127,40 +127,27 @@ const PackageForm = () => {
             required
           />
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          <div className="relative">
-            <label className="block text-sm text-gray-500 mb-1">Person</label>
-            <select
-              name="numberOfPersons"
-              value={form.numberOfPersons}
-              onChange={handleChange}
-              className="w-full border border-gray-300 rounded-lg px-4 py-3 appearance-none  outline-none transition"
-              required
-            >
-              <option value="">Select</option>
-              <option value="1">1 Person</option>
-              <option value="2">2 Persons</option>
-              <option value="3">3 Persons</option>
-              <option value="4">4 Persons</option>
-              <option value="family">Family</option>
-            </select>
+        <div className="relative">
+          <label className="block text-sm text-gray-500 mb-1">Person</label>
+          <select
+            name="numberOfPersons"
+            value={form.numberOfPersons}
+            onChange={handleChange}
+            className="w-full border border-gray-300 rounded-lg px-4 py-3 appearance-none  outline-none transition text-gray-500"
+            required
+          >
+            <option value="">Select</option>
+            <option value="1">1 Person</option>
+            <option value="2">2 Persons</option>
+            <option value="3">3 Persons</option>
+            <option value="4">4 Persons</option>
+            <option value="family">Family</option>
+          </select>
 
-            <ChevronDown
-              size={18}
-              className="absolute right-4 top-[42px] text-gray-500 pointer-events-none"
-            />
-          </div>
-          <div className="relative">
-            <SingleSelectDropdown
-              label="Plan"
-              options={packages}
-              value={form.plan}
-              labelKey="packageName"
-              onChange={(id) => setForm((prev) => ({ ...prev, plan: id }))}
-              placeholder="Select Plan"
-              searchable
-            />
-          </div>
+          <ChevronDown
+            size={18}
+            className="absolute right-4 top-[42px] text-gray-500 pointer-events-none"
+          />
         </div>
         <div>
           <label className="block text-sm text-gray-500 mb-1">Note</label>

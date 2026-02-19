@@ -68,7 +68,7 @@ const TrendingOffers = () => {
           {offers?.map((item, i) => (
             <div
               key={i}
-              className="min-w-[260px] md:min-w-[300px] border border-gray-300 rounded-xl p-6 flex flex-col justify-between"
+              className="min-w-[300px] md:min-w-[300px] border border-gray-300 rounded-xl p-6 flex flex-col justify-between"
             >
               <div>
                 <h4 className="font-semibold leading-snug mb-4">
