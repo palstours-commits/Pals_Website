@@ -28,6 +28,13 @@ export default function Header() {
     dispatch(getSubMenus());
   }, [dispatch]);
 
+  const STATIC_SERVICES = [
+    { name: "Flight", slug: "flight" },
+    { name: "Hotel", slug: "hotel" },
+    { name: "Transport", slug: "transport" },
+    { name: "Visa", slug: "visa" },
+  ];
+
   return (
     <>
       <div className="w-full bg-black text-white text-xs font-light text-center py-2 hidden md:block">
@@ -110,6 +117,47 @@ export default function Header() {
                   </div>
                 );
               })}
+              <div
+                className="relative shrink-0"
+                onMouseEnter={() => setActive("services")}
+                onMouseLeave={() => setActive(null)}
+              >
+                <button
+                  className={`flex items-center gap-2 px-3 py-2 rounded-full text-sm font-medium transition
+      ${
+        active === "services"
+          ? "border border-red-500 text-red-500 bg-[#FFDCDA]"
+          : "text-gray-700 hover:text-red-500"
+      }
+    `}
+                >
+                  <Image
+                    src={active === "services" ? navActiveIcon : navItemIcon}
+                    alt="icon"
+                    className="w-5 h-5 object-contain"
+                  />
+                  Services
+                  <ChevronDown
+                    size={16}
+                    className={`transition-transform ${
+                      active === "services" ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+                {active === "services" && (
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 w-56 bg-white shadow-lg rounded-lg py-2 z-50">
+                    {STATIC_SERVICES.map((item) => (
+                      <Link
+                        key={item.slug}
+                        href={`/service/${item.slug}`}
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      >
+                        {item.name}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           </nav>
           <div className="hidden lg:flex items-center gap-6 ml-auto">

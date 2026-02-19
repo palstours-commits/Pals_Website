@@ -68,26 +68,20 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/services/hotels"
-                  className="hover:text-white transition"
-                >
+                <Link href="/hotel" className="hover:text-white transition">
                   Hotels
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/services/transportation"
+                  href="/transportation"
                   className="hover:text-white transition"
                 >
                   Transportation Services
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/services/visa"
-                  className="hover:text-white transition"
-                >
+                <Link href="/visa" className="hover:text-white transition">
                   Visa
                 </Link>
               </li>

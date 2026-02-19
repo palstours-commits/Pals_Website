@@ -4,8 +4,8 @@ import bannerimg from "@/app/assets/flight-bg.svg";
 import { ChevronDown } from "lucide-react";
 import MainLayout from "@/app/common/MainLayout";
 
-const FlightBookingSection = () => {
-  const title = "Flight Booking";
+const VisaBookingSection = () => {
+  const title = "Visa Booking";
 
   return (
     <>
@@ -22,14 +22,14 @@ const FlightBookingSection = () => {
         <div className="bg-[#f5f5f5] py-14 md:py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className=" mb-10">
-              <h4 className="font-bold mb-4">
-                Book Flights Online with Pals Holidays at affordable rates.
-              </h4>
+              <h4 className="font-bold mb-4">Visa Services</h4>
               <p className="text-gray-600 text-sm md:text-base max-w-3xl">
-                Book flights online and enjoy affordable fares, warm service and
-                reliable operations to destinations across India. We are
-                available for 24*7 for our customers. Reserve, book and rebook
-                flights according to your desires.
+                We provide complete visa assistance for tourist, business,
+                student, and work visas across multiple countries. Our expert
+                team guides you through documentation, application submission,
+                and appointment scheduling to ensure a smooth and hassle-free
+                visa process. Enjoy transparent guidance, timely updates, and
+                reliable support throughout your journey.
               </p>
             </div>
             <div className="space-y-6">
@@ -40,7 +40,7 @@ const FlightBookingSection = () => {
                   className="w-full border border-gray-400 rounded-md px-4 py-3 outline-none"
                 />
                 <div className="relative">
-                  <select className="w-full border border-gray-400 rounded-md px-4 text-gray-600 py-3 appearance-none outline-none">
+                  <select className="w-full border border-gray-400 text-gray-600 rounded-md px-4 py-3 appearance-none outline-none">
                     <option>Country of Residence</option>
                   </select>
                   <ChevronDown
@@ -63,7 +63,7 @@ const FlightBookingSection = () => {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="relative">
-                  <select className="w-full border border-gray-400 rounded-md px-4  text-gray-600 py-3 appearance-none outline-none">
+                  <select className="w-full border border-gray-400 rounded-md px-4 py-3 text-gray-600 appearance-none outline-none">
                     <option>Seat Class</option>
                   </select>
                   <ChevronDown
@@ -72,7 +72,7 @@ const FlightBookingSection = () => {
                   />
                 </div>
                 <div className="relative">
-                  <select className="w-full border border-gray-400  text-gray-600 rounded-md px-4 py-3 appearance-none outline-none">
+                  <select className="w-full border border-gray-400 rounded-md px-4 py-3 text-gray-600 appearance-none outline-none">
                     <option>Person</option>
                   </select>
                   <ChevronDown
@@ -115,4 +115,4 @@ const FlightBookingSection = () => {
   );
 };
 
-export default FlightBookingSection;
+export default VisaBookingSection;

@@ -4,8 +4,8 @@ import bannerimg from "@/app/assets/flight-bg.svg";
 import { ChevronDown } from "lucide-react";
 import MainLayout from "@/app/common/MainLayout";
 
-const FlightBookingSection = () => {
-  const title = "Flight Booking";
+const TransportSection = () => {
+  const title = "Transport";
 
   return (
     <>
@@ -23,13 +23,17 @@ const FlightBookingSection = () => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className=" mb-10">
               <h4 className="font-bold mb-4">
-                Book Flights Online with Pals Holidays at affordable rates.
+                CAR RENTAL SERVICES IN CHENNAI & ALL OVER INDIA
               </h4>
               <p className="text-gray-600 text-sm md:text-base max-w-3xl">
-                Book flights online and enjoy affordable fares, warm service and
-                reliable operations to destinations across India. We are
-                available for 24*7 for our customers. Reserve, book and rebook
-                flights according to your desires.
+                We hereby proudly introduce, Pals Tours and Travels is the
+                Travel Company striving to deliver the standards of fine quality
+                and service that will make us the #1 car rental company. Whether
+                you are traveling for business or pleasure, you can be assured
+                of quality cars and a wide range of services that makes Pals
+                Tours and Travels your First choice of car rental. We offer a
+                wide range of vehicle range from Economic, Executive and
+                Luxurious Vehicle to spacious MPVs to suit your needs.
               </p>
             </div>
             <div className="space-y-6">
@@ -40,7 +44,7 @@ const FlightBookingSection = () => {
                   className="w-full border border-gray-400 rounded-md px-4 py-3 outline-none"
                 />
                 <div className="relative">
-                  <select className="w-full border border-gray-400 rounded-md px-4 text-gray-600 py-3 appearance-none outline-none">
+                  <select className="w-full border border-gray-400 rounded-md  text-gray-600 px-4 py-3 appearance-none outline-none">
                     <option>Country of Residence</option>
                   </select>
                   <ChevronDown
@@ -72,7 +76,7 @@ const FlightBookingSection = () => {
                   />
                 </div>
                 <div className="relative">
-                  <select className="w-full border border-gray-400  text-gray-600 rounded-md px-4 py-3 appearance-none outline-none">
+                  <select className="w-full border border-gray-400 rounded-md  text-gray-600 px-4 py-3 appearance-none outline-none">
                     <option>Person</option>
                   </select>
                   <ChevronDown
@@ -115,4 +119,4 @@ const FlightBookingSection = () => {
   );
 };
 
-export default FlightBookingSection;
+export default TransportSection;
