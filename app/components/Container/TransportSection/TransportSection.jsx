@@ -1,11 +1,60 @@
+"use client";
 import CommonHeroSection from "@/app/common/CommonHeroSection";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import bannerimg from "@/app/assets/flight-bg.svg";
-import { ChevronDown } from "lucide-react";
 import MainLayout from "@/app/common/MainLayout";
+import { useDispatch, useSelector } from "react-redux";
+import { notifyAlert } from "@/app/hooks/NotificationService";
+import {
+  clearServiceFormState,
+  submitTransportForm,
+} from "@/app/store/slice/serviceFormSlice";
+
+const initialTransportForm = {
+  serviceType: "transport",
+  name: "",
+  email: "",
+  phoneNo: "",
+  country: "",
+  countryOfResidence: "",
+  rentalType: "",
+  carType: "",
+  startDate: "",
+  endDate: "",
+  noOfAdults: 1,
+  noOfChildren: 0,
+  location: "",
+  message: "",
+};
 
 const TransportSection = () => {
   const title = "Transport";
+  const dispatch = useDispatch();
+  const { loading, error, message } = useSelector((state) => state.service);
+  const [formData, setFormData] = useState(initialTransportForm);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(submitTransportForm(formData));
+  };
+
+  useEffect(() => {
+    if (message) {
+      notifyAlert({ title: "Success", message, type: "success" });
+      dispatch(clearServiceFormState());
+      setFormData((prev) => ({ ...prev, ...initialTransportForm }));
+    }
+
+    if (error) {
+      notifyAlert({ title: "Error", message: error, type: "error" });
+      dispatch(clearServiceFormState());
+    }
+  }, [message, error, dispatch]);
 
   return (
     <>
@@ -36,82 +85,118 @@ const TransportSection = () => {
                 Luxurious Vehicle to spacious MPVs to suit your needs.
               </p>
             </div>
-            <div className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <input
-                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
                   placeholder="Enter Your Full Name"
-                  className="w-full border border-gray-400 rounded-md px-4 py-3 outline-none"
+                  className="w-full border border-gray-400 rounded-md px-4 py-3 outline-0"
                 />
-                <div className="relative">
-                  <select className="w-full border border-gray-400 rounded-md  text-gray-600 px-4 py-3 appearance-none outline-none">
-                    <option>Country of Residence</option>
-                  </select>
-                  <ChevronDown
-                    className="absolute right-4 top-4 text-gray-500"
-                    size={18}
-                  />
-                </div>
+                <input
+                  name="countryOfResidence"
+                  value={formData.countryOfResidence}
+                  onChange={handleChange}
+                  placeholder="Country of Residence"
+                  className="w-full border border-gray-400 rounded-md px-4 py-3 outline-0"
+                />
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <input
                   type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
                   placeholder="Enter Your Email Id"
-                  className="w-full border border-gray-400 rounded-md px-4 py-3 outline-none"
+                  className="w-full border border-gray-400 rounded-md px-4 py-3 outline-0"
                 />
                 <input
-                  type="text"
+                  name="phoneNo"
+                  value={formData.phoneNo}
+                  onChange={handleChange}
                   placeholder="+91"
-                  className="w-full border border-gray-400 rounded-md px-4 py-3 outline-none"
+                  className="w-full border border-gray-400 rounded-md px-4 py-3 outline-0"
                 />
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="relative">
-                  <select className="w-full border border-gray-400 rounded-md px-4  text-gray-600 py-3 appearance-none outline-none">
-                    <option>Seat Class</option>
-                  </select>
-                  <ChevronDown
-                    className="absolute right-4 top-4 text-gray-500"
-                    size={18}
-                  />
-                </div>
-                <div className="relative">
-                  <select className="w-full border border-gray-400 rounded-md  text-gray-600 px-4 py-3 appearance-none outline-none">
-                    <option>Person</option>
-                  </select>
-                  <ChevronDown
-                    className="absolute right-4 top-4 text-gray-500"
-                    size={18}
-                  />
-                </div>
+                <select
+                  name="rentalType"
+                  value={formData.rentalType}
+                  onChange={handleChange}
+                  className="w-full border border-gray-400 rounded-md px-4 py-3 outline-0 text-gray-600"
+                >
+                  <option value="">Rental Type</option>
+                  <option value="Local">Local</option>
+                  <option value="Outstation">Outstation</option>
+                  <option value="Airport">Airport Transfer</option>
+                </select>
+
+                <select
+                  name="carType"
+                  value={formData.carType}
+                  onChange={handleChange}
+                  className="w-full border border-gray-400 rounded-md px-4 py-3 outline-0 text-gray-600"
+                >
+                  <option value="">Car Type</option>
+                  <option value="Sedan">Sedan</option>
+                  <option value="SUV">SUV</option>
+                  <option value="Innova">Innova</option>
+                </select>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-600">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <input
-                  type="text"
-                  placeholder="From - To"
-                  className="w-full border border-gray-400 rounded-md px-4 py-3 outline-none"
+                  name="location"
+                  value={formData.location}
+                  onChange={handleChange}
+                  placeholder="Pickup Location"
+                  className="w-full border border-gray-400 rounded-md px-4 py-3 outline-0"
                 />
                 <input
                   type="date"
-                  className="w-full border border-gray-400 rounded-md px-4 py-3 outline-none"
+                  name="startDate"
+                  value={formData.startDate}
+                  onChange={handleChange}
+                  className="w-full border border-gray-400 rounded-md px-4 py-3 outline-0"
                 />
               </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <input
+                  type="date"
+                  name="endDate"
+                  value={formData.endDate}
+                  onChange={handleChange}
+                  className="w-full border border-gray-400 rounded-md px-4 py-3 outline-0"
+                />
+                <select
+                  name="noOfAdults"
+                  value={formData.noOfAdults}
+                  onChange={handleChange}
+                  className="w-full border border-gray-400 rounded-md px-4 py-3 outline-0 text-gray-600"
+                >
+                  <option value={1}>1 Adult</option>
+                  <option value={2}>2 Adults</option>
+                  <option value={3}>3 Adults</option>
+                </select>
+              </div>
               <textarea
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
                 rows="5"
                 placeholder="Note"
-                className="w-full border border-gray-400 rounded-md px-4 py-3 outline-none"
-              ></textarea>
-              <div className="flex justify-center pt-4">
-                <div className="flex justify-center">
-                  <button
-                    className="px-3 w-full md:w-[500px] bg-red-600 hover:bg-red-700 
-  transition text-white font-semibold py-4 rounded-full text-sm md:text-base"
-                  >
-                    Claim Your Free Spot
-                  </button>
-                </div>
-              </div>
-            </div>
+                className="w-full border border-gray-400 rounded-md px-4 py-3 outline-0"
+              />
+              <button
+                type="submit"
+                disabled={loading}
+                className={`w-full md:w-[500px] mx-auto block bg-red-600 hover:bg-red-700 text-white py-4 rounded-full ${
+                  loading ? "opacity-60 cursor-not-allowed" : ""
+                }`}
+              >
+                {loading ? "Submitting..." : "Claim Your Free Spot"}
+              </button>
+            </form>
           </div>
         </div>
       </MainLayout>
