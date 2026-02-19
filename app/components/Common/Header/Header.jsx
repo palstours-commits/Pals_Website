@@ -216,7 +216,6 @@ export default function Header() {
                 exit={{ opacity: 0 }}
                 onClick={() => setOpen(false)}
               />
-
               <motion.aside
                 className="fixed top-0 right-0 h-full w-80 bg-white p-6"
                 initial={{ x: "100%" }}
@@ -231,12 +230,10 @@ export default function Header() {
                     onClick={() => setOpen(false)}
                   />
                 </div>
-
                 <nav className="flex flex-col gap-2">
                   {submenus?.map((menu, index) => {
                     const isActive = active === index;
                     const hasSubmenu = menu?.submenus?.length > 0;
-
                     return (
                       <div key={menu._id} className="flex flex-col gap-1">
                         <button
