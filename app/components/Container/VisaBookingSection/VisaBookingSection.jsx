@@ -10,6 +10,7 @@ import {
   clearServiceFormState,
 } from "@/app/store/slice/serviceFormSlice";
 import { notifyAlert } from "@/app/hooks/NotificationService";
+import SingleSelectDropdown from "@/app/common/SingleSelectDropdown";
 
 const initialVisaForm = {
   serviceType: "visa",
@@ -55,10 +56,20 @@ const VisaBookingSection = () => {
     }
   }, [message, error, dispatch]);
 
+  const visaTypeOptions = [
+    { _id: "tourist", name: "Tourist Visa" },
+    { _id: "visitor", name: "Visitor Visa" },
+    { _id: "business", name: "Business Visa" },
+    { _id: "transit", name: "Transit Visa" },
+    { _id: "work_permit", name: "Work Permit Visa" },
+    { _id: "entry", name: "Entry Visa" },
+    { _id: "conference", name: "Conference Visa" },
+  ];
+
   return (
     <>
       <CommonHeroSection
-        title="Experience the Timeless Beauty of"
+        title="Visa Services"
         backgroundImage={bannerimg.src}
         breadcrumbs={[
           { label: "Home", href: "/" },
@@ -68,11 +79,11 @@ const VisaBookingSection = () => {
       />
 
       <MainLayout>
-        <div className="bg-[#f5f5f5] py-14 md:py-20">
+        <div className="py-14 md:py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className=" mb-10">
+            <div className=" mb-10 text-center">
               <h4 className="font-bold mb-4">Visa Services</h4>
-              <p className="text-gray-600 text-sm md:text-base max-w-3xl">
+              <p className="text-gray-600 text-sm md:text-base ">
                 We provide complete visa assistance for tourist, business,
                 student, and work visas across multiple countries. Our expert
                 team guides you through documentation, application submission,
@@ -83,106 +94,151 @@ const VisaBookingSection = () => {
             </div>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <input
-                  name="firstName"
-                  value={formData.firstName}
-                  onChange={handleChange}
-                  placeholder="First Name"
-                  className="w-full border border-gray-400 rounded-md px-4 py-3 outline-0"
-                />
-                <input
-                  name="lastName"
-                  value={formData.lastName}
-                  onChange={handleChange}
-                  placeholder="Last Name"
-                  className="w-full border border-gray-400 rounded-md px-4 py-3 outline-0"
-                />
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <input
-                  name="countryOfResidence"
-                  value={formData.countryOfResidence}
-                  onChange={handleChange}
-                  placeholder="Country of Residence"
-                  className="w-full border border-gray-400 rounded-md px-4 py-3 outline-0"
-                />
-                <input
-                  name="country"
-                  value={formData.country}
-                  onChange={handleChange}
-                  placeholder="Nationality"
-                  className="w-full border border-gray-400 rounded-md px-4 py-3 outline-0"
-                />
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="Enter Your Email Id"
-                  className="w-full border border-gray-400 rounded-md px-4 py-3 outline-0"
-                />
-                <input
-                  name="phoneNo"
-                  value={formData.phoneNo}
-                  onChange={handleChange}
-                  placeholder="+91"
-                  className="w-full border border-gray-400 rounded-md px-4 py-3 outline-0"
-                />
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="relative">
-                  <select
-                    name="visaType"
-                    value={formData.visaType}
+                <div>
+                  <label className="block mb-1 text-sm font-medium text-gray-500">
+                    First Name
+                  </label>
+                  <input
+                    name="firstName"
+                    value={formData.firstName}
                     onChange={handleChange}
-                    className="w-full border border-gray-400 rounded-md px-4 py-3 outline-0 text-gray-600 appearance-none"
-                  >
-                    <option value="">Visa Type</option>
-                    <option value="Tourist">Tourist</option>
-                    <option value="Business">Business</option>
-                    <option value="Student">Student</option>
-                    <option value="Work">Work</option>
-                  </select>
-                  <ChevronDown
-                    className="absolute right-4 top-4 text-gray-500"
-                    size={18}
+                    placeholder="First Name"
+                    className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none"
                   />
                 </div>
 
-                <input
-                  name="countryToVisit"
-                  value={formData.countryToVisit}
-                  onChange={handleChange}
-                  placeholder="Country to Visit"
-                  className="w-full border border-gray-400 rounded-md px-4 py-3 outline-0"
-                />
+                <div>
+                  <label className="block mb-1 text-sm font-medium text-gray-500">
+                    Last Name
+                  </label>
+                  <input
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    placeholder="Last Name"
+                    className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none"
+                  />
+                </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <input
-                  type="date"
-                  name="travelStartDate"
-                  value={formData.travelStartDate}
+                <div>
+                  <label className="block mb-1 text-sm font-medium text-gray-500">
+                    Country of Residence
+                  </label>
+                  <input
+                    name="countryOfResidence"
+                    value={formData.countryOfResidence}
+                    onChange={handleChange}
+                    placeholder="Country of Residence"
+                    className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block mb-1 text-sm font-medium text-gray-500">
+                    Nationality
+                  </label>
+                  <input
+                    name="country"
+                    value={formData.country}
+                    onChange={handleChange}
+                    placeholder="Nationality"
+                    className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none"
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block mb-1 text-sm font-medium text-gray-500">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="Enter Your Email Id"
+                    className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block mb-1 text-sm font-medium text-gray-500">
+                    Phone Number
+                  </label>
+                  <input
+                    name="phoneNo"
+                    value={formData.phoneNo}
+                    onChange={handleChange}
+                    placeholder="+91"
+                    className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none"
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="relative">
+                  <SingleSelectDropdown
+                    label="Visa Type"
+                    options={visaTypeOptions}
+                    value={formData.visaType}
+                    onChange={(val) =>
+                      setFormData((prev) => ({ ...prev, visaType: val }))
+                    }
+                    placeholder="Select Visa Type"
+                    searchable={false}
+                  />
+                </div>
+                <div>
+                  <label className="block mb-1 text-sm font-medium text-gray-500">
+                    Country to Visit
+                  </label>
+                  <input
+                    name="countryToVisit"
+                    value={formData.countryToVisit}
+                    onChange={handleChange}
+                    placeholder="Country to Visit"
+                    className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none"
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block mb-1 text-sm font-medium text-gray-500">
+                    Travel Start Date
+                  </label>
+                  <input
+                    type="date"
+                    name="travelStartDate"
+                    value={formData.travelStartDate}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none text-gray-500"
+                  />
+                </div>
+                <div>
+                  <label className="block mb-1 text-sm font-medium text-gray-500">
+                    Travel End Date
+                  </label>
+                  <input
+                    type="date"
+                    name="travelEndDate"
+                    value={formData.travelEndDate}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none text-gray-500"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block mb-1 text-sm font-medium text-gray-500">
+                  Additional Note
+                </label>
+                <textarea
+                  name="message"
+                  value={formData.message}
                   onChange={handleChange}
-                  className="w-full border border-gray-400 rounded-md px-4 py-3 outline-0 text-gray-500"
-                />
-                <input
-                  type="date"
-                  name="travelEndDate"
-                  value={formData.travelEndDate}
-                  onChange={handleChange}
-                  className="w-full border border-gray-400 rounded-md px-4 py-3 outline-0 text-gray-500"
+                  rows="5"
+                  placeholder="Note"
+                  className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none"
                 />
               </div>
-              <textarea
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                rows="5"
-                placeholder="Note"
-                className="w-full border border-gray-400 rounded-md px-4 py-3 outline-0"
-              />
               <button
                 type="submit"
                 disabled={loading}

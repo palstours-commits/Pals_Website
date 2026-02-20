@@ -53,14 +53,14 @@ const SingleSelectDropdown = ({
   return (
     <div className="relative w-full" ref={dropdownRef}>
       {label && (
-        <label className="block text-sm  mb-1 text-gray-600">{label}</label>
+        <label className="block text-sm  mb-1 text-gray-500">{label}</label>
       )}
       <div
         className="w-full py-3 px-2 border border-gray-300 rounded-md cursor-pointer 
-                flex items-center justify-between bg-white relative"
+                flex items-center justify-between  relative"
         onClick={() => setOpen(!open)}
       >
-        <span className={value ? "text-gray-900" : "text-gray-400"}>
+        <span className={value ? "text-gray-600" : "text-gray-400"}>
           {selectedItem ? selectedItem[labelKey] : placeholder}
         </span>
 

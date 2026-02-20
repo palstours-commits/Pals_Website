@@ -10,6 +10,7 @@ import {
   submitFlightForm,
 } from "@/app/store/slice/serviceFormSlice";
 import { notifyAlert } from "@/app/hooks/NotificationService";
+import SingleSelectDropdown from "@/app/common/SingleSelectDropdown";
 
 const initialForm = {
   serviceType: "flight",
@@ -18,7 +19,7 @@ const initialForm = {
   phoneNo: "",
   country: "",
   countryOfResidence: "",
-  flightType: "Round-trip",
+  flightType: "",
   from: "",
   to: "",
   departureDate: "",
@@ -68,10 +69,15 @@ const FlightBookingSection = () => {
       dispatch(clearServiceFormState());
     }
   }, [message, error, dispatch]);
+
+  const flightTypeOptions = [
+    { _id: "Economic", name: "Economic" },
+    { _id: "First Class", name: "First Class" },
+  ];
   return (
     <>
       <CommonHeroSection
-        title={`Experience the Timeless Beauty of `}
+        title={`Flight`}
         backgroundImage={bannerimg.src}
         breadcrumbs={[
           { label: "Home", href: "/" },
@@ -80,13 +86,13 @@ const FlightBookingSection = () => {
         ]}
       />
       <MainLayout>
-        <div className="bg-[#f5f5f5] py-14 md:py-20">
+        <div className=" py-14 md:py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className=" mb-10">
+            <div className=" mb-10 text-center" >
               <h4 className="font-bold mb-4">
                 Book Flights Online with Pals Holidays at affordable rates.
               </h4>
-              <p className="text-gray-600 text-sm md:text-base max-w-3xl">
+              <p className="text-gray-600 text-sm md:text-base">
                 Book flights online and enjoy affordable fares, warm service and
                 reliable operations to destinations across India. We are
                 available for 24*7 for our customers. Reserve, book and rebook
@@ -95,127 +101,164 @@ const FlightBookingSection = () => {
             </div>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Enter Your Full Name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="w-full border border-gray-400 rounded-md px-4 py-3 outline-none"
-                />
-                <div className="relative">
+                <div>
+                  <label className="block mb-1 text-sm font-medium text-gray-500">
+                    Full Name
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Enter Your Full Name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block mb-1 text-sm font-medium text-gray-500">
+                    Country of Residence
+                  </label>
                   <input
                     type="text"
                     name="countryOfResidence"
                     placeholder="Enter Your Residence"
                     value={formData.countryOfResidence}
                     onChange={handleChange}
-                    className="w-full border border-gray-400 rounded-md px-4 py-3 outline-none"
+                    className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none"
                   />
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Enter Your Email Id"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="w-full border border-gray-400 rounded-md px-4 py-3 outline-none"
-                />
-
-                <input
-                  type="text"
-                  name="phoneNo"
-                  placeholder="+91"
-                  value={formData.phoneNo}
-                  onChange={handleChange}
-                  className="w-full border border-gray-400 rounded-md px-4 py-3 outline-none"
-                />
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="relative">
-                  <select
-                    name="flightType"
-                    value={formData.flightType}
+                <div>
+                  <label className="block mb-1 text-sm font-medium text-gray-500">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Enter Your Email Id"
+                    value={formData.email}
                     onChange={handleChange}
-                    className="w-full border border-gray-400 rounded-md px-4 py-3 text-gray-600 appearance-none outline-none"
-                  >
-                    <option value="Round-trip">Round-trip</option>
-                    <option value="One-way">One-way</option>
-                  </select>
-                  <ChevronDown
-                    className="absolute right-4 top-4 text-gray-500"
-                    size={18}
+                    className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block mb-1 text-sm font-medium text-gray-500">
+                    Phone Number
+                  </label>
+                  <input
+                    type="text"
+                    name="phoneNo"
+                    placeholder="+91"
+                    value={formData.phoneNo}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none"
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="relative">
+                  <SingleSelectDropdown
+                    label="Flight Type"
+                    options={flightTypeOptions}
+                    value={formData.flightType}
+                    onChange={(val) =>
+                      setFormData((prev) => ({ ...prev, flightType: val }))
+                    }
+                    placeholder="Select Flight Type"
                   />
                 </div>
                 <div className="relative">
-                  <select
+                  <label className="block mb-1 text-sm font-medium text-gray-500">
+                    Number of Adults
+                  </label>
+                  <input
+                    type="number"
                     name="noOfAdults"
+                    placeholder="Enter Your Residence"
                     value={formData.noOfAdults}
                     onChange={handleChange}
-                    className="w-full border border-gray-400 rounded-md px-4 py-3 text-gray-600 appearance-none outline-none"
-                  >
-                    <option value={1}>1 Adult</option>
-                    <option value={2}>2 Adults</option>
-                    <option value={3}>3 Adults</option>
-                  </select>
-                  <ChevronDown
-                    className="absolute right-4 top-4 text-gray-500"
-                    size={18}
+                    className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none"
                   />
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <input
-                  type="text"
-                  name="from"
-                  placeholder="From"
-                  value={formData.from}
-                  onChange={handleChange}
-                  className="w-full border border-gray-400 rounded-md px-4 py-3 outline-none "
-                />
-                <input
-                  type="text"
-                  name="to"
-                  placeholder="To"
-                  value={formData.to}
-                  onChange={handleChange}
-                  className="w-full border border-gray-400 rounded-md px-4 py-3 outline-none"
-                />
+                <div>
+                  <label className="block mb-1 text-sm font-medium text-gray-500">
+                    From
+                  </label>
+                  <input
+                    type="text"
+                    name="from"
+                    placeholder="From"
+                    value={formData.from}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block mb-1 text-sm font-medium text-gray-500">
+                    To
+                  </label>
+                  <input
+                    type="text"
+                    name="to"
+                    placeholder="To"
+                    value={formData.to}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none"
+                  />
+                </div>
               </div>
-
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <input
-                  type="date"
-                  name="departureDate"
-                  value={formData.departureDate}
-                  onChange={handleChange}
-                  className="w-full border border-gray-400 rounded-md px-4 py-3 outline-none text-gray-500"
-                />
+                <div>
+                  <label className="block mb-1 text-sm font-medium text-gray-500">
+                    Departure Date
+                  </label>
+                  <input
+                    type="date"
+                    name="departureDate"
+                    value={formData.departureDate}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none text-gray-500"
+                  />
+                </div>
 
-                <input
-                  type="date"
-                  name="returnDate"
-                  value={formData.returnDate}
+                <div>
+                  <label className="block mb-1 text-sm font-medium text-gray-500">
+                    Return Date
+                  </label>
+                  <input
+                    type="date"
+                    name="returnDate"
+                    value={formData.returnDate}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none text-gray-500"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block mb-1 text-sm font-medium text-gray-500">
+                  Additional Note
+                </label>
+                <textarea
+                  rows="5"
+                  name="message"
+                  placeholder="Note"
+                  value={formData.message}
                   onChange={handleChange}
-                  className="w-full border border-gray-400 rounded-md px-4 py-3 outline-none text-gray-500"
+                  className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none"
                 />
               </div>
-              <textarea
-                rows="5"
-                name="message"
-                placeholder="Note"
-                value={formData.message}
-                onChange={handleChange}
-                className="w-full border border-gray-400 rounded-md px-4 py-3 outline-none"
-              />
               <div className="flex justify-center pt-4">
                 <button
                   type="submit"
                   disabled={loading}
-                  onClick={() => console.log(formData)}
-                  className={`px-3 w-full md:w-[500px] bg-red-600 hover:bg-red-700 transition text-white font-semibold py-4 rounded-full ${loading ? "opacity-60 cursor-not-allowed hover:bg-red-600" : ""}`}
+                  className={`px-3 w-full md:w-[500px] bg-red-600 hover:bg-red-700 transition text-white font-semibold py-4 rounded-full ${
+                    loading
+                      ? "opacity-60 cursor-not-allowed hover:bg-red-600"
+                      : ""
+                  }`}
                 >
                   {loading ? "Submitting..." : "Claim Your Free Spot"}
                 </button>

@@ -9,7 +9,7 @@ const CommonHeroSection = ({
   backgroundImage,
   breadcrumbs = [],
   height = "h-[350px]",
-  overlay = "bg-gradient-to-t from-black/70 via-black/40 to-black/20",
+  overlay = "bg-gradient-to-t from-black/20 via-black/10 to-black/10",
 }) => {
   const bgImage = getImageUrl(backgroundImage);
   return (
@@ -47,7 +47,6 @@ const CommonHeroSection = ({
         <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold drop-shadow-lg capitalize">
           {title}
         </h3>
-
         {subtitle && (
           <p className="mt-4 text-base md:text-lg text-white/90 drop-shadow">
             {subtitle}

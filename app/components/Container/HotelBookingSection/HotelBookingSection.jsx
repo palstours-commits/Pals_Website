@@ -10,6 +10,7 @@ import {
 } from "@/app/store/slice/serviceFormSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { notifyAlert } from "@/app/hooks/NotificationService";
+import SingleSelectDropdown from "@/app/common/SingleSelectDropdown";
 
 const initialHotelForm = {
   serviceType: "hotel",
@@ -65,10 +66,16 @@ const HotelBookingSection = () => {
     }
   }, [message, error, dispatch]);
 
+  const roomTypeOptions = [
+    { _id: "premium", name: "Premium" },
+    { _id: "standard", name: "Standard" },
+    { _id: "luxury", name: "Luxury" },
+  ];
+
   return (
     <>
       <CommonHeroSection
-        title={`Experience the Timeless Beauty of `}
+        title={`Hotel Booking`}
         backgroundImage={bannerimg.src}
         breadcrumbs={[
           { label: "Home", href: "/" },
@@ -76,14 +83,15 @@ const HotelBookingSection = () => {
           { label: title || "Destination" },
         ]}
       />
+
       <MainLayout>
-        <div className="bg-[#f5f5f5] py-14 md:py-20">
+        <div className="py-14 md:py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className=" mb-10">
+            <div className=" mb-10 text-center">
               <h4 className="font-bold mb-4">
                 Book Hotels Online with Pals Holidays at affordable rates.
               </h4>
-              <p className="text-gray-600 text-sm md:text-base max-w-3xl">
+              <p className="text-gray-600 text-sm md:text-base ">
                 Book Hotels online and enjoy affordable fares, warm service and
                 reliable operations to destinations across India. We are
                 available for 24*7 for our customers. Reserve, book and rebook
@@ -92,105 +100,151 @@ const HotelBookingSection = () => {
             </div>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <input
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  placeholder="Enter Your Full Name"
-                  className="w-full border border-gray-400 rounded-md px-4 py-3 outline-none"
-                />
-                <div className="relative">
+                <div>
+                  <label className="block mb-1 text-sm font-medium text-gray-500">
+                    Full Name
+                  </label>
+                  <input
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="Enter Your Full Name"
+                    className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block mb-1 text-sm font-medium text-gray-500">
+                    Country of Residence
+                  </label>
                   <input
                     type="text"
                     name="countryOfResidence"
                     placeholder="Enter Your Residence"
                     value={formData.countryOfResidence}
                     onChange={handleChange}
-                    className="w-full border border-gray-400 rounded-md px-4 py-3 outline-none"
+                    className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none"
                   />
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="Enter Your Email Id"
-                  className="w-full border border-gray-400 rounded-md px-4 py-3 outline-none"
-                />
-                <input
-                  name="phoneNo"
-                  value={formData.phoneNo}
-                  onChange={handleChange}
-                  placeholder="+91"
-                  className="w-full border border-gray-400 rounded-md px-4 py-3 outline-none"
-                />
+                <div>
+                  <label className="block mb-1 text-sm font-medium text-gray-500">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="Enter Your Email Id"
+                    className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block mb-1 text-sm font-medium text-gray-500">
+                    Phone Number
+                  </label>
+                  <input
+                    name="phoneNo"
+                    value={formData.phoneNo}
+                    onChange={handleChange}
+                    placeholder="+91"
+                    className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none"
+                  />
+                </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <select
-                  name="roomType"
-                  value={formData.roomType}
-                  onChange={handleChange}
-                  className="w-full border border-gray-400 rounded-md px-4 py-3 text-gray-600 outline-0"
-                >
-                  <option value="">Room Type</option>
-                  <option value="Deluxe">Deluxe</option>
-                  <option value="Standard">Standard</option>
-                </select>
-
-                <select
-                  name="rooms"
-                  value={formData.rooms}
-                  onChange={handleChange}
-                  className="w-full border border-gray-400 rounded-md px-4 py-3 text-gray-600 outline-0"
-                >
-                  <option value={1}>1 Room</option>
-                  <option value={2}>2 Rooms</option>
-                </select>
+                <div>
+                  <SingleSelectDropdown
+                    label="Room Type"
+                    options={roomTypeOptions}
+                    value={formData.roomType}
+                    onChange={(val) =>
+                      setFormData((prev) => ({ ...prev, roomType: val }))
+                    }
+                    placeholder="Select Room Type"
+                  />
+                </div>
+                <div>
+                  <label className="block mb-1 text-sm font-medium text-gray-500">
+                    Number of Rooms
+                  </label>
+                  <input
+                    name="rooms"
+                    type="number"
+                    value={formData.rooms}
+                    onChange={handleChange}
+                    placeholder="Rooms"
+                    className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none"
+                  />
+                </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <input
-                  name="destination"
-                  value={formData.destination}
-                  onChange={handleChange}
-                  placeholder="Destination"
-                  className="w-full border border-gray-400 rounded-md px-4 py-3 outline-none"
-                />
-                <input
-                  type="date"
-                  name="checkInDate"
-                  value={formData.checkInDate}
-                  onChange={handleChange}
-                  className="w-full border border-gray-400 rounded-md px-4 py-3 outline-0"
-                />
+                <div>
+                  <label className="block mb-1 text-sm font-medium text-gray-500">
+                    Destination
+                  </label>
+                  <input
+                    name="destination"
+                    value={formData.destination}
+                    onChange={handleChange}
+                    placeholder="Destination"
+                    className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block mb-1 text-sm font-medium text-gray-500">
+                    Number of Adults
+                  </label>
+                  <input
+                    name="noOfAdults"
+                    value={formData.noOfAdults}
+                    onChange={handleChange}
+                    placeholder="Adults"
+                    className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none"
+                  />
+                </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <input
-                  type="date"
-                  name="checkOutDate"
-                  value={formData.checkOutDate}
-                  onChange={handleChange}
-                  className="w-full border border-gray-400 rounded-md px-4 py-3 outline-0"
-                />
-                <select
-                  name="noOfAdults"
-                  value={formData.noOfAdults}
-                  onChange={handleChange}
-                  className="w-full border border-gray-400 rounded-md px-4 py-3 text-gray-600 outline-none"
-                >
-                  <option value={1}>1 Adult</option>
-                  <option value={2}>2 Adults</option>
-                </select>
+                <div>
+                  <label className="block mb-1 text-sm font-medium text-gray-500">
+                    Check-in Date
+                  </label>
+                  <input
+                    type="date"
+                    name="checkInDate"
+                    value={formData.checkInDate}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none text-gray-500"
+                  />
+                </div>
+                <div>
+                  <label className="block mb-1 text-sm font-medium text-gray-500">
+                    Check-out Date
+                  </label>
+                  <input
+                    type="date"
+                    name="checkOutDate"
+                    value={formData.checkOutDate}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none text-gray-500"
+                  />
+                </div>
               </div>
-              <textarea
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                rows="5"
-                placeholder="Note"
-                className="w-full border border-gray-400 rounded-md px-4 py-3 outline-none"
-              />
+              <div>
+                <label className="block mb-1 text-sm font-medium text-gray-500">
+                  Additional Note
+                </label>
+                <textarea
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  rows="5"
+                  placeholder="Note"
+                  className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none"
+                />
+              </div>
               <button
                 type="submit"
                 disabled={loading}

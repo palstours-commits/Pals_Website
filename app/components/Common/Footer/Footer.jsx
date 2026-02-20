@@ -63,25 +63,34 @@ export default function Footer() {
             <h4 className="font-semibold mb-6">Services</h4>
             <ul className="space-y-3 text-sm text-gray-300">
               <li>
-                <Link href="/flight" className="hover:text-white transition">
+                <Link
+                  href="/service/flight"
+                  className="hover:text-white transition"
+                >
                   Flights
                 </Link>
               </li>
               <li>
-                <Link href="/hotel" className="hover:text-white transition">
+                <Link
+                  href="/service/hotel"
+                  className="hover:text-white transition"
+                >
                   Hotels
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/transportation"
+                  href="/service/transport"
                   className="hover:text-white transition"
                 >
                   Transportation Services
                 </Link>
               </li>
               <li>
-                <Link href="/visa" className="hover:text-white transition">
+                <Link
+                  href="/service/visa"
+                  className="hover:text-white transition"
+                >
                   Visa
                 </Link>
               </li>
