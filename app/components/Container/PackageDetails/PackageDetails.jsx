@@ -263,11 +263,11 @@ const PackageDetails = ({ slug }) => {
         <div>
           <div className="py-12 md:py-16">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
-                <div>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-stretch">
+                <div className="h-[600px] overflow-y-auto pr-2">
                   <h2
                     id="information"
-                    className=" font-bold mb-6 md:mb-8 scroll-mt-[140px]"
+                    className="font-bold mb-6 md:mb-8 scroll-mt-[140px]"
                   >
                     Important Information
                   </h2>
@@ -286,7 +286,6 @@ const PackageDetails = ({ slug }) => {
                       </button>
                     ))}
                   </div>
-
                   <h4 className="font-semibold mb-4 text-lg">
                     Hotel Accommodation Details
                   </h4>
@@ -299,7 +298,9 @@ const PackageDetails = ({ slug }) => {
                     ))}
                   </ul>
                 </div>
-                <PackageForm packageId={singlePackage?._id} />
+                <div className="h-[600px]">
+                  <PackageForm packageId={singlePackage?._id} />
+                </div>
               </div>
             </div>
           </div>
