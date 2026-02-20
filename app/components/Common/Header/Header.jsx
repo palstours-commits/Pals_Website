@@ -64,7 +64,7 @@ export default function Header() {
               priority
             />
           </Link>
-          <nav className="hidden lg:flex ml-10  max-w-[600px]  2xl:max-w-[520px] ">
+          <nav className="hidden lg:flex ml-3  max-w-[600px]  2xl:max-w-[520px] ">
             <div className="flex items-center  min-w-max">
               {submenus?.map((menu, index) => {
                 const isActive = active === index;
