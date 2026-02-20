@@ -6,7 +6,7 @@ export const getOffers = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await FetchApi({
-        endpoint: "/offer",
+        endpoint: "/user/offer",
         method: "GET",
       });
 
@@ -37,7 +37,7 @@ const offerSlice = createSlice({
       })
       .addCase(getOffers.fulfilled, (state, action) => {
         state.loading = false;
-        state.offers = action.payload?.Offers || [];
+        state.offers = action.payload?.offers || [];
       })
       .addCase(getOffers.rejected, (state, action) => {
         state.loading = false;

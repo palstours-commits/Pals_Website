@@ -8,6 +8,7 @@ import serviceReducer from "./slice/serviceFormSlice";
 import zonesReducer from "./slice/zoneSlice";
 import iconReducer from "./slice/iconSlice";
 import offersReducer from "./slice/offerSlice";
+import blogReducer from "./slice/blogSlice";
 const reducer = combineReducers({
   menu: menuReducer,
   submenu: submenuReducer,
@@ -18,5 +19,6 @@ const reducer = combineReducers({
   zones: zonesReducer,
   icons: iconReducer,
   offers: offersReducer,
+  blog: blogReducer,
 });
 export default reducer;

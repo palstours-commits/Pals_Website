@@ -1,19 +1,21 @@
 "use client";
-import React, { useRef, useState } from "react";
-import Image from "next/image";
-import Inspiration from "@/app/assets/inspiration.png";
+import React, { useEffect, useRef, useState } from "react";
 import MainLayout from "@/app/common/MainLayout";
 import { motion } from "framer-motion";
 import { fadeContainer, fadeItem } from "@/app/common/animations";
-
-const blogs = Array.from({ length: 6 }).map((_, i) => ({
-  id: i + 1,
-  img: Inspiration,
-  date: "28/11/2025",
-  title: "10 European ski destinations you should visit this winter",
-}));
+import { useDispatch, useSelector } from "react-redux";
+import { getBlogs } from "@/app/store/slice/blogSlice";
+import CustomImage from "@/app/common/Image";
+import Link from "next/link";
 
 const InspirationSection = () => {
+  const dispatch = useDispatch();
+  const { blogs } = useSelector((state) => state.blog);
+
+  useEffect(() => {
+    dispatch(getBlogs());
+  }, []);
+
   const containerRef = useRef(null);
   const [active, setActive] = useState(0);
   const cardWidth = 320;
@@ -52,33 +54,34 @@ const InspirationSection = () => {
           onScroll={handleScroll}
           className="flex gap-6 overflow-x-auto scrollbar-hide scroll-smooth whitespace-nowrap pb-2"
         >
-          {blogs.map((item) => (
+          {blogs?.map((item) => (
             <motion.div
-              key={item.id}
+              key={item._id}
               variants={fadeItem}
               className="min-w-[241px] lg:min-w-[400px] shrink-0 text-left will-change-transform translate-z-0"
             >
               <div className="w-full h-44 rounded-xl overflow-hidden mb-3">
-                <Image
-                  src={item.img}
+                <CustomImage
+                  src={item.featuredImage}
                   alt={item.title}
                   className="w-full h-full object-cover"
                 />
               </div>
-
-              <p className="text-xs text-gray-500 mb-1">{item.date}</p>
-
-              <p className="text-sm font-medium leading-snug line-clamp-2">
+              <p className="text-xs text-gray-500 mb-1">
+                {new Date(item.createdAt).toLocaleDateString()}
+              </p>
+              <p className="text-sm font-medium leading-snug line-clamp-2 mb-2">
                 {item.title}
               </p>
-
-              <button className="mt-3 border border-gray-700 text-xs rounded-full px-4 py-1">
+              <Link
+                href={"/blog"}
+                className=" border border-gray-700 text-xs rounded-full px-4 py-1"
+              >
                 Know more
-              </button>
+              </Link>
             </motion.div>
           ))}
         </div>
-
         <motion.div
           variants={fadeItem}
           className="flex justify-center gap-2 mt-6 cursor-pointer"

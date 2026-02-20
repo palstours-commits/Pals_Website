@@ -30,8 +30,8 @@ const offers = [
 const TrendingOffers = () => {
   const sliderRef = useRef(null);
   const dispatch = useDispatch();
-  const { offer } = useSelector((state) => state.offers);
-  console.log(offer);
+  const { blog } = useSelector((state) => state.offers);
+console.log(blog);
 
   useEffect(() => {
     dispatch(getOffers());

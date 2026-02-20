@@ -1,10 +1,21 @@
-import React from "react";
+"use client";
+import React, { useEffect } from "react";
 import CommonHeroSection from "@/app/common/CommonHeroSection";
 import bannerimg from "@/app/assets/blog-bg.svg";
-import { blogData } from "@/app/utils/mockDatas";
 import BlogCard from "@/app/common/BlogCard";
+import { useDispatch, useSelector } from "react-redux";
+import { getBlogs } from "@/app/store/slice/blogSlice";
 
 const BlogSection = () => {
+  const dispatch = useDispatch();
+  const { blogs } = useSelector((state) => state.blog);
+
+  useEffect(() => {
+    dispatch(getBlogs());
+  }, [dispatch]);
+
+  if (!blogs?.length) return null;
+
   return (
     <>
       <CommonHeroSection
@@ -24,20 +35,19 @@ const BlogSection = () => {
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="md:col-span-2 h-[500px]">
-            <BlogCard item={blogData[0]} />
+            <BlogCard item={blogs[0]} />
           </div>
           <div className="flex flex-col gap-6">
-            <div className="h-[241px]">
-              <BlogCard item={blogData[1]} />
-            </div>
-            <div className="h-[241px]">
-              <BlogCard item={blogData[2]} />
-            </div>
+            {blogs.slice(1, 3).map((item) => (
+              <div key={item._id} className="h-[241px]">
+                <BlogCard item={item} />
+              </div>
+            ))}
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {blogData?.slice(4).map((item) => (
-            <div key={item.id} className="h-[250px]">
+          {blogs.slice(3).map((item) => (
+            <div key={item._id} className="h-[250px]">
               <BlogCard item={item} />
             </div>
           ))}
