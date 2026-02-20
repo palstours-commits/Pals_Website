@@ -1,6 +1,8 @@
 "use client";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { getOffers } from "@/app/store/slice/offerSlice";
 
 const offers = [
   {
@@ -27,6 +29,13 @@ const offers = [
 
 const TrendingOffers = () => {
   const sliderRef = useRef(null);
+  const dispatch = useDispatch();
+  const { offer } = useSelector((state) => state.offers);
+  console.log(offer);
+
+  useEffect(() => {
+    dispatch(getOffers());
+  }, []);
 
   const scroll = (dir) => {
     sliderRef.current.scrollBy({

@@ -118,7 +118,7 @@ const HomeBannerSection = () => {
           </SwiperSlide>
         ))}
       </Swiper>
-      <div className="absolute z-20 bottom-20 md:bottom-32 2xl:bottom-40 4xl:bottom-60 2xl:left-14 right-10 md:right-0 px-4 sm:px-6 lg:px-8">
+      <div className="absolute z-20 bottom-20 md:bottom-25 2xl:bottom-40 4xl:bottom-60 left-0 2xl:left-14 right-10 md:right-0 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="w-full max-w-xl bg-white rounded-full flex items-center shadow-lg px-2 py-3 md:py-2">
             <Camera size={20} className="text-gray-500 ml-2" />
