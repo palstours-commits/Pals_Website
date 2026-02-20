@@ -17,6 +17,7 @@ import navItemIcon from "@/app/assets/navlink_icon.svg";
 import navActiveIcon from "@/app/assets/nav_active-icon.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { getSubMenus } from "@/app/store/slice/submenuSlice";
+import CustomImage from "@/app/common/Image";
 
 export default function Header() {
   const dispatch = useDispatch();
@@ -60,7 +61,6 @@ export default function Header() {
               {submenus?.map((menu, index) => {
                 const isActive = active === index;
                 const hasSubmenu = menu?.submenus?.length > 0;
-
                 return (
                   <div
                     key={menu._id}
@@ -77,8 +77,8 @@ export default function Header() {
                 : "text-gray-700 hover:text-red-500"
             }`}
                       >
-                        <Image
-                          src={isActive ? navActiveIcon : navItemIcon}
+                        <CustomImage
+                          src={menu?.icon}
                           alt="icon"
                           className="w-5 h-5 object-contain"
                         />
@@ -93,8 +93,8 @@ export default function Header() {
                         href={`/${menu.slug}`}
                         className="flex items-center gap-2 px-3 py-2 rounded-full text-sm font-medium text-gray-700 hover:text-red-500"
                       >
-                        <Image
-                          src={navItemIcon}
+                        <CustomImage
+                          src={menu?.icon}
                           alt="icon"
                           className="w-5 h-5 object-contain"
                         />
