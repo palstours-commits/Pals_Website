@@ -62,7 +62,7 @@ const HomeBannerSection = () => {
                 className="object-cover"
               />
 
-              <div className="absolute inset-0 bg-black/40" />
+              <div className="absolute inset-0 bg-black/20" />
               <div className="relative z-10 h-full flex items-center px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
                 <div className="text-white">
                   <div className="flex items-center gap-4 mb-4">
@@ -109,7 +109,7 @@ const HomeBannerSection = () => {
           </SwiperSlide>
         ))}
       </Swiper>
-      <div className="absolute z-20 bottom-24 lg:bottom-32 2xl:bottom-40 2xl:left-14 right-0 px-4 sm:px-6 lg:px-8">
+      <div className="absolute z-20 bottom-24 lg:bottom-32 2xl:bottom-40 4xl:bottom-60 2xl:left-14 right-0 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="w-full max-w-xl bg-white rounded-full flex items-center shadow-lg px-2 py-3 md:py-2">
             <Camera size={20} className="text-gray-500 ml-2" />
