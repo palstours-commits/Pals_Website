@@ -4,8 +4,6 @@ import React, { useEffect, useState } from "react";
 import bannerimg from "@/app/assets/contact-banner.svg";
 import { Mail, MapPin, Phone } from "lucide-react";
 import MainLayout from "@/app/common/MainLayout";
-import ContactBgimg from "@/app/assets/contact-bg.svg";
-import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import {
   clearContactState,
@@ -263,12 +261,12 @@ const Contactsection = () => {
         </div>
       </MainLayout>
       <MainLayout>
-        <div className="relative w-full ">
-          <Image
-            src={ContactBgimg}
-            alt="Map Background"
-            className="w-full h-[420px] object-cover"
-            priority
+        <div className="w-full h-[302px] md:h-[421px]">
+          <iframe
+            title="Google Map"
+            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15544.705809832558!2d80.178049!3d13.088001!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x824d29be61867bdb%3A0x2f78c920f9dd537c!2sPals%20Holidays!5e0!3m2!1sen!2sin!4v1771585251396!5m2!1sen!2sin"
+            className="w-full h-full border-0"
+            loading="lazy"
           />
         </div>
       </MainLayout>

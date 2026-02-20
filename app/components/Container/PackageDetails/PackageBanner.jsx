@@ -1,17 +1,26 @@
+"use client";
 import React from "react";
-import bannerimg from "@/app/assets/tample.svg";
 
-const Packagebanner = () => {
+const PackageBanner = ({ bgimg }) => {
+  if (!bgimg) {
+    return (
+      <div className="w-full h-[300px] bg-gray-200 flex items-center justify-center">
+        <p className="text-gray-500">Loading banner...</p>
+      </div>
+    );
+  }
+
   return (
     <div
-      className="relative w-full h-[300px]"
+      className="relative w-full h-[360px]"
       style={{
-        backgroundImage: `url(${bannerimg.src})`,
+        backgroundImage: `url(${encodeURI(bgimg)})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
       }}
-    ></div>
+    />
   );
 };
 
-export default Packagebanner;
+export default PackageBanner;

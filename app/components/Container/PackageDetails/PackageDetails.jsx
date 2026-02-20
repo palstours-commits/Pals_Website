@@ -56,7 +56,9 @@ const PackageDetails = ({ slug }) => {
   const { singlePackage } = useSelector((state) => state.packages);
   const { icons } = useSelector((state) => state.icons);
   const { message, error } = useSelector((state) => state.enquiry);
-
+  const bannerImage = singlePackage?.images?.[0]
+    ? `${process.env.NEXT_PUBLIC_BASE_IMAGE_URL}${singlePackage.images[0]}`
+    : null;
 
   useEffect(() => {
     dispatch(getPackagesById(slug));
@@ -101,7 +103,7 @@ const PackageDetails = ({ slug }) => {
 
   return (
     <>
-      <PackageBaneer />
+      <PackageBaneer bgimg={bannerImage} />
       <div className="w-full bg-secondary py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           <div className="text-white">
