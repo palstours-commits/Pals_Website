@@ -2,7 +2,6 @@
 import CommonHeroSection from "@/app/common/CommonHeroSection";
 import React, { useEffect, useState } from "react";
 import bannerimg from "@/app/assets/flight-bg.svg";
-import { ChevronDown } from "lucide-react";
 import MainLayout from "@/app/common/MainLayout";
 import { useDispatch, useSelector } from "react-redux";
 import {

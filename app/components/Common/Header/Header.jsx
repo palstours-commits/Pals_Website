@@ -36,6 +36,14 @@ export default function Header() {
     { name: "Visa", slug: "visa" },
   ];
 
+  const COMPANY_MENU = [
+    { name: "About Us", slug: "about-us" },
+    { name: "Our Values", slug: "our-values" },
+    { name: "Blog", slug: "blog" },
+    { name: "Career", slug: "career" },
+    { name: "Contact Us", slug: "contact-us" },
+  ];
+
   return (
     <>
       <div className="w-full bg-black text-white text-xs font-light text-center py-2 hidden md:block">
@@ -57,7 +65,7 @@ export default function Header() {
             />
           </Link>
           <nav className="hidden lg:flex ml-10  max-w-[600px]  2xl:max-w-[520px] ">
-            <div className="flex items-center gap-1 min-w-max">
+            <div className="flex items-center gap-5 min-w-max">
               {submenus?.map((menu, index) => {
                 const isActive = active === index;
                 const hasSubmenu = menu?.submenus?.length > 0;
@@ -150,6 +158,47 @@ export default function Header() {
                       <Link
                         key={item.slug}
                         href={`/service/${item.slug}`}
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      >
+                        {item.name}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <div
+                className="relative shrink-0"
+                onMouseEnter={() => setActive("company")}
+                onMouseLeave={() => setActive(null)}
+              >
+                <button
+                  className={`flex items-center gap-2 px-3 py-2 rounded-full text-sm font-medium transition
+      ${
+        active === "company"
+          ? "border border-red-500 text-red-500 bg-[#FFDCDA]"
+          : "text-gray-700 hover:text-red-500"
+      }`}
+                >
+                  <Image
+                    src={active === "company" ? navActiveIcon : navItemIcon}
+                    alt="icon"
+                    className="w-5 h-5 object-contain"
+                  />
+                  Company
+                  <ChevronDown
+                    size={16}
+                    className={`transition-transform ${
+                      active === "company" ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+
+                {active === "company" && (
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 w-56 bg-white shadow-lg rounded-lg py-2 z-50">
+                    {COMPANY_MENU?.map((item) => (
+                      <Link
+                        key={item.slug}
+                        href={`/${item.slug}`}
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       >
                         {item.name}

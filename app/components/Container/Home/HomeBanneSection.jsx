@@ -9,26 +9,33 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 
-import BannerImg from "@/app/assets/banner_img.svg";
-import BannerImg1 from "@/app/assets/BannerImg1.jpg";
-import BannerImg2 from "@/app/assets/BannerImg2.jpg";
+import BannerImg1 from "@/app/assets/banner_img.svg";
+import BannerImg2 from "@/app/assets/BannerImg2.svg";
+import BannerImg3 from "@/app/assets/BannerImg3.svg";
+import BannerImg4 from "@/app/assets/BannerImg4.svg";
 
 const slides = [
   {
-    image: BannerImg,
+    image: BannerImg1,
     title: "Live the Moments.",
     subtitle: "Love the Journey.",
     desc: "Plan your dream escape — mountains, beaches, cities & more!",
   },
   {
-    image: BannerImg1,
+    image: BannerImg2,
     title: "Explore the World.",
     subtitle: "Create Memories.",
     desc: "Discover unforgettable destinations and experiences.",
     Title: "Explore the World.",
   },
   {
-    image: BannerImg2,
+    image: BannerImg3,
+    title: "Discover New Places.",
+    subtitle: "Embrace Adventures.",
+    desc: "Experience the beauty of diverse cultures and landscapes.",
+  },
+  {
+    image: BannerImg4,
     title: "Discover New Places.",
     subtitle: "Embrace Adventures.",
     desc: "Experience the beauty of diverse cultures and landscapes.",
@@ -60,7 +67,7 @@ const HomeBannerSection = () => {
 
               <div className="relative z-10 h-full flex items-center px-4 sm:px-6 lg:px-8  max-w-7xl mx-auto">
                 <div className=" text-white">
-                  <h1 className="font-bold max-w-3xl leading-10 xl:leading-16">
+                  <h1 className="font-bold max-w-3xl leading-10 xl:leading-18">
                     {slide.title}
                     <br />
                     {slide.subtitle}

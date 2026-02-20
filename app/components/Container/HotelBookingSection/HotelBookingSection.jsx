@@ -1,8 +1,7 @@
 "use client";
 import CommonHeroSection from "@/app/common/CommonHeroSection";
 import React, { useEffect, useState } from "react";
-import bannerimg from "@/app/assets/flight-bg.svg";
-import { ChevronDown } from "lucide-react";
+import bannerimg from "@/app/assets/hotel_booking.svg";
 import MainLayout from "@/app/common/MainLayout";
 import {
   clearServiceFormState,

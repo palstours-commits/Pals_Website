@@ -1,7 +1,7 @@
 "use client";
 import CommonHeroSection from "@/app/common/CommonHeroSection";
 import React, { useEffect, useState } from "react";
-import bannerimg from "@/app/assets/flight-bg.svg";
+import bannerimg from "@/app/assets/car_booking.svg";
 import MainLayout from "@/app/common/MainLayout";
 import { useDispatch, useSelector } from "react-redux";
 import { notifyAlert } from "@/app/hooks/NotificationService";
@@ -74,7 +74,7 @@ const TransportSection = () => {
   return (
     <>
       <CommonHeroSection
-        title={`Experience the Timeless Beauty of `}
+        title={`Car Booking`}
         backgroundImage={bannerimg.src}
         breadcrumbs={[
           { label: "Home", href: "/" },

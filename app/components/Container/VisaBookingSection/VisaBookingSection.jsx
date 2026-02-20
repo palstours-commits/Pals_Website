@@ -1,8 +1,7 @@
 "use client";
 import CommonHeroSection from "@/app/common/CommonHeroSection";
 import MainLayout from "@/app/common/MainLayout";
-import bannerimg from "@/app/assets/flight-bg.svg";
-import { ChevronDown } from "lucide-react";
+import bannerimg from "@/app/assets/visa_booking.svg";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
