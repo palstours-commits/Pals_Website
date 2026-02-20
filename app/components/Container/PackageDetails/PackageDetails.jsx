@@ -19,9 +19,9 @@ import { getImageUrl } from "@/app/utils/getImageUrl";
 import CustomImage from "@/app/common/Image";
 import { tabSectionMap } from "@/app/utils/mockDatas";
 import PackageForm from "./PackageForm";
+import { getIcons } from "@/app/store/slice/iconSlice";
 
 const fallbackImages = [travel1, travel2, travel3, travel4, travel5, travel6];
-
 const PackageDetails = ({ slug }) => {
   const tabs = [
     "Overview",
@@ -30,13 +30,6 @@ const PackageDetails = ({ slug }) => {
     "Tour Itinerary",
     "Information",
     "Get a Quote",
-  ];
-
-  const services = [
-    { title: "Breakfast", icon: Utensils },
-    { title: "Sightseeing", icon: Binoculars },
-    { title: "Hotel", icon: Hotel },
-    { title: "Transport", icon: Car },
   ];
 
   const hotelTabs = [
@@ -61,10 +54,16 @@ const PackageDetails = ({ slug }) => {
   const [active, setActive] = useState("Overview");
   const [activeTab, setActiveTab] = useState("Hotel Detail");
   const { singlePackage } = useSelector((state) => state.packages);
+  const { icons } = useSelector((state) => state.icons);
   const { message, error } = useSelector((state) => state.enquiry);
+
 
   useEffect(() => {
     dispatch(getPackagesById(slug));
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getIcons());
   }, [dispatch]);
 
   const points = singlePackage?.tripHighlightsPoints || [];
@@ -150,23 +149,24 @@ const PackageDetails = ({ slug }) => {
             </p>
           </div>
           <div className="max-w-4xl mx-auto px-10 md:px-0 flex justify-center   gap-1 md:gap-20">
-            {services?.map((item, index) => {
-              const Icon = item.icon;
-              return (
-                <div key={index} className="flex flex-col items-center gap-4">
-                  <div className="w-20 h-20 flex items-center justify-center rounded-full border-4 border-red-600">
-                    <Icon
-                      size={36}
-                      className="text-red-600"
-                      strokeWidth={2.5}
+            {icons?.length > 0 &&
+              icons.map((item, index) => (
+                <div
+                  key={item._id || index}
+                  className="flex flex-col items-center gap-4"
+                >
+                  <div className="w-20 h-20 flex items-center justify-center rounded-full bg-gray-100">
+                    <CustomImage
+                      src={item.iconPath}
+                      alt={item.name}
+                      className=" object-cover"
                     />
                   </div>
-                  <h5 className="text-lg font-semibold text-gray-800">
-                    {item.title}
+                  <h5 className="text-lg font-semibold text-gray-800 text-center">
+                    {item.name}
                   </h5>
                 </div>
-              );
-            })}
+              ))}
           </div>
         </div>
         <div>

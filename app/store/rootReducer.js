@@ -1,3 +1,4 @@
+
 import { combineReducers } from "redux";
 import menuReducer from "./slice/menuSlice";
 import submenuReducer from "./slice/submenuSlice";
@@ -6,6 +7,7 @@ import packagesReducer from "./slice/packageSlice";
 import enquiryReducer from "./slice/enquirySlice";
 import serviceReducer from "./slice/serviceFormSlice";
 import zonesReducer from "./slice/zoneSlice";
+import iconReducer from "./slice/iconSlice";
 const reducer = combineReducers({
   menu: menuReducer,
   submenu: submenuReducer,
@@ -14,5 +16,6 @@ const reducer = combineReducers({
   enquiry: enquiryReducer,
   service: serviceReducer,
   zones: zonesReducer,
+  icons: iconReducer,
 });
 export default reducer;
