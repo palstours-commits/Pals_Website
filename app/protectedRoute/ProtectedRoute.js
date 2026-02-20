@@ -6,6 +6,7 @@ import Header from "../components/Common/Header/Header";
 import Footer from "../components/Common/Footer/Footer";
 import "react-toastify/dist/ReactToastify.css";
 import { setupTokenRefresh, isLoginExpired } from "../utils/setupTokenRefresh";
+import WhatsAppButton from "../common/WhatsAppButton";
 
 export default function AppWrapper({ children }) {
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ export default function AppWrapper({ children }) {
     <>
       {!isNotFound && <Header />}
       <main>{children}</main>
+      {!isNotFound && <WhatsAppButton />}
       {!isNotFound && <Footer />}
     </>
   );
