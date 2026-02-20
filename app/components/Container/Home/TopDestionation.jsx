@@ -5,7 +5,7 @@ import MainLayout from "@/app/common/MainLayout";
 import { fadeContainer, fadeItem } from "@/app/common/animations";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
-import { getZones } from "@/app/store/slice/zonesSlice";
+import { getZones } from "@/app/store/slice/zoneSlice";
 import CustomImage from "@/app/common/Image";
 import { useRouter } from "next/navigation";
 
