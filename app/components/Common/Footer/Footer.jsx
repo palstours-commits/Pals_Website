@@ -38,7 +38,10 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/contact-us" className="hover:text-white transition">
+                <Link
+                  href="/contact-us"
+                  className="hover:text-white transition"
+                >
                   Contact Us
                 </Link>
               </li>
@@ -165,7 +168,7 @@ export default function Footer() {
             <h4 className="font-semibold mb-6">Review Us</h4>
             <div className="space-y-4">
               <a
-                href="#"
+                href="https://en.tripadvisor.com.hk/UserReviewEdit-g304556-d26612261-PALS_HOLIDAYS_Tour_Operators-Chennai_Madras_Chennai_District_Tamil_Nadu.html"
                 target="_blank"
                 className="bg-white rounded-full w-[161px] h-[50px] flex items-center justify-center hover:scale-105 transition"
               >
@@ -177,7 +180,7 @@ export default function Footer() {
               </a>
 
               <a
-                href="#"
+                href="https://www.google.com/maps/place//data=!4m3!3m2!1s0x824d29be61867bdb:0x2f78c920f9dd537c!12e1?source=g.page.m.ia._&laa=nmx-review-solicitation-ia2"
                 target="_blank"
                 className="bg-white rounded-full w-[161px] h-[50px] flex items-center justify-center hover:scale-105 transition"
               >

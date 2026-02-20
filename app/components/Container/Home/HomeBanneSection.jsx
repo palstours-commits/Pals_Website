@@ -61,27 +61,36 @@ const HomeBannerSection = () => {
                 priority
                 className="object-cover"
               />
-
               <div className="absolute inset-0 bg-black/20" />
               <div className="relative z-10 h-full flex items-center px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
                 <div className="text-white">
                   <div className="flex items-center gap-4 mb-4">
                     <div className="flex items-center gap-2">
                       <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
-                        <Image
-                          src={icon1}
-                          alt="Google"
-                          width={22}
-                          height={22}
-                        />
+                        <a
+                          href="https://en.tripadvisor.com.hk/UserReviewEdit-g304556-d26612261-PALS_HOLIDAYS_Tour_Operators-Chennai_Madras_Chennai_District_Tamil_Nadu.html"
+                          target="_blank"
+                        >
+                          <Image
+                            src={icon1}
+                            alt="Google"
+                            width={22}
+                            height={22}
+                          />
+                        </a>
                       </div>
                       <div className="w-10 h-10 bg-[#3ED6A1] rounded-full flex items-center justify-center">
-                        <Image
-                          src={icon2}
-                          alt="TripAdvisor"
-                          width={22}
-                          height={22}
-                        />
+                        <a
+                          href="https://www.google.com/maps/place//data=!4m3!3m2!1s0x824d29be61867bdb:0x2f78c920f9dd537c!12e1?source=g.page.m.ia._&laa=nmx-review-solicitation-ia2"
+                          target="_blank"
+                        >
+                          <Image
+                            src={icon2}
+                            alt="TripAdvisor"
+                            width={22}
+                            height={22}
+                          />
+                        </a>
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
