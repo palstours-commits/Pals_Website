@@ -12,8 +12,9 @@ const PackageBanner = ({ bgimg }) => {
 
   return (
     <div
-      className="relative w-full h-[360px]"
+      className="relative w-full"
       style={{
+        aspectRatio: "16 / 5",
         backgroundImage: `url(${encodeURI(bgimg)})`,
         backgroundSize: "cover",
         backgroundPosition: "center",

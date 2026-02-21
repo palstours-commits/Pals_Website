@@ -13,8 +13,8 @@ import {
   ChevronUp,
 } from "lucide-react";
 import navbar_logo from "@/app/assets/navbar_logo.svg";
-import navItemIcon from "@/app/assets/navlink_icon.svg";
-import navActiveIcon from "@/app/assets/nav_active-icon.svg";
+import navItemIcon from "@/app/assets/serive_home-icon-2.svg";
+import navActiveIcon from "@/app/assets/serive_home-icon-1.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { getSubMenus } from "@/app/store/slice/submenuSlice";
 import CustomImage from "@/app/common/Image";
@@ -264,7 +264,7 @@ export default function Header() {
                 onClick={() => setOpen(false)}
               />
               <motion.aside
-                className="fixed top-0 right-0 h-full w-80 bg-white p-6"
+                className="fixed top-0 right-0 h-full w-full bg-white p-6"
                 initial={{ x: "100%" }}
                 animate={{ x: 0 }}
                 exit={{ x: "100%" }}
@@ -323,6 +323,98 @@ export default function Header() {
                       </div>
                     );
                   })}
+                  <div className="flex flex-col gap-1">
+                    <button
+                      onClick={() =>
+                        setActive(active === "services" ? null : "services")
+                      }
+                      className={`flex items-center justify-between px-4 py-2 rounded-md font-medium transition
+      ${
+        active === "services"
+          ? "bg-gray-100 text-red-500"
+          : "text-gray-700 hover:bg-gray-100"
+      }`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <Image
+                          src={
+                            active === "services" ? navActiveIcon : navItemIcon
+                          }
+                          alt="Services icon"
+                          className="w-5 h-5 object-contain"
+                        />
+                        <span>Services</span>
+                      </div>
+
+                      <ChevronRight
+                        size={16}
+                        className={`transition-transform ${
+                          active === "services" ? "rotate-90" : ""
+                        }`}
+                      />
+                    </button>
+
+                    {active === "services" && (
+                      <div className="flex flex-col ml-10 mt-1 gap-1">
+                        {STATIC_SERVICES.map((item) => (
+                          <Link
+                            key={item.slug}
+                            href={`/service/${item.slug}`}
+                            onClick={() => setOpen(false)}
+                            className="text-sm text-gray-700 py-1 px-2 rounded-md hover:bg-gray-100 transition"
+                          >
+                            {item.name}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <button
+                      onClick={() =>
+                        setActive(active === "company" ? null : "company")
+                      }
+                      className={`flex items-center justify-between px-4 py-2 rounded-md font-medium transition
+      ${
+        active === "company"
+          ? "bg-gray-100 text-red-500"
+          : "text-gray-700 hover:bg-gray-100"
+      }`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <Image
+                          src={
+                            active === "company" ? navActiveIcon : navItemIcon
+                          }
+                          alt="Company icon"
+                          className="w-5 h-5 object-contain"
+                        />
+                        <span>Company</span>
+                      </div>
+
+                      <ChevronRight
+                        size={16}
+                        className={`transition-transform ${
+                          active === "company" ? "rotate-90" : ""
+                        }`}
+                      />
+                    </button>
+
+                    {active === "company" && (
+                      <div className="flex flex-col ml-10 mt-1 gap-1">
+                        {COMPANY_MENU.map((item) => (
+                          <Link
+                            key={item.slug}
+                            href={`/${item.slug}`}
+                            onClick={() => setOpen(false)}
+                            className="text-sm text-gray-700 py-1 px-2 rounded-md hover:bg-gray-100 transition"
+                          >
+                            {item.name}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </nav>
                 <button className="mt-10 text-sm bg-red-600 text-white py-3 w-32 rounded-full font-semibold">
                   Plan My Tour
