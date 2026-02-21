@@ -38,7 +38,6 @@ export default function Header() {
 
   const COMPANY_MENU = [
     { name: "About Us", slug: "about-us" },
-    { name: "Our Values", slug: "our-values" },
     { name: "Blog", slug: "blog" },
     { name: "Career", slug: "career" },
     { name: "Contact Us", slug: "contact-us" },
@@ -52,7 +51,7 @@ export default function Header() {
       </div>
 
       <header className="sticky top-0 z-9999 bg-white shadow-2xl">
-        <div className="max-w-7xl mx-auto pl-4 sm:pl-6 lg:pl-8 h-16 flex items-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center">
           <Link
             href="/"
             className="flex items-center gap-3 z-10 md:relative top-2"
@@ -153,7 +152,7 @@ export default function Header() {
                   />
                 </button>
                 {active === "services" && (
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 w-56 bg-white shadow-lg rounded-lg py-2 z-50">
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 w-50 bg-white shadow-lg rounded-lg py-2 z-50">
                     {STATIC_SERVICES.map((item) => (
                       <Link
                         key={item.slug}
@@ -194,7 +193,7 @@ export default function Header() {
                 </button>
 
                 {active === "company" && (
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 w-56 bg-white shadow-lg rounded-lg py-2 z-50">
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 w-50 bg-white shadow-lg rounded-lg py-2 z-50">
                     {COMPANY_MENU?.map((item) => (
                       <Link
                         key={item.slug}

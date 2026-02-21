@@ -20,24 +20,6 @@ const nextConfig = {
         port: "3000",
         pathname: "/storage/**",
       },
-
-      // Unsplash direct CDN
-      {
-        protocol: "https",
-        hostname: "images.unsplash.com",
-      },
-
-      // Unsplash random source
-      {
-        protocol: "https",
-        hostname: "source.unsplash.com",
-      },
-
-      // Picsum
-      {
-        protocol: "https",
-        hostname: "picsum.photos",
-      },
     ],
   },
 };

@@ -61,10 +61,10 @@ const HomeBannerSection = () => {
                 priority
                 className="object-cover"
               />
-              <div className="absolute inset-0 bg-black/20" />
+              <div className="absolute inset-0 bg-black/10" />
               <div className="relative z-10 h-full flex items-center px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
                 <div className="text-white">
-                  <div className="flex items-center gap-4 mb-4">
+                  <div className="flex items-center gap-4 mb-3">
                     <div className="flex items-center gap-2">
                       <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
                         <a
@@ -94,7 +94,7 @@ const HomeBannerSection = () => {
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="text-2xl font-bold">4.8</span>
+                      <span className="text-lg md:text-2xl font-bold">4.8</span>
                       <div className="flex gap-1">
                         {[...Array(5)].map((_, i) => (
                           <Star
@@ -106,19 +106,19 @@ const HomeBannerSection = () => {
                       </div>
                     </div>
                   </div>
-                  <h1 className="font-bold max-w-3xl leading-10 xl:leading-18">
+                  <h1 className="font-bold max-w-3xl leading-9  xl:leading-18">
                     {slide.title}
                     <br />
                     {slide.subtitle}
                   </h1>
-                  <p className="my-4 md:my-8 text-white/90">{slide.desc}</p>
+                  <p className="my-2 md:my-8 text-white/90">{slide.desc}</p>
                 </div>
               </div>
             </div>
           </SwiperSlide>
         ))}
       </Swiper>
-      <div className="absolute z-20 bottom-20 md:bottom-25 2xl:bottom-40 4xl:bottom-60 left-0 2xl:left-14 right-10 md:right-0 px-4 sm:px-6 lg:px-8">
+      <div className="absolute z-20 bottom-10 md:bottom-25 2xl:bottom-40 4xl:bottom-60 left-0 2xl:left-14 right-10 md:right-0 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="w-full max-w-xl bg-white rounded-full flex items-center shadow-lg px-2 py-3 md:py-2">
             <Camera size={20} className="text-gray-500 ml-2" />
