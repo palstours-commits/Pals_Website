@@ -32,7 +32,7 @@ const CommonHeroSection = ({
           </p>
         )}
         {breadcrumbs?.length > 0 && (
-          <p className="text-sm mb-4 space-x-2 text-white/90 drop-shadow">
+          <p className="text-sm mt-4 space-x-2 text-white/90 drop-shadow">
             {breadcrumbs?.map((item, index) => (
               <span key={index}>
                 {item.href ? (

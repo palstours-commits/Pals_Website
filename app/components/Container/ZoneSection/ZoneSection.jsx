@@ -24,7 +24,6 @@ const ZoneSection = ({ menu, submenu }) => {
         backgroundImage={selectedData?.bannerImage}
         breadcrumbs={[
           { label: "Home", href: "/" },
-          { label: menu, href: `/${menu}/${submenu}` },
           { label: submenu },
         ]}
       />
