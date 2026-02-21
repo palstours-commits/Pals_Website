@@ -8,9 +8,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { getPackagesBySubmenu } from "@/app/store/slice/packageSlice";
 import CommonHeroSection from "@/app/common/CommonHeroSection";
 import { TravelCardSkeleton } from "@/app/common/animations";
+import { useRouter } from "next/navigation";
 
 const PackageSection = ({ zoneSlug, submenuSlug }) => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const title = zoneSlug?.replace(/-/g, " ");
   const { packagesBySubmenu, loading } = useSelector((state) => state.packages);
   const zones = packagesBySubmenu?.zones || [];
@@ -71,7 +73,10 @@ const PackageSection = ({ zoneSlug, submenuSlug }) => {
                     <ChevronRight size={18} />
                   </button>
                 </div>
-                <button className="bg-red-600 text-white px-6 py-2 rounded-full text-sm font-semibold hidden lg:block">
+                <button
+                  onClick={() => router.push("/explore")}
+                  className="bg-red-600 text-white px-6 py-2 rounded-full text-xs font-semibold hidden lg:block cursor-pointer"
+                >
                   Discover more
                 </button>
               </div>

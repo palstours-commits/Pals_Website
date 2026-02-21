@@ -63,7 +63,10 @@ const TopDestination = () => {
             >
               <ChevronRight size={18} />
             </button>
-            <button className="bg-red-600 text-white px-6 py-2 rounded-full text-xs font-semibold hidden lg:block">
+            <button
+              onClick={() => router.push("/explore")}
+              className="bg-red-600 text-white px-6 py-2 rounded-full text-xs font-semibold hidden lg:block cursor-pointer"
+            >
               Discover more
             </button>
           </div>
