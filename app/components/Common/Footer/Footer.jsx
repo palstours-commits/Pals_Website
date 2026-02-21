@@ -50,7 +50,7 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-6">Package</h4>
             <ul className="space-y-3 text-sm text-gray-300">
-              {packages?.map((item) => (
+              {packages?.slice(0, 5).map((item) => (
                 <li key={item._id}>
                   <Link
                     href={`/package/${item.slug || item._id}`}
