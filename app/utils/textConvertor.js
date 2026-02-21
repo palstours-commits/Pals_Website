@@ -2,7 +2,7 @@ export const parseHtmlList = (html = "") => {
   if (!html) return [];
 
   return html
-    .replace(/<\/?ul>/gi, "")
+    .replace(/<\/?(ul|ol)>/gi, "")
     .split("</li>")
     .map((item) =>
       item
@@ -10,7 +10,9 @@ export const parseHtmlList = (html = "") => {
         .replace(/<br\s*\/?>/gi, "")
         .replace(/<p>&nbsp;<\/p>/gi, "")
         .replace(/<\/?strong>/gi, "")
-        .trim(),
+        .replace(/<\/?h[1-6][^>]*>/gi, "") // 🔥 remove h1–h6
+        .replace(/&nbsp;/gi, "")
+        .trim()
     )
-    .filter((item) => item && item !== "&nbsp;");
+    .filter(Boolean);
 };
