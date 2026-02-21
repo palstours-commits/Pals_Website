@@ -53,7 +53,7 @@ const BlogDetailsSection = ({ slug }) => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           <div className="lg:col-span-8">
             <div
-              className="prose max-w-none"
+              className="prose max-w-none blog-content "
               dangerouslySetInnerHTML={{
                 __html: blogDetails.description,
               }}

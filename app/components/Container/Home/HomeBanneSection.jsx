@@ -115,7 +115,12 @@ const HomeBannerSection = () => {
                     {slide.subtitle}
                   </h1>
                   <p className="mt-3 mb-6 text-white/90">{slide.desc}</p>
-                  <div className="bg-white rounded-full flex items-center gap-4 shadow-xl px-4 sm:px-6 py-2 sm:py-3">
+                  <div
+                    className="bg-white rounded-full flex items-center gap-4 shadow-xl
+                px-5 sm:px-6
+                py-3
+                max-w-xl"
+                  >
                     <Camera size={18} className="text-gray-500 shrink-0" />
                     <input
                       type="text"
