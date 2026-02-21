@@ -3,7 +3,6 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CommonHeroSection from "@/app/common/CommonHeroSection";
 import MainLayout from "@/app/common/MainLayout";
-import bannerimg from "@/app/assets/blog-details.svg";
 import CustomImage from "@/app/common/Image";
 
 import { getBlogBySlug, clearBlogDetails } from "@/app/store/slice/blogSlice";
@@ -63,7 +62,7 @@ const BlogDetailsSection = ({ slug }) => {
           <div className="lg:col-span-4">
             <div className="relative w-full h-[300px] rounded-md overflow-hidden">
               <CustomImage
-                src={blogDetails.featuredImage || bannerimg.src}
+                src={blogDetails.featuredImage}
                 alt="Blog Image"
                 fill
                 className="object-cover"
