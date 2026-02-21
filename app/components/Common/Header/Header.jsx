@@ -34,7 +34,7 @@ export default function Header() {
     { name: "Flight", slug: "flight" },
     { name: "Hotel", slug: "hotel" },
     { name: "Transport", slug: "transport" },
-    { name: "Money Exchange", slug: "money-exchange" },
+    { name: "Money Exchange" },
     { name: "Visa", slug: "visa" },
   ];
 
@@ -154,15 +154,24 @@ export default function Header() {
                 </button>
                 {active === "services" && (
                   <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 w-50 bg-white shadow-lg rounded-lg py-2 z-50">
-                    {STATIC_SERVICES.map((item) => (
-                      <Link
-                        key={item.slug}
-                        href={`/service/${item.slug}`}
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      >
-                        {item.name}
-                      </Link>
-                    ))}
+                    {STATIC_SERVICES.map((item) =>
+                      item.slug ? (
+                        <Link
+                          key={item.slug}
+                          href={`/service/${item.slug}`}
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        >
+                          {item.name}
+                        </Link>
+                      ) : (
+                        <span
+                          key={item.name}
+                          className="block px-4 py-2 text-sm text-gray-400 cursor-not-allowed"
+                        >
+                          {item.name}
+                        </span>
+                      ),
+                    )}
                   </div>
                 )}
               </div>
