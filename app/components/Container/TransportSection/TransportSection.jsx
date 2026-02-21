@@ -78,18 +78,17 @@ const TransportSection = () => {
         backgroundImage={bannerimg.src}
         breadcrumbs={[
           { label: "Home", href: "/" },
-          { label: "India Holidays", href: "/holidays/indian-holiday" },
           { label: title || "Destination" },
         ]}
       />
       <MainLayout>
         <div className="bg-[#f5f5f5] py-14 md:py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className=" mb-10 text-center">
+            <div className="mb-10 md:mb-20 text-center">
               <h4 className="font-bold mb-4">
                 CAR RENTAL SERVICES IN CHENNAI & ALL OVER INDIA
               </h4>
-              <p className="text-gray-600 text-sm md:text-base ">
+              <p className="text-gray-600 text-sm md:text-base">
                 We hereby proudly introduce, Pals Tours and Travels is the
                 Travel Company striving to deliver the standards of fine quality
                 and service that will make us the #1 car rental company. Whether
@@ -176,17 +175,30 @@ const TransportSection = () => {
                   placeholder="Select Car Type"
                 />
               </div>
+              <div>
+                <label className="block mb-1 text-sm font-medium text-gray-500">
+                  Pickup Location
+                </label>
+                <input
+                  name="location"
+                  value={formData.location}
+                  onChange={handleChange}
+                  placeholder="Pickup Location"
+                  className="w-full border border-gray-300 rounded-md px-4 py-3 outline-0"
+                />
+              </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block mb-1 text-sm font-medium text-gray-500">
-                    Pickup Location
+                    Number of Children
                   </label>
                   <input
-                    name="location"
-                    value={formData.location}
+                    type="number"
+                    name="noOfChildren"
+                    min={0}
+                    value={formData.noOfChildren}
                     onChange={handleChange}
-                    placeholder="Pickup Location"
-                    className="w-full border border-gray-300 rounded-md px-4 py-3 outline-0"
+                    className="w-full border border-gray-300 rounded-md px-4 py-3 outline-0 text-gray-600"
                   />
                 </div>
                 <div>

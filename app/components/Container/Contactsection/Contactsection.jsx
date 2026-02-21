@@ -84,7 +84,6 @@ const Contactsection = () => {
         backgroundImage={bannerimg.src}
         breadcrumbs={[
           { label: "Home", href: "/" },
-          { label: "India Holidays", href: "/packages" },
           { label: title || "Destination" },
         ]}
       />
@@ -198,7 +197,7 @@ const Contactsection = () => {
                       className="w-full border border-gray-300 rounded-lg px-4 py-3  outline-0 transition"
                     />
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  {/* <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div className="relative">
                       <label className="block text-sm text-gray-500 mb-1">
                         Persons
@@ -231,17 +230,17 @@ const Contactsection = () => {
                         searchable
                       />
                     </div>
-                  </div>
+                  </div> */}
                   <div>
                     <label className="block text-sm text-gray-500 mb-1">
-                      message
+                      Message
                     </label>
                     <textarea
                       name="message"
                       value={form.message}
                       onChange={handleChange}
                       rows="6"
-                      placeholder="Write your message"
+                      placeholder="Write your message (Special request)"
                       className="w-full border border-gray-300 rounded-lg px-4 py-3  outline-0 transition"
                     />
                   </div>

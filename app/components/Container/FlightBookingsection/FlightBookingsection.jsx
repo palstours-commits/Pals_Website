@@ -80,14 +80,13 @@ const FlightBookingSection = () => {
         backgroundImage={bannerimg.src}
         breadcrumbs={[
           { label: "Home", href: "/" },
-          { label: "India Holidays", href: "/holidays/indian-holiday" },
           { label: title || "Destination" },
         ]}
       />
       <MainLayout>
         <div className=" py-14 md:py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className=" mb-10 text-center" >
+            <div className="mb-10 md:mb-20 text-center">
               <h4 className="font-bold mb-4">
                 Book Flights Online with Pals Holidays at affordable rates.
               </h4>
@@ -155,27 +154,41 @@ const FlightBookingSection = () => {
                   />
                 </div>
               </div>
+              <div className="relative">
+                <SingleSelectDropdown
+                  label="Flight Type"
+                  options={flightTypeOptions}
+                  value={formData.flightType}
+                  onChange={(val) =>
+                    setFormData((prev) => ({ ...prev, flightType: val }))
+                  }
+                  placeholder="Select Flight Type"
+                />
+              </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="relative">
-                  <SingleSelectDropdown
-                    label="Flight Type"
-                    options={flightTypeOptions}
-                    value={formData.flightType}
-                    onChange={(val) =>
-                      setFormData((prev) => ({ ...prev, flightType: val }))
-                    }
-                    placeholder="Select Flight Type"
-                  />
-                </div>
-                <div className="relative">
+                <div>
                   <label className="block mb-1 text-sm font-medium text-gray-500">
                     Number of Adults
                   </label>
                   <input
                     type="number"
                     name="noOfAdults"
-                    placeholder="Enter Your Residence"
+                    min={1}
                     value={formData.noOfAdults}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block mb-1 text-sm font-medium text-gray-500">
+                    Number of Children
+                  </label>
+                  <input
+                    type="number"
+                    name="noOfChildren"
+                    min={0}
+                    value={formData.noOfChildren}
                     onChange={handleChange}
                     className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none"
                   />

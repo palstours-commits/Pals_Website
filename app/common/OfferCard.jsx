@@ -8,7 +8,8 @@ const OfferCard = ({ item, isColor = true }) => {
   return (
     <>
       <div
-        className={`relative ${isColor && "bg-[#BEEAF6] border-[#28B6E8]"} border-gray-300  border-2 border-dashed  rounded-xl p-8 min-h-[220px] flex flex-col justify-between`}
+        className={`relative border-2 border-dashed rounded-xl p-8 min-h-[220px] flex flex-col justify-between
+  ${isColor ? "bg-[#BEEAF6] border-[#28B6E8]" : "border-gray-300"}`}
       >
         <div className="absolute top-0 right-4 w-16 h-16">
           <Image

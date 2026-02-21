@@ -78,7 +78,6 @@ const HotelBookingSection = () => {
         backgroundImage={bannerimg.src}
         breadcrumbs={[
           { label: "Home", href: "/" },
-          { label: "India Holidays", href: "/holidays/indian-holiday" },
           { label: title || "Destination" },
         ]}
       />
@@ -86,7 +85,7 @@ const HotelBookingSection = () => {
       <MainLayout>
         <div className="py-14 md:py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className=" mb-10 text-center">
+            <div className="mb-10 md:mb-20 text-center">
               <h4 className="font-bold mb-4">
                 Book Hotels Online with Pals Holidays at affordable rates.
               </h4>
@@ -179,16 +178,29 @@ const HotelBookingSection = () => {
                   />
                 </div>
               </div>
+              <div>
+                <label className="block mb-1 text-sm font-medium text-gray-500">
+                  Destination
+                </label>
+                <input
+                  name="destination"
+                  value={formData.destination}
+                  onChange={handleChange}
+                  placeholder="Destination"
+                  className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none"
+                />
+              </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block mb-1 text-sm font-medium text-gray-500">
-                    Destination
+                    Number of Children
                   </label>
                   <input
-                    name="destination"
-                    value={formData.destination}
+                    type="number"
+                    name="noOfChildren"
+                    min={0}
+                    value={formData.noOfChildren}
                     onChange={handleChange}
-                    placeholder="Destination"
                     className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none"
                   />
                 </div>

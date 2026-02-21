@@ -1,4 +1,5 @@
 import { Facebook, Instagram, Youtube, Twitter, Globe } from "lucide-react";
+import { FaLinkedinIn } from "react-icons/fa";
 export const socialLinks = [
   {
     href: "https://www.facebook.com/palsgroups",
@@ -14,7 +15,7 @@ export const socialLinks = [
   },
   {
     href: "https://www.linkedin.com/company/pals-holidays",
-    Icon: Globe,
+    Icon: FaLinkedinIn,
   },
   {
     href: "https://in.pinterest.com/palsholidays/",

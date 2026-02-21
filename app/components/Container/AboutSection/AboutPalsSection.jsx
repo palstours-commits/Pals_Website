@@ -8,9 +8,10 @@ import CommonHeroSection from "@/app/common/CommonHeroSection";
 import bannerimg from "@/app/assets/about-bg.svg";
 import { motion } from "framer-motion";
 import { fadeFromTop, fadeFromBottom } from "@/app/common/animations";
+import Link from "next/link";
 
 const AboutPalsSection = () => {
-  const title = "About Pals Holidays";
+  const title = "About Us";
 
   return (
     <>
@@ -19,7 +20,6 @@ const AboutPalsSection = () => {
         backgroundImage={bannerimg.src}
         breadcrumbs={[
           { label: "Home", href: "/" },
-          { label: "India Holidays", href: "/packages" },
           { label: title || "Destination" },
         ]}
       />
@@ -27,10 +27,7 @@ const AboutPalsSection = () => {
       <MainLayout className="bg-[#f3f3f3] py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-
             <div className="lg:col-span-8">
-
-     
               <motion.div
                 variants={fadeFromBottom}
                 initial="hidden"
@@ -59,13 +56,14 @@ const AboutPalsSection = () => {
                     continuously monitor global safety and weather conditions to
                     deliver reliable travel services.
                   </p>
-                  <button className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-full text-sm cursor-pointer font-medium transition">
+                  <Link
+                    href={"/contact-us"}
+                    className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-full text-sm cursor-pointer font-medium transition"
+                  >
                     Get a Quote
-                  </button>
+                  </Link>
                 </div>
               </motion.div>
-
-          
               <motion.div
                 variants={fadeFromTop}
                 initial="hidden"
@@ -76,7 +74,6 @@ const AboutPalsSection = () => {
                 <h4 className="text-xl font-bold mb-8">Why Pals?</h4>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-
                   <div className="flex gap-4">
                     <div>
                       <FaUsers
@@ -120,13 +117,10 @@ const AboutPalsSection = () => {
                       </p>
                     </div>
                   </div>
-
                 </div>
               </motion.div>
-
             </div>
 
-         
             <div className="lg:col-span-4">
               <motion.div
                 variants={fadeFromBottom}
@@ -143,7 +137,6 @@ const AboutPalsSection = () => {
                 />
               </motion.div>
             </div>
-
           </div>
         </div>
       </MainLayout>

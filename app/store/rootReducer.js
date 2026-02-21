@@ -9,6 +9,7 @@ import zonesReducer from "./slice/zoneSlice";
 import iconReducer from "./slice/iconSlice";
 import offersReducer from "./slice/offerSlice";
 import blogReducer from "./slice/blogSlice";
+import careerReducer from "./slice/careerSlice";
 const reducer = combineReducers({
   menu: menuReducer,
   submenu: submenuReducer,
@@ -20,5 +21,6 @@ const reducer = combineReducers({
   icons: iconReducer,
   offers: offersReducer,
   blog: blogReducer,
+  career: careerReducer,
 });
 export default reducer;

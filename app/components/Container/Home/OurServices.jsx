@@ -16,17 +16,30 @@ import {
 import MainLayout from "@/app/common/MainLayout";
 import { motion } from "framer-motion";
 import { fadeContainer, fadeItem } from "@/app/common/animations";
+import Link from "next/link";
 
 const services = [
-  { title: "Flight\nBookings", Icon: Plane },
-  { title: "Hotel & Resort\nReservations", Icon: Hotel },
-  { title: "Customized\nHoliday Packages", Icon: SlidersHorizontal },
-  { title: "Visa\nAssistance", Icon: FileText },
-  { title: "Travel\nInsurance", Icon: ShieldCheck },
-  { title: "Adventure Travel\n& Activities", Icon: Mountain },
-  { title: "Cruise\nBookings", Icon: Ship },
-  { title: "Money\nExchange", Icon: Banknote },
-  { title: "Transport\n& Transfers", Icon: Car },
+  { title: "Flight\nBookings", Icon: Plane, slug: "flight" },
+  { title: "Hotel & Resort\nReservations", Icon: Hotel, slug: "hotel" },
+  {
+    title: "Customized\nHoliday Packages",
+    Icon: SlidersHorizontal,
+    slug: "packages",
+  },
+  {
+    title: "Money\nExchange",
+    Icon: Banknote,
+    disabled: true,
+  },
+  { title: "Visa\nAssistance", Icon: FileText, slug: "visa" },
+  { title: "Travel\nInsurance", Icon: ShieldCheck, slug: "insurance" },
+  {
+    title: "Adventure Travel\n& Activities",
+    Icon: Mountain,
+    slug: "adventure",
+  },
+  { title: "Cruise\nBookings", Icon: Ship, slug: "cruise" },
+  { title: "Transport\n& Transfers", Icon: Car, slug: "transport" },
 ];
 
 const OurServices = () => {
@@ -117,20 +130,32 @@ const OurServices = () => {
           ref={sliderRef}
           className="flex gap-8 overflow-x-auto scrollbar-hide whitespace-nowrap pb-2"
         >
-          {services?.map(({ title, Icon }, i) => (
-            <motion.div
-              key={i}
-              variants={fadeItem}
-              className="flex flex-col items-center text-center shrink-0 w-[140px] will-change-transform translate-z-0"
-            >
-              <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mb-4">
-                <Icon size={36} className="text-primary" />
+          {services.map(({ title, Icon, slug, disabled }, i) => {
+            const Card = (
+              <motion.div
+                variants={fadeItem}
+                className={`flex flex-col items-center text-center w-[140px]
+        ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
+      `}
+              >
+                <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mb-4 relative">
+                  <Icon size={36} className="text-primary" />
+                </div>
+                <p className="text-white text-xs font-medium whitespace-pre-line">
+                  {title}
+                </p>
+              </motion.div>
+            );
+            return disabled ? (
+              <div key={i} className="shrink-0">
+                {Card}
               </div>
-              <p className="text-white text-xs font-medium whitespace-pre-line">
-                {title}
-              </p>
-            </motion.div>
-          ))}
+            ) : (
+              <Link key={i} href={`/service/${slug}`} className="shrink-0">
+                {Card}
+              </Link>
+            );
+          })}
         </div>
       </motion.div>
     </MainLayout>

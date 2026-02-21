@@ -34,6 +34,7 @@ export default function Header() {
     { name: "Flight", slug: "flight" },
     { name: "Hotel", slug: "hotel" },
     { name: "Transport", slug: "transport" },
+    { name: "Money Exchange", slug: "money-exchange" },
     { name: "Visa", slug: "visa" },
   ];
 
@@ -63,7 +64,7 @@ export default function Header() {
               priority
             />
           </Link>
-          <nav className="hidden lg:flex ml-6  max-w-[600px]  2xl:max-w-[520px] ">
+          <nav className="hidden lg:flex ml-8  max-w-[600px]  2xl:max-w-[520px] ">
             <div className="flex items-center  min-w-max">
               {submenus?.map((menu, index) => {
                 const isActive = active === index;
@@ -139,7 +140,7 @@ export default function Header() {
     `}
                 >
                   <Image
-                    src={active === "services" ? navActiveIcon : navItemIcon}
+                    src={active === "services" ? navItemIcon : navItemIcon}
                     alt="icon"
                     className="w-5 h-5 object-contain"
                   />
@@ -241,7 +242,7 @@ export default function Header() {
               </a>
             </div>
             <Link
-              href={"/contact"}
+              href={"/contact-us"}
               className="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-full text-xs font-semibold transition flex items-center gap-2"
             >
               <span className="w-4 h-4 rounded-md border border-white flex items-center justify-center ">
@@ -339,7 +340,7 @@ export default function Header() {
                       <div className="flex items-center gap-2">
                         <Image
                           src={
-                            active === "services" ? navActiveIcon : navItemIcon
+                            active === "services" ? navItemIcon : navItemIcon
                           }
                           alt="Services icon"
                           className="w-5 h-5 object-contain"

@@ -29,7 +29,6 @@ const initialVisaForm = {
 const VisaBookingSection = () => {
   const dispatch = useDispatch();
   const { loading, error, message } = useSelector((state) => state.service);
-
   const [formData, setFormData] = useState(initialVisaForm);
 
   const handleChange = (e) => {
@@ -72,7 +71,6 @@ const VisaBookingSection = () => {
         backgroundImage={bannerimg.src}
         breadcrumbs={[
           { label: "Home", href: "/" },
-          { label: "India Holidays", href: "/holidays/indian-holiday" },
           { label: "Visa Booking" },
         ]}
       />
@@ -80,7 +78,7 @@ const VisaBookingSection = () => {
       <MainLayout>
         <div className="py-14 md:py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className=" mb-10 text-center">
+            <div className="mb-10 md:mb-20 text-center">
               <h4 className="font-bold mb-4">Visa Services</h4>
               <p className="text-gray-600 text-sm md:text-base ">
                 We provide complete visa assistance for tourist, business,
@@ -134,7 +132,7 @@ const VisaBookingSection = () => {
                 </div>
                 <div>
                   <label className="block mb-1 text-sm font-medium text-gray-500">
-                    Nationality
+                    Country
                   </label>
                   <input
                     name="country"

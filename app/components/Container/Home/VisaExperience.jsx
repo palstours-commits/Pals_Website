@@ -34,7 +34,7 @@ const FEATURES = [
 
 const VisaExperience = () => {
   return (
-    <MainLayout className="bg-[#FA812F] text-white py-10 overflow-x-hidden">
+    <MainLayout className="bg-[#FA812F] text-white  py-10 md:py-20 overflow-x-hidden">
       <motion.div
         variants={fadeContainer}
         initial="hidden"
