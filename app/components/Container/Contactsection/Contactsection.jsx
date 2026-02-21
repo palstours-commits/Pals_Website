@@ -80,7 +80,7 @@ const Contactsection = () => {
   return (
     <>
       <CommonHeroSection
-        title={`Experience the Timeless Beauty of `}
+        title={`Contact Us`}
         backgroundImage={bannerimg.src}
         breadcrumbs={[
           { label: "Home", href: "/" },

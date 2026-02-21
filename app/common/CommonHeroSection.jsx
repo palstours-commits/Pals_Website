@@ -23,6 +23,14 @@ const CommonHeroSection = ({
     >
       <div className={`absolute inset-0 ${overlay}`} />
       <div className="relative text-center text-white px-4 max-w-4xl">
+        <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold drop-shadow-lg capitalize">
+          {title}
+        </h3>
+        {subtitle && (
+          <p className="mt-4 text-base md:text-lg text-white/90 drop-shadow">
+            {subtitle}
+          </p>
+        )}
         {breadcrumbs?.length > 0 && (
           <p className="text-sm mb-4 space-x-2 text-white/90 drop-shadow">
             {breadcrumbs?.map((item, index) => (
@@ -42,14 +50,6 @@ const CommonHeroSection = ({
                 {index !== breadcrumbs.length - 1 && <span> / </span>}
               </span>
             ))}
-          </p>
-        )}
-        <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold drop-shadow-lg capitalize">
-          {title}
-        </h3>
-        {subtitle && (
-          <p className="mt-4 text-base md:text-lg text-white/90 drop-shadow">
-            {subtitle}
           </p>
         )}
       </div>

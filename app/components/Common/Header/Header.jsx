@@ -49,7 +49,6 @@ export default function Header() {
         Black Friday Last-Minute Specials: Save up to $1,000 by 11/23 on trips
         departing this winter or spring. →
       </div>
-
       <header className="sticky top-0 z-9999 bg-white shadow-2xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center">
           <Link
@@ -63,7 +62,7 @@ export default function Header() {
               priority
             />
           </Link>
-          <nav className="hidden lg:flex ml-3  max-w-[600px]  2xl:max-w-[520px] ">
+          <nav className="hidden lg:flex ml-6  max-w-[600px]  2xl:max-w-[520px] ">
             <div className="flex items-center  min-w-max">
               {submenus?.map((menu, index) => {
                 const isActive = active === index;
