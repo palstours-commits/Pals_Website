@@ -7,6 +7,7 @@ import Offericon2 from "@/app/assets/offer_icon2.svg";
 import Offericon1 from "@/app/assets/offer_icon1.svg";
 import Image from "next/image";
 import Link from "next/link";
+import OfferCard from "@/app/common/OfferCard";
 
 const TrendingOffers = () => {
   const sliderRef = useRef(null);
@@ -55,44 +56,7 @@ const TrendingOffers = () => {
           className="flex gap-6 overflow-x-auto scrollbar-hide"
         >
           {offers?.map((item, i) => (
-            <div
-              key={i}
-              className="
-    min-w-[300px] md:min-w-[360px]
-    bg-[#ABE0F0]
-    border-4 border-dotted border-[#2CB3DB]
-    rounded-xl
-    p-6
-    flex flex-col
-    justify-between
-    relative
-  "
-            >
-              <div className="absolute top-0 right-4 w-20 h-20">
-                <Image
-                  src={item?.offerType === "package" ? Offericon1 : Offericon2}
-                  alt=""
-                  className="w-full h-full object-contain"
-                />
-              </div>
-              <div className="pr-16">
-                <button className="px-6 py-2 bg-[#2CB3DB] text-white rounded-full text-sm font-semibold mb-3">
-                  {item?.offerCategory}
-                </button>
-                <h4 className="font-semibold leading-snug mb-4">
-                  {item.offerName}
-                </h4>
-                <p className="text-sm text-gray-500 mb-3 line-clamp-3">
-                  {item.description}
-                </p>
-              </div>
-              <Link
-                href={"/offers"}
-                className="bg-primary hover-primary text-white text-sm px-4 py-2 rounded-full w-fit"
-              >
-                Explore Deals
-              </Link>
-            </div>
+            <OfferCard item={item} key={i} />
           ))}
         </div>
       </div>
