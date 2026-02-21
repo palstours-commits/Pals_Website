@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { Clock, MapPin } from "lucide-react";
 import PackageBaneer from "./PackageBanner";
 import MainLayout from "@/app/common/MainLayout";
-import { Utensils, Binoculars, Hotel, Car } from "lucide-react";
 import { ItineraryAccordion } from "./ItineraryAccordion";
 import travel1 from "@/app/assets/travelimg1.svg";
 import travel2 from "@/app/assets/travelimg2.svg";
@@ -32,13 +31,6 @@ const PackageDetails = ({ slug }) => {
     "Get a Quote",
   ];
 
-  const hotelTabs = [
-    "Hotel Detail",
-    "Transportation Details",
-    "Notes",
-    "Packages Exclude",
-  ];
-
   const handleTabClick = (tab) => {
     setActive(tab);
 
@@ -52,7 +44,7 @@ const PackageDetails = ({ slug }) => {
 
   const dispatch = useDispatch();
   const [active, setActive] = useState("Overview");
-  const [activeTab, setActiveTab] = useState("Hotel Detail");
+  const [activeInfoIndex, setActiveInfoIndex] = useState(0);
   const { singlePackage } = useSelector((state) => state.packages);
   const { icons } = useSelector((state) => state.icons);
   const { message, error } = useSelector((state) => state.enquiry);
@@ -70,6 +62,8 @@ const PackageDetails = ({ slug }) => {
 
   const points = singlePackage?.tripHighlightsPoints || [];
   const hotelPoints = singlePackage?.importantInfoPoints || [];
+  const importantInfo = singlePackage?.importantInfo || [];
+  console.log(importantInfo);
 
   const rawImages =
     singlePackage?.images?.length > 0
@@ -100,6 +94,12 @@ const PackageDetails = ({ slug }) => {
       dispatch(clearEnquiryState());
     }
   }, [message, error, dispatch]);
+
+  useEffect(() => {
+    if (importantInfo.length > 0) {
+      setActiveInfoIndex(0);
+    }
+  }, [importantInfo]);
 
   return (
     <>
@@ -274,31 +274,43 @@ const PackageDetails = ({ slug }) => {
                     Important Information
                   </h2>
                   <div className="flex gap-3 mb-6 overflow-x-auto whitespace-nowrap scrollbar-hide pb-2">
-                    {hotelTabs?.map((tab) => (
+                    {importantInfo.length === 0 && (
+                      <span className="text-gray-400 text-sm">
+                        No information available
+                      </span>
+                    )}
+                    {importantInfo.map((info, index) => (
                       <button
-                        key={tab}
-                        onClick={() => setActiveTab(tab)}
-                        className={`px-4 sm:px-6 py-2 rounded-full border text-sm sm:text-base transition shrink-0 ${
-                          activeTab === tab
-                            ? "bg-red-100 text-red-600 border-red-600"
-                            : "border-gray-300 text-gray-600"
-                        }`}
+                        key={info._id}
+                        onClick={() => setActiveInfoIndex(index)}
+                        className={`px-4 sm:px-6 py-2 rounded-full border text-sm sm:text-base transition shrink-0
+        ${
+          activeInfoIndex === index
+            ? "bg-red-100 text-red-600 border-red-600"
+            : "border-gray-300 text-gray-600 hover:border-red-400"
+        }`}
                       >
-                        {tab}
+                        {info.title}
                       </button>
                     ))}
                   </div>
                   <h4 className="font-semibold mb-4 text-lg">
                     Hotel Accommodation Details
                   </h4>
-                  <ul className="space-y-3 leading-relaxed text-sm sm:text-base">
-                    {hotelPoints?.map((item, index) => (
-                      <li key={index} className="flex gap-3 items-start">
-                        <span className="w-2 h-2 bg-gray-700 rounded-full mt-2 shrink-0"></span>
-                        <p>{item}</p>
-                      </li>
-                    ))}
-                  </ul>
+                  {importantInfo[activeInfoIndex] && (
+                    <div>
+                      <h4 className="font-semibold mb-4 text-lg capitalize">
+                        {importantInfo[activeInfoIndex].title}
+                      </h4>
+
+                      <div
+                        className="text-gray-700 leading-relaxed text-sm sm:text-base"
+                        dangerouslySetInnerHTML={{
+                          __html: importantInfo[activeInfoIndex].content,
+                        }}
+                      />
+                    </div>
+                  )}
                 </div>
                 <div className="h-[600px]">
                   <PackageForm packageId={singlePackage?._id} />
@@ -308,7 +320,7 @@ const PackageDetails = ({ slug }) => {
           </div>
         </div>
       </div>
-      <MainLayout className="w-full bg-[#e6dcc8] py-3">
+      <MainLayout className="w-full bg-[#e6dcc8] py-6 mt-50 md:mt-0">
         <div
           className="max-w-7xl mx-auto px-6 lg:px-8 
                   flex flex-col md:flex-row 
