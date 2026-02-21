@@ -179,7 +179,7 @@ export default function Header() {
       }`}
                 >
                   <Image
-                    src={active === "company" ? navActiveIcon : navItemIcon}
+                    src={active === "company" ? companyIcon : companyIcon}
                     alt="icon"
                     className="w-5 h-5 object-contain"
                   />
@@ -384,9 +384,7 @@ export default function Header() {
                     >
                       <div className="flex items-center gap-2">
                         <Image
-                          src={
-                            active === "company" ? companyIcon : companyIcon
-                          }
+                          src={active === "company" ? companyIcon : companyIcon}
                           alt="Company icon"
                           className="w-5 h-5 object-contain"
                         />
