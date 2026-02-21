@@ -15,6 +15,7 @@ import {
 import navbar_logo from "@/app/assets/navbar_logo.svg";
 import navItemIcon from "@/app/assets/serive_home-icon-2.svg";
 import navActiveIcon from "@/app/assets/serive_home-icon-1.svg";
+import companyIcon from "@/app/assets/office-building.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { getSubMenus } from "@/app/store/slice/submenuSlice";
 import CustomImage from "@/app/common/Image";
@@ -384,7 +385,7 @@ export default function Header() {
                       <div className="flex items-center gap-2">
                         <Image
                           src={
-                            active === "company" ? navActiveIcon : navItemIcon
+                            active === "company" ? companyIcon : companyIcon
                           }
                           alt="Company icon"
                           className="w-5 h-5 object-contain"
@@ -399,7 +400,6 @@ export default function Header() {
                         }`}
                       />
                     </button>
-
                     {active === "company" && (
                       <div className="flex flex-col ml-10 mt-1 gap-1">
                         {COMPANY_MENU.map((item) => (
