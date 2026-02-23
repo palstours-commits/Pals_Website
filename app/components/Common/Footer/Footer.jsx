@@ -190,7 +190,7 @@ export default function Footer() {
         <div className="border-t border-gray-800 mt-16 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-xs text-gray-400 text-center md:text-left">
             © {new Date().getFullYear()} PALS HOLIDAYS. All rights reserved |
-            Designed by Webdads2u PVT LTD.
+            Developed by WEBDADS2U PRIVATE LIMITED.
           </p>
           <div className="flex gap-3">
             {socialLinks?.map(({ href, Icon }, i) => (
