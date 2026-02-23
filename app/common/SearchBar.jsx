@@ -37,7 +37,7 @@ const SearchBar = ({ readOnly = false, onDropdownChange }) => {
           value={search}
           readOnly={readOnly}
           onChange={(e) => setSearch(e.target.value)}
-          onFocus={() => !readOnly && setShowDropdown(true)}
+         
           onBlur={() => setTimeout(() => setShowDropdown(false), 150)}
           className="w-full bg-transparent outline-none text-sm sm:text-base text-gray-900  placeholder:text-gray-500"
         />
