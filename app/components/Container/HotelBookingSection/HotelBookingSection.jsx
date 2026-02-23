@@ -21,6 +21,7 @@ const initialHotelForm = {
   destination: "",
   rooms: 1,
   roomType: "",
+  mealType: "",
   checkInDate: "",
   checkOutDate: "",
   noOfAdults: 1,
@@ -178,18 +179,33 @@ const HotelBookingSection = () => {
                   />
                 </div>
               </div>
-              <div>
-                <label className="block mb-1 text-sm font-medium text-gray-500">
-                  Destination
-                </label>
-                <input
-                  name="destination"
-                  value={formData.destination}
-                  onChange={handleChange}
-                  placeholder="Destination"
-                  className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none"
-                />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block mb-1 text-sm font-medium text-gray-500">
+                    MealType
+                  </label>
+                  <input
+                    name="mealType"
+                    value={formData.mealType}
+                    onChange={handleChange}
+                    placeholder="Meal Type"
+                    className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block mb-1 text-sm font-medium text-gray-500">
+                    Destination
+                  </label>
+                  <input
+                    name="destination"
+                    value={formData.destination}
+                    onChange={handleChange}
+                    placeholder="Destination"
+                    className="w-full border border-gray-300 rounded-md px-4 py-3 outline-none"
+                  />
+                </div>
               </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block mb-1 text-sm font-medium text-gray-500">
