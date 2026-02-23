@@ -18,7 +18,6 @@ import { getImageUrl } from "@/app/utils/getImageUrl";
 import CustomImage from "@/app/common/Image";
 import { tabSectionMap } from "@/app/utils/mockDatas";
 import PackageForm from "./PackageForm";
-import { getIcons } from "@/app/store/slice/iconSlice";
 import PackageBanner from "@/app/assets/package_bg.png";
 import Link from "next/link";
 
@@ -46,7 +45,6 @@ const PackageDetails = ({ slug }) => {
   const [active, setActive] = useState("Overview");
   const [activeInfoIndex, setActiveInfoIndex] = useState(0);
   const { singlePackage } = useSelector((state) => state.packages);
-  const { icons } = useSelector((state) => state.icons);
   const { message, error } = useSelector((state) => state.enquiry);
   const bannerImage = singlePackage?.images?.[0]
     ? `${process.env.NEXT_PUBLIC_BASE_IMAGE_URL}${singlePackage.images[0]}`
@@ -56,12 +54,9 @@ const PackageDetails = ({ slug }) => {
     dispatch(getPackagesById(slug));
   }, [dispatch]);
 
-  useEffect(() => {
-    dispatch(getIcons());
-  }, [dispatch]);
-
   const points = singlePackage?.tripHighlightsPoints || [];
   const importantInfo = singlePackage?.importantInfo || [];
+  const overviewIcons = singlePackage?.overview?.icon || [];
 
   const rawImages =
     singlePackage?.images?.length > 0
@@ -148,9 +143,9 @@ const PackageDetails = ({ slug }) => {
               {singlePackage?.overview?.Description}
             </p>
           </div>
-          <div className="max-w-4xl mx-auto px-10 md:px-0 flex justify-center   gap-1 md:gap-20">
-            {icons?.length > 0 &&
-              icons.map((item, index) => (
+          <div className="max-w-4xl mx-auto px-10 md:px-0 flex justify-center gap-1 md:gap-20">
+            {overviewIcons.length > 0 &&
+              overviewIcons.map((item, index) => (
                 <div
                   key={item._id || index}
                   className="flex flex-col items-center gap-4"
@@ -159,7 +154,7 @@ const PackageDetails = ({ slug }) => {
                     <CustomImage
                       src={item.iconPath}
                       alt={item.name}
-                      className=" object-cover"
+                      className="object-cover"
                     />
                   </div>
                   <h5 className="text-lg font-semibold text-gray-800 text-center">
