@@ -63,6 +63,7 @@ const PackageSection = ({ zoneSlug, submenuSlug }) => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.1 }}
+          className={zone.isTrending ? "bg-[#FAF3E1]" : "bg-white"}
         >
           <MainLayout className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-10 md:pt-15">
             <div className="flex items-center justify-between mb-10">
@@ -114,7 +115,9 @@ const PackageSection = ({ zoneSlug, submenuSlug }) => {
                   />
                 ))
               ) : (
-                <p className="text-gray-400 text-sm text-center">No packages available</p>
+                <p className="text-gray-400 text-sm text-center">
+                  No packages available
+                </p>
               )}
             </div>
           </MainLayout>

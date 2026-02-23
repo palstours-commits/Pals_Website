@@ -20,6 +20,7 @@ import { tabSectionMap } from "@/app/utils/mockDatas";
 import PackageForm from "./PackageForm";
 import { getIcons } from "@/app/store/slice/iconSlice";
 import PackageBanner from "@/app/assets/package_bg.png";
+import Link from "next/link";
 
 const fallbackImages = [travel1, travel2, travel3, travel4, travel5, travel6];
 const PackageDetails = ({ slug }) => {
@@ -329,9 +330,12 @@ const PackageDetails = ({ slug }) => {
               and schedule for a truly personalized journey.
             </p>
           </div>
-          <button className="text-sm bg-primary hover:opacity-90 transition text-white px-6 py-2 rounded-full font-semibold">
+          <Link
+            href={"/contact-us"}
+            className="text-sm bg-primary hover:opacity-90 transition text-white px-6 py-2 rounded-full font-semibold"
+          >
             Customize your Trip
-          </button>
+          </Link>
         </div>
       </MainLayout>
     </>
