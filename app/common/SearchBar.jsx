@@ -30,7 +30,6 @@ const SearchBar = ({ readOnly = false, onDropdownChange }) => {
 
   return (
     <div className="relative bg-white border border-gray-200 rounded-full flex items-center gap-4 shadow-md px-5 sm:px-6 py-3 max-w-xl w-full mb-6 md:mb-0">
-      <Camera size={18} className="text-gray-600 shrink-0" />
       <div className="relative flex-1 ">
         <input
           type="text"
