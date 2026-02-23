@@ -98,8 +98,6 @@ const PackageDetails = ({ slug }) => {
     }
   }, [importantInfo]);
 
-  console.log(bannerImage);
-
   return (
     <>
       <PackageBaneer bgimg={bannerImage} />

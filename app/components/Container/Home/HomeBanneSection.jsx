@@ -122,7 +122,7 @@ const HomeBannerSection = () => {
                     cursor-pointer
                     mb-6 md:mb-0
                 px-5 sm:px-6
-                py-3
+                py-1 md:py-3  
                 max-w-xl"
                   >
                     <Camera size={18} className="text-gray-500 shrink-0" />
