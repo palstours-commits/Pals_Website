@@ -189,8 +189,16 @@ const PackageDetails = ({ slug }) => {
                     ))}
                   </ul>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-6 gap-4 auto-rows-[220px] h-full">
-                  <div className="relative md:col-span-3 rounded-3xl overflow-hidden">
+                <div
+                  className="
+    grid grid-flow-col auto-cols-[80%]
+    gap-4 overflow-x-auto snap-x snap-mandatory
+    md:grid-cols-6 md:auto-cols-auto md:grid-flow-row
+    md:overflow-x-hidden
+    auto-rows-[220px] h-full
+  "
+                >
+                  <div className="relative md:col-span-3 rounded-3xl overflow-hidden snap-start">
                     <CustomImage
                       src={images[0]}
                       alt=""
@@ -198,7 +206,8 @@ const PackageDetails = ({ slug }) => {
                       className="object-cover transition duration-500 hover:scale-105"
                     />
                   </div>
-                  <div className="relative md:col-span-3 rounded-3xl overflow-hidden">
+
+                  <div className="relative md:col-span-3 rounded-3xl overflow-hidden snap-start">
                     <CustomImage
                       src={images[1]}
                       alt=""
@@ -206,7 +215,8 @@ const PackageDetails = ({ slug }) => {
                       className="object-cover transition duration-500 hover:scale-105"
                     />
                   </div>
-                  <div className="relative md:col-span-2 rounded-3xl overflow-hidden">
+
+                  <div className="relative md:col-span-2 rounded-3xl overflow-hidden snap-start">
                     <CustomImage
                       src={images[2]}
                       alt=""
@@ -214,7 +224,8 @@ const PackageDetails = ({ slug }) => {
                       className="object-cover transition duration-500 hover:scale-105"
                     />
                   </div>
-                  <div className="relative md:col-span-2 rounded-3xl overflow-hidden">
+
+                  <div className="relative md:col-span-2 rounded-3xl overflow-hidden snap-start">
                     <CustomImage
                       src={images[3]}
                       alt=""
@@ -222,7 +233,8 @@ const PackageDetails = ({ slug }) => {
                       className="object-cover transition duration-500 hover:scale-105"
                     />
                   </div>
-                  <div className="relative md:col-span-2 md:row-span-2 rounded-3xl overflow-hidden">
+
+                  <div className="relative md:col-span-2 md:row-span-2 rounded-3xl overflow-hidden snap-start">
                     <CustomImage
                       src={images[5]}
                       alt=""
@@ -230,7 +242,8 @@ const PackageDetails = ({ slug }) => {
                       className="object-cover transition duration-500 hover:scale-105"
                     />
                   </div>
-                  <div className="relative md:col-span-4 rounded-3xl overflow-hidden">
+
+                  <div className="relative md:col-span-4 rounded-3xl overflow-hidden snap-start">
                     <CustomImage
                       src={images[4]}
                       alt=""
