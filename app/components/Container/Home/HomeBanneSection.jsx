@@ -59,7 +59,7 @@ const HomeBannerSection = () => {
       <div className="absolute inset-0 z-20 flex items-center">
         <div className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
           <div className="text-white max-w-3xl">
-            <div className="flex items-center gap-4 mb-2 md:mb-4">
+            <div className="flex items-center gap-4 mb-2">
               <div className="flex items-center gap-2">
                 <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
                   <Image src={icon1} alt="Google" width={22} height={22} />

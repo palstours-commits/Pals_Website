@@ -3,8 +3,11 @@ import Link from "next/link";
 import React from "react";
 import Offericon2 from "@/app/assets/offer_icon2.svg";
 import Offericon1 from "@/app/assets/offer_icon1.svg";
+import { usePathname } from "next/navigation";
 
 const OfferCard = ({ item, isColor = true }) => {
+  const pathname = usePathname();
+  const isOffersPage = pathname === "/offers";
   return (
     <>
       <div
@@ -26,7 +29,7 @@ const OfferCard = ({ item, isColor = true }) => {
           {item?.description}
         </p>
         <Link
-          href="/offers"
+          href={isOffersPage ? "/contact-us" : "/offers"}
           className="bg-red-500 hover:bg-red-600 text-white text-sm px-5 py-2 rounded-full w-fit"
         >
           Explore Deals
