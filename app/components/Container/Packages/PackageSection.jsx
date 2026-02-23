@@ -41,7 +41,13 @@ const PackageSection = ({ zoneSlug, submenuSlug }) => {
   return (
     <>
       <CommonHeroSection
-        title={`Experience the Timeless Beauty of ${title}`}
+        title={
+          <>
+            Experience the Timeless Beauty
+            <br />
+            {title}
+          </>
+        }
         backgroundImage={packagesBySubmenu?.subMenu?.bannerImage}
         breadcrumbs={[
           { label: "Home", href: "/" },
@@ -108,7 +114,7 @@ const PackageSection = ({ zoneSlug, submenuSlug }) => {
                   />
                 ))
               ) : (
-                <p className="text-gray-400 text-sm">No packages available</p>
+                <p className="text-gray-400 text-sm text-center">No packages available</p>
               )}
             </div>
           </MainLayout>

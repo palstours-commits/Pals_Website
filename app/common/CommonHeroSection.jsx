@@ -25,6 +25,7 @@ const CommonHeroSection = ({
       <div className="relative text-center text-white px-4 max-w-4xl">
         <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold drop-shadow-lg capitalize">
           {title}
+          <br />
         </h3>
         {subtitle && (
           <p className="mt-4 text-base md:text-lg text-white/90 drop-shadow">

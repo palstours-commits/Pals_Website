@@ -12,7 +12,6 @@ const TrendingDestinations = () => {
   const sliderRef = useRef(null);
   const router = useRouter();
   const { zones } = useSelector((state) => state.zones);
-
   const trendingZones = useMemo(
     () => zones?.filter((z) => z.istrending === true),
     [zones],
@@ -25,9 +24,7 @@ const TrendingDestinations = () => {
       ),
     [trendingZones],
   );
-
   const discoverSubMenu = internationalTrending?.[0]?.subMenuId;
-
   const scroll = (dir) => {
     if (!sliderRef.current) return;
     sliderRef.current.scrollBy({

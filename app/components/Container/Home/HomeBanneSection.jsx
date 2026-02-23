@@ -1,5 +1,4 @@
 "use client";
-
 import Image from "next/image";
 import MainLayout from "@/app/common/MainLayout";
 import { Camera, Search, Star } from "lucide-react";
@@ -7,7 +6,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectFade } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-fade";
-
 import BannerImg1 from "@/app/assets/banner_img.svg";
 import BannerImg2 from "@/app/assets/BannerImg2.svg";
 import BannerImg3 from "@/app/assets/BannerImg3.svg";
@@ -61,7 +59,7 @@ const HomeBannerSection = () => {
         autoplay={{ delay: 4000 }}
         className="h-[500px] lg:h-screen"
       >
-        {slides.map((slide, index) => (
+        {slides?.map((slide, index) => (
           <SwiperSlide key={index}>
             <div className="relative w-full h-[500px] lg:h-screen">
               <Image

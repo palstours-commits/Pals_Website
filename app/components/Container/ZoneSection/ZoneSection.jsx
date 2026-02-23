@@ -20,12 +20,15 @@ const ZoneSection = ({ menu, submenu }) => {
   return (
     <>
       <CommonHeroSection
-        title={`Experience the Timeless Beauty of ${submenu}`}
+        title={
+          <>
+            Experience the Timeless Beauty
+            <br />
+            {submenu}
+          </>
+        }
         backgroundImage={selectedData?.bannerImage}
-        breadcrumbs={[
-          { label: "Home", href: "/" },
-          { label: submenu },
-        ]}
+        breadcrumbs={[{ label: "Home", href: "/" }, { label: submenu }]}
       />
       <HolidayPlanner activeSlugFromRoute={submenu} />
     </>

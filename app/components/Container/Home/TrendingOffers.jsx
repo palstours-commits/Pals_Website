@@ -3,11 +3,8 @@ import { useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { getOffers } from "@/app/store/slice/offerSlice";
-import Offericon2 from "@/app/assets/offer_icon2.svg";
-import Offericon1 from "@/app/assets/offer_icon1.svg";
-import Image from "next/image";
-import Link from "next/link";
 import OfferCard from "@/app/common/OfferCard";
+import MainLayout from "@/app/common/MainLayout";
 
 const TrendingOffers = () => {
   const sliderRef = useRef(null);
@@ -26,7 +23,7 @@ const TrendingOffers = () => {
   };
 
   return (
-    <section className="py-10 md:py-20">
+    <MainLayout className="py-10 md:py-20">
       <div className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="flex justify-between items-start mb-10">
           <div>
@@ -60,7 +57,7 @@ const TrendingOffers = () => {
           ))}
         </div>
       </div>
-    </section>
+    </MainLayout>
   );
 };
 

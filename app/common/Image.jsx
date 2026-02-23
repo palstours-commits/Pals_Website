@@ -13,7 +13,6 @@ export default function CustomImage({
   priority = false,
 }) {
   const imgSrc = getImageUrl(src);
-
   if (!imgSrc) return null;
 
   return (
