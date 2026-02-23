@@ -29,10 +29,9 @@ const SearchBar = ({ readOnly = false, onDropdownChange }) => {
   }, [search, dispatch]);
 
   return (
-    <div className="relative bg-white border border-gray-200 rounded-full flex items-center gap-4 shadow-md px-5 sm:px-6 py-3 max-w-xl mb-6 md:mb-0">
+    <div className="relative bg-white border border-gray-200 rounded-full flex items-center gap-4 shadow-md px-5 sm:px-6 py-3 max-w-xl w-full mb-6 md:mb-0">
       <Camera size={18} className="text-gray-600 shrink-0" />
-
-      <div className="relative w-full">
+      <div className="relative flex-1 ">
         <input
           type="text"
           placeholder="Where do you want to go?"
@@ -47,11 +46,15 @@ const SearchBar = ({ readOnly = false, onDropdownChange }) => {
           <div
             onMouseDown={(e) => e.preventDefault()}
             className="
-      absolute left-0 right-0 top-12 z-50
-      rounded-xl border border-gray-200
-      bg-white shadow-lg
-      max-h-72 overflow-y-auto
-    "
+  absolute left-[-46px] top-12
+  md:w-[560px]
+  z-50
+  rounded-xl
+  border border-gray-200
+  bg-white
+  shadow-lg
+  max-h-72 overflow-y-auto
+"
           >
             {results?.length > 0 ? (
               results.map((pkg) => (
@@ -73,7 +76,6 @@ const SearchBar = ({ readOnly = false, onDropdownChange }) => {
                         className="object-cover"
                       />
                     </div>
-
                     <div className="min-w-0">
                       <p className="text-sm font-semibold text-gray-900 truncate">
                         {pkg.packageName}
