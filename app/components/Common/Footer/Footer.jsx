@@ -104,17 +104,11 @@ export default function Footer() {
             <div className="text-sm text-gray-300 space-y-4">
               <p>
                 Call / Whatsapp <br />
-                <a
-                  href="tel:+919841255715"
-                  className="hover:text-white transition"
-                >
+                <a href="tel:+919841255715" className="text-white transition">
                   +91 98412 55715
                 </a>
                 <br />
-                <a
-                  href="tel:+919003012226"
-                  className="hover:text-white transition"
-                >
+                <a href="tel:+919003012226" className="text-white transition">
                   +91 90030 12226
                 </a>
               </p>
@@ -123,14 +117,14 @@ export default function Footer() {
                 Mail us at <br />
                 <a
                   href="mailto:mail@palsholidays.com"
-                  className="hover:text-white transition"
+                  className="text-white transition"
                 >
                   mail@palsholidays.com
                 </a>
                 <br />
                 <a
                   href="mailto:palstours@gmail.com"
-                  className="hover:text-white transition"
+                  className="text-white transition"
                 >
                   palstours@gmail.com
                 </a>
@@ -141,7 +135,7 @@ export default function Footer() {
                 <a
                   href="https://palsholidays.com"
                   target="_blank"
-                  className="hover:text-white transition"
+                  className="text-white transition"
                 >
                   Palsholidays.com
                 </a>
@@ -149,7 +143,7 @@ export default function Footer() {
                 <a
                   href="https://tour2india.com"
                   target="_blank"
-                  className="hover:text-white transition"
+                  className="text-white transition"
                 >
                   Tour2india.com
                 </a>
@@ -157,7 +151,7 @@ export default function Footer() {
                 <a
                   href="https://trip2southindia.com"
                   target="_blank"
-                  className="hover:text-white transition"
+                  className="text-white transition"
                 >
                   Trip2southindia.com
                 </a>
