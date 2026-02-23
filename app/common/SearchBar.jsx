@@ -29,7 +29,7 @@ const SearchBar = ({ readOnly = false, onDropdownChange }) => {
   }, [search, dispatch]);
 
   return (
-    <div className="relative bg-white border border-gray-200 rounded-full flex items-center gap-4 shadow-md px-5 sm:px-6 py-3 max-w-xl">
+    <div className="relative bg-white border border-gray-200 rounded-full flex items-center gap-4 shadow-md px-5 sm:px-6 py-3 max-w-xl mb-6 md:mb-0">
       <Camera size={18} className="text-gray-600 shrink-0" />
 
       <div className="relative w-full">
@@ -43,7 +43,7 @@ const SearchBar = ({ readOnly = false, onDropdownChange }) => {
           onBlur={() => setTimeout(() => setShowDropdown(false), 150)}
           className="w-full bg-transparent outline-none text-sm sm:text-base text-gray-900 placeholder:text-gray-500"
         />
-        {showDropdown && results?.length > 0 && !readOnly && (
+        {showDropdown && !readOnly && (
           <div
             onMouseDown={(e) => e.preventDefault()}
             className="
@@ -53,40 +53,47 @@ const SearchBar = ({ readOnly = false, onDropdownChange }) => {
       max-h-72 overflow-y-auto
     "
           >
-            {results.map((pkg) => (
-              <div
-                key={pkg._id}
-                onClick={() => {
-                  setShowDropdown(false);
-                  onDropdownChange?.(false);
-                  router.push(`/package/${pkg.slug}`);
-                }}
-                className="px-4 py-3 cursor-pointer hover:bg-gray-100 transition"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="relative w-12 h-12 rounded-lg overflow-hidden shrink-0">
-                    <CustomImage
-                      src={pkg.images?.[0]}
-                      alt={pkg.packageName}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-sm font-semibold text-gray-900 truncate">
-                      {pkg.packageName}
-                    </p>
-                    <p className="text-xs text-gray-500 truncate">
-                      {pkg.zoneId?.name}
-                    </p>
+            {results?.length > 0 ? (
+              results.map((pkg) => (
+                <div
+                  key={pkg._id}
+                  onClick={() => {
+                    setShowDropdown(false);
+                    onDropdownChange?.(false);
+                    router.push(`/package/${pkg.slug}`);
+                  }}
+                  className="px-4 py-3 cursor-pointer hover:bg-gray-100 transition"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="relative w-12 h-12 rounded-lg overflow-hidden shrink-0">
+                      <CustomImage
+                        src={pkg.images?.[0]}
+                        alt={pkg.packageName}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+
+                    <div className="min-w-0">
+                      <p className="text-sm font-semibold text-gray-900 truncate">
+                        {pkg.packageName}
+                      </p>
+                      <p className="text-xs text-gray-500 truncate">
+                        {pkg.zoneId?.name}
+                      </p>
+                    </div>
                   </div>
                 </div>
+              ))
+            ) : (
+              <div className="px-4 py-6 text-center text-sm text-gray-500">
+                No packages found
               </div>
-            ))}
+            )}
           </div>
         )}
       </div>
-      <button className="bg-red-600 hover:bg-red-700 transition h-9 w-9 rounded-full flex items-center justify-center">
+      <button className="bg-red-600 hover:bg-red-700 transition h-9 w-22 rounded-full flex items-center justify-center">
         <Search size={16} className="text-white" />
       </button>
     </div>

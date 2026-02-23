@@ -11,7 +11,6 @@ import {
 } from "@/app/store/slice/contactSlice";
 import { notifyAlert } from "@/app/hooks/NotificationService";
 import { getPackages } from "@/app/store/slice/packageSlice";
-import SingleSelectDropdown from "@/app/common/SingleSelectDropdown";
 
 const initialFormState = {
   firstName: "",
@@ -25,7 +24,6 @@ const initialFormState = {
 
 const Contactsection = () => {
   const { error, message, loading } = useSelector((state) => state.contact);
-  const { packages } = useSelector((state) => state.packages);
   const dispatch = useDispatch();
   const [form, setForm] = useState(initialFormState);
   const title = "Contact Us";

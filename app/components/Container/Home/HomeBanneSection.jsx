@@ -56,7 +56,7 @@ const HomeBannerSection = () => {
 
   return (
     <MainLayout className="relative w-full h-[500px] lg:h-screen p-0 overflow-hidden">
-      <div className="absolute inset-0 z-20 flex items-end md:items-center">
+      <div className="absolute inset-0 z-20 flex items-center">
         <div className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
           <div className="text-white max-w-3xl">
             <div className="flex items-center gap-4 mb-2 md:mb-4">

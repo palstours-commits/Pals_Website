@@ -71,6 +71,7 @@ const VisaBookingSection = () => {
         backgroundImage={bannerimg.src}
         breadcrumbs={[
           { label: "Home", href: "/" },
+          { label: "service" || "Destination" },
           { label: "Visa Booking" },
         ]}
       />

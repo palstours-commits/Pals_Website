@@ -79,6 +79,7 @@ const HotelBookingSection = () => {
         backgroundImage={bannerimg.src}
         breadcrumbs={[
           { label: "Home", href: "/" },
+          { label: "service" || "Destination" },
           { label: title || "Destination" },
         ]}
       />
