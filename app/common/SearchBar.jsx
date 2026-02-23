@@ -39,21 +39,21 @@ const SearchBar = ({ readOnly = false, onDropdownChange }) => {
           onChange={(e) => setSearch(e.target.value)}
           onFocus={() => !readOnly && setShowDropdown(true)}
           onBlur={() => setTimeout(() => setShowDropdown(false), 150)}
-          className="w-full bg-transparent outline-none text-sm sm:text-base text-gray-900 placeholder:text-gray-500"
+          className="w-full bg-transparent outline-none text-sm sm:text-base text-gray-900  placeholder:text-gray-500"
         />
         {showDropdown && !readOnly && (
           <div
             onMouseDown={(e) => e.preventDefault()}
             className="
-  absolute left[-36px] top-12
-  md:w-[560px]
-  z-50
-  rounded-xl
-  border border-gray-200
-  bg-white
-  shadow-lg
-  max-h-72 overflow-y-auto
-"
+            absolute left-[-12px] top-12
+            md:w-[560px]
+            z-50
+            rounded-xl
+            border border-gray-200
+            bg-white
+            shadow-lg
+            max-h-72 overflow-y-auto
+          "
           >
             {results?.length > 0 ? (
               results.map((pkg) => (
@@ -64,7 +64,7 @@ const SearchBar = ({ readOnly = false, onDropdownChange }) => {
                     onDropdownChange?.(false);
                     router.push(`/package/${pkg.slug}`);
                   }}
-                  className="px-4 py-3 cursor-pointer hover:bg-gray-100 transition"
+                  className="px-6 py-3 cursor-pointer hover:bg-gray-100 transition"
                 >
                   <div className="flex items-center gap-3">
                     <div className="relative w-12 h-12 rounded-lg overflow-hidden shrink-0">
