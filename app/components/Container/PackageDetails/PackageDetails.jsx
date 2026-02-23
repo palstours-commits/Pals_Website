@@ -61,9 +61,7 @@ const PackageDetails = ({ slug }) => {
   }, [dispatch]);
 
   const points = singlePackage?.tripHighlightsPoints || [];
-  const hotelPoints = singlePackage?.importantInfoPoints || [];
   const importantInfo = singlePackage?.importantInfo || [];
-  console.log(importantInfo);
 
   const rawImages =
     singlePackage?.images?.length > 0
@@ -299,10 +297,6 @@ const PackageDetails = ({ slug }) => {
                   </h4>
                   {importantInfo[activeInfoIndex] && (
                     <div>
-                      <h4 className="font-semibold mb-4 text-lg capitalize">
-                        {importantInfo[activeInfoIndex].title}
-                      </h4>
-
                       <div
                         className="text-gray-700 leading-relaxed text-sm sm:text-base"
                         dangerouslySetInnerHTML={{

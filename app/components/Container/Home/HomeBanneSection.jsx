@@ -15,6 +15,7 @@ import BannerImg4 from "@/app/assets/BannerImg4.svg";
 import BannerImg5 from "@/app/assets/BannerImg5.svg";
 import icon1 from "@/app/assets/home_icon1.svg";
 import icon2 from "@/app/assets/home_icon2.svg";
+import { useRouter } from "next/navigation";
 
 const slides = [
   {
@@ -50,6 +51,7 @@ const slides = [
 ];
 
 const HomeBannerSection = () => {
+  const router = useRouter();
   return (
     <MainLayout className="relative w-full h-[500px] lg:h-screen p-0">
       <Swiper
@@ -117,12 +119,14 @@ const HomeBannerSection = () => {
                   <p className="mt-3 mb-6 text-white/90">{slide.desc}</p>
                   <div
                     className="bg-white rounded-full flex items-center gap-4 shadow-xl
+                    cursor-pointer
                 px-5 sm:px-6
                 py-3
                 max-w-xl"
                   >
                     <Camera size={18} className="text-gray-500 shrink-0" />
                     <input
+                      onClick={() => router.push("/search")}
                       type="text"
                       placeholder="Where do you want to go?"
                       className="flex-1 outline-none text-sm sm:text-base text-gray-700"
