@@ -19,6 +19,7 @@ import CustomImage from "@/app/common/Image";
 import { tabSectionMap } from "@/app/utils/mockDatas";
 import PackageForm from "./PackageForm";
 import { getIcons } from "@/app/store/slice/iconSlice";
+import PackageBanner from "@/app/assets/package_bg.png";
 
 const fallbackImages = [travel1, travel2, travel3, travel4, travel5, travel6];
 const PackageDetails = ({ slug }) => {
@@ -48,7 +49,7 @@ const PackageDetails = ({ slug }) => {
   const { message, error } = useSelector((state) => state.enquiry);
   const bannerImage = singlePackage?.images?.[0]
     ? `${process.env.NEXT_PUBLIC_BASE_IMAGE_URL}${singlePackage.images[0]}`
-    : null;
+    : PackageBanner.src;
 
   useEffect(() => {
     dispatch(getPackagesById(slug));
@@ -96,6 +97,8 @@ const PackageDetails = ({ slug }) => {
       setActiveInfoIndex(0);
     }
   }, [importantInfo]);
+
+  console.log(bannerImage);
 
   return (
     <>

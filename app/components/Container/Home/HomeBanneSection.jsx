@@ -75,9 +75,9 @@ const HomeBannerSection = () => {
                 className="object-cover"
               />
               <div className="absolute inset-0 bg-black/10" />
-              <div className="relative z-10 h-full flex flex-col justify-center px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+              <div className="relative z-10 h-full flex flex-col justify-end md:justify-center px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
                 <div className="text-white max-w-3xl">
-                  <div className="flex items-center gap-4 mb-4">
+                  <div className="flex items-center gap-4 mb-2 md:mb-4">
                     <div className="flex items-center gap-2">
                       <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
                         <Image
@@ -114,10 +114,13 @@ const HomeBannerSection = () => {
                     <br />
                     {slide.subtitle}
                   </h1>
-                  <p className="mt-3 mb-6 text-white/90">{slide.desc}</p>
+                  <p className="mt-3 mb-4 md:mb-6 text-white/90">
+                    {slide.desc}
+                  </p>
                   <div
                     className="bg-white rounded-full flex items-center gap-4 shadow-xl
                     cursor-pointer
+                    mb-6 md:mb-0
                 px-5 sm:px-6
                 py-3
                 max-w-xl"
