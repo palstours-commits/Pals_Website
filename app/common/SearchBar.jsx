@@ -45,7 +45,7 @@ const SearchBar = ({ readOnly = false, onDropdownChange }) => {
           <div
             onMouseDown={(e) => e.preventDefault()}
             className="
-  absolute left-[-46px] top-12
+  absolute left[-36px] top-12
   md:w-[560px]
   z-50
   rounded-xl
