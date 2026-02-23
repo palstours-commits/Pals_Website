@@ -10,6 +10,7 @@ import iconReducer from "./slice/iconSlice";
 import offersReducer from "./slice/offerSlice";
 import blogReducer from "./slice/blogSlice";
 import careerReducer from "./slice/careerSlice";
+import searchReducer from "./slice/searchSlice";
 const reducer = combineReducers({
   menu: menuReducer,
   submenu: submenuReducer,
@@ -22,5 +23,6 @@ const reducer = combineReducers({
   offers: offersReducer,
   blog: blogReducer,
   career: careerReducer,
+  search: searchReducer,
 });
 export default reducer;
