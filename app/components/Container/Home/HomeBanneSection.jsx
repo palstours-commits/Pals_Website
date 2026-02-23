@@ -118,23 +118,26 @@ const HomeBannerSection = () => {
                     {slide.desc}
                   </p>
                   <div
+                    onClick={() => router.push("/search")}
                     className="bg-white rounded-full flex items-center gap-4 shadow-xl
-                    cursor-pointer
-                    mb-6 md:mb-0
-                px-5 sm:px-6
-                py-1 md:py-3  
-                max-w-xl"
+  cursor-pointer
+  mb-6 md:mb-0
+  px-5 sm:px-6
+  py-1 md:py-3
+  max-w-xl"
                   >
                     <Camera size={18} className="text-gray-500 shrink-0" />
+
                     <input
-                      onClick={() => router.push("/search")}
                       type="text"
+                      readOnly
                       placeholder="Where do you want to go?"
-                      className="flex-1 outline-none text-sm sm:text-base text-gray-700"
+                      className="flex-1 outline-none text-sm sm:text-base text-gray-700 bg-transparent cursor-pointer"
                     />
-                    <button className="bg-red-600 h-9 w-9 sm:h-8 sm:w-8 rounded-full flex items-center justify-center">
-                      <Search size={16} className="text-white sm:size-[18px]" />
-                    </button>
+
+                    <div className="bg-red-600 h-9 w-9 rounded-full flex items-center justify-center">
+                      <Search size={16} className="text-white" />
+                    </div>
                   </div>
                 </div>
               </div>
