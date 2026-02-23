@@ -33,10 +33,8 @@ const PackageDetails = ({ slug }) => {
 
   const handleTabClick = (tab) => {
     setActive(tab);
-
     const id = tabSectionMap[tab];
     if (!id) return;
-
     const el = document.getElementById(id);
     if (!el) return;
     el.scrollIntoView({ behavior: "smooth", block: "start" });
