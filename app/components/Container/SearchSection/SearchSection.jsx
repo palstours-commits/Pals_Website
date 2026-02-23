@@ -67,7 +67,7 @@ const SearchSection = () => {
                 {results.map((pkg) => (
                   <div
                     key={pkg._id}
-                    onClick={() => {
+                    onMouseDown={() => {
                       setShowDropdown(false);
                       router.push(`/package/${pkg.slug}`);
                     }}
