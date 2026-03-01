@@ -218,8 +218,8 @@ export default function Header() {
               </div>
             </div>
           </nav>
-          <div className="hidden lg:flex items-center gap-6 ml-auto">
-            <div className="hidden 2xl:flex items-center gap-2 text-sm text-gray-700">
+          <div className="hidden 2xl:flex items-center gap-6 ml-auto">
+            {/* <div className="hidden 2xl:flex items-center gap-2 text-sm text-gray-700">
               <Phone size={16} />
               <a href="tel:+919841255715" className="hover:text-red-600">
                 +91-98412-55715
@@ -232,8 +232,8 @@ export default function Header() {
               >
                 mail@palsholidays.com
               </a>
-            </div>
-            <div className="flex 2xl:hidden items-center gap-3 text-gray-700">
+            </div> */}
+            <div className="flex  items-center gap-3 text-gray-700">
               <a
                 href="tel:+919841255715"
                 aria-label="Call PALS Holidays"
@@ -241,7 +241,6 @@ export default function Header() {
               >
                 <Phone size={16} />
               </a>
-
               <a
                 href="mailto:mail@palsholidays.com"
                 aria-label="Email PALS Holidays"
