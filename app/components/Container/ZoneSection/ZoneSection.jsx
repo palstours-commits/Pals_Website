@@ -4,7 +4,7 @@ import {
   getIdBySubmenu,
   getSlugBySubmenu,
 } from "@/app/store/slice/submenuSlice";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import HolidayPlanner from "../Home/HolidayPlanner";
 

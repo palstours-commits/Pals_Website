@@ -1,22 +1,22 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
-import {
-  Plane,
-  Hotel,
-  SlidersHorizontal,
-  FileText,
-  ShieldCheck,
-  Mountain,
-  Ship,
-  ChevronLeft,
-  ChevronRight,
-  Banknote,
-  Car,
-} from "lucide-react";
+import { fadeContainer, fadeItem } from "@/app/common/animations";
 import MainLayout from "@/app/common/MainLayout";
 import { motion } from "framer-motion";
-import { fadeContainer, fadeItem } from "@/app/common/animations";
+import {
+  Banknote,
+  Car,
+  ChevronLeft,
+  ChevronRight,
+  FileText,
+  Hotel,
+  Mountain,
+  Plane,
+  ShieldCheck,
+  Ship,
+  SlidersHorizontal,
+} from "lucide-react";
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 
 const services = [
   { title: "Flight\nBookings", Icon: Plane, slug: "flight" },

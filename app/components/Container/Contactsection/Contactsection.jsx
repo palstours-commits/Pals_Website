@@ -1,272 +1,345 @@
 "use client";
-import CommonHeroSection from "@/app/common/CommonHeroSection";
-import React, { useEffect, useState } from "react";
 import bannerimg from "@/app/assets/contact-banner.svg";
-import { Mail, MapPin, Phone } from "lucide-react";
+import CommonHeroSection from "@/app/common/CommonHeroSection";
 import MainLayout from "@/app/common/MainLayout";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  clearContactState,
-  submitContact,
-} from "@/app/store/slice/contactSlice";
-import { notifyAlert } from "@/app/hooks/NotificationService";
+import Message_Popups from "@/app/common/Message_Popups";
+import { clearContactState, submitContact } from "@/app/store/slice/contactSlice";
 import { getPackages } from "@/app/store/slice/packageSlice";
+import { motion } from "framer-motion";
+import { Mail, MapPin, Phone } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-const initialFormState = {
+const initialForm = {
+  firstName: "", 
+  lastName: "", 
+  email: "", 
+  mobile: "", 
+  message: ""
+};
+
+const initialErrors = {
   firstName: "",
   lastName: "",
   email: "",
   mobile: "",
-  noOfPersons: "",
-  plan: "",
-  message: "",
+  message: ""
+};
+
+// --- Reusable Floating Input Component ---
+const FloatingLabelInput = ({ label, name, value, onChange, placeholder, required = false, isTextarea = false, type = "text", error }) => {
+  const [isFocused, setIsFocused] = useState(false);
+  const isFloating = isFocused || (value && value.toString().length > 0);
+
+  return (
+    <div className="relative mt-6 w-full">
+      <label className={`absolute left-3 px-1.5 transition-all duration-200 pointer-events-none z-10 ${
+        isFloating ? "-top-2.5 text-[11px] font-bold text-red-600 bg-white" : "top-3.5 text-gray-500 text-sm bg-transparent"
+      }`}>
+        {label.toUpperCase()} {required && <span className="text-red-500">*</span>}
+      </label>
+      {isTextarea ? (
+        <textarea 
+          name={name} 
+          value={value} 
+          onChange={onChange} 
+          onFocus={() => setIsFocused(true)} 
+          onBlur={() => setIsFocused(false)}
+          className={`w-full px-4 py-3 rounded-xl border ${error ? 'border-red-500 bg-red-50' : 'border-gray-200'} focus:border-red-600 focus:ring-2 focus:ring-red-100 outline-none transition-all resize-none`} 
+          rows="4" 
+        />
+      ) : (
+        <input 
+          type={type} 
+          name={name} 
+          value={value} 
+          onChange={onChange} 
+          onFocus={() => setIsFocused(true)} 
+          onBlur={() => setIsFocused(false)}
+          className={`w-full px-4 py-3 rounded-xl border ${error ? 'border-red-500 bg-red-50' : 'border-gray-200'} focus:border-red-600 focus:ring-2 focus:ring-red-100 outline-none transition-all`} 
+          placeholder={isFocused ? placeholder : ""} 
+        />
+      )}
+      {error && <p className="text-red-500 text-xs mt-1 ml-1">{error}</p>}
+    </div>
+  );
 };
 
 const Contactsection = () => {
   const { error, message, loading } = useSelector((state) => state.contact);
   const dispatch = useDispatch();
-  const [form, setForm] = useState(initialFormState);
-  const title = "Contact Us";
+  const [form, setForm] = useState(initialForm);
+  const [errors, setErrors] = useState(initialErrors);
+  
+  // Popup states
+  const [showConfirmPopup, setShowConfirmPopup] = useState(false);
+  const [showResultPopup, setShowResultPopup] = useState(false);
+  const [popupType, setPopupType] = useState('success');
+  const [popupMessage, setPopupMessage] = useState('');
 
-  useEffect(() => {
-    dispatch(getPackages());
+  useEffect(() => { 
+    dispatch(getPackages()); 
   }, [dispatch]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    setForm((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setForm({ ...form, [name]: value });
+    
+    // Clear error for this field when user starts typing
+    if (errors[name]) {
+      setErrors({ ...errors, [name]: "" });
+    }
   };
 
-  const handleSubmit = (e) => {
+  const validateForm = () => {
+    const newErrors = {};
+    let isValid = true;
+
+    // First Name validation
+    if (!form.firstName.trim()) {
+      newErrors.firstName = "First name is required";
+      isValid = false;
+    } else if (form.firstName.trim().length < 2) {
+      newErrors.firstName = "First name must be at least 2 characters";
+      isValid = false;
+    }
+
+    // Last Name validation
+    if (!form.lastName.trim()) {
+      newErrors.lastName = "Last name is required";
+      isValid = false;
+    } else if (form.lastName.trim().length < 2) {
+      newErrors.lastName = "Last name must be at least 2 characters";
+      isValid = false;
+    }
+
+    // Email validation
+    if (!form.email.trim()) {
+      newErrors.email = "Email is required";
+      isValid = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      newErrors.email = "Please enter a valid email address";
+      isValid = false;
+    }
+
+    // Mobile validation
+    if (!form.mobile.trim()) {
+      newErrors.mobile = "Mobile number is required";
+      isValid = false;
+    } else if (!/^[0-9+\-\s()]{10,15}$/.test(form.mobile)) {
+      newErrors.mobile = "Please enter a valid mobile number";
+      isValid = false;
+    }
+
+    // Message validation
+    if (!form.message.trim()) {
+      newErrors.message = "Message is required";
+      isValid = false;
+    } else if (form.message.trim().length < 10) {
+      newErrors.message = "Message must be at least 10 characters";
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
+  const handleSubmitClick = (e) => {
     e.preventDefault();
-    const payload = {
+    
+    // Validate all fields
+    if (validateForm()) {
+      // Show confirmation popup if validation passes
+      setShowConfirmPopup(true);
+    } else {
+      // Scroll to top to show errors
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  const handleConfirmSubmit = () => {
+    setShowConfirmPopup(false);
+    // Now submit the form
+    dispatch(submitContact({
       name: `${form.firstName} ${form.lastName}`.trim(),
       email: form.email,
       mobile: form.mobile,
-      noOfPersons: form.noOfPersons === "family" ? 4 : Number(form.noOfPersons),
-      plan: form.plan,
       message: form.message,
-    };
-    setForm(initialFormState);
-    dispatch(submitContact(payload));
+    }));
   };
 
+  // Handle API response
   useEffect(() => {
     if (message) {
-      notifyAlert({
-        title: "Success",
-        message,
-        type: "success",
-      });
+      // Extract message from API response
+      const responseMessage = typeof message === 'string' 
+        ? message 
+        : message?.message || "Thank you for contacting us. We'll get back to you soon!";
+      
+      setPopupType('success');
+      setPopupMessage(responseMessage);
+      setShowResultPopup(true);
+      setForm(initialForm);
+      setErrors(initialErrors);
       dispatch(clearContactState());
     }
-
     if (error) {
-      notifyAlert({
-        title: "Error",
-        message: error,
-        type: "error",
-      });
+      const errorMessage = typeof error === 'string' 
+        ? error 
+        : error?.message || "An error occurred. Please try again.";
+      
+      setPopupType('error');
+      setPopupMessage(errorMessage);
+      setShowResultPopup(true);
       dispatch(clearContactState());
     }
   }, [message, error, dispatch]);
 
+  const handleClosePopups = () => {
+    setShowConfirmPopup(false);
+    setShowResultPopup(false);
+    setPopupMessage('');
+  };
+
   return (
     <>
-      <CommonHeroSection
-        title={`Contact Us`}
-        backgroundImage={bannerimg.src}
-        breadcrumbs={[
-          { label: "Home", href: "/" },
-          { label: title || "Destination" },
-        ]}
-      />
-      <MainLayout>
-        <div className="py-10 md:py-20 ">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
-              <div className="max-w-xl">
-                <h4 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
-                  Get in Touch with Pals Holidays
-                </h4>
-                <p className="text-gray-600 mb-8 leading-relaxed">
-                  We're here to help you plan your perfect journey. Whether
-                  you're looking for holiday packages, flight bookings, visa
-                  assistance, or customized travel solutions, our team is just a
-                  call or message away.
-                </p>
-                <div className="flex gap-4 mb-6">
-                  <div className="text-red-600 mt-1">
-                    <Mail size={22} />
-                  </div>
+      <CommonHeroSection title="Contact Us" backgroundImage={bannerimg.src} />
+      <MainLayout className="bg-gray-50 py-16">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+            
+            {/* Contact Info */}
+            <div className="space-y-8">
+              <h2 className="text-3xl md:text-4xl font-black text-gray-900">Get in Touch</h2>
+              <p className="text-gray-600 leading-relaxed">We're here to help you plan your perfect journey. Our team is just a call or message away.</p>
+              
+              {[
+                { icon: Mail, title: "Email", lines: ["mail@palsholidays.com", "palstours@gmail.com"] },
+                { icon: Phone, title: "Call / WhatsApp", lines: ["+91 98412 55715", "+91 90030 12226"] },
+                { icon: MapPin, title: "India Address", lines: ["No.6, TNHB Office Complex,", "Mogappair, Chennai, 600037"] }
+              ].map((item, i) => (
+                <div key={i} className="flex gap-4">
+                  <div className="text-red-600 bg-red-50 p-3 rounded-xl h-fit"><item.icon size={22} /></div>
                   <div>
-                    <h4 className="text-red-600 font-semibold">Email</h4>
-                    <p className="text-gray-700 text-sm">
-                      mail@palsholidays.com
-                    </p>
-                    <p className="text-gray-700 text-sm">palstours@gmail.com</p>
+                    <h4 className="font-bold text-gray-900">{item.title}</h4>
+                    {item.lines.map((line, j) => <p key={j} className="text-gray-600 text-sm">{line}</p>)}
                   </div>
                 </div>
-                <div className="flex gap-4 mb-6">
-                  <div className="text-red-600 mt-1">
-                    <Phone size={22} />
-                  </div>
-                  <div>
-                    <h4 className="text-red-600 font-semibold">
-                      Call / Whatsapp
-                    </h4>
-                    <p className="text-gray-700 text-sm">+91 98412 55715</p>
-                    <p className="text-gray-700 text-sm">+91 90030 12226</p>
-                  </div>
-                </div>
-                <div className="flex gap-4">
-                  <div className="text-red-600 mt-1">
-                    <MapPin size={22} />
-                  </div>
-                  <div>
-                    <h4 className="text-red-600 font-semibold">
-                      India Address
-                    </h4>
-                    <p className="text-gray-700 text-sm">
-                      No.6, TNHB Office Complex,
-                      <br />
-                      Mogappair, Chennai, 600037
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <form onSubmit={handleSubmit}>
-                <div className="space-y-5 sm:space-y-6">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    <div>
-                      <label className="block text-sm text-gray-500 mb-1">
-                        First name
-                      </label>
-                      <input
-                        type="text"
-                        name="firstName"
-                        value={form.firstName}
-                        onChange={handleChange}
-                        placeholder="Enter Your First Name"
-                        className="w-full border border-gray-300 rounded-lg px-4 py-3  outline-0 transition"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm text-gray-500 mb-1">
-                        Last name
-                      </label>
-                      <input
-                        type="text"
-                        name="lastName"
-                        value={form.lastName}
-                        onChange={handleChange}
-                        placeholder="Enter Your Last Name"
-                        className="w-full border border-gray-300 rounded-lg px-4 py-3  outline-0 transition"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <label className="block text-sm text-gray-500 mb-1">
-                      Email address
-                    </label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={form.email}
-                      onChange={handleChange}
-                      placeholder="Enter your Address"
-                      className="w-full border border-gray-300 rounded-lg px-4 py-3  outline-0 transition"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm text-gray-500 mb-1">
-                      Mobile number
-                    </label>
-                    <input
-                      type="text"
-                      name="mobile"
-                      value={form.mobile}
-                      onChange={handleChange}
-                      placeholder="+91"
-                      className="w-full border border-gray-300 rounded-lg px-4 py-3  outline-0 transition"
-                    />
-                  </div>
-                  {/* <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    <div className="relative">
-                      <label className="block text-sm text-gray-500 mb-1">
-                        Persons
-                      </label>
-                      <select
-                        name="noOfPersons"
-                        value={form.noOfPersons}
-                        onChange={handleChange}
-                        className="w-full border border-gray-300 rounded-lg px-4 py-3  text-gray-500  outline-0"
-                      >
-                        <option value="">Select</option>
-                        <option value="1">1 Person</option>
-                        <option value="2">2 Persons</option>
-                        <option value="family">Family</option>
-                      </select>
-                    </div>
-                    <div className="relative">
-                      <SingleSelectDropdown
-                        label="Plan"
-                        options={packages}
-                        value={form.plan}
-                        labelKey="packageName"
-                        onChange={(id) =>
-                          setForm((prev) => ({
-                            ...prev,
-                            plan: id,
-                          }))
-                        }
-                        placeholder="Select Plan"
-                        searchable
-                      />
-                    </div>
-                  </div> */}
-                  <div>
-                    <label className="block text-sm text-gray-500 mb-1">
-                      Message
-                    </label>
-                    <textarea
-                      name="message"
-                      value={form.message}
-                      onChange={handleChange}
-                      rows="6"
-                      placeholder="Write your message (Special request)"
-                      className="w-full border border-gray-300 rounded-lg px-4 py-3  outline-0 transition"
-                    />
-                  </div>
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className={`w-full bg-red-600 hover:bg-red-700 transition text-white font-semibold py-4 sm:py-5 rounded-full text-sm
-    ${loading ? "opacity-60 cursor-not-allowed hover:bg-red-600" : ""}
-  `}
-                  >
-                    {loading ? "Submitting..." : "Claim Your Free Spot"}
-                  </button>
-                </div>
-              </form>
+              ))}
             </div>
+
+            {/* Form */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }} 
+              animate={{ opacity: 1, y: 0 }} 
+              className="bg-white p-8 md:p-10 rounded-[2rem] shadow-2xl border border-gray-100"
+            >
+              {/* Validation Summary */}
+              {Object.keys(errors).some(key => errors[key]) && (
+                <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl">
+                  <p className="text-red-600 font-semibold mb-2">Please fix the following errors:</p>
+                  <ul className="list-disc list-inside text-sm text-red-500">
+                    {Object.values(errors).map((error, index) => error && <li key={index}>{error}</li>)}
+                  </ul>
+                </div>
+              )}
+
+              <form onSubmit={handleSubmitClick} className="space-y-2">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
+                  <FloatingLabelInput 
+                    label="First Name" 
+                    name="firstName" 
+                    value={form.firstName} 
+                    onChange={handleChange} 
+                    required 
+                    error={errors.firstName}
+                  />
+                  <FloatingLabelInput 
+                    label="Last Name" 
+                    name="lastName" 
+                    value={form.lastName} 
+                    onChange={handleChange} 
+                    required 
+                    error={errors.lastName}
+                  />
+                </div>
+                
+                <FloatingLabelInput 
+                  label="Email Address" 
+                  name="email" 
+                  type="email" 
+                  value={form.email} 
+                  onChange={handleChange} 
+                  required 
+                  error={errors.email}
+                />
+                
+                <FloatingLabelInput 
+                  label="Mobile Number" 
+                  name="mobile" 
+                  value={form.mobile} 
+                  onChange={handleChange} 
+                  required 
+                  error={errors.mobile}
+                />
+                
+                <FloatingLabelInput 
+                  label="Message" 
+                  name="message" 
+                  value={form.message} 
+                  onChange={handleChange} 
+                  isTextarea 
+                  required
+                  error={errors.message}
+                />
+                
+                <motion.button 
+                  whileHover={{ scale: 1.02 }} 
+                  whileTap={{ scale: 0.98 }} 
+                  type="submit" 
+                  disabled={loading} 
+                  className="w-full mt-10 bg-gray-900 text-white font-bold py-5 rounded-2xl shadow-xl hover:bg-red-600 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {loading ? "Submitting..." : "Send Message"}
+                </motion.button>
+              </form>
+            </motion.div>
           </div>
         </div>
       </MainLayout>
-      <MainLayout>
-        <div className="w-full h-[302px] md:h-[421px]">
-          <iframe
-            title="Google Map"
-            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15544.705809832558!2d80.178049!3d13.088001!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x824d29be61867bdb%3A0x2f78c920f9dd537c!2sPals%20Holidays!5e0!3m2!1sen!2sin!4v1771585251396!5m2!1sen!2sin"
-            className="w-full h-full border-0"
-            loading="lazy"
-          />
+
+      {/* Map Section */}
+      <div className="w-full h-[400px] grayscale hover:grayscale-0 transition-all duration-700">
+        <iframe 
+          title="Map" 
+          src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15544.705809832558!2d80.178049!3d13.088001!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x824d29be61867bdb%3A0x2f78c920f9dd537c!2sPals%20Holidays!5e0!3m2!1sen!2sin!4v1771585251396!5m2!1sen!2sin" 
+          className="w-full h-full border-0" 
+          loading="lazy" 
+        />
+      </div>
+
+      {/* Confirmation Popup - Simple confirmation message */}
+      <Message_Popups
+        isOpen={showConfirmPopup}
+        type="confirm"
+        onClose={handleClosePopups}
+        onConfirm={handleConfirmSubmit}
+      >
+        <div className="space-y-2">
+          <p className="text-sm text-gray-700">Are you sure you want to send this message.</p>
         </div>
-      </MainLayout>
+      </Message_Popups>
+
+      {/* Success/Error Popup - Only shows API message */}
+      <Message_Popups
+        isOpen={showResultPopup}
+        type={popupType}
+        onClose={handleClosePopups}
+      >
+        <div className="text-center">
+          <p className="text-sm text-gray-800">{popupMessage}</p>
+        </div>
+      </Message_Popups>
     </>
   );
 };

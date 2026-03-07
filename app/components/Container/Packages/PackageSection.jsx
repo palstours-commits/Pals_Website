@@ -1,14 +1,14 @@
 "use client";
+import CommonHeroSection from "@/app/common/CommonHeroSection";
 import MainLayout from "@/app/common/MainLayout";
 import TravelCard from "@/app/common/TravelCard";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { motion } from "framer-motion";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getPackagesBySubmenu } from "@/app/store/slice/packageSlice";
-import CommonHeroSection from "@/app/common/CommonHeroSection";
 import { TravelCardSkeleton } from "@/app/common/animations";
+import { getPackagesBySubmenu } from "@/app/store/slice/packageSlice";
+import { motion } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const PackageSection = ({ zoneSlug, submenuSlug }) => {
   const dispatch = useDispatch();
@@ -16,10 +16,15 @@ const PackageSection = ({ zoneSlug, submenuSlug }) => {
   const title = zoneSlug?.replace(/-/g, " ");
   const { packagesBySubmenu, loading } = useSelector((state) => state.packages);
   const zones = packagesBySubmenu?.zones || [];
+  
+  // Create refs for each zone slider
+  const sliderRefs = useRef({});
+  const [canScrollLeft, setCanScrollLeft] = useState({});
+  const [canScrollRight, setCanScrollRight] = useState({});
 
   useEffect(() => {
     dispatch(getPackagesBySubmenu(submenuSlug));
-  }, [submenuSlug]);
+  }, [submenuSlug, dispatch]);
 
   useEffect(() => {
     if (!zoneSlug) return;
@@ -37,6 +42,41 @@ const PackageSection = ({ zoneSlug, submenuSlug }) => {
       }, 600);
     }
   }, [zoneSlug]);
+
+  const scroll = (zoneId, dir) => {
+    const el = sliderRefs.current[zoneId];
+    if (!el) return;
+    
+    el.scrollBy({
+      left: dir === "left" ? -300 : 300,
+      behavior: "smooth",
+    });
+    
+    // Update scroll buttons after scroll
+    setTimeout(() => checkScroll(zoneId), 350);
+  };
+
+  const checkScroll = (zoneId) => {
+    const el = sliderRefs.current[zoneId];
+    if (!el) return;
+    
+    const { scrollLeft, scrollWidth, clientWidth } = el;
+    setCanScrollLeft(prev => ({ 
+      ...prev, 
+      [zoneId]: scrollLeft > 0 
+    }));
+    setCanScrollRight(prev => ({ 
+      ...prev, 
+      [zoneId]: scrollLeft + clientWidth < scrollWidth - 1 
+    }));
+  };
+
+  // Initialize scroll check after packages load
+  useEffect(() => {
+    zones.forEach(zone => {
+      setTimeout(() => checkScroll(zone._id), 100);
+    });
+  }, [zones]);
 
   return (
     <>
@@ -66,37 +106,98 @@ const PackageSection = ({ zoneSlug, submenuSlug }) => {
           className={zone.isTrending ? "bg-[#FAF3E1]" : "bg-white"}
         >
           <MainLayout className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-10 md:pt-15">
-            <div className="flex items-center justify-between mb-10">
+            <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
               <div>
-                <h4 className="font-bold">{zone.name}</h4>
-                <p className="text-gray-500 mt-2 text-sm">{zone.description}</p>
+                <h4 className="text-2xl md:text-3xl font-bold text-gray-900">
+                  {zone.name}
+                </h4>
+                <p className="text-gray-600 mt-2 text-sm md:text-base max-w-2xl">
+                  {zone.description}
+                </p>
               </div>
-              <div className="flex items-center gap-4">
+              
+              <div className="flex items-center gap-4 flex-shrink-0">
                 <div className="flex gap-2">
-                  <button className="w-6 h-6 rounded-lg border-2 flex items-center justify-center text-[#da251c] border-[#da251c]">
+                  <motion.button
+                    onClick={() => scroll(zone._id, "left")}
+                    disabled={!canScrollLeft[zone._id]}
+                    className={`w-10 h-10 rounded-xl bg-white border-2 flex items-center justify-center shadow-md transition-all duration-300 cursor-pointer ${
+                      canScrollLeft[zone._id]
+                        ? "border-[#da251c] text-[#da251c] hover:shadow-lg hover:border-[#da251c]/80"
+                        : "border-gray-200 text-gray-400 cursor-not-allowed"
+                    }`}
+                    whileHover={canScrollLeft[zone._id] ? { scale: 1.05 } : {}}
+                    whileTap={{ scale: 0.95 }}
+                  >
                     <ChevronLeft size={18} />
-                  </button>
-                  <button className="w-6 h-6 rounded-lg border-2 border-gray-300 text-gray-300 flex items-center justify-center">
+                  </motion.button>
+                  
+                  <motion.button
+                    onClick={() => scroll(zone._id, "right")}
+                    disabled={!canScrollRight[zone._id]}
+                    className={`w-10 h-10 rounded-xl bg-white border-2 flex items-center justify-center shadow-md transition-all duration-300 cursor-pointer ${
+                      canScrollRight[zone._id]
+                        ? "border-[#da251c] text-[#da251c] hover:shadow-lg hover:border-[#da251c]/80"
+                        : "border-gray-200 text-gray-400 cursor-not-allowed"
+                    }`}
+                    whileHover={canScrollRight[zone._id] ? { scale: 1.05 } : {}}
+                    whileTap={{ scale: 0.95 }}
+                  >
                     <ChevronRight size={18} />
-                  </button>
+                  </motion.button>
                 </div>
-                <button
-                  onClick={() => router.push("/explore")}
-                  className="bg-red-600 text-white px-6 py-2 rounded-full text-xs font-semibold hidden lg:block cursor-pointer"
+                
+                <motion.button
+                  onClick={() => router.push(`/explore?zone=${zone.slug}`)}
+                  className="bg-[#da251c] hover:bg-[#b91c1c] text-white px-6 py-3 rounded-xl text-sm font-semibold shadow-lg hover:shadow-xl transition-all duration-300 whitespace-nowrap cursor-pointer"
+                  whileHover={{ scale: 1.02, y: -1 }}
+                  whileTap={{ scale: 0.98 }}
                 >
                   Discover more
-                </button>
+                </motion.button>
               </div>
             </div>
-            <div
-              className="
-          flex gap-4 overflow-x-auto
-          md:grid md:grid-cols-3
-          lg:grid-cols-4
-          md:overflow-visible
-          scrollbar-hide
-        "
-            >
+            
+            {/* Mobile: Horizontal Scroll, Desktop: Grid */}
+            <div className="lg:hidden">
+              <motion.div 
+                ref={el => sliderRefs.current[zone._id] = el}
+                className="flex gap-4 overflow-x-auto scrollbar-hide pb-4"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.6 }}
+                onScroll={() => checkScroll(zone._id)}
+              >
+                {loading ? (
+                  Array.from({ length: 4 }).map((_, i) => (
+                    <div key={i} className="min-w-[260px]">
+                      <TravelCardSkeleton />
+                    </div>
+                  ))
+                ) : zone?.packages?.length ? (
+                  zone.packages.map((pkg) => (
+                    <div key={pkg._id} className="min-w-[260px]">
+                      <TravelCard
+                        img={pkg.images?.[0]}
+                        title={pkg.packageName}
+                        duration={`${pkg.nights} Nights / ${pkg.days} Days`}
+                        slug={pkg.slug}
+                        zoneSlug={zone.slug}
+                        submenuSlug={submenuSlug}
+                        newArrivals={pkg?.newArrivals}
+                      />
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-gray-400 text-sm text-center w-full py-8">
+                    No packages available
+                  </p>
+                )}
+              </motion.div>
+            </div>
+
+            {/* Desktop: Grid Layout */}
+            <div className="hidden lg:grid lg:grid-cols-4 gap-6">
               {loading ? (
                 Array.from({ length: 4 }).map((_, i) => (
                   <TravelCardSkeleton key={i} />
@@ -115,7 +216,7 @@ const PackageSection = ({ zoneSlug, submenuSlug }) => {
                   />
                 ))
               ) : (
-                <p className="text-gray-400 text-sm text-center">
+                <p className="text-gray-400 text-sm text-center col-span-4 py-8">
                   No packages available
                 </p>
               )}
@@ -123,6 +224,16 @@ const PackageSection = ({ zoneSlug, submenuSlug }) => {
           </MainLayout>
         </motion.div>
       ))}
+      
+      <style jsx>{`
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
     </>
   );
 };

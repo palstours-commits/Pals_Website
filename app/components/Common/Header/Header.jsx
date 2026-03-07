@@ -1,30 +1,93 @@
 "use client";
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import navbar_logo from "@/app/assets/navbar_logo.svg";
+import companyIcon from "@/app/assets/office-building.svg";
+import navItemIcon from "@/app/assets/serive_home-icon-2.svg";
+import CustomImage from "@/app/common/Image";
+import { getSubMenus } from "@/app/store/slice/submenuSlice";
+import { AnimatePresence, motion } from "framer-motion";
 import {
-  Menu,
-  X,
-  Phone,
   ChevronDown,
   ChevronRight,
-  Mail,
   ChevronUp,
+  Mail,
+  Menu,
+  Phone,
+  X,
 } from "lucide-react";
-import navbar_logo from "@/app/assets/navbar_logo.svg";
-import navItemIcon from "@/app/assets/serive_home-icon-2.svg";
-import navActiveIcon from "@/app/assets/serive_home-icon-1.svg";
-import companyIcon from "@/app/assets/office-building.svg";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getSubMenus } from "@/app/store/slice/submenuSlice";
-import CustomImage from "@/app/common/Image";
+
+// Animation Variants
+const headerContainerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.2,
+    },
+  },
+};
+
+const headerItemVariants = {
+  hidden: { opacity: 0, y: -20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { type: "spring", stiffness: 300, damping: 24 },
+  },
+};
+
+const topToBottomDropdownVariants = {
+  hidden: {
+    opacity: 0,
+    height: 0,
+    y: -20,
+    scaleY: 0.8
+  },
+  visible: {
+    opacity: 1,
+    height: "auto",
+    y: 0,
+    scaleY: 1,
+    transition: {
+      duration: 0.4,
+      ease: [0.25, 0.46, 0.45, 0.94],
+      height: { duration: 0.3, ease: "easeOut" }
+    }
+  },
+  exit: {
+    opacity: 0,
+    height: 0,
+    y: -10,
+    scaleY: 0.8,
+    transition: { duration: 0.25, ease: "easeIn" }
+  },
+};
+
+const planTourButtonVariants = {
+  animate: {
+    scale: [1, 1.03, 1],
+    transition: {
+      duration: 2.5,
+      repeat: Infinity,
+      repeatType: "reverse",
+      ease: "easeInOut"
+    }
+  }
+};
 
 export default function Header() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(null);
   const { submenus } = useSelector((state) => state.submenu);
+  console.log("Submenus in Header:", submenus);
+  
+  // Sort submenus by order
+  const sortedSubmenus = submenus ? [...submenus].sort((a, b) => a.order - b.order) : [];
 
   useEffect(() => {
     dispatch(getSubMenus());
@@ -47,385 +110,596 @@ export default function Header() {
 
   return (
     <>
-      <div className="w-full bg-black text-white text-xs font-light text-center py-2 hidden md:block">
+      {/* Animated Top Banner */}
+      <motion.div
+        variants={headerItemVariants}
+        initial="hidden"
+        animate="visible"
+        className="w-full bg-black text-white text-xs font-light text-center py-2 hidden md:block"
+      >
         Black Friday Last-Minute Specials: Save up to $1,000 by 11/23 on trips
         departing this winter or spring. →
-      </div>
-      <header className="sticky top-0 z-9999 bg-white shadow-2xl">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 2xl:px-8 h-16 flex items-center">
-          <Link
-            href="/"
-            className="flex items-center gap-3 z-10 md:relative top-2"
-          >
-            <Image
-              src={navbar_logo}
-              alt="Pals Holidays"
-              className="h-10 md:h-20 w-auto"
-              priority
-            />
-          </Link>
-          <nav className="hidden lg:flex ml-8  max-w-[600px]  2xl:max-w-[520px] ">
-            <div className="flex items-center  min-w-max">
-              {submenus?.map((menu, index) => {
+      </motion.div>
+
+      <header className="sticky top-0 z-[9999] bg-white shadow-2xl">
+        {/* Main Header Container */}
+        <motion.div 
+          variants={headerContainerVariants}
+          initial="hidden"
+          animate="visible"
+          className="max-w-7xl mx-auto px-4 sm:px-6 2xl:px-8 h-16 flex items-center"
+        >
+          {/* Logo */}
+          <motion.div variants={headerItemVariants} className="z-10 md:relative top-2">
+            <Link href="/" className="flex items-center gap-3">
+              <Image
+                src={navbar_logo}
+                alt="Pals Holidays"
+                className="h-10 md:h-20 w-auto hover:scale-105 transition-transform duration-200"
+                priority
+              />
+            </Link>
+          </motion.div>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden lg:flex items-center flex-1 justify-center">
+            <div className="flex items-center gap-1">
+              {sortedSubmenus?.map((menu, index) => {
                 const isActive = active === index;
                 const hasSubmenu = menu?.submenus?.length > 0;
+                // Sort submenus by order if they exist
+                const sortedSubItems = menu?.submenus 
+                  ? [...menu.submenus].sort((a, b) => a.order - b.order) 
+                  : [];
+                
                 return (
-                  <div
+                  <motion.div
+                    variants={headerItemVariants}
                     key={menu._id}
-                    className="relative shrink-0"
+                    className="relative shrink-0 group"
                     onMouseEnter={() => hasSubmenu && setActive(index)}
                     onMouseLeave={() => hasSubmenu && setActive(null)}
                   >
                     {hasSubmenu ? (
-                      <button
-                        className={`flex items-center gap-2 px-3 py-2 rounded-full text-sm font-medium transition
-            ${
-              isActive
-                ? "border border-red-500 text-red-500 bg-[#FFDCDA]"
-                : "text-gray-700 hover:text-red-500"
-            }`}
+                      <motion.button
+                        whileHover={{ scale: 1.02, y: -1 }}
+                        whileTap={{ scale: 0.98 }}
+                        className={`flex items-center gap-2 px-3 py-2 rounded-full text-sm font-medium transition-all duration-200 shadow-sm group-hover:shadow-md
+                          ${
+                            isActive
+                              ? "border-2 border-red-500 text-red-500 bg-[#FFDCDA] shadow-md"
+                              : "text-gray-700 hover:text-red-500 hover:shadow-md bg-white/80"
+                          }`}
                       >
-                        <CustomImage
-                          src={menu?.icon}
-                          alt="icon"
-                          className="w-5 h-5 object-contain"
-                        />
+                        <motion.div 
+                          className="w-5 h-5"
+                          whileHover={{ scale: 1.1 }}
+                          transition={{ type: "spring", stiffness: 400 }}
+                        >
+                          <CustomImage
+                            src={menu?.icon}
+                            alt="icon"
+                            className="w-5 h-5 object-contain"
+                          />
+                        </motion.div>
                         {menu.name}
-                        <ChevronDown
-                          size={16}
-                          className={`transition-transform ${isActive ? "rotate-180" : ""}`}
-                        />
-                      </button>
+                        <motion.div
+                          animate={{ rotate: isActive ? 180 : 0 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <ChevronDown size={16} />
+                        </motion.div>
+                      </motion.button>
                     ) : (
-                      <Link
-                        href={`/${menu.slug}`}
-                        className="flex items-center gap-2 px-3 py-2 rounded-full text-sm font-medium text-gray-700 hover:text-red-500"
+                      <motion.div 
+                        whileHover={{ scale: 1.02 }}
+                        className="flex items-center gap-2 px-3 py-2 rounded-full text-sm font-medium text-gray-700 hover:text-red-500 hover:shadow-md cursor-pointer bg-white/80"
                       >
-                        <CustomImage
-                          src={menu?.icon}
-                          alt="icon"
-                          className="w-5 h-5 object-contain"
-                        />
+                        <motion.div 
+                          className="w-5 h-5"
+                          whileHover={{ scale: 1.1 }}
+                          transition={{ type: "spring", stiffness: 400 }}
+                        >
+                          <CustomImage
+                            src={menu?.icon}
+                            alt="icon"
+                            className="w-5 h-5 object-contain"
+                          />
+                        </motion.div>
                         {menu.name}
-                      </Link>
+                      </motion.div>
                     )}
-                    {hasSubmenu && isActive && (
-                      <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 w-48 bg-white shadow-lg rounded-lg py-2 z-50">
-                        {menu.submenus.map((sub) => (
-                          <Link
-                            key={sub._id}
-                            href={`/${menu.slug}/${sub.slug}`}
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                          >
-                            {sub.name}
-                          </Link>
-                        ))}
-                      </div>
-                    )}
-                  </div>
+                    
+                    {/* Animated Dropdown with sorted submenus */}
+                    <AnimatePresence>
+                      {hasSubmenu && isActive && (
+                        <motion.div 
+                          variants={topToBottomDropdownVariants}
+                          initial="hidden"
+                          animate="visible"
+                          exit="exit"
+                          className="absolute top-full left-1/2 -translate-x-1/2 pt-3 w-48 bg-white/95 backdrop-blur-sm shadow-xl rounded-xl py-3 z-50 origin-top overflow-hidden border border-gray-100/50"
+                        >
+                          {sortedSubItems.map((sub, subIndex) => (
+                            <motion.div
+                              key={sub._id}
+                              initial={{ opacity: 0, x: -10 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              exit={{ opacity: 0, x: -10 }}
+                              transition={{ delay: 0.1 + subIndex * 0.05 }}
+                              className="block px-4 py-3 text-sm text-gray-700 hover:bg-red-50/80 hover:text-red-600 transition-all duration-200 rounded-lg mx-1"
+                            >
+                              <Link 
+                                href={`/${menu.slug}/${sub.slug}`}
+                                className="block w-full h-full"
+                              >
+                                {sub.name}
+                              </Link>
+                            </motion.div>
+                          ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
                 );
               })}
-              <div
-                className="relative shrink-0"
+
+              {/* Services Dropdown */}
+              <motion.div
+                variants={headerItemVariants}
+                className="relative shrink-0 group"
                 onMouseEnter={() => setActive("services")}
                 onMouseLeave={() => setActive(null)}
               >
-                <button
-                  className={`flex items-center gap-2 px-3 py-2 rounded-full text-sm font-medium transition
-      ${
-        active === "services"
-          ? "border border-red-500 text-red-500 bg-[#FFDCDA]"
-          : "text-gray-700 hover:text-red-500"
-      }
-    `}
-                >
-                  <Image
-                    src={active === "services" ? navItemIcon : navItemIcon}
-                    alt="icon"
-                    className="w-5 h-5 object-contain"
-                  />
-                  Services
-                  <ChevronDown
-                    size={16}
-                    className={`transition-transform ${
-                      active === "services" ? "rotate-180" : ""
+                <motion.button
+                  whileHover={{ scale: 1.02, y: -1 }}
+                  whileTap={{ scale: 0.98 }}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-full text-sm font-medium transition-all duration-200 shadow-sm group-hover:shadow-md
+                    ${
+                      active === "services"
+                        ? "border-2 border-red-500 text-red-500 bg-[#FFDCDA] shadow-md"
+                        : "text-gray-700 hover:text-red-500 hover:shadow-md bg-white/80"
                     }`}
-                  />
-                </button>
-                {active === "services" && (
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 w-50 bg-white shadow-lg rounded-lg py-2 z-50">
-                    {STATIC_SERVICES.map((item) =>
-                      item.slug ? (
-                        <Link
-                          key={item.slug}
-                          href={`/service/${item.slug}`}
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        >
-                          {item.name}
-                        </Link>
-                      ) : (
-                        <span
-                          key={item.name}
-                          className="block px-4 py-2 text-sm text-gray-400 cursor-not-allowed"
-                        >
-                          {item.name}
-                        </span>
-                      ),
-                    )}
-                  </div>
-                )}
-              </div>
-              <div
-                className="relative shrink-0"
+                >
+                  <motion.div 
+                    className="w-5 h-5"
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ type: "spring", stiffness: 400 }}
+                  >
+                    <Image
+                      src={navItemIcon}
+                      alt="icon"
+                      className="w-5 h-5 object-contain"
+                    />
+                  </motion.div>
+                  Services
+                  <motion.div
+                    animate={{ rotate: active === "services" ? 180 : 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <ChevronDown size={16} />
+                  </motion.div>
+                </motion.button>
+                
+                <AnimatePresence>
+                  {active === "services" && (
+                    <motion.div 
+                      variants={topToBottomDropdownVariants}
+                      initial="hidden"
+                      animate="visible"
+                      exit="exit"
+                      className="absolute top-full left-1/2 -translate-x-1/2 pt-3 w-52 bg-white/95 backdrop-blur-sm shadow-xl rounded-xl py-3 z-50 origin-top overflow-hidden border border-gray-100/50"
+                    >
+                      {STATIC_SERVICES.map((item, index) =>
+                        item.slug ? (
+                          <motion.div
+                            key={item.slug}
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: -10 }}
+                            transition={{ delay: 0.1 + index * 0.05 }}
+                            className="block px-4 py-3 text-sm text-gray-700 hover:bg-red-50/80 hover:text-red-600 transition-all duration-200 rounded-lg mx-1"
+                          >
+                            <Link href={`/service/${item.slug}`} className="block w-full h-full">
+                              {item.name}
+                            </Link>
+                          </motion.div>
+                        ) : (
+                          <span
+                            key={item.name}
+                            className="block px-4 py-3 text-sm text-gray-400 cursor-not-allowed"
+                          >
+                            {item.name}
+                          </span>
+                        )
+                      )}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+
+              {/* Company Dropdown */}
+              <motion.div
+                variants={headerItemVariants}
+                className="relative shrink-0 group"
                 onMouseEnter={() => setActive("company")}
                 onMouseLeave={() => setActive(null)}
               >
-                <button
-                  className={`flex items-center gap-2 px-3 py-2 rounded-full text-sm font-medium transition
-      ${
-        active === "company"
-          ? "border border-red-500 text-red-500 bg-[#FFDCDA]"
-          : "text-gray-700 hover:text-red-500"
-      }`}
-                >
-                  <Image
-                    src={active === "company" ? companyIcon : companyIcon}
-                    alt="icon"
-                    className="w-5 h-5 object-contain"
-                  />
-                  Company
-                  <ChevronDown
-                    size={16}
-                    className={`transition-transform ${
-                      active === "company" ? "rotate-180" : ""
+                <motion.button
+                  whileHover={{ scale: 1.02, y: -1 }}
+                  whileTap={{ scale: 0.98 }}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-full text-sm font-medium transition-all duration-200 shadow-sm group-hover:shadow-md
+                    ${
+                      active === "company"
+                        ? "border-2 border-red-500 text-red-500 bg-[#FFDCDA] shadow-md"
+                        : "text-gray-700 hover:text-red-500 hover:shadow-md bg-white/80"
                     }`}
-                  />
-                </button>
+                >
+                  <motion.div 
+                    className="w-5 h-5"
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ type: "spring", stiffness: 400 }}
+                  >
+                    <Image
+                      src={companyIcon}
+                      alt="icon"
+                      className="w-5 h-5 object-contain"
+                    />
+                  </motion.div>
+                  Company
+                  <motion.div
+                    animate={{ rotate: active === "company" ? 180 : 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <ChevronDown size={16} />
+                  </motion.div>
+                </motion.button>
 
-                {active === "company" && (
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 w-50 bg-white shadow-lg rounded-lg py-2 z-50">
-                    {COMPANY_MENU?.map((item) => (
-                      <Link
-                        key={item.slug}
-                        href={`/${item.slug}`}
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      >
-                        {item.name}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
+                <AnimatePresence>
+                  {active === "company" && (
+                    <motion.div 
+                      variants={topToBottomDropdownVariants}
+                      initial="hidden"
+                      animate="visible"
+                      exit="exit"
+                      className="absolute top-full left-1/2 -translate-x-1/2 pt-3 w-52 bg-white/95 backdrop-blur-sm shadow-xl rounded-xl py-3 z-50 origin-top overflow-hidden border border-gray-100/50"
+                    >
+                      {COMPANY_MENU?.map((item, index) => (
+                        <motion.div
+                          key={item.slug}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: -10 }}
+                          transition={{ delay: 0.1 + index * 0.05 }}
+                          className="block px-4 py-3 text-sm text-gray-700 hover:bg-red-50/80 hover:text-red-600 transition-all duration-200 rounded-lg mx-1"
+                        >
+                          <Link href={`/${item.slug}`} className="block w-full h-full">
+                            {item.name}
+                          </Link>
+                        </motion.div>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
             </div>
           </nav>
-          <div className="hidden 2xl:flex items-center gap-6 ml-auto">
-            {/* <div className="hidden 2xl:flex items-center gap-2 text-sm text-gray-700">
-              <Phone size={16} />
-              <a href="tel:+919841255715" className="hover:text-red-600">
-                +91-98412-55715
-              </a>
-              <span>/</span>
-              <Mail size={16} />
-              <a
-                href="mailto:mail@palsholidays.com"
-                className="hover:text-red-600"
-              >
-                mail@palsholidays.com
-              </a>
-            </div> */}
-            <div className="flex  items-center gap-3 text-gray-700">
-              <a
+
+          {/* Right Side - Phone/Email & CTA */}
+          <motion.div variants={headerItemVariants} className="hidden 2xl:flex items-center gap-6 ml-auto">
+            <div className="flex items-center gap-3 text-gray-700">
+              <motion.a
                 href="tel:+919841255715"
                 aria-label="Call PALS Holidays"
-                className="w-9 h-9 flex items-center justify-center rounded-full border border-gray-300 hover:border-red-600 hover:text-red-600 transition"
+                whileHover={{ scale: 1.1, rotate: 5 }}
+                whileTap={{ scale: 0.95 }}
+                className="w-10 h-10 flex items-center justify-center rounded-full border-2 border-gray-200 hover:border-red-500 hover:bg-red-50/80 shadow-sm hover:shadow-md transition-all duration-200 backdrop-blur-sm bg-white/80"
               >
-                <Phone size={16} />
-              </a>
-              <a
+                <Phone size={18} />
+              </motion.a>
+              <motion.a
                 href="mailto:mail@palsholidays.com"
                 aria-label="Email PALS Holidays"
-                className="w-9 h-9 flex items-center justify-center rounded-full border border-gray-300 hover:border-red-600 hover:text-red-600 transition"
+                whileHover={{ scale: 1.1, rotate: -5 }}
+                whileTap={{ scale: 0.95 }}
+                className="w-10 h-10 flex items-center justify-center rounded-full border-2 border-gray-200 hover:border-red-500 hover:bg-red-50/80 shadow-sm hover:shadow-md transition-all duration-200 backdrop-blur-sm bg-white/80"
               >
-                <Mail size={16} />
-              </a>
+                <Mail size={18} />
+              </motion.a>
             </div>
-            <Link
-              href={"/contact-us"}
-              className="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-full text-xs font-semibold transition flex items-center gap-2"
-            >
-              <span className="w-4 h-4 rounded-md border border-white flex items-center justify-center ">
-                <ChevronUp size={15} />
-              </span>
-              Plan My Tour
-            </Link>
-          </div>
-          <button className="lg:hidden ml-auto" onClick={() => setOpen(true)}>
+            
+            <motion.div variants={planTourButtonVariants} animate="animate">
+              <Link href="/contact-us">
+                <motion.button
+                  whileHover={{ scale: 1.05, y: -2, boxShadow: "0 10px 25px rgba(239,68,68,0.4)" }}
+                  whileTap={{ scale: 0.98 }}
+                  className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-6 py-2.5 rounded-full text-xs font-semibold shadow-lg transition-all duration-300 flex items-center gap-2 border border-red-500/30 backdrop-blur-sm cursor-pointer"
+                >
+                  <motion.span 
+                    className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center shadow-sm"
+                  >
+                    <ChevronUp size={14} />
+                  </motion.span>
+                  Plan My Tour
+                </motion.button>
+              </Link>
+            </motion.div>
+          </motion.div>
+
+          {/* Mobile Menu Button */}
+          <motion.button 
+            variants={headerItemVariants}
+            whileHover={{ scale: 1.1, rotate: 90 }}
+            whileTap={{ scale: 0.95 }}
+            className="lg:hidden ml-auto p-2 rounded-full hover:bg-gray-100 transition-all duration-200"
+            onClick={() => setOpen(true)}
+          >
             <Menu size={26} />
-          </button>
-        </div>
+          </motion.button>
+        </motion.div>
+
+        {/* Mobile Sidebar */}
         <AnimatePresence>
           {open && (
             <>
               <motion.div
-                className="fixed inset-0 bg-black/40"
+                className="fixed inset-0 bg-black/40 z-[9998]"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={() => setOpen(false)}
               />
               <motion.aside
-                className="fixed top-0 right-0 h-full w-full bg-white p-6"
+                className="fixed top-0 right-0 h-full w-full bg-white/95 backdrop-blur-sm p-6 z-[9999] shadow-2xl"
                 initial={{ x: "100%" }}
                 animate={{ x: 0 }}
                 exit={{ x: "100%" }}
                 transition={{ type: "spring", stiffness: 260, damping: 28 }}
               >
                 <div className="flex items-center justify-end mb-8">
-                  <X
-                    size={24}
-                    className="cursor-pointer"
+                  <motion.button
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="p-1 rounded-full hover:bg-gray-100 transition-all duration-200"
                     onClick={() => setOpen(false)}
-                  />
+                  >
+                    <X size={28} />
+                  </motion.button>
                 </div>
-                <nav className="flex flex-col gap-2">
-                  {submenus?.map((menu, index) => {
+                
+                <nav className="flex flex-col gap-3 mb-12">
+                  {sortedSubmenus?.map((menu, index) => {
                     const isActive = active === index;
                     const hasSubmenu = menu?.submenus?.length > 0;
+                    // Sort submenus by order for mobile
+                    const sortedSubItems = menu?.submenus 
+                      ? [...menu.submenus].sort((a, b) => a.order - b.order) 
+                      : [];
+                    
                     return (
-                      <div key={menu._id} className="flex flex-col gap-1">
-                        <button
+                      <motion.div 
+                        key={menu._id} 
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.1 + index * 0.05 }}
+                        className="flex flex-col gap-1"
+                      >
+                        <motion.button
+                          whileHover={{ scale: 1.02, paddingLeft: 20 }}
+                          whileTap={{ scale: 0.98 }}
                           onClick={() =>
                             hasSubmenu && setActive(isActive ? null : index)
                           }
-                          className={`flex items-center justify-between px-4 py-2 rounded-md text-gray-700 font-medium hover:bg-gray-100 transition ${
-                            isActive ? "bg-gray-100 text-red-500" : ""
+                          className={`flex items-center justify-between px-4 py-3 rounded-xl text-gray-700 font-medium hover:bg-gradient-to-r hover:from-red-50 hover:to-gray-50 transition-all duration-200 border ${
+                            isActive ? "bg-gradient-to-r from-red-50 to-gray-50 text-red-600 border-red-200 shadow-sm" : "hover:border-gray-200"
                           }`}
                         >
-                          <div className="flex items-center gap-2">
-                            <Image
-                              src={isActive ? navActiveIcon : navItemIcon}
-                              alt="icon"
-                              className="w-5 h-5 object-contain"
-                            />
+                          <div className="flex items-center gap-3">
+                            <motion.div 
+                              className="w-6 h-6"
+                              whileHover={{ scale: 1.1 }}
+                            >
+                              <CustomImage
+                                src={menu?.icon}
+                                alt="icon"
+                                className="w-6 h-6 object-contain"
+                              />
+                            </motion.div>
                             {menu.name}
                           </div>
                           {hasSubmenu && (
-                            <ChevronRight
-                              size={16}
-                              className={`transition-transform ${isActive ? "rotate-180" : ""}`}
-                            />
+                            <motion.div
+                              animate={{ rotate: isActive ? 90 : 0 }}
+                              transition={{ duration: 0.3 }}
+                            >
+                              <ChevronRight size={18} />
+                            </motion.div>
                           )}
-                        </button>
+                        </motion.button>
+                        
                         {hasSubmenu && isActive && (
-                          <div className="flex flex-col ml-6 mt-1 gap-1">
-                            {menu.submenus.map((sub) => (
-                              <Link
+                          <motion.div 
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.3 }}
+                            className="flex flex-col ml-8 gap-2 overflow-hidden pl-2 border-l-2 border-red-200"
+                          >
+                            {sortedSubItems.map((sub, subIndex) => (
+                              <motion.div
                                 key={sub._id}
-                                href={`/${menu.slug}/${sub.slug}`}
-                                onClick={() => setOpen(false)}
-                                className="text-sm text-gray-700 py-1 px-2 rounded-md hover:bg-gray-100 transition"
+                                initial={{ opacity: 0, x: 10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: 0.1 + subIndex * 0.03 }}
                               >
-                                {sub.name}
-                              </Link>
+                                <Link
+                                  href={`/${menu.slug}/${sub.slug}`}
+                                  onClick={() => setOpen(false)}
+                                  className="text-sm text-gray-600 py-2 px-3 rounded-lg hover:bg-red-50 hover:text-red-600 transition-all duration-200 block"
+                                >
+                                  {sub.name}
+                                </Link>
+                              </motion.div>
                             ))}
-                          </div>
+                          </motion.div>
                         )}
-                      </div>
+                      </motion.div>
                     );
                   })}
-                  <div className="flex flex-col gap-1">
-                    <button
+                  
+                  {/* Mobile Services */}
+                  <motion.div 
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.3 }}
+                    className="flex flex-col gap-1"
+                  >
+                    <motion.button
+                      whileHover={{ scale: 1.02, paddingLeft: 20 }}
+                      whileTap={{ scale: 0.98 }}
                       onClick={() =>
                         setActive(active === "services" ? null : "services")
                       }
-                      className={`flex items-center justify-between px-4 py-2 rounded-md font-medium transition
-      ${
-        active === "services"
-          ? "bg-gray-100 text-red-500"
-          : "text-gray-700 hover:bg-gray-100"
-      }`}
+                      className={`flex items-center justify-between px-4 py-3 rounded-xl font-medium transition-all duration-200 border
+                        ${
+                          active === "services"
+                            ? "bg-gradient-to-r from-red-50 to-gray-50 text-red-600 border-red-200 shadow-sm"
+                            : "text-gray-700 hover:bg-gradient-to-r hover:from-red-50 hover:to-gray-50 hover:border-gray-200"
+                        }`}
                     >
-                      <div className="flex items-center gap-2">
-                        <Image
-                          src={
-                            active === "services" ? navItemIcon : navItemIcon
-                          }
-                          alt="Services icon"
-                          className="w-5 h-5 object-contain"
-                        />
+                      <div className="flex items-center gap-3">
+                        <motion.div className="w-6 h-6" whileHover={{ scale: 1.1 }}>
+                          <Image
+                            src={navItemIcon}
+                            alt="Services icon"
+                            className="w-6 h-6 object-contain"
+                          />
+                        </motion.div>
                         <span>Services</span>
                       </div>
-
-                      <ChevronRight
-                        size={16}
-                        className={`transition-transform ${
-                          active === "services" ? "rotate-90" : ""
-                        }`}
-                      />
-                    </button>
-
+                      <motion.div
+                        animate={{ rotate: active === "services" ? 90 : 0 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <ChevronRight size={18} />
+                      </motion.div>
+                    </motion.button>
+                    
                     {active === "services" && (
-                      <div className="flex flex-col ml-10 mt-1 gap-1">
-                        {STATIC_SERVICES.map((item) => (
-                          <Link
-                            key={item.slug}
-                            href={`/service/${item.slug}`}
-                            onClick={() => setOpen(false)}
-                            className="text-sm text-gray-700 py-1 px-2 rounded-md hover:bg-gray-100 transition"
-                          >
-                            {item.name}
-                          </Link>
-                        ))}
-                      </div>
+                      <motion.div 
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="flex flex-col ml-12 gap-2 overflow-hidden pl-2 border-l-2 border-red-200"
+                      >
+                        {STATIC_SERVICES.map((item, index) =>
+                          item.slug ? (
+                            <motion.div
+                              key={item.slug}
+                              initial={{ opacity: 0, x: 10 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ delay: 0.1 + index * 0.03 }}
+                            >
+                              <Link
+                                href={`/service/${item.slug}`}
+                                onClick={() => setOpen(false)}
+                                className="text-sm text-gray-600 py-2 px-3 rounded-lg hover:bg-red-50 hover:text-red-600 transition-all duration-200 block"
+                              >
+                                {item.name}
+                              </Link>
+                            </motion.div>
+                          ) : (
+                            <span
+                              key={item.name}
+                              className="text-sm text-gray-400 py-2 px-3 cursor-not-allowed"
+                            >
+                              {item.name}
+                            </span>
+                          )
+                        )}
+                      </motion.div>
                     )}
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <button
+                  </motion.div>
+
+                  {/* Mobile Company */}
+                  <motion.div 
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.35 }}
+                    className="flex flex-col gap-1"
+                  >
+                    <motion.button
+                      whileHover={{ scale: 1.02, paddingLeft: 20 }}
+                      whileTap={{ scale: 0.98 }}
                       onClick={() =>
                         setActive(active === "company" ? null : "company")
                       }
-                      className={`flex items-center justify-between px-4 py-2 rounded-md font-medium transition
-      ${
-        active === "company"
-          ? "bg-gray-100 text-red-500"
-          : "text-gray-700 hover:bg-gray-100"
-      }`}
+                      className={`flex items-center justify-between px-4 py-3 rounded-xl font-medium transition-all duration-200 border
+                        ${
+                          active === "company"
+                            ? "bg-gradient-to-r from-red-50 to-gray-50 text-red-600 border-red-200 shadow-sm"
+                            : "text-gray-700 hover:bg-gradient-to-r hover:from-red-50 hover:to-gray-50 hover:border-gray-200"
+                        }`}
                     >
-                      <div className="flex items-center gap-2">
-                        <Image
-                          src={active === "company" ? companyIcon : companyIcon}
-                          alt="Company icon"
-                          className="w-5 h-5 object-contain"
-                        />
+                      <div className="flex items-center gap-3">
+                        <motion.div className="w-6 h-6" whileHover={{ scale: 1.1 }}>
+                          <Image
+                            src={companyIcon}
+                            alt="Company icon"
+                            className="w-6 h-6 object-contain"
+                          />
+                        </motion.div>
                         <span>Company</span>
                       </div>
-
-                      <ChevronRight
-                        size={16}
-                        className={`transition-transform ${
-                          active === "company" ? "rotate-90" : ""
-                        }`}
-                      />
-                    </button>
+                      <motion.div
+                        animate={{ rotate: active === "company" ? 90 : 0 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <ChevronRight size={18} />
+                      </motion.div>
+                    </motion.button>
+                    
                     {active === "company" && (
-                      <div className="flex flex-col ml-10 mt-1 gap-1">
-                        {COMPANY_MENU.map((item) => (
-                          <Link
+                      <motion.div 
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="flex flex-col ml-12 gap-2 overflow-hidden pl-2 border-l-2 border-red-200"
+                      >
+                        {COMPANY_MENU.map((item, index) => (
+                          <motion.div
                             key={item.slug}
-                            href={`/${item.slug}`}
-                            onClick={() => setOpen(false)}
-                            className="text-sm text-gray-700 py-1 px-2 rounded-md hover:bg-gray-100 transition"
+                            initial={{ opacity: 0, x: 10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: 0.1 + index * 0.03 }}
                           >
-                            {item.name}
-                          </Link>
+                            <Link
+                              href={`/${item.slug}`}
+                              onClick={() => setOpen(false)}
+                              className="text-sm text-gray-600 py-2 px-3 rounded-lg hover:bg-red-50 hover:text-red-600 transition-all duration-200 block"
+                            >
+                              {item.name}
+                            </Link>
+                          </motion.div>
                         ))}
-                      </div>
+                      </motion.div>
                     )}
-                  </div>
+                  </motion.div>
                 </nav>
-                <button className="mt-10 text-sm bg-red-600 text-white py-3 w-32 rounded-full font-semibold">
-                  Plan My Tour
-                </button>
+
+                <Link href="/contact-us">
+                  <motion.button 
+                    variants={planTourButtonVariants}
+                    animate="animate"
+                    whileHover={{ scale: 1.05, y: -2, boxShadow: "0 10px 25px rgba(239,68,68,0.4)" }}
+                    whileTap={{ scale: 0.98 }}
+                    className="w-full text-sm bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white py-4 rounded-2xl font-bold shadow-xl hover:shadow-2xl transition-all duration-300 border border-red-500/30 backdrop-blur-sm"
+                  >
+                    Plan My Tour
+                  </motion.button>
+                </Link>
               </motion.aside>
             </>
           )}

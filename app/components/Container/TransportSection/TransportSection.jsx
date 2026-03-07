@@ -1,272 +1,515 @@
 "use client";
-import CommonHeroSection from "@/app/common/CommonHeroSection";
-import React, { useEffect, useState } from "react";
 import bannerimg from "@/app/assets/car_booking.svg";
+import CommonHeroSection from "@/app/common/CommonHeroSection";
 import MainLayout from "@/app/common/MainLayout";
+import Message_Popups from "@/app/common/Message_Popups";
+import { clearServiceFormState, submitTransportForm } from "@/app/store/slice/serviceFormSlice";
+import { AnimatePresence, motion } from "framer-motion";
+import { Car } from 'lucide-react';
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { notifyAlert } from "@/app/hooks/NotificationService";
-import {
-  clearServiceFormState,
-  submitTransportForm,
-} from "@/app/store/slice/serviceFormSlice";
-import SingleSelectDropdown from "@/app/common/SingleSelectDropdown";
 
 const initialTransportForm = {
-  serviceType: "transport",
-  name: "",
-  email: "",
-  phoneNo: "",
+  serviceType: "transport", 
+  name: "", 
+  email: "", 
+  phoneNo: "", 
   country: "",
-  countryOfResidence: "",
-  rentalType: "",
-  carType: "",
+  countryOfResidence: "", 
+  rentalType: "", 
+  carType: "", 
   startDate: "",
-  endDate: "",
-  noOfAdults: 1,
-  noOfChildren: 0,
-  location: "",
+  endDate: "", 
+  noOfAdults: "", 
+  noOfChildren: "", 
+  location: "", 
   message: "",
 };
 
+const initialErrors = {
+  name: "",
+  email: "",
+  phoneNo: "",
+  location: "",
+  startDate: "",
+  endDate: "",
+  carType: "",
+  rentalType: "",
+};
+
+// --- Reusable Components ---
+const FloatingLabelInput = ({ label, name, value, onChange, placeholder, required = false, isTextarea = false, type = "text", error, min, max }) => {
+  const [isFocused, setIsFocused] = useState(false);
+  const isFloating = isFocused || (value && value.toString().length > 0) || type === "date";
+
+  return (
+    <div className="relative mt-6 w-full">
+      <label className={`absolute left-3 px-1.5 transition-all duration-200 pointer-events-none z-10 ${
+        isFloating ? "-top-2.5 text-[11px] font-bold text-red-600 bg-white" : "top-3.5 text-gray-500 text-sm bg-transparent"
+      }`}>
+        {label.toUpperCase()} {required && <span className="text-red-500">*</span>}
+      </label>
+      {isTextarea ? (
+        <textarea 
+          name={name} 
+          value={value} 
+          onChange={onChange} 
+          onFocus={() => setIsFocused(true)} 
+          onBlur={() => setIsFocused(false)}
+          className={`w-full px-4 py-3 rounded-xl border ${error ? 'border-red-500 bg-red-50' : 'border-gray-200'} focus:border-red-600 focus:ring-2 focus:ring-red-100 outline-none transition-all resize-none`} 
+          rows="4" 
+        />
+      ) : (
+        <input 
+          type={type} 
+          name={name} 
+          value={value} 
+          onChange={onChange} 
+          onFocus={() => setIsFocused(true)} 
+          onBlur={() => setIsFocused(false)}
+          min={min}
+          max={max}
+          className={`w-full px-4 py-3 rounded-xl border ${error ? 'border-red-500 bg-red-50' : 'border-gray-200'} focus:border-red-600 focus:ring-2 focus:ring-red-100 outline-none transition-all`} 
+          placeholder={isFocused ? placeholder : ""} 
+        />
+      )}
+      {error && <p className="text-red-500 text-xs mt-1 ml-1">{error}</p>}
+    </div>
+  );
+};
+
+const FloatingLabelSelect = ({ label, name, value, onChange, options = [], placeholder, required = false, error }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const selectedOption = options.find(opt => opt._id === value);
+
+  return (
+    <div className="relative mt-6 w-full">
+      <label className="absolute -top-2.5 left-3 px-1.5 text-[11px] font-bold text-red-600 bg-white z-10">
+        {label.toUpperCase()} {required && <span className="text-red-500">*</span>}
+      </label>
+      <div 
+        onClick={() => setIsOpen(!isOpen)} 
+        className={`w-full px-4 py-3 rounded-xl border ${error ? 'border-red-500 bg-red-50' : 'border-gray-200'} cursor-pointer flex justify-between items-center bg-white hover:border-red-600 transition-all`}
+      >
+        <span className={value ? "text-gray-900" : "text-gray-400"}>{selectedOption ? selectedOption.name : placeholder}</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" className={`transition-transform ${isOpen ? 'rotate-180 text-red-600' : 'text-gray-400'}`}>
+          <path d="M6 9l6 6 6-6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      </div>
+      {error && <p className="text-red-500 text-xs mt-1 ml-1">{error}</p>}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div 
+            initial={{ opacity: 0, y: -10 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            exit={{ opacity: 0, y: -10 }} 
+            className="absolute z-50 w-full mt-2 bg-white border border-gray-100 rounded-xl shadow-xl p-2 max-h-60 overflow-y-auto"
+          >
+            {options.map(opt => (
+              <div 
+                key={opt._id} 
+                className="px-4 py-2 hover:bg-red-50 rounded-lg cursor-pointer text-sm transition-all" 
+                onClick={() => { 
+                  onChange({ target: { name, value: opt._id } }); 
+                  setIsOpen(false); 
+                }}
+              >
+                {opt.name}
+              </div>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
 const TransportSection = () => {
-  const title = "Transport";
   const dispatch = useDispatch();
   const { loading, error, message } = useSelector((state) => state.service);
   const [formData, setFormData] = useState(initialTransportForm);
+  const [errors, setErrors] = useState(initialErrors);
+  
+  // Popup states
+  const [showConfirmPopup, setShowConfirmPopup] = useState(false);
+  const [showResultPopup, setShowResultPopup] = useState(false);
+  const [popupType, setPopupType] = useState('success');
+  const [popupMessage, setPopupMessage] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    
+    // Handle number inputs
+    if (name === 'noOfAdults' || name === 'noOfChildren') {
+      const numValue = parseInt(value) || "";
+      setFormData({ ...formData, [name]: numValue });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
+    
+    // Clear error for this field when user starts typing
+    if (errors[name]) {
+      setErrors({ ...errors, [name]: "" });
+    }
   };
 
-  const handleSubmit = (e) => {
+  const validateForm = () => {
+    const newErrors = {};
+    let isValid = true;
+
+    // Required fields validation
+    if (!formData.name.trim()) {
+      newErrors.name = "Full name is required";
+      isValid = false;
+    } else if (formData.name.trim().length < 2) {
+      newErrors.name = "Name must be at least 2 characters";
+      isValid = false;
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+      isValid = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Please enter a valid email address";
+      isValid = false;
+    }
+
+    if (!formData.phoneNo.trim()) {
+      newErrors.phoneNo = "Phone number is required";
+      isValid = false;
+    } else if (!/^[0-9+\-\s()]{10,15}$/.test(formData.phoneNo)) {
+      newErrors.phoneNo = "Please enter a valid phone number";
+      isValid = false;
+    }
+
+    if (!formData.location.trim()) {
+      newErrors.location = "Pickup location is required";
+      isValid = false;
+    }
+
+    if (!formData.rentalType) {
+      newErrors.rentalType = "Please select rental type";
+      isValid = false;
+    }
+
+    if (!formData.carType) {
+      newErrors.carType = "Please select car type";
+      isValid = false;
+    }
+
+    if (!formData.startDate) {
+      newErrors.startDate = "Start date is required";
+      isValid = false;
+    } else {
+      // Check if start date is in the future
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const startDate = new Date(formData.startDate);
+      if (startDate < today) {
+        newErrors.startDate = "Start date must be in the future";
+        isValid = false;
+      }
+    }
+
+    if (!formData.endDate) {
+      newErrors.endDate = "End date is required";
+      isValid = false;
+    } else if (formData.startDate && formData.endDate) {
+      const startDate = new Date(formData.startDate);
+      const endDate = new Date(formData.endDate);
+      if (endDate < startDate) {
+        newErrors.endDate = "End date must be after start date";
+        isValid = false;
+      }
+    }
+
+    if (!formData.noOfAdults || formData.noOfAdults < 1) {
+      newErrors.noOfAdults = "At least 1 adult is required";
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
+  const handleSubmitClick = (e) => {
     e.preventDefault();
+    
+    // Validate all fields
+    if (validateForm()) {
+      // Show confirmation popup if validation passes
+      setShowConfirmPopup(true);
+    } else {
+      // Scroll to top to show errors
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  const handleConfirmSubmit = () => {
+    setShowConfirmPopup(false);
+    // Now submit the form
     dispatch(submitTransportForm(formData));
   };
 
+  // Handle API response
   useEffect(() => {
     if (message) {
-      notifyAlert({ title: "Success", message, type: "success" });
+      // Extract message from API response
+      const responseMessage = typeof message === 'string' 
+        ? message 
+        : message?.message || "Transport booking enquiry submitted successfully";
+      
+      setPopupType('success');
+      setPopupMessage(responseMessage);
+      setShowResultPopup(true);
+      setFormData(initialTransportForm);
+      setErrors(initialErrors);
       dispatch(clearServiceFormState());
-      setFormData((prev) => ({ ...prev, ...initialTransportForm }));
     }
-
     if (error) {
-      notifyAlert({ title: "Error", message: error, type: "error" });
+      const errorMessage = typeof error === 'string' 
+        ? error 
+        : error?.message || "An error occurred. Please try again.";
+      
+      setPopupType('error');
+      setPopupMessage(errorMessage);
+      setShowResultPopup(true);
       dispatch(clearServiceFormState());
     }
   }, [message, error, dispatch]);
 
+  const handleClosePopups = () => {
+    setShowConfirmPopup(false);
+    setShowResultPopup(false);
+    setPopupMessage('');
+  };
+
+  // Calculate rental duration in days
+  const calculateDuration = () => {
+    if (formData.startDate && formData.endDate) {
+      const start = new Date(formData.startDate);
+      const end = new Date(formData.endDate);
+      const diffTime = Math.abs(end - start);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      return diffDays;
+    }
+    return 0;
+  };
+
+  // Rental type options
   const rentalTypeOptions = [
-    { _id: "airport", name: "Airport Pickup / Drop" },
-    { _id: "city", name: "One Day City Hire" },
-    { _id: "outstation", name: "Outstation Hire" },
-    { _id: "others", name: "Others" },
+    { _id: "Airport Pickup", name: "Airport Pickup/Drop" },
+    { _id: "Hourly Rental", name: "Hourly Rental" },
+    { _id: "Daily Rental", name: "Daily Rental" },
+    { _id: "Weekly Rental", name: "Weekly Rental" },
+    { _id: "Monthly Rental", name: "Monthly Rental" },
+    { _id: "Point to Point", name: "Point to Point Transfer" },
+    { _id: "Full Day Tour", name: "Full Day Tour" },
   ];
 
+  // Car type options
   const carTypeOptions = [
-    { _id: "4_seater", name: "4 Seater" },
-    { _id: "5_seater", name: "5 Seater" },
-    { _id: "7_seater", name: "7 Seater" },
-    { _id: "7_seater_plus", name: "7 Seater+" },
+    { _id: "Hatchback", name: "Hatchback (e.g., Swift, i20)" },
+    { _id: "Sedan", name: "Sedan (e.g., Dzire, Etios)" },
+    { _id: "SUV", name: "SUV (e.g., Innova, XUV)" },
+    { _id: "Premium SUV", name: "Premium SUV (e.g., Fortuner)" },
+    { _id: "Luxury", name: "Luxury (e.g., Mercedes, BMW)" },
+    { _id: "Tempo Traveler", name: "Tempo Traveler (12 Seater)" },
+    { _id: "Mini Bus", name: "Mini Bus (18-25 Seater)" },
   ];
 
   return (
     <>
-      <CommonHeroSection
-        title={`Car Booking`}
-        backgroundImage={bannerimg.src}
-        breadcrumbs={[
-          { label: "Home", href: "/" },
-          { label: "service" || "Destination" },
-          { label: title || "Destination" },
-        ]}
-      />
-      <MainLayout>
-        <div className="bg-[#f5f5f5] py-14 md:py-20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="mb-10 md:mb-20 text-center">
-              <h4 className="font-bold mb-4">
-                CAR RENTAL SERVICES IN CHENNAI & ALL OVER INDIA
-              </h4>
-              <p className="text-gray-600 text-sm md:text-base">
-                We hereby proudly introduce, Pals Tours and Travels is the
-                Travel Company striving to deliver the standards of fine quality
-                and service that will make us the #1 car rental company. Whether
-                you are traveling for business or pleasure, you can be assured
-                of quality cars and a wide range of services that makes Pals
-                Tours and Travels your First choice of car rental. We offer a
-                wide range of vehicle range from Economic, Executive and
-                Luxurious Vehicle to spacious MPVs to suit your needs.
-              </p>
+      <CommonHeroSection title="Car Booking" backgroundImage={bannerimg.src} />
+      <MainLayout className="bg-gray-50 py-16">
+        <div className="max-w-4xl mx-auto px-4">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            className="bg-white p-8 md:p-12 rounded-[2rem] shadow-2xl border border-gray-100"
+          >
+            <div className="flex items-center gap-4 mb-10">
+              <div className="bg-red-600 p-4 rounded-2xl text-white">
+                <Car size={30}/>
+              </div>
+              <div>
+                <h2 className="text-2xl font-black">Transport Booking</h2>
+                <p className="text-gray-500 text-sm">Reliable cars for business or pleasure</p>
+              </div>
             </div>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block mb-1 text-sm font-medium text-gray-500">
-                    Full Name
-                  </label>
-                  <input
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    placeholder="Enter Your Full Name"
-                    className="w-full border border-gray-300 rounded-md px-4 py-3 outline-0"
-                  />
-                </div>
 
-                <div>
-                  <label className="block mb-1 text-sm font-medium text-gray-500">
-                    Country of Residence
-                  </label>
-                  <input
-                    name="countryOfResidence"
-                    value={formData.countryOfResidence}
-                    onChange={handleChange}
-                    placeholder="Country of Residence"
-                    className="w-full border border-gray-300 rounded-md px-4 py-3 outline-0"
-                  />
-                </div>
+            {/* Validation Summary */}
+            {Object.keys(errors).some(key => errors[key]) && (
+              <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl">
+                <p className="text-red-600 font-semibold mb-2">Please fix the following errors:</p>
+                <ul className="list-disc list-inside text-sm text-red-500">
+                  {Object.values(errors).map((error, index) => error && <li key={index}>{error}</li>)}
+                </ul>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block mb-1 text-sm font-medium text-gray-500">
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="Enter Your Email Id"
-                    className="w-full border border-gray-300 rounded-md px-4 py-3 outline-0"
-                  />
-                </div>
-                <div>
-                  <label className="block mb-1 text-sm font-medium text-gray-500">
-                    Phone Number
-                  </label>
-                  <input
-                    name="phoneNo"
-                    value={formData.phoneNo}
-                    onChange={handleChange}
-                    placeholder="+91"
-                    className="w-full border border-gray-300 rounded-md px-4 py-3 outline-0"
-                  />
-                </div>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <SingleSelectDropdown
-                  label="Rental Type"
-                  options={rentalTypeOptions}
-                  value={formData.rentalType}
-                  onChange={(val) =>
-                    setFormData((prev) => ({ ...prev, rentalType: val }))
-                  }
-                  placeholder="Select Rental Type"
-                />
+            )}
 
-                <SingleSelectDropdown
-                  label="Car Type"
-                  options={carTypeOptions}
-                  value={formData.carType}
-                  onChange={(val) =>
-                    setFormData((prev) => ({ ...prev, carType: val }))
-                  }
-                  placeholder="Select Car Type"
+            <form onSubmit={handleSubmitClick} className="space-y-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
+                <FloatingLabelInput 
+                  label="Full Name" 
+                  name="name" 
+                  value={formData.name} 
+                  onChange={handleChange} 
+                  required 
+                  error={errors.name}
+                />
+                <FloatingLabelInput 
+                  label="Residence" 
+                  name="countryOfResidence" 
+                  value={formData.countryOfResidence} 
+                  onChange={handleChange} 
                 />
               </div>
-              <div>
-                <label className="block mb-1 text-sm font-medium text-gray-500">
-                  Pickup Location
-                </label>
-                <input
-                  name="location"
-                  value={formData.location}
-                  onChange={handleChange}
-                  placeholder="Pickup Location"
-                  className="w-full border border-gray-300 rounded-md px-4 py-3 outline-0"
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
+                <FloatingLabelInput 
+                  label="Email" 
+                  name="email" 
+                  type="email" 
+                  value={formData.email} 
+                  onChange={handleChange} 
+                  required 
+                  error={errors.email}
+                />
+                <FloatingLabelInput 
+                  label="Phone" 
+                  name="phoneNo" 
+                  value={formData.phoneNo} 
+                  onChange={handleChange} 
+                  required 
+                  error={errors.phoneNo}
                 />
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block mb-1 text-sm font-medium text-gray-500">
-                    Number of Children
-                  </label>
-                  <input
-                    type="number"
-                    name="noOfChildren"
-                    min={0}
-                    value={formData.noOfChildren}
-                    onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-md px-4 py-3 outline-0 text-gray-600"
-                  />
-                </div>
-                <div>
-                  <label className="block mb-1 text-sm font-medium text-gray-500">
-                    Number of Adults
-                  </label>
-                  <input
-                    type="number"
-                    name="noOfAdults"
-                    value={formData.noOfAdults}
-                    onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-md px-4 py-3 outline-0 text-gray-600"
-                  />
-                </div>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block mb-1 text-sm font-medium text-gray-500">
-                    Start Date
-                  </label>
-                  <input
-                    type="date"
-                    name="startDate"
-                    value={formData.startDate}
-                    onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-md px-4 py-3 outline-0 text-gray-600"
-                  />
-                </div>
-                <div>
-                  <label className="block mb-1 text-sm font-medium text-gray-500">
-                    End Date
-                  </label>
-                  <input
-                    type="date"
-                    name="endDate"
-                    value={formData.endDate}
-                    onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-md px-4 py-3 outline-0 text-gray-600"
-                  />
-                </div>
-              </div>
-              <div>
-                <label className="block mb-1 text-sm font-medium text-gray-500">
-                  Additional Note
-                </label>
-                <textarea
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  rows="5"
-                  placeholder="Note"
-                  className="w-full border border-gray-300 rounded-md px-4 py-3 outline-0"
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
+                <FloatingLabelSelect 
+                  label="Rental Type" 
+                  name="rentalType" 
+                  options={rentalTypeOptions} 
+                  value={formData.rentalType} 
+                  onChange={handleChange} 
+                  placeholder="Select Rental Type" 
+                  required
+                  error={errors.rentalType}
+                />
+                <FloatingLabelSelect 
+                  label="Car Type" 
+                  name="carType" 
+                  options={carTypeOptions} 
+                  value={formData.carType} 
+                  onChange={handleChange} 
+                  placeholder="Select Car Type" 
+                  required
+                  error={errors.carType}
                 />
               </div>
-              <button
-                type="submit"
-                disabled={loading}
-                className={`w-full md:w-[500px] mx-auto block bg-red-600 hover:bg-red-700 text-white py-4 rounded-full ${
-                  loading ? "opacity-60 cursor-not-allowed" : ""
-                }`}
+
+              <FloatingLabelInput 
+                label="Pickup Location" 
+                name="location" 
+                value={formData.location} 
+                onChange={handleChange} 
+                required 
+                error={errors.location}
+                placeholder="Enter pickup address or landmark"
+              />
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
+                <FloatingLabelInput 
+                  label="Start Date" 
+                  name="startDate" 
+                  type="date" 
+                  value={formData.startDate} 
+                  onChange={handleChange} 
+                  required 
+                  error={errors.startDate}
+                  min={new Date().toISOString().split('T')[0]}
+                />
+                <FloatingLabelInput 
+                  label="End Date" 
+                  name="endDate" 
+                  type="date" 
+                  value={formData.endDate} 
+                  onChange={handleChange} 
+                  required 
+                  error={errors.endDate}
+                  min={formData.startDate}
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
+                <FloatingLabelInput 
+                  label="Adults" 
+                  name="noOfAdults" 
+                  type="number" 
+                  min="1"
+                  max="20"
+                  value={formData.noOfAdults} 
+                  onChange={handleChange} 
+                  required
+                  error={errors.noOfAdults}
+                />
+                <FloatingLabelInput 
+                  label="Children" 
+                  name="noOfChildren" 
+                  type="number" 
+                  min="0"
+                  max="10"
+                  value={formData.noOfChildren} 
+                  onChange={handleChange} 
+                />
+              </div>
+
+              <FloatingLabelInput 
+                label="Special Requests" 
+                name="message" 
+                value={formData.message} 
+                onChange={handleChange} 
+                isTextarea 
+                placeholder="Any special requirements or preferences..."
+              />
+
+              <motion.button 
+                whileHover={{ scale: 1.02 }} 
+                whileTap={{ scale: 0.98 }} 
+                type="submit" 
+                disabled={loading} 
+                className="w-full mt-10 bg-gray-900 text-white font-bold py-5 rounded-2xl shadow-xl hover:bg-red-600 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {loading ? "Submitting..." : "Claim Your Free Spot"}
-              </button>
+                {loading ? "Processing..." : "Confirm Transport Booking"}
+              </motion.button>
             </form>
-          </div>
+          </motion.div>
         </div>
       </MainLayout>
+
+      {/* Confirmation Popup - Simple confirmation message */}
+      <Message_Popups
+        isOpen={showConfirmPopup}
+        type="confirm"
+        onClose={handleClosePopups}
+        onConfirm={handleConfirmSubmit}
+      >
+        <div className="space-y-2">
+          <p className="text-sm text-gray-700">Are you sure you want to book this transport.</p>
+        </div>
+      </Message_Popups>
+
+      {/* Success/Error Popup - Only shows API message */}
+      <Message_Popups
+        isOpen={showResultPopup}
+        type={popupType}
+        onClose={handleClosePopups}
+      >
+        <div className="text-center">
+          <p className="text-sm text-gray-800">{popupMessage}</p>
+        </div>
+      </Message_Popups>
     </>
   );
 };

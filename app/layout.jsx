@@ -1,7 +1,7 @@
+import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import AppWrapper from "./protectedRoute/ProtectedRoute";
 import ReduxProvider from "./provider/ReduxProvider";
-import { Poppins, Inter } from "next/font/google";
 
 export const metadata = {
   title: "Pals Holidays",

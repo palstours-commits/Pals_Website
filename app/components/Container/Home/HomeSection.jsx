@@ -1,13 +1,12 @@
-import React from "react";
-import InspirationSection from "./InspirationSection";
-import TrendingOffers from "./TrendingOffers";
-import OurServices from "./OurServices";
-import TrendingDestinations from "./TrendingDestinations";
-import TopDestionation from "./TopDestionation";
-import VisaExperience from "./VisaExperience";
-import HolidayPlanner from "./HolidayPlanner";
 import FeaturesMarquee from "./FeaturesMarquee";
+import HolidayPlanner from "./HolidayPlanner";
 import HomeBanneSection from "./HomeBanneSection";
+import InspirationSection from "./InspirationSection";
+import OurServices from "./OurServices";
+import TopDestionation from "./TopDestionation";
+import TrendingDestinations from "./TrendingDestinations";
+import TrendingOffers from "./TrendingOffers";
+import VisaExperience from "./VisaExperience";
 const HomeSection = () => {
   return (
     <>
