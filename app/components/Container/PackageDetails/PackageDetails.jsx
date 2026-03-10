@@ -13,11 +13,10 @@ import Message_Popups from "@/app/common/Message_Popups";
 import { clearEnquiryState, submitEnquiry } from "@/app/store/slice/enquirySlice";
 import { getPackagesById } from "@/app/store/slice/packageSlice";
 import { getImageUrl } from "@/app/utils/getImageUrl";
-import { tabSectionMap } from "@/app/utils/mockDatas";
 import { AnimatePresence, motion } from "framer-motion";
-import { BookText, Clock, MapPin } from "lucide-react";
+import { BookText, ChevronLeft, ChevronRight, Clock, MapPin } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ItineraryAccordion } from "./ItineraryAccordion";
 import PackageBaneer from "./PackageBanner";
@@ -31,11 +30,7 @@ const FloatingLabelInput = ({ label, name, value, onChange, placeholder, require
 
   return (
     <div className="relative mt-6 w-full">
-      <label className={`absolute left-3 px-1.5 transition-all duration-200 pointer-events-none z-10 ${
-        isFloating 
-          ? "-top-2.5 text-[11px] font-bold text-red-600 bg-white" 
-          : "top-3.5 text-gray-500 text-sm bg-transparent"
-      }`}>
+      <label className={`absolute left-3 px-1.5 transition-all duration-200 pointer-events-none z-10 ${isFloating ? "-top-2.5 text-[11px] font-bold text-red-600 bg-white" : "top-3.5 text-gray-500 text-sm bg-transparent"}`}>
         {label.toUpperCase()} {required && <span className="text-red-500">*</span>}
       </label>
       {isTextarea ? (
@@ -127,7 +122,7 @@ const FloatingLabelSelect = ({ label, name, value, onChange, options = [], place
 const EnhancedPackageForm = ({ packageId, packageName, onConfirm }) => {
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.enquiry);
-  
+
   const [formData, setFormData] = useState({
     packageId: packageId,
     name: "",
@@ -158,7 +153,7 @@ const EnhancedPackageForm = ({ packageId, packageName, onConfirm }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    
+
     // Handle number input
     if (name === 'numberOfPersons') {
       const numValue = parseInt(value) || 1;
@@ -166,7 +161,7 @@ const EnhancedPackageForm = ({ packageId, packageName, onConfirm }) => {
     } else {
       setFormData({ ...formData, [name]: value });
     }
-    
+
     // Clear error for this field when user starts typing
     if (errors[name]) {
       setErrors({ ...errors, [name]: "" });
@@ -245,7 +240,7 @@ const EnhancedPackageForm = ({ packageId, packageName, onConfirm }) => {
 
   const handleSubmitClick = (e) => {
     e.preventDefault();
-    
+
     if (validateForm()) {
       // Ensure packageId is included
       const submitData = {
@@ -269,13 +264,14 @@ const EnhancedPackageForm = ({ packageId, packageName, onConfirm }) => {
       transition={{ duration: 0.6 }}
       className="bg-white p-8 rounded-[2rem] shadow-2xl border border-gray-100 h-full overflow-y-auto"
     >
-      <div className="flex items-center gap-4 mb-8">
+      <div className="flex items-center gap-4 mb-4">
         <div className="bg-red-600 p-4 rounded-2xl text-white">
           <BookText size={30} />
         </div>
         <div>
-          <h2 className="text-2xl font-black">Book This Package</h2>
-          <p className="text-gray-500 text-sm">{packageName || "Start your journey today"}</p>
+          <h2 className="text-2xl font-black">Grab This Package</h2>
+          {/* FIXED: Changed from <p> to <span> to avoid nested paragraph error */}
+          <span className="text-gray-500 text-sm">{packageName}</span>
         </div>
       </div>
 
@@ -289,7 +285,7 @@ const EnhancedPackageForm = ({ packageId, packageName, onConfirm }) => {
         </div>
       )}
 
-      <form onSubmit={handleSubmitClick} className="space-y-2">
+      <form onSubmit={handleSubmitClick}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
           <FloatingLabelInput
             label="Full Name"
@@ -368,11 +364,93 @@ const EnhancedPackageForm = ({ packageId, packageName, onConfirm }) => {
           whileTap={{ scale: 0.98 }}
           type="submit"
           disabled={loading}
-          className="w-full mt-8 bg-gray-900 text-white font-bold py-5 rounded-2xl shadow-xl hover:bg-red-600 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full mt-2 bg-gray-900 text-white font-bold py-4 rounded-2xl shadow-xl hover:bg-red-600 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {loading ? "Processing..." : "Book This Package"}
         </motion.button>
       </form>
+    </motion.div>
+  );
+};
+
+// Image Carousel Component for additional images
+const ImageCarousel = ({ images, currentIndex, onNext, onPrev, onClose }) => {
+  if (!images || images.length === 0) return null;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm"
+      onClick={onClose}
+    >
+      <div className="relative w-full max-w-6xl mx-4" onClick={(e) => e.stopPropagation()}>
+        {/* Main Image */}
+        <div className="relative aspect-video rounded-2xl overflow-hidden">
+          <CustomImage
+            src={images[currentIndex]}
+            alt={`Gallery image ${currentIndex + 1}`}
+            fill
+            className="object-contain"
+          />
+        </div>
+
+        {/* Navigation Buttons */}
+        {images.length > 1 && (
+          <>
+            <button
+              onClick={onPrev}
+              className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white p-3 rounded-full transition-all"
+            >
+              <ChevronLeft size={24} />
+            </button>
+            <button
+              onClick={onNext}
+              className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white p-3 rounded-full transition-all"
+            >
+              <ChevronRight size={24} />
+            </button>
+          </>
+        )}
+
+        {/* Image Counter */}
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/50 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm">
+          {currentIndex + 1} / {images.length}
+        </div>
+
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white p-3 rounded-full transition-all"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round"/>
+          </svg>
+        </button>
+
+        {/* Thumbnail Strip */}
+        {images.length > 1 && (
+          <div className="absolute -bottom-24 left-1/2 -translate-x-1/2 flex gap-2 p-2 bg-black/50 backdrop-blur-sm rounded-xl">
+            {images.map((img, idx) => (
+              <button
+                key={idx}
+                onClick={() => onPrev()} // This would need to be modified to jump to specific index
+                className={`relative w-16 h-16 rounded-lg overflow-hidden transition-all ${
+                  idx === currentIndex ? 'ring-2 ring-white scale-110' : 'opacity-50 hover:opacity-100'
+                }`}
+              >
+                <CustomImage
+                  src={img}
+                  alt={`Thumbnail ${idx + 1}`}
+                  fill
+                  className="object-cover"
+                />
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
     </motion.div>
   );
 };
@@ -387,35 +465,39 @@ const PackageDetails = ({ slug }) => {
     "Get a Quote",
   ];
 
-  const handleTabClick = (tab) => {
-    setActive(tab);
-    const id = tabSectionMap[tab];
-    if (!id) return;
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
-
   const dispatch = useDispatch();
   const [active, setActive] = useState("Overview");
   const [activeInfoIndex, setActiveInfoIndex] = useState(0);
   const { singlePackage } = useSelector((state) => state.packages);
   const { message, error } = useSelector((state) => state.enquiry);
-  
+
   // State to control flight animation
   const [showFlightAnimation, setShowFlightAnimation] = useState(false);
-  
+
   // Form data for confirmation
   const [pendingFormData, setPendingFormData] = useState(null);
-  
+
   // Popup states
   const [showConfirmPopup, setShowConfirmPopup] = useState(false);
   const [showResultPopup, setShowResultPopup] = useState(false);
   const [popupType, setPopupType] = useState('success');
   const [popupMessage, setPopupMessage] = useState('');
-  
+
+  // Image gallery states
+  const [showGallery, setShowGallery] = useState(false);
+  const [galleryIndex, setGalleryIndex] = useState(0);
+  const [allImages, setAllImages] = useState([]);
+
+  // Refs for sections
+  const overviewRef = useRef(null);
+  const highlightsRef = useRef(null);
+  const destinationsRef = useRef(null);
+  const itineraryRef = useRef(null);
+  const informationRef = useRef(null);
+  const quoteRef = useRef(null);
+
   // Prepare banner images array for multi-image banner
-  const bannerImages = singlePackage?.images?.length > 0 
+  const bannerImages = singlePackage?.images?.length > 0
     ? singlePackage.images.map(img => `${process.env.NEXT_PUBLIC_BASE_IMAGE_URL}${img}`)
     : [PackageBanner.src];
 
@@ -425,47 +507,47 @@ const PackageDetails = ({ slug }) => {
     }
   }, [dispatch, slug]);
 
+  // Process images when package data changes
+  useEffect(() => {
+    if (singlePackage?.images?.length > 0) {
+      const processedImages = singlePackage.images.map(getImageUrl);
+      setAllImages(processedImages);
+    } else {
+      setAllImages(fallbackImages);
+    }
+  }, [singlePackage]);
+
   const points = singlePackage?.tripHighlightsPoints || [];
   const importantInfo = singlePackage?.importantInfo || [];
   const overviewIcons = singlePackage?.overview?.icon || [];
 
-  const rawImages =
-    singlePackage?.images?.length > 0
-      ? singlePackage.images.map(getImageUrl)
-      : fallbackImages;
-
-  const images =
-    rawImages.length >= 6
-      ? rawImages
-      : Array.from({ length: 6 }, (_, i) => rawImages[i % rawImages.length]);
+  // Get first 6 images for the grid
+  const gridImages = allImages.slice(0, 6);
+  
+  // Get remaining images for the carousel
+  const carouselImages = allImages.slice(6);
 
   // Handle API response
-useEffect(() => {
+  useEffect(() => {
+    // ✅ SUCCESS → only show flight animation
+    if (message && !error) {
+      setShowFlightAnimation(true);
+      dispatch(clearEnquiryState());
+    }
 
-  // ✅ SUCCESS → only show flight animation
-  if (message && !error) {
+    // ❌ ERROR → still show popup
+    if (error) {
+      const errorMessage =
+        typeof error === "string"
+          ? error
+          : error?.message || "Something went wrong. Please try again.";
 
-    setShowFlightAnimation(true);
-
-    dispatch(clearEnquiryState());
-  }
-
-  // ❌ ERROR → still show popup
-  if (error) {
-
-    const errorMessage =
-      typeof error === "string"
-        ? error
-        : error?.message || "Something went wrong. Please try again.";
-
-    setPopupType("error");
-    setPopupMessage(errorMessage);
-    setShowResultPopup(true);
-
-    dispatch(clearEnquiryState());
-  }
-
-}, [message, error, dispatch]);
+      setPopupType("error");
+      setPopupMessage(errorMessage);
+      setShowResultPopup(true);
+      dispatch(clearEnquiryState());
+    }
+  }, [message, error, dispatch]);
 
   // Reset flight animation after it completes
   const handleFlightAnimationComplete = () => {
@@ -478,6 +560,73 @@ useEffect(() => {
     }
   }, [importantInfo]);
 
+  // Handle tab click with proper scrolling
+  const handleTabClick = (tab) => {
+    setActive(tab);
+    
+    let ref = null;
+    switch(tab) {
+      case "Overview":
+        ref = overviewRef;
+        break;
+      case "Trip Highlights":
+        ref = highlightsRef;
+        break;
+      case "Destinations":
+        ref = destinationsRef;
+        break;
+      case "Tour Itinerary":
+        ref = itineraryRef;
+        break;
+      case "Information":
+        ref = informationRef;
+        break;
+      case "Get a Quote":
+        ref = quoteRef;
+        break;
+      default:
+        return;
+    }
+    
+    if (ref && ref.current) {
+      const offset = 180; // Adjust this value based on your sticky header height
+      const elementPosition = ref.current.getBoundingClientRect().top + window.pageYOffset;
+      window.scrollTo({
+        top: elementPosition - offset,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  // Handle scroll to update active tab
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = [
+        { ref: overviewRef, name: "Overview" },
+        { ref: highlightsRef, name: "Trip Highlights" },
+        { ref: destinationsRef, name: "Destinations" },
+        { ref: itineraryRef, name: "Tour Itinerary" },
+        { ref: informationRef, name: "Information" },
+        { ref: quoteRef, name: "Get a Quote" }
+      ];
+
+      const scrollPosition = window.scrollY + 200; // Offset for better detection
+
+      for (const section of sections) {
+        if (section.ref.current) {
+          const { offsetTop, offsetHeight } = section.ref.current;
+          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+            setActive(section.name);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const handleConfirmRequest = (formData) => {
     // Ensure packageId is included and is a string
     const submitData = {
@@ -488,23 +637,38 @@ useEffect(() => {
     setShowConfirmPopup(true);
   };
 
-const handleConfirmSubmit = () => {
-  setShowConfirmPopup(false);
+  const handleConfirmSubmit = () => {
+    setShowConfirmPopup(false);
 
-  if (pendingFormData) {
-    dispatch(submitEnquiry(pendingFormData));
-    setPendingFormData(null);
-  }
-};
+    if (pendingFormData) {
+      dispatch(submitEnquiry(pendingFormData));
+      setPendingFormData(null);
+    }
+  };
 
   const handleClosePopups = () => {
     setShowConfirmPopup(false);
     setShowResultPopup(false);
     setPopupMessage('');
     setPendingFormData(null);
-    
-    // Note: We don't stop flight animation here as it should complete its course
-    // The animation will automatically close via handleFlightAnimationComplete
+  };
+
+  // Gallery navigation functions
+  const handleImageClick = (index) => {
+    setGalleryIndex(index);
+    setShowGallery(true);
+  };
+
+  const handleNextImage = useCallback(() => {
+    setGalleryIndex((prev) => (prev + 1) % allImages.length);
+  }, [allImages.length]);
+
+  const handlePrevImage = useCallback(() => {
+    setGalleryIndex((prev) => (prev - 1 + allImages.length) % allImages.length);
+  }, [allImages.length]);
+
+  const handleCloseGallery = () => {
+    setShowGallery(false);
   };
 
   // Animation variants
@@ -526,11 +690,24 @@ const handleConfirmSubmit = () => {
     <>
       {/* Flight Animation - Shows immediately on confirmation */}
       <Flight_Movement
-  isOpen={showFlightAnimation}
-  onAnimationComplete={handleFlightAnimationComplete}
-  autoTriggerOnSuccess={false}
-/>
-      
+        isOpen={showFlightAnimation}
+        onAnimationComplete={handleFlightAnimationComplete}
+        autoTriggerOnSuccess={false}
+      />
+
+      {/* Image Gallery Modal */}
+      <AnimatePresence>
+        {showGallery && (
+          <ImageCarousel
+            images={allImages}
+            currentIndex={galleryIndex}
+            onNext={handleNextImage}
+            onPrev={handlePrevImage}
+            onClose={handleCloseGallery}
+          />
+        )}
+      </AnimatePresence>
+
       {/* Updated: Pass all images to the banner component */}
       <PackageBaneer images={bannerImages} />
       
@@ -594,6 +771,7 @@ const handleConfirmSubmit = () => {
 
       {/* Overview Section */}
       <motion.div
+        ref={overviewRef}
         initial="initial"
         whileInView="animate"
         viewport={{ once: true }}
@@ -603,7 +781,7 @@ const handleConfirmSubmit = () => {
         <motion.h4 
           variants={fadeInUp}
           id="overview" 
-          className="font-semibold mb-4 scroll-mt-[180px] text-2xl"
+          className="font-semibold mb-4 text-2xl"
         >
           Overview
         </motion.h4>
@@ -646,6 +824,7 @@ const handleConfirmSubmit = () => {
 
       {/* Trip Highlights with Image Grid */}
       <motion.div
+        ref={highlightsRef}
         initial="initial"
         whileInView="animate"
         viewport={{ once: true }}
@@ -681,16 +860,19 @@ const handleConfirmSubmit = () => {
               </ul>
             </motion.div>
 
+            {/* Image Grid with First 6 Images */}
             <motion.div
               variants={fadeInUp}
-              className="grid grid-flow-col auto-cols-[80%] gap-4 overflow-x-auto snap-x snap-mandatory md:grid-cols-6 md:auto-cols-auto md:grid-flow-row md:overflow-x-hidden auto-rows-[220px] h-full"
+              className="grid grid-flow-col auto-cols-[80%] gap-4 overflow-x-auto snap-x snap-mandatory md:grid-cols-6 md:auto-cols-auto md:grid-flow-row md:overflow-x-hidden auto-rows-[220px] h-full relative"
             >
-              {[0,1,2,3,4,5].map((index) => (
+              {/* Grid Images */}
+              {gridImages.map((image, index) => (
                 <motion.div
                   key={index}
                   whileHover={{ scale: 1.02 }}
                   transition={{ duration: 0.3 }}
-                  className={`relative rounded-3xl overflow-hidden snap-start shadow-lg ${
+                  onClick={() => handleImageClick(index)}
+                  className={`relative rounded-3xl overflow-hidden snap-start shadow-lg cursor-pointer ${
                     index === 0 ? "md:col-span-3" :
                     index === 1 ? "md:col-span-3" :
                     index === 2 ? "md:col-span-2" :
@@ -700,13 +882,29 @@ const handleConfirmSubmit = () => {
                   }`}
                 >
                   <CustomImage
-                    src={images[index]}
+                    src={image}
                     alt={`Highlight ${index + 1}`}
                     fill
                     className="object-cover transition duration-500 hover:scale-110"
                   />
                 </motion.div>
               ))}
+
+              {/* Show More Button if there are additional images */}
+              {carouselImages.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.5 }}
+                  onClick={() => handleImageClick(6)}
+                  className="absolute bottom-4 right-4 z-10 cursor-pointer"
+                >
+                  <div className="bg-black/70 backdrop-blur-sm text-white px-4 py-2 rounded-full flex items-center gap-2 hover:bg-black/90 transition-all">
+                    <span className="text-sm font-semibold">+{carouselImages.length} More Photos</span>
+                    <ChevronRight size={18} />
+                  </div>
+                </motion.div>
+              )}
             </motion.div>
           </div>
         </div>
@@ -714,6 +912,7 @@ const handleConfirmSubmit = () => {
 
       {/* Destinations Bar */}
       <motion.div
+        ref={destinationsRef}
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
@@ -728,7 +927,7 @@ const handleConfirmSubmit = () => {
             className="flex items-center gap-2 text-center"
           >
             <MapPin className="shrink-0" />
-            <h4 id="destinations" className="font-semibold scroll-mt-[120px] text-lg">
+            <h4 id="destinations" className="font-semibold text-lg">
               Bangalore - Mysore - Hassan – Hospet - Hampi – Badami - Goa - Mumbai.
             </h4>
           </motion.div>
@@ -737,6 +936,7 @@ const handleConfirmSubmit = () => {
 
       {/* Itinerary Section */}
       <motion.div
+        ref={itineraryRef}
         initial="initial"
         whileInView="animate"
         viewport={{ once: true }}
@@ -750,6 +950,7 @@ const handleConfirmSubmit = () => {
 
       {/* Information and Booking Form */}
       <motion.div
+        ref={informationRef}
         initial="initial"
         whileInView="animate"
         viewport={{ once: true }}
@@ -764,7 +965,7 @@ const handleConfirmSubmit = () => {
             >
               <h2
                 id="information"
-                className="font-bold mb-8 text-3xl scroll-mt-[180px]"
+                className="font-bold mb-8 text-3xl"
               >
                 Important Information
               </h2>
@@ -817,12 +1018,18 @@ const handleConfirmSubmit = () => {
 
             {/* Enhanced Booking Form */}
             <motion.div 
+              ref={quoteRef}
               variants={fadeInUp}
               className="h-[600px]"
             >
               <EnhancedPackageForm 
                 packageId={singlePackage?._id} 
-                packageName={singlePackage?.packageName}
+                packageName={
+                  <>
+                    <span className="font-semibold text-gray-800 text-[20px]">{singlePackage?.packageName}</span>
+                    <span> {singlePackage?.nights} Nights / {singlePackage?.days} Days</span>
+                  </>
+                }
                 onConfirm={handleConfirmRequest}
               />
             </motion.div>
@@ -864,24 +1071,24 @@ const handleConfirmSubmit = () => {
 
       {/* Confirmation Popup - Simple confirmation message */}
       <Message_Popups
-  isOpen={showConfirmPopup}
-  type="confirm"
-  onClose={handleClosePopups}
-  onConfirm={handleConfirmSubmit}
-/>
+        isOpen={showConfirmPopup}
+        type="confirm"
+        onClose={handleClosePopups}
+        onConfirm={handleConfirmSubmit}
+      />
 
       {/* Error Popup Only */}
-{popupType === "error" && (
-  <Message_Popups
-    isOpen={showResultPopup}
-    type="error"
-    onClose={handleClosePopups}
-  >
-    <div className="text-center">
-      <p className="text-sm text-gray-800">{popupMessage}</p>
-    </div>
-  </Message_Popups>
-)}
+      {popupType === "error" && (
+        <Message_Popups
+          isOpen={showResultPopup}
+          type="error"
+          onClose={handleClosePopups}
+        >
+          <div className="text-center">
+            <p className="text-sm text-gray-800">{popupMessage}</p>
+          </div>
+        </Message_Popups>
+      )}
     </>
   );
 };

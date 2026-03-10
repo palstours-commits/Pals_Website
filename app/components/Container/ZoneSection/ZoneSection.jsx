@@ -13,9 +13,11 @@ const ZoneSection = ({ menu, submenu }) => {
   const { selectedData } = useSelector((state) => state.submenu);
 
   useEffect(() => {
-    dispatch(getIdBySubmenu(submenu));
-    dispatch(getSlugBySubmenu(submenu));
-  }, [submenu]);
+    if (submenu) {
+      dispatch(getIdBySubmenu(submenu));
+      dispatch(getSlugBySubmenu(menu)); // fetch zones using menu slug
+    }
+  }, [submenu, menu, dispatch]);
 
   return (
     <>
@@ -28,9 +30,14 @@ const ZoneSection = ({ menu, submenu }) => {
           </>
         }
         backgroundImage={selectedData?.bannerImage}
-        breadcrumbs={[{ label: "Home", href: "/" }, { label: submenu }]}
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: submenu },
+        ]}
       />
-      <HolidayPlanner activeSlugFromRoute={submenu} />
+
+      {/* pass menu slug */}
+      <HolidayPlanner menuSlug={menu} activeSlugFromRoute={submenu} />
     </>
   );
 };

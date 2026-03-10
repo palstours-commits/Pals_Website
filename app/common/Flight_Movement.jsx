@@ -1,193 +1,301 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { CheckCircle, Plane } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { CheckCircle, MapPin, Plane } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 
-const Flight_Movement = ({
-  isOpen = false,
-  onAnimationComplete,
-  autoTriggerOnSuccess = true,
-}) => {
+const Flight_Movement = ({ isOpen = false, onAnimationComplete, autoTriggerOnSuccess = true }) => {
   const { message, loading, error } = useSelector((state) => state.enquiry);
   const [internalIsOpen, setInternalIsOpen] = useState(false);
-  const [hasTriggered, setHasTriggered] = useState(false);
-  const [animationPhase, setAnimationPhase] = useState(0); // 0: plane, 1: success
+  const [showSuccess, setShowSuccess] = useState(false);
+  const svgRef = useRef(null);
+  const [pathLength, setPathLength] = useState(0);
+  const [dimensions, setDimensions] = useState({ width: 800, height: 300 });
+
+  // Handle responsive dimensions
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      if (width < 640) { // mobile
+        setDimensions({ width: 350, height: 200 });
+      } else if (width < 768) { // tablet
+        setDimensions({ width: 600, height: 250 });
+      } else { // desktop
+        setDimensions({ width: 800, height: 300 });
+      }
+    };
+
+    handleResize(); // Set initial dimensions
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Define responsive path coordinates
+  const startPoint = { 
+    x: dimensions.width * 0.15, 
+    y: dimensions.height * 0.6 
+  };
+  const controlPoint = { 
+    x: dimensions.width * 0.5, 
+    y: dimensions.height * 0.2 
+  };
+  const endPoint = { 
+    x: dimensions.width * 0.85, 
+    y: dimensions.height * 0.6 
+  };
+  const path = `M ${startPoint.x} ${startPoint.y} Q ${controlPoint.x} ${controlPoint.y} ${endPoint.x} ${endPoint.y}`;
 
   useEffect(() => {
-    if (autoTriggerOnSuccess && message && !loading && !error && !hasTriggered) {
+    if (autoTriggerOnSuccess && message && !loading && !error && !internalIsOpen) {
       setInternalIsOpen(true);
-      setHasTriggered(true);
+      setShowSuccess(false);
     }
-  }, [message, loading, error, autoTriggerOnSuccess, hasTriggered]);
+  }, [message, loading, error, autoTriggerOnSuccess, internalIsOpen]);
+
+  // Calculate path length for better animation control
+  useEffect(() => {
+    if (svgRef.current) {
+      const pathElement = svgRef.current.querySelector('path');
+      if (pathElement) {
+        setPathLength(pathElement.getTotalLength());
+      }
+    }
+  }, [dimensions]);
 
   const handleAnimationComplete = useCallback(() => {
     setInternalIsOpen(false);
-    setHasTriggered(false);
-    setAnimationPhase(0);
+    setShowSuccess(false);
     if (onAnimationComplete) onAnimationComplete();
   }, [onAnimationComplete]);
 
-  const showAnimation = isOpen || internalIsOpen;
+  const handlePlaneAnimationComplete = () => {
+    setShowSuccess(true);
+  };
 
-  useEffect(() => {
-    if (showAnimation) {
-      const timer = setTimeout(() => {
-        setAnimationPhase(1); // Switch to success phase
-      }, 3000);
-      
-      const completeTimer = setTimeout(handleAnimationComplete, 5500);
-      return () => {
-        clearTimeout(timer);
-        clearTimeout(completeTimer);
-      };
-    }
-  }, [showAnimation, handleAnimationComplete]);
+  const showAnimation = isOpen || internalIsOpen;
 
   if (!showAnimation) return null;
 
   return (
     <AnimatePresence>
       <motion.div
-        className="fixed inset-0 z-[9999] pointer-events-none overflow-hidden"
+        className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-4 md:p-6"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
-        {/* Sky Background */}
-        <div className="fixed inset-0 bg-gradient-to-b from-blue-400 via-blue-300 to-blue-200" />
+        {/* Map Background with Blur */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-10 sm:opacity-20"
+          style={{
+            backgroundImage: "url('https://www.transparenttextures.com/patterns/world-map.png')",
+          }}
+        />
+        <div className="absolute inset-0 backdrop-blur-[2px] sm:backdrop-blur-md bg-white/20 sm:bg-white/30" />
 
-        {/* Clouds */}
-        {[...Array(6)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute bg-white/30 rounded-full blur-xl"
-            style={{
-              width: 80 + Math.random() * 120,
-              height: 40 + Math.random() * 60,
-              left: `${i * 16}%`,
-              top: `${15 + Math.random() * 60}%`
-            }}
-            animate={{ x: [0, 40, 0] }}
-            transition={{ duration: 8 + i, repeat: Infinity, ease: "linear" }}
-          />
-        ))}
+        {/* Main Animation Card - Fully Responsive */}
+        <motion.div 
+          className="relative z-10 bg-white/90 sm:bg-white/80 backdrop-blur-xl border border-white/50 p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl shadow-xl sm:shadow-2xl w-full max-w-[95%] sm:max-w-2xl md:max-w-4xl mx-auto"
+          initial={{ y: 20, scale: 0.95 }}
+          animate={{ y: 0, scale: 1 }}
+          exit={{ y: 20, scale: 0.95 }}
+        >
+          {!showSuccess ? (
+            <div className="relative w-full" style={{ height: dimensions.height + 80 }}>
+              {/* SVG Map Background Effect */}
+              <svg 
+                ref={svgRef}
+                className="absolute inset-0 w-full h-full" 
+                viewBox={`0 0 ${dimensions.width} ${dimensions.height + 80}`}
+                preserveAspectRatio="xMidYMid meet"
+              >
+                {/* Dotted path line */}
+                <path 
+                  d={path} 
+                  fill="none" 
+                  stroke="#94a3b8" 
+                  strokeWidth={dimensions.width < 640 ? "1.5" : "2"} 
+                  strokeDasharray={dimensions.width < 640 ? "4 4" : "6 6"}
+                  strokeLinecap="round"
+                />
+                
+                {/* Start location pin - Responsive sizing */}
+                <g transform={`translate(${startPoint.x - (dimensions.width < 640 ? 10 : 15)}, ${startPoint.y - (dimensions.width < 640 ? 20 : 30)})`}>
+                  <MapPin 
+                    size={dimensions.width < 640 ? 20 : 30} 
+                    className="text-red-500"
+                    absoluteStrokeWidth
+                  />
+                  <text 
+                    x={dimensions.width < 640 ? "0" : "5"} 
+                    y={dimensions.width < 640 ? "25" : "40"} 
+                    className={`${dimensions.width < 640 ? 'text-[8px]' : 'text-xs'} font-medium fill-gray-700`}
+                  >
+                    DEP
+                  </text>
+                </g>
+                
+                {/* End location pin */}
+                <g transform={`translate(${endPoint.x - (dimensions.width < 640 ? 10 : 15)}, ${endPoint.y - (dimensions.width < 640 ? 20 : 30)})`}>
+                  <MapPin 
+                    size={dimensions.width < 640 ? 20 : 30} 
+                    className="text-blue-500"
+                    absoluteStrokeWidth
+                  />
+                  <text 
+                    x={dimensions.width < 640 ? "5" : "15"} 
+                    y={dimensions.width < 640 ? "25" : "40"} 
+                    className={`${dimensions.width < 640 ? 'text-[8px]' : 'text-xs'} font-medium fill-gray-700`}
+                  >
+                    ARR
+                  </text>
+                </g>
+              </svg>
 
-        {/* Phase 1: Flying Plane (0-3s) */}
-        {animationPhase === 0 && (
-          <motion.div
-            className="fixed top-1/2 left-[-200px] z-50"
-            initial={{ x: 0, y: 0, rotate: 0 }}
-            animate={{
-              x: ["0vw", "110vw"],
-              y: [0, -80, 20],
-              rotate: [0, -8, 2],
-            }}
-            transition={{ duration: 3, ease: "easeInOut" }}
-          >
-            <div className="relative">
-              <Plane size={85} className="text-white drop-shadow-2xl rotate-90" strokeWidth={1.5} />
-              
-              {/* Enhanced Trail */}
-              <motion.div 
-                className="absolute -left-12 top-9 w-24 h-1.5 bg-white/40 blur-sm rounded-full"
-                animate={{ 
-                  opacity: [0.6, 0.2, 0.6],
-                  scale: [1, 0.8, 1]
-                }}
-                transition={{ repeat: Infinity, duration: 0.4, ease: "easeInOut" }}
-              />
-            </div>
-          </motion.div>
-        )}
-
-        {/* Phase 2: Success Message (3-5.5s) */}
-        <AnimatePresence>
-          {animationPhase === 1 && (
-            <motion.div
-              className="fixed inset-0 flex items-center justify-center z-60"
-              initial={{ opacity: 0, scale: 0.8, y: 50 }}
-              animate={{ 
-                opacity: 1, 
-                scale: 1, 
-                y: 0 
-              }}
-              exit={{ opacity: 0, scale: 0.9, y: -20 }}
-              transition={{ duration: 0.6, ease: "backOut" }}
-            >
+              {/* Animated Plane */}
               <motion.div
-                className="bg-white/95 backdrop-blur-xl rounded-3xl p-8 shadow-2xl border border-white/50 max-w-md w-full mx-6 text-center"
-                animate={{ 
-                  scale: [1, 1.02, 1],
-                  rotate: [0, 1, -1, 0]
-                }}
+                className="absolute"
+                initial={{ offsetDistance: "0%" }}
+                animate={{ offsetDistance: "100%" }}
                 transition={{ 
-                  scale: { duration: 2, repeat: Infinity, ease: "easeInOut" },
-                  rotate: { duration: 3, repeat: Infinity, ease: "easeInOut" }
+                  duration: 4, 
+                  ease: "linear",
+                  onComplete: handlePlaneAnimationComplete 
+                }}
+                style={{ 
+                  offsetPath: `path("${path}")`,
+                  offsetRotate: "auto",
+                  position: 'absolute',
+                  left: 0,
+                  top: 0,
+                  width: 'fit-content',
+                  height: 'fit-content'
                 }}
               >
-                <motion.div
-                  className="w-24 h-24 bg-gradient-to-r from-emerald-400 to-teal-500 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl"
-                  initial={{ scale: 0, rotate: -180 }}
-                  animate={{ 
-                    scale: 1, 
-                    rotate: 0 
-                  }}
-                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                >
-                  <CheckCircle size={48} className="text-white drop-shadow-lg" strokeWidth={1} />
-                </motion.div>
-                
-                <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mb-3">
-                  Successfully Booked!
-                </h2>
-                
-                <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                  Your flight reservation is confirmed. 
-                  <br />
-                  Check your email for booking details.
-                </p>
-                
-                <motion.div
-                  className="flex items-center justify-center space-x-2 text-emerald-600 text-sm font-medium"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 }}
-                >
-                  <div className="w-2 h-2 bg-emerald-500 rounded-full" />
-                  <span>Booking Confirmed</span>
-                </motion.div>
+                <div className="relative">
+                  <Plane 
+                    size={dimensions.width < 640 ? 24 : dimensions.width < 768 ? 32 : 40} 
+                    className="text-blue-600 fill-blue-600"
+                    style={{ 
+                      transform: 'rotate(90deg)',
+                      filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))'
+                    }}
+                  />
+                  {/* Trail effect */}
+                  <motion.div
+                    className="absolute -z-10"
+                    animate={{ opacity: [0.5, 0] }}
+                    transition={{ duration: 1, repeat: Infinity }}
+                  >
+                    <Plane 
+                      size={dimensions.width < 640 ? 24 : dimensions.width < 768 ? 32 : 40} 
+                      className="text-blue-300" 
+                      style={{ transform: 'rotate(90deg)' }} 
+                    />
+                  </motion.div>
+                </div>
               </motion.div>
+
+              {/* Progress indicator - Responsive positioning */}
+              <div className="absolute bottom-0 left-0 right-0 text-center">
+                <motion.div 
+                  className={`${dimensions.width < 640 ? 'text-[10px]' : 'text-sm'} font-medium text-gray-600 mb-1 sm:mb-2`}
+                  animate={{ opacity: [0.7, 1, 0.7] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  ✈️ Flight in progress... {Math.floor((Date.now() % 4000) / 40)}%
+                </motion.div>
+                
+                {/* Progress bar */}
+                <div className="w-full bg-gray-200 rounded-full h-1.5 sm:h-2 overflow-hidden">
+                  <motion.div
+                    className="bg-blue-600 h-full"
+                    initial={{ width: "0%" }}
+                    animate={{ width: "100%" }}
+                    transition={{ duration: 4, ease: "linear" }}
+                  />
+                </div>
+                
+                <div className="flex justify-between mt-1 sm:mt-2 text-[8px] sm:text-xs text-gray-500">
+                  <span>Departure</span>
+                  <span>In transit</span>
+                  <span>Arrival</span>
+                </div>
+              </div>
+            </div>
+          ) : (
+            /* Success Message - Responsive */
+            <motion.div 
+              className="text-center py-6 sm:py-8 md:py-10 px-2 sm:px-4"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              <div className="relative mb-4 sm:mb-6">
+                {/* Animated circle background */}
+                <motion.div
+                  className={`${dimensions.width < 640 ? 'w-16 h-16' : dimensions.width < 768 ? 'w-20 h-20' : 'w-24 h-24'} bg-emerald-100 rounded-full mx-auto`}
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: "spring", stiffness: 200, damping: 15 }}
+                />
+                
+                {/* Check icon */}
+                <motion.div
+                  className="absolute inset-0 flex items-center justify-center"
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+                >
+                  <CheckCircle 
+                    size={dimensions.width < 640 ? 36 : dimensions.width < 768 ? 44 : 56} 
+                    className="text-emerald-600" 
+                  />
+                </motion.div>
+              </div>
+
+              <motion.h2 
+                className={`${dimensions.width < 640 ? 'text-xl' : dimensions.width < 768 ? 'text-2xl' : 'text-3xl'} font-bold text-gray-900 mb-2 sm:mb-3 px-2`}
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.3 }}
+              >
+                Flight Booked Successfully! 🎉
+              </motion.h2>
+              
+              <motion.div 
+                className={`${dimensions.width < 640 ? 'text-sm' : dimensions.width < 768 ? 'text-base' : 'text-lg'} text-gray-600 mb-1 sm:mb-2`}
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.4 }}
+              >
+                Your tickets are being generated.
+              </motion.div>
+              
+              <motion.div 
+                className={`${dimensions.width < 640 ? 'text-[10px]' : 'text-xs sm:text-sm'} text-gray-500 mb-6 sm:mb-8 break-all px-2`}
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.5 }}
+              >
+                Booking ref: {Math.random().toString(36).substring(2, 8).toUpperCase()}
+              </motion.div>
+
+              <motion.button 
+                onClick={handleAnimationComplete}
+                className={`${dimensions.width < 640 ? 'px-6 py-2.5 text-sm' : 'px-8 py-3 text-base'} bg-red-700 text-white rounded-xl font-bold hover:bg-red-800 transition-all shadow-lg hover:shadow-xl cursor-pointer w-full sm:w-auto`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.6 }}
+              >
+                Done
+              </motion.button>
             </motion.div>
           )}
-        </AnimatePresence>
-
-        {/* Subtle sparkle effect during success phase */}
-        {animationPhase === 1 && (
-          <>
-            {[...Array(8)].map((_, i) => (
-              <motion.div
-                key={`sparkle-${i}`}
-                className="absolute w-2 h-2 bg-yellow-300/80 rounded-full blur-sm"
-                style={{
-                  top: `${30 + i * 8}%`,
-                  left: `${20 + i * 10}%`,
-                }}
-                animate={{
-                  scale: [0, 1.5, 0],
-                  opacity: [0, 1, 0],
-                }}
-                transition={{
-                  duration: 1.5,
-                  repeat: Infinity,
-                  delay: i * 0.2,
-                  ease: "easeInOut"
-                }}
-              />
-            ))}
-          </>
-        )}
+        </motion.div>
       </motion.div>
     </AnimatePresence>
   );

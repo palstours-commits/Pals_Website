@@ -320,7 +320,7 @@ const TransportSection = () => {
 
   return (
     <>
-      <CommonHeroSection title="Car Booking" backgroundImage={bannerimg.src} />
+      <CommonHeroSection title="Transport Booking" backgroundImage={bannerimg.src} />
       <MainLayout className="bg-gray-50 py-16">
         <div className="max-w-4xl mx-auto px-4">
           <motion.div 

@@ -230,80 +230,91 @@ const Contactsection = () => {
 
             {/* Form */}
             <motion.div 
-              initial={{ opacity: 0, y: 20 }} 
-              animate={{ opacity: 1, y: 0 }} 
-              className="bg-white p-8 md:p-10 rounded-[2rem] shadow-2xl border border-gray-100"
-            >
-              {/* Validation Summary */}
-              {Object.keys(errors).some(key => errors[key]) && (
-                <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl">
-                  <p className="text-red-600 font-semibold mb-2">Please fix the following errors:</p>
-                  <ul className="list-disc list-inside text-sm text-red-500">
-                    {Object.values(errors).map((error, index) => error && <li key={index}>{error}</li>)}
-                  </ul>
-                </div>
-              )}
+  initial={{ opacity: 0, y: 20 }} 
+  animate={{ opacity: 1, y: 0 }} 
+  className="bg-white p-8 md:p-10 rounded-[2rem] shadow-2xl border border-gray-100"
+>
+  {/* Form Header with better visual hierarchy */}
+  <div className="text-center mb-10">
+    {/* <div className="inline-flex bg-red-600 p-4 rounded-2xl text-white shadow-lg mb-4">
+      <Phone size={30} />
+    </div> */}
+    <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Plan Your Dream Trip Today</h2>
+    <div className="flex justify-center mt-4">
+      <div className="h-1 w-20 bg-red-600 rounded-full"></div>
+    </div>
+  </div>
 
-              <form onSubmit={handleSubmitClick} className="space-y-2">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
-                  <FloatingLabelInput 
-                    label="First Name" 
-                    name="firstName" 
-                    value={form.firstName} 
-                    onChange={handleChange} 
-                    required 
-                    error={errors.firstName}
-                  />
-                  <FloatingLabelInput 
-                    label="Last Name" 
-                    name="lastName" 
-                    value={form.lastName} 
-                    onChange={handleChange} 
-                    required 
-                    error={errors.lastName}
-                  />
-                </div>
-                
-                <FloatingLabelInput 
-                  label="Email Address" 
-                  name="email" 
-                  type="email" 
-                  value={form.email} 
-                  onChange={handleChange} 
-                  required 
-                  error={errors.email}
-                />
-                
-                <FloatingLabelInput 
-                  label="Mobile Number" 
-                  name="mobile" 
-                  value={form.mobile} 
-                  onChange={handleChange} 
-                  required 
-                  error={errors.mobile}
-                />
-                
-                <FloatingLabelInput 
-                  label="Message" 
-                  name="message" 
-                  value={form.message} 
-                  onChange={handleChange} 
-                  isTextarea 
-                  required
-                  error={errors.message}
-                />
-                
-                <motion.button 
-                  whileHover={{ scale: 1.02 }} 
-                  whileTap={{ scale: 0.98 }} 
-                  type="submit" 
-                  disabled={loading} 
-                  className="w-full mt-10 bg-gray-900 text-white font-bold py-5 rounded-2xl shadow-xl hover:bg-red-600 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {loading ? "Submitting..." : "Send Message"}
-                </motion.button>
-              </form>
-            </motion.div>
+  {/* Validation Summary */}
+  {Object.keys(errors).some(key => errors[key]) && (
+    <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl">
+      <p className="text-red-600 font-semibold mb-2">Please fix the following errors:</p>
+      <ul className="list-disc list-inside text-sm text-red-500">
+        {Object.values(errors).map((error, index) => error && <li key={index}>{error}</li>)}
+      </ul>
+    </div>
+  )}
+
+  <form onSubmit={handleSubmitClick} className="space-y-2">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
+      <FloatingLabelInput 
+        label="First Name" 
+        name="firstName" 
+        value={form.firstName} 
+        onChange={handleChange} 
+        required 
+        error={errors.firstName}
+      />
+      <FloatingLabelInput 
+        label="Last Name" 
+        name="lastName" 
+        value={form.lastName} 
+        onChange={handleChange} 
+        required 
+        error={errors.lastName}
+      />
+    </div>
+    
+    <FloatingLabelInput 
+      label="Email Address" 
+      name="email" 
+      type="email" 
+      value={form.email} 
+      onChange={handleChange} 
+      required 
+      error={errors.email}
+    />
+    
+    <FloatingLabelInput 
+      label="Mobile Number" 
+      name="mobile" 
+      value={form.mobile} 
+      onChange={handleChange} 
+      required 
+      error={errors.mobile}
+    />
+    
+    <FloatingLabelInput 
+      label="Message" 
+      name="message" 
+      value={form.message} 
+      onChange={handleChange} 
+      isTextarea 
+      required
+      error={errors.message}
+    />
+    
+    <motion.button 
+       whileHover={{ scale: 1.02 }} 
+                whileTap={{ scale: 0.98 }} 
+                type="submit" 
+                disabled={loading} 
+                className="w-full mt-10 bg-gray-900 text-white font-bold py-5 rounded-2xl shadow-xl hover:bg-red-600 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+    >
+      {loading ? "Submitting..." : "Send Message"}
+    </motion.button>
+  </form>
+</motion.div>
           </div>
         </div>
       </MainLayout>

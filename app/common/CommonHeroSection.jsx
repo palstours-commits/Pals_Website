@@ -79,7 +79,7 @@ const CommonHeroSection = ({
             textVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'
           } group-hover:scale-[1.02]`}
         >
-          <div className="flex flex-col space-y-2">
+          <div className="flex items-center gap-2">
             {typeof title === 'string' && title.split(' ').length > 0 ? (
               title.split(' ').map((word, i) => (
                 <span 

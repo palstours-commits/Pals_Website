@@ -107,7 +107,7 @@ const HomeBannerSection = () => {
         {slides.map((slide, index) => (
           <SwiperSlide key={index}>
             <motion.div 
-              className="relative w-full h-full rounded-4xl overflow-hidden shadow-3xl group backdrop-blur-sm"
+              className="relative w-full h-full rounded-xl overflow-hidden shadow-3xl group backdrop-blur-sm"
               initial={{ scale: 1.1, filter: "blur(10px)" }}
               animate={{ 
                 scale: activeIndex === index ? 1.02 : 1.15,
@@ -172,7 +172,7 @@ const HomeBannerSection = () => {
             {/* HERO TITLE */}
             <motion.div variants={textVariants}>
               <motion.h1 
-                className="font-black leading-[0.88] text-5xl sm:text-7xl lg:text-8xl xl:text-9xl tracking-[-0.04em] bg-gradient-to-r from-white via-emerald-50 to-blue-100 bg-clip-text text-transparent mb-8 lg:mb-12 drop-shadow-4xl"
+                className="font-black leading-[0.88] text-5xl sm:text-7xl lg:text-8xl xl:text-9xl tracking-[-0.04em] bg-gradient-to-r from-white via-emerald-50 to-blue-100 bg-clip-text text-transparent mb-8 lg:mb-12 drop-shadow-4xl p-3"
                 initial={{ opacity: 0, y: 80, scale: 0.9 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
@@ -181,7 +181,7 @@ const HomeBannerSection = () => {
                   initial={{ opacity: 0, scaleX: 0.3 }}
                   animate={{ opacity: 1, scaleX: 1 }}
                   transition={{ duration: 1.2, delay: 0.6 }}
-                  className="inline-block"
+                  className="inline-block pb-3"
                 >
                   {activeSlide.title}
                 </motion.span>

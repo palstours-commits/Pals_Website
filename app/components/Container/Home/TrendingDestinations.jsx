@@ -1,11 +1,12 @@
 "use client";
 import CustomImage from "@/app/common/Image";
 import MainLayout from "@/app/common/MainLayout";
+import { getZones } from "@/app/store/slice/zoneSlice";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useMemo, useRef } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useMemo, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const textVariants = {
   hidden: { opacity: 0, y: 25 },
@@ -13,23 +14,24 @@ const textVariants = {
 };
 
 const TrendingDestinations = () => {
-  const sliderRef = useRef(null);
+  const dispatch = useDispatch();
   const router = useRouter();
+  const sliderRef = useRef(null);
   const { zones } = useSelector((state) => state.zones);
-  const trendingZones = useMemo(
+
+  useEffect(() => {
+    dispatch(getZones());
+  }, [dispatch]);
+
+  const topDestinationZones = useMemo(
     () => zones?.filter((z) => z.istrending === true),
     [zones],
   );
 
-  const internationalTrending = useMemo(
-    () =>
-      trendingZones?.filter(
-        (z) => z.subMenuId?.slug === "international-holidays",
-      ),
-    [trendingZones],
-  );
-  
-  const discoverSubMenu = internationalTrending?.[0]?.subMenuId;
+  const discoverSubMenu = useMemo(() => {
+    if (!topDestinationZones?.length) return null;
+    return topDestinationZones[0].subMenuId;
+  }, [topDestinationZones]);
 
   const scroll = (dir) => {
     if (!sliderRef.current) return;
@@ -41,11 +43,12 @@ const TrendingDestinations = () => {
 
   const handleDiscoverMore = () => {
     if (!discoverSubMenu?.menuId?.slug || !discoverSubMenu?.slug) return;
+
     router.push(`/${discoverSubMenu.menuId.slug}/${discoverSubMenu.slug}`);
   };
 
   return (
-    <MainLayout className="bg-gradient-to-r from-blue-50 via-indigo-50 to-blue-100 py-12 lg:py-16">
+    <MainLayout className="bg-gradient-to-r from-[#FAF3E1] to-[#F8E8C8] py-12 lg:py-16">
       <motion.div
         initial="hidden"
         whileInView="visible"
@@ -62,8 +65,9 @@ const TrendingDestinations = () => {
             <h4 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
               Trending International Destinations
             </h4>
+
             <p className="text-lg lg:text-xl text-gray-600 mt-3 max-w-sm font-light">
-               Fly beyond borders with customized itineraries for the world’s
+              Fly beyond borders with customized itineraries for the world’s
               most loved spots.
             </p>
           </div>
@@ -106,7 +110,7 @@ const TrendingDestinations = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6 }}
         >
-          {internationalTrending?.map((item, i) => (
+          {topDestinationZones?.map((item, i) => (
             <motion.div
               key={item._id}
               className="relative min-w-[260px] h-[300px] rounded-2xl overflow-hidden cursor-pointer shadow-lg group"
@@ -132,7 +136,7 @@ const TrendingDestinations = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent/0" />
               </motion.div>
 
-              {/* Always visible content - matching HolidayPlanner style */}
+              {/* Always visible content (removed hover condition) - matching HolidayPlanner style */}
               <div className="absolute bottom-6 left-6 right-6 z-20">
                 <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4 border border-white/30 shadow-xl">
                   <h5 className="text-xl font-bold text-white leading-tight drop-shadow-lg">
