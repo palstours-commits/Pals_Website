@@ -26,11 +26,11 @@ const fallbackImages = [travel1, travel2, travel3, travel4, travel5, travel6];
 // --- Floating Label Components (Matching Flight Booking Style) ---
 const FloatingLabelInput = ({ label, name, value, onChange, placeholder, required = false, isTextarea = false, type = "text", error, min, max }) => {
   const [isFocused, setIsFocused] = useState(false);
-  const isFloating = isFocused || (value && value.length > 0) || type === "date";
+ const isFloating = isFocused || value !== "" && value !== null && value !== undefined || type === "date";
 
   return (
     <div className="relative mt-6 w-full">
-      <label className={`absolute left-3 px-1.5 transition-all duration-200 pointer-events-none z-10 ${isFloating ? "-top-2.5 text-[11px] font-bold text-red-600 bg-white" : "top-3.5 text-gray-500 text-sm bg-transparent"}`}>
+      <label className={`absolute left-3 px-1.5 transition-all duration-200 pointer-events-none z-10 ${isFloating ? "-top-2.5 text-[11px] font-bold text-gray-800 bg-white" : "top-3.5 text-gray-500 text-sm bg-transparent"}`}>
         {label.toUpperCase()} {required && <span className="text-red-500">*</span>}
       </label>
       {isTextarea ? (
@@ -226,7 +226,7 @@ const EnhancedPackageForm = ({ packageId, packageName, onConfirm }) => {
     }
 
     // Number of persons validation - made more flexible
-    if (!formData.numberOfPersons || formData.numberOfPersons < 1) {
+    if (!formData.numberOfPersons || formData.numberOfPersons < 0) {
       newErrors.numberOfPersons = "At least 1 person is required";
       isValid = false;
     } else if (formData.numberOfPersons > 50) {
@@ -238,21 +238,20 @@ const EnhancedPackageForm = ({ packageId, packageName, onConfirm }) => {
     return isValid;
   };
 
-  const handleSubmitClick = (e) => {
-    e.preventDefault();
+const handleSubmitClick = (e) => {
+  e.preventDefault();
 
-    if (validateForm()) {
-      // Ensure packageId is included
-      const submitData = {
-        ...formData,
-        packageId: packageId // Explicitly include packageId
-      };
-      onConfirm(submitData);
-    } else {
-      // Scroll to top to show errors
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  };
+  if (validateForm()) {
+    const submitData = {
+      ...formData,
+      packageId: packageId
+    };
+    // Directly submit the enquiry instead of calling onConfirm
+    dispatch(submitEnquiry(submitData));
+  } else {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+};
 
   // Validation summary
   const hasErrors = Object.keys(errors).some(key => errors[key]);
@@ -264,7 +263,7 @@ const EnhancedPackageForm = ({ packageId, packageName, onConfirm }) => {
       transition={{ duration: 0.6 }}
       className="bg-white p-8 rounded-[2rem] shadow-2xl border border-gray-100 h-full overflow-y-auto"
     >
-      <div className="flex items-center gap-4 mb-4">
+      <div className="flex items-center gap-4 mb-2">
         <div className="bg-red-600 p-4 rounded-2xl text-white">
           <BookText size={30} />
         </div>
@@ -528,32 +527,26 @@ const PackageDetails = ({ slug }) => {
   const carouselImages = allImages.slice(6);
 
   // Handle API response
-  useEffect(() => {
-    // ✅ SUCCESS → only show flight animation
+ useEffect(() => {
+    // Only trigger the animation here. Do NOT clear state immediately.
     if (message && !error) {
       setShowFlightAnimation(true);
-      dispatch(clearEnquiryState());
     }
 
-    // ❌ ERROR → still show popup
     if (error) {
-      const errorMessage =
-        typeof error === "string"
-          ? error
-          : error?.message || "Something went wrong. Please try again.";
-
+      const errorMessage = typeof error === "string" ? error : error?.message || "Something went wrong.";
       setPopupType("error");
       setPopupMessage(errorMessage);
       setShowResultPopup(true);
-      dispatch(clearEnquiryState());
+      dispatch(clearEnquiryState()); // Clear error immediately
     }
   }, [message, error, dispatch]);
 
   // Reset flight animation after it completes
   const handleFlightAnimationComplete = () => {
     setShowFlightAnimation(false);
+    dispatch(clearEnquiryState()); // Reset everything once the animation is dismissed
   };
-
   useEffect(() => {
     if (importantInfo.length > 0) {
       setActiveInfoIndex(0);
@@ -689,10 +682,10 @@ const PackageDetails = ({ slug }) => {
   return (
     <>
       {/* Flight Animation - Shows immediately on confirmation */}
-      <Flight_Movement
+       <Flight_Movement
         isOpen={showFlightAnimation}
         onAnimationComplete={handleFlightAnimationComplete}
-        autoTriggerOnSuccess={false}
+        autoTriggerOnSuccess={true}
       />
 
       {/* Image Gallery Modal */}

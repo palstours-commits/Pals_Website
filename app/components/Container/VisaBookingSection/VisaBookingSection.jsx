@@ -39,12 +39,12 @@ const initialErrors = {
 // --- Reusable Floating Input Component ---
 const FloatingLabelInput = ({ label, name, value, onChange, placeholder, required = false, isTextarea = false, type = "text", error, min, max }) => {
   const [isFocused, setIsFocused] = useState(false);
-  const isFloating = isFocused || (value && value.toString().length > 0) || type === "date";
+  const isFloating = isFocused || value !== "" && value !== null && value !== undefined || type === "date";
 
   return (
     <div className="relative mt-6 w-full">
       <label className={`absolute left-3 px-1.5 transition-all duration-200 pointer-events-none z-10 ${
-        isFloating ? "-top-2.5 text-[11px] font-bold text-red-600 bg-white" : "top-3.5 text-gray-500 text-sm bg-transparent"
+        isFloating ? "-top-2.5 text-[11px] font-bold text-gray-800 bg-white" : "top-3.5 text-gray-500 text-sm bg-transparent"
       }`}>
         {label.toUpperCase()} {required && <span className="text-red-500">*</span>}
       </label>
@@ -83,7 +83,7 @@ const FloatingLabelSelect = ({ label, name, value, onChange, options = [], place
 
   return (
     <div className="relative mt-6 w-full">
-      <label className="absolute -top-2.5 left-3 px-1.5 text-[11px] font-bold text-red-600 bg-white z-10">
+      <label className="absolute -top-2.5 left-3 px-1.5 text-[11px] font-bold text-gray-800 bg-white z-10">
         {label.toUpperCase()} {required && <span className="text-red-500">*</span>}
       </label>
       <div 
@@ -130,7 +130,6 @@ const VisaBookingSection = () => {
   const [errors, setErrors] = useState(initialErrors);
   
   // Popup states
-  const [showConfirmPopup, setShowConfirmPopup] = useState(false);
   const [showResultPopup, setShowResultPopup] = useState(false);
   const [popupType, setPopupType] = useState('success');
   const [popupMessage, setPopupMessage] = useState('');
@@ -227,23 +226,17 @@ const VisaBookingSection = () => {
     return isValid;
   };
 
-  const handleSubmitClick = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     
     // Validate all fields
     if (validateForm()) {
-      // Show confirmation popup if validation passes
-      setShowConfirmPopup(true);
+      // Directly submit the form
+      dispatch(submitVisaForm(formData));
     } else {
       // Scroll to top to show errors
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-  };
-
-  const handleConfirmSubmit = () => {
-    setShowConfirmPopup(false);
-    // Now submit the form
-    dispatch(submitVisaForm(formData));
   };
 
   // Handle API response
@@ -274,21 +267,8 @@ const VisaBookingSection = () => {
   }, [message, error, dispatch]);
 
   const handleClosePopups = () => {
-    setShowConfirmPopup(false);
     setShowResultPopup(false);
     setPopupMessage('');
-  };
-
-  // Calculate travel duration in days
-  const calculateDuration = () => {
-    if (formData.travelStartDate && formData.travelEndDate) {
-      const start = new Date(formData.travelStartDate);
-      const end = new Date(formData.travelEndDate);
-      const diffTime = Math.abs(end - start);
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      return diffDays;
-    }
-    return 0;
   };
 
   // Visa type options
@@ -367,7 +347,7 @@ const VisaBookingSection = () => {
               </div>
             )}
 
-            <form onSubmit={handleSubmitClick} className="space-y-2">
+            <form onSubmit={handleSubmit} className="space-y-2">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
                 <FloatingLabelInput 
                   label="First Name" 
@@ -495,18 +475,6 @@ const VisaBookingSection = () => {
           </motion.div>
         </div>
       </MainLayout>
-
-      {/* Confirmation Popup - Simple confirmation message */}
-      <Message_Popups
-        isOpen={showConfirmPopup}
-        type="confirm"
-        onClose={handleClosePopups}
-        onConfirm={handleConfirmSubmit}
-      >
-        <div className="space-y-2">
-          <p className="text-sm text-gray-700">Are you sure you want to apply for this visa.</p>
-        </div>
-      </Message_Popups>
 
       {/* Success/Error Popup - Only shows API message */}
       <Message_Popups

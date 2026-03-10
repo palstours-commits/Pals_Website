@@ -39,12 +39,12 @@ const initialErrors = {
 // --- Floating Label Components ---
 const FloatingLabelInput = ({ label, name, value, onChange, placeholder, required = false, isTextarea = false, type = "text", error }) => {
   const [isFocused, setIsFocused] = useState(false);
-  const isFloating = isFocused || (value && value.length > 0) || type === "date";
+  const isFloating = isFocused || value !== "" && value !== null && value !== undefined || type === "date";
 
   return (
     <div className="relative mt-6 w-full">
       <label className={`absolute left-3 px-1.5 transition-all duration-200 pointer-events-none z-10 ${
-        isFloating ? "-top-2.5 text-[11px] font-bold text-red-600 bg-white" : "top-3.5 text-gray-500 text-sm bg-transparent"
+        isFloating ? "-top-2.5 text-[11px] font-bold text-gray-800 bg-white" : "top-3.5 text-gray-500 text-sm bg-transparent"
       }`}>
         {label.toUpperCase()} {required && <span className="text-red-500">*</span>}
       </label>
@@ -66,7 +66,7 @@ const FloatingLabelInput = ({ label, name, value, onChange, placeholder, require
           onChange={onChange} 
           onFocus={() => setIsFocused(true)} 
           onBlur={() => setIsFocused(false)}
-          className={`w-full px-4 py-3 rounded-xl border ${error ? 'border-red-500 bg-red-50' : 'border-gray-200'} focus:border-red-600 focus:ring-2 focus:ring-red-100 outline-none transition-all`} 
+          className={`w-full px-4 py-3 rounded-xl border ${error ? 'border-red-500 bg-red-50' : 'border-gray-200'} focus:border-gray-600 focus:ring-2 focus:ring-red-100 outline-none transition-all`} 
           placeholder={isFocused ? placeholder : ""} 
         />
       )}
@@ -81,7 +81,7 @@ const FloatingLabelSelect = ({ label, name, value, onChange, options = [], place
 
   return (
     <div className="relative mt-6 w-full">
-      <label className="absolute -top-2.5 left-3 px-1.5 text-[11px] font-bold text-red-600 bg-white z-10">
+      <label className="absolute -top-2.5 left-3 px-1.5 text-[11px] font-bold text-gray-800 bg-white z-10">
         {label.toUpperCase()} {required && <span className="text-red-500">*</span>}
       </label>
       <div 
@@ -114,7 +114,6 @@ const FlightBookingSection = () => {
   const [errors, setErrors] = useState(initialErrors);
   
   // Popup states
-  const [showConfirmPopup, setShowConfirmPopup] = useState(false);
   const [showResultPopup, setShowResultPopup] = useState(false);
   const [popupType, setPopupType] = useState('success');
   const [popupMessage, setPopupMessage] = useState('');
@@ -191,56 +190,56 @@ const FlightBookingSection = () => {
     return isValid;
   };
 
-  const handleSubmitClick = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     
     // Validate all fields
     if (validateForm()) {
-      // Show confirmation popup if validation passes
-      setShowConfirmPopup(true);
+      // Directly submit the form
+      dispatch(submitFlightForm(formData));
     } else {
       // Scroll to top to show errors
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
-  const handleConfirmSubmit = () => {
-    setShowConfirmPopup(false);
-    // Now submit the form
-    dispatch(submitFlightForm(formData));
-  };
-
   // Handle API response
   useEffect(() => {
     if (message) {
-      // Extract message from API response
-      const responseMessage = typeof message === 'string' 
-        ? message 
-        : message?.message || "Flight enquiry submitted successfully";
-      
-      setPopupType('success');
+      const responseMessage =
+        message?.message ||
+        message?.data?.message ||
+        (typeof message === "string" ? message : null) ||
+        "Flight enquiry submitted successfully";
+
+      setPopupType("success");
       setPopupMessage(responseMessage);
       setShowResultPopup(true);
+
       setFormData(initialForm);
       setErrors(initialErrors);
+
       dispatch(clearServiceFormState());
     }
+
     if (error) {
-      const errorMessage = typeof error === 'string' 
-        ? error 
-        : error?.message || "An error occurred. Please try again.";
-      
-      setPopupType('error');
+      const errorMessage =
+        error?.message ||
+        error?.data?.message ||
+        (typeof error === "string" ? error : null) ||
+        "Something went wrong. Please try again.";
+
+      setPopupType("error");
       setPopupMessage(errorMessage);
       setShowResultPopup(true);
+
       dispatch(clearServiceFormState());
     }
   }, [message, error, dispatch]);
 
   const handleClosePopups = () => {
-    setShowConfirmPopup(false);
     setShowResultPopup(false);
-    setPopupMessage('');
+    setPopupMessage("");
   };
 
   return (
@@ -267,7 +266,7 @@ const FlightBookingSection = () => {
               </div>
             )}
 
-            <form onSubmit={handleSubmitClick} className="space-y-2">
+            <form onSubmit={handleSubmit} className="space-y-2">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
                 <FloatingLabelInput 
                   label="Full Name" 
@@ -383,18 +382,6 @@ const FlightBookingSection = () => {
           </motion.div>
         </div>
       </MainLayout>
-
-      {/* Confirmation Popup - Keep this for user confirmation before submission */}
-      <Message_Popups
-        isOpen={showConfirmPopup}
-        type="confirm"
-        onClose={handleClosePopups}
-        onConfirm={handleConfirmSubmit}
-      >
-        <div className="space-y-2">
-          <p className="text-sm text-gray-700">Are you sure you want to book the ticket.</p>
-        </div>
-      </Message_Popups>
 
       {/* Success/Error Popup - Only shows API message */}
       <Message_Popups
