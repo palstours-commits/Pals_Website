@@ -25,7 +25,7 @@ import {
   Sparkles,
   UserCircle,
   Users,
-  X
+  X,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -34,7 +34,8 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 // CSS filter for red-700 color
-const red700Filter = 'brightness(0) saturate(100%) invert(20%) sepia(89%) saturate(5000%) hue-rotate(355deg) brightness(90%) contrast(120%)';
+const red700Filter =
+  "brightness(0) saturate(100%) invert(20%) sepia(89%) saturate(5000%) hue-rotate(355deg) brightness(90%) contrast(120%)";
 
 // ✨ ENHANCED ANIMATION VARIANTS
 const headerContainerVariants = {
@@ -66,8 +67,8 @@ const glassmorphismDropdownVariants = {
     rotateX: -10,
     transition: {
       duration: 0.25,
-      ease:[0.4, 0, 0.2, 1]
-    }
+      ease: [0.4, 0, 0.2, 1],
+    },
   },
   visible: {
     opacity: 1,
@@ -80,8 +81,8 @@ const glassmorphismDropdownVariants = {
       damping: 30,
       mass: 0.8,
       staggerChildren: 0.06,
-      delayChildren: 0.1
-    }
+      delayChildren: 0.1,
+    },
   },
   exit: {
     opacity: 0,
@@ -90,43 +91,43 @@ const glassmorphismDropdownVariants = {
     rotateX: -5,
     transition: {
       duration: 0.2,
-      ease: [0.4, 0, 1, 1]
-    }
-  }
+      ease: [0.4, 0, 1, 1],
+    },
+  },
 };
 
 // ✨ FLOATING DROPDOWN ITEMS
 const floatingDropdownItemVariants = {
-  hidden: { 
-    opacity: 0, 
+  hidden: {
+    opacity: 0,
     x: -20,
     y: 10,
-    scale: 0.95
+    scale: 0.95,
   },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     x: 0,
     y: 0,
     scale: 1,
-    transition: { 
-      type: "spring", 
-      stiffness: 500, 
+    transition: {
+      type: "spring",
+      stiffness: 500,
       damping: 25,
-      delay: 0.1
-    }
-  }
+      delay: 0.1,
+    },
+  },
 };
 
 // ✨ SHIMMER EFFECT
 const shimmerEffectVariants = {
   animate: {
-    backgroundPosition:["200% 0", "-200% 0", "200% 0"],
+    backgroundPosition: ["200% 0", "-200% 0", "200% 0"],
     transition: {
       duration: 2,
       repeat: Infinity,
-      ease: "linear"
-    }
-  }
+      ease: "linear",
+    },
+  },
 };
 
 const planTourButtonVariants = {
@@ -136,13 +137,14 @@ const planTourButtonVariants = {
       duration: 2.5,
       repeat: Infinity,
       repeatType: "reverse",
-      ease: "easeInOut"
-    }
-  }
+      ease: "easeInOut",
+    },
+  },
 };
 
 // Glassmorphism backdrop filter
-const glassmorphismBackdrop = "backdrop-blur-xl bg-white/85 border border-white/60 shadow-2xl shadow-black/5";
+const glassmorphismBackdrop =
+  "backdrop-blur-xl bg-white/85 border border-white/60 shadow-2xl shadow-black/5";
 
 const getMenuIcon = (menuName, iconPath) => {
   if (iconPath && iconPath !== navItemIcon && iconPath !== companyIcon) {
@@ -157,37 +159,41 @@ const getMenuIcon = (menuName, iconPath) => {
       </div>
     );
   }
-  
+
   const iconMap = {
-    'Destinations': <Globe2 size={18} className="text-red-600" />,
-    'Tours': <Compass size={18} className="text-red-600" />,
-    'Packages': <Map size={18} className="text-red-600" />,
-    'Group Tours': <Users size={18} className="text-red-600" />,
-    'Corporate': <Building2 size={18} className="text-red-600" />
+    Destinations: <Globe2 size={18} className="text-red-600" />,
+    Tours: <Compass size={18} className="text-red-600" />,
+    Packages: <Map size={18} className="text-red-600" />,
+    "Group Tours": <Users size={18} className="text-red-600" />,
+    Corporate: <Building2 size={18} className="text-red-600" />,
   };
-  
+
   return iconMap[menuName] || <Sparkles size={18} className="text-red-600" />;
 };
 
 const getServiceIcon = (serviceName) => {
   const iconMap = {
-    'Flight': <Plane size={18} className="text-red-600" />,
-    'Hotel': <Hotel size={18} className="text-red-600" />,
-    'Transport': <Bus size={18} className="text-red-600" />,
-    'Money Exchange': <CreditCard size={18} className="text-red-600" />,
-    'Visa': <FileText size={18} className="text-red-600" />
+    Flight: <Plane size={18} className="text-red-600" />,
+    Hotel: <Hotel size={18} className="text-red-600" />,
+    Transport: <Bus size={18} className="text-red-600" />,
+    "Money Exchange": <CreditCard size={18} className="text-red-600" />,
+    Visa: <FileText size={18} className="text-red-600" />,
   };
-  return iconMap[serviceName] || <Sparkles size={18} className="text-red-600" />;
+  return (
+    iconMap[serviceName] || <Sparkles size={18} className="text-red-600" />
+  );
 };
 
 const getCompanyIcon = (companyItem) => {
   const iconMap = {
-    'About Us': <UserCircle size={18} className="text-red-600" />,
-    'Blog': <FileText size={18} className="text-red-600" />,
-    'Career': <Calendar size={18} className="text-red-600" />,
-    'Contact Us': <Mail size={18} className="text-red-600" />
+    "About Us": <UserCircle size={18} className="text-red-600" />,
+    Blog: <FileText size={18} className="text-red-600" />,
+    Career: <Calendar size={18} className="text-red-600" />,
+    "Contact Us": <Mail size={18} className="text-red-600" />,
   };
-  return iconMap[companyItem] || <Building2 size={18} className="text-red-600" />;
+  return (
+    iconMap[companyItem] || <Building2 size={18} className="text-red-600" />
+  );
 };
 
 export default function Header() {
@@ -195,15 +201,17 @@ export default function Header() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [hoveredDropdown, setHoveredDropdown] = useState(null);
-  const[mobileDropdownOpen, setMobileDropdownOpen] = useState({});
+  const [mobileDropdownOpen, setMobileDropdownOpen] = useState({});
   const { submenus } = useSelector((state) => state.submenu);
 
-  const sortedSubmenus = submenus ? [...submenus].sort((a, b) => a.order - b.order) :[];
+  const sortedSubmenus = submenus
+    ? [...submenus].sort((a, b) => a.order - b.order)
+    : [];
 
   // Desktop Navigation Auto-scroll States
   const navRef = useRef(null);
   const scrollDirRef = useRef(1);
-  const[showLeftArrow, setShowLeftArrow] = useState(false);
+  const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(false);
   const [isNavHovered, setIsNavHovered] = useState(false);
 
@@ -223,26 +231,26 @@ export default function Header() {
   // Handle bounds checking automatically when menus update or window resizes
   useEffect(() => {
     checkScroll();
-    window.addEventListener('resize', checkScroll);
+    window.addEventListener("resize", checkScroll);
     setTimeout(checkScroll, 150); // Fallback to verify after layout paints
-    return () => window.removeEventListener('resize', checkScroll);
-  },[sortedSubmenus]);
+    return () => window.removeEventListener("resize", checkScroll);
+  }, [sortedSubmenus]);
 
   // Ping-pong elegant automatic scroll loop
   useEffect(() => {
     let animationId;
     let lastTime = performance.now();
-    
+
     const playScroll = (time) => {
       // 40ms interval enforces a gentle and readable smooth scroll
       if (time - lastTime > 40) {
         if (navRef.current && !isNavHovered) {
           const { scrollLeft, scrollWidth, clientWidth } = navRef.current;
-          
+
           if (scrollWidth > clientWidth) {
             const maxScroll = scrollWidth - clientWidth;
             navRef.current.scrollLeft += scrollDirRef.current * 1;
-            
+
             // Boundary detection to bounce back
             if (navRef.current.scrollLeft >= maxScroll - 1) {
               scrollDirRef.current = -1;
@@ -255,7 +263,7 @@ export default function Header() {
       }
       animationId = requestAnimationFrame(playScroll);
     };
-    
+
     animationId = requestAnimationFrame(playScroll);
     return () => cancelAnimationFrame(animationId);
   }, [isNavHovered]);
@@ -268,12 +276,12 @@ export default function Header() {
 
   const handleMainMenuClick = (menuId, hasSubmenu) => {
     if (hasSubmenu) {
-      setMobileDropdownOpen(prev => ({
+      setMobileDropdownOpen((prev) => ({
         ...prev,
-        [menuId]: !prev[menuId]
+        [menuId]: !prev[menuId],
       }));
     } else {
-      const menu = sortedSubmenus.find(m => m._id === menuId);
+      const menu = sortedSubmenus.find((m) => m._id === menuId);
       if (menu) {
         router.push(`/${menu.slug}`);
         setOpen(false);
@@ -296,20 +304,20 @@ export default function Header() {
   };
 
   const toggleMobileServices = () => {
-    setMobileDropdownOpen(prev => ({
+    setMobileDropdownOpen((prev) => ({
       ...prev,
-      'mobile-services': !prev['mobile-services']
+      "mobile-services": !prev["mobile-services"],
     }));
   };
 
   const toggleMobileCompany = () => {
-    setMobileDropdownOpen(prev => ({
+    setMobileDropdownOpen((prev) => ({
       ...prev,
-      'mobile-company': !prev['mobile-company']
+      "mobile-company": !prev["mobile-company"],
     }));
   };
 
-  const STATIC_SERVICES =[
+  const STATIC_SERVICES = [
     { name: "Flight", slug: "flight", icon: <Plane size={18} /> },
     { name: "Hotel", slug: "hotel", icon: <Hotel size={18} /> },
     { name: "Transport", slug: "transport", icon: <Bus size={18} /> },
@@ -317,7 +325,7 @@ export default function Header() {
     { name: "Visa", slug: "visa", icon: <FileText size={18} /> },
   ];
 
-  const COMPANY_MENU =[
+  const COMPANY_MENU = [
     { name: "About Us", slug: "about-us", icon: <UserCircle size={18} /> },
     { name: "Blog", slug: "blog", icon: <FileText size={18} /> },
     { name: "Career", slug: "career", icon: <Calendar size={18} /> },
@@ -326,7 +334,9 @@ export default function Header() {
 
   return (
     <>
-      <style dangerouslySetInnerHTML={{__html: `
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
         .hide-scrollbar::-webkit-scrollbar {
           display: none;
         }
@@ -334,7 +344,9 @@ export default function Header() {
           -ms-overflow-style: none;
           scrollbar-width: none;
         }
-      `}} />
+      `,
+        }}
+      />
 
       {/* Animated Top Banner */}
       <motion.div
@@ -345,24 +357,28 @@ export default function Header() {
       >
         <span className="inline-flex items-center gap-2">
           <Sparkles size={14} />
-          Black Friday Last-Minute Specials: Save up to $1,000 by 11/23 on trips departing this winter or spring.
+          Black Friday Last-Minute Specials: Save up to $1,000 by 11/23 on trips
+          departing this winter or spring.
           <Sparkles size={14} />
         </span>
       </motion.div>
 
       <header className="sticky top-0 z-[9999] bg-white/80 shadow-2xl border-b border-white/50">
         {/* Main Header Container */}
-        <motion.div 
+        <motion.div
           variants={headerContainerVariants}
           initial="hidden"
           animate="visible"
           className="max-w-7xl mx-auto px-4 sm:px-6 2xl:px-8 h-16 flex items-center"
         >
           {/* Logo */}
-          <motion.div variants={headerItemVariants} className="z-10 md:relative top-2">
+          <motion.div
+            variants={headerItemVariants}
+            className="z-10 md:relative top-2"
+          >
             <Link href="/" className="flex items-center gap-3">
               <Image
-                src={navbar_logo} 
+                src={navbar_logo}
                 alt="Pals Holidays"
                 className="h-10 md:h-20 w-auto hover:scale-105 transition-all duration-500 hover:rotate-3"
                 priority
@@ -371,7 +387,7 @@ export default function Header() {
           </motion.div>
 
           {/* Desktop Navigation - Auto Scroll Implementation */}
-          <div 
+          <div
             className="hidden lg:flex ml-8 max-w-[600px] 2xl:max-w-[760px] relative items-center h-12 w-full"
             onMouseEnter={() => setIsNavHovered(true)}
             onMouseLeave={() => setIsNavHovered(false)}
@@ -383,7 +399,9 @@ export default function Header() {
                   initial={{ opacity: 0, x: -5 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -5 }}
-                  onClick={() => navRef.current?.scrollBy({ left: -200, behavior: 'smooth' })}
+                  onClick={() =>
+                    navRef.current?.scrollBy({ left: -200, behavior: "smooth" })
+                  }
                   className="absolute left-0 top-0 z-[60] h-full px-1 bg-gradient-to-r from-white via-white/95 to-transparent flex items-center justify-start text-red-500 hover:text-red-700 pointer-events-auto shadow-[10px_0_15px_-10px_rgba(255,255,255,1)]"
                 >
                   <ChevronLeft size={20} />
@@ -392,33 +410,33 @@ export default function Header() {
             </AnimatePresence>
 
             {/* Scrolling Navigation Wrapper Hack preventing Dropdown clipping */}
-            <div 
+            <div
               ref={navRef}
               onScroll={checkScroll}
               className="hide-scrollbar scroll-smooth"
               style={{
-                display: 'flex',
-                overflowX: 'auto',
-                overflowY: 'hidden',
-                paddingBottom: '500px', // Allocates space preventing clipped dropdowns
-                marginBottom: '-500px', // Corrects container visually back to proper height
-                height: '100%',
-                width: '100%',
-                pointerEvents: 'none',
-                boxSizing: 'content-box'
+                display: "flex",
+                overflowX: "auto",
+                overflowY: "hidden",
+                paddingBottom: "500px", // Allocates space preventing clipped dropdowns
+                marginBottom: "-500px", // Corrects container visually back to proper height
+                height: "100%",
+                width: "100%",
+                pointerEvents: "none",
+                boxSizing: "content-box",
               }}
             >
-              <div 
-                className="flex items-center gap-1 w-max px-4" 
-                style={{ pointerEvents: 'auto', height: '100%' }}
+              <div
+                className="flex items-center gap-1 w-max px-4"
+                style={{ pointerEvents: "auto", height: "100%" }}
               >
                 {sortedSubmenus?.map((menu, index) => {
                   const hasSubmenu = menu?.submenus?.length > 0;
-                  const sortedSubItems = menu?.submenus 
-                    ? [...menu.submenus].sort((a, b) => a.order - b.order) 
-                    :[];
+                  const sortedSubItems = menu?.submenus
+                    ? [...menu.submenus].sort((a, b) => a.order - b.order)
+                    : [];
                   const isHovered = hoveredDropdown === menu._id;
-                  
+
                   return (
                     <motion.div
                       variants={headerItemVariants}
@@ -430,32 +448,40 @@ export default function Header() {
                       <motion.button
                         whileHover={{ y: -2, scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        onClick={() => !hasSubmenu && router.push(`/${menu.slug}`)}
+                        onClick={() =>
+                          !hasSubmenu && router.push(`/${menu.slug}`)
+                        }
                         className={`group-hover-item flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 ${
-                          hasSubmenu ? 'cursor-default' : 'cursor-pointer'
+                          hasSubmenu ? "cursor-default" : "cursor-pointer"
                         } backdrop-blur-sm
-                          ${isHovered 
-                            ? 'text-red-600 bg-gradient-to-r from-red-50/90 to-red-100/90 shadow-lg shadow-red-200/50' 
-                            : 'text-gray-700 hover:text-red-600 hover:bg-white/70 hover:shadow-md hover:shadow-gray-100/50'
+                          ${
+                            isHovered
+                              ? "text-red-600 bg-gradient-to-r from-red-50/90 to-red-100/90 shadow-lg shadow-red-200/50"
+                              : "text-gray-700 hover:text-red-600 hover:bg-white/70 hover:shadow-md hover:shadow-gray-100/50"
                           } border border-transparent group-hover:border-red-200/50`}
                       >
-                        <motion.div 
+                        <motion.div
                           className="flex items-center justify-center w-5 h-5"
                           whileHover={{ scale: 1.15, rotate: 360 }}
                           transition={{ duration: 0.4 }}
                         >
                           {getMenuIcon(menu.name, menu?.icon)}
                         </motion.div>
-                        
+
                         <span>{menu.name}</span>
-                        
+
                         {hasSubmenu && (
                           <motion.div
                             className="w-5 h-5 flex items-center justify-center"
                             animate={{ rotate: isHovered ? 180 : 0 }}
                             transition={{ duration: 0.4, ease: "easeInOut" }}
                           >
-                            <ChevronDown size={14} className={isHovered ? 'text-red-500' : 'text-gray-400'} />
+                            <ChevronDown
+                              size={14}
+                              className={
+                                isHovered ? "text-red-500" : "text-gray-400"
+                              }
+                            />
                           </motion.div>
                         )}
                       </motion.button>
@@ -463,31 +489,38 @@ export default function Header() {
                       {/* ✨ ENHANCED GLASSMORPHISM DROPDOWN */}
                       <AnimatePresence>
                         {hasSubmenu && isHovered && (
-                          <motion.div 
+                          <motion.div
                             variants={glassmorphismDropdownVariants}
                             initial="hidden"
                             animate="visible"
                             exit="exit"
-                            className="absolute top-full left-1/2 -translate-x-1/2 pt-3 w-72 z-50"
-                            style={{ 
-                              filter: "drop-shadow(0 25px 50px -12px rgba(0,0,0,0.25))"
+                            className={`absolute top-full pt-3 w-72 z-50 ${
+                              index === 0
+                                ? "left-0"
+                                : "left-1/2 -translate-x-1/2"
+                            }`}
+                            style={{
+                              filter:
+                                "drop-shadow(0 25px 50px -12px rgba(0,0,0,0.25))",
                             }}
                           >
                             {/* Shimmer Background */}
-                            <motion.div 
+                            <motion.div
                               variants={shimmerEffectVariants}
                               animate="animate"
                               className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"
                               style={{
                                 backgroundSize: "200% 100%",
-                                mask: "linear-gradient(90deg, transparent, white, transparent)"
+                                mask: "linear-gradient(90deg, transparent, white, transparent)",
                               }}
                             />
-                            
-                            <div className={`${glassmorphismBackdrop} rounded-2xl p-4 relative overflow-hidden`}>
+
+                            <div
+                              className={`${glassmorphismBackdrop} rounded-2xl p-4 relative overflow-hidden`}
+                            >
                               {/* Subtle glow border */}
                               <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-red-500/10 via-transparent to-red-500/10" />
-                              
+
                               <div className="relative z-10 space-y-1">
                                 {sortedSubItems.map((sub, subIndex) => (
                                   <motion.div
@@ -496,25 +529,32 @@ export default function Header() {
                                     className="group/item"
                                   >
                                     <motion.button
-                                      whileHover={{ 
-                                        x: 4, 
+                                      whileHover={{
+                                        x: 4,
                                         scale: 1.02,
                                         backgroundColor: "#FEF2F2",
-                                        color: "#DC2626"
+                                        color: "#DC2626",
                                       }}
                                       whileTap={{ scale: 0.98 }}
-                                      onClick={() => handleSubmenuClick(menu.slug, sub.slug)}
+                                      onClick={() =>
+                                        handleSubmenuClick(menu.slug, sub.slug)
+                                      }
                                       className="w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-gray-700 transition-all duration-300 flex items-center gap-3 group-hover/item:bg-red-50/80 group-hover/item:shadow-sm border border-transparent group-hover/item:border-red-200/50 overflow-hidden relative cursor-pointer"
                                     >
-                                      <span className="font-medium">{sub.name}</span>
-                                      
-                                      <motion.div 
+                                      <span className="font-medium">
+                                        {sub.name}
+                                      </span>
+
+                                      <motion.div
                                         className="ml-auto flex items-center"
                                         initial={{ x: 5, opacity: 0 }}
                                         whileHover={{ x: 8 }}
                                         transition={{ type: "spring" }}
                                       >
-                                        <ChevronRight size={16} className="text-gray-400 group-hover/item:text-red-500 transition-colors" />
+                                        <ChevronRight
+                                          size={16}
+                                          className="text-gray-400 group-hover/item:text-red-500 transition-colors"
+                                        />
                                       </motion.div>
                                     </motion.button>
                                   </motion.div>
@@ -532,7 +572,7 @@ export default function Header() {
                 <motion.div
                   variants={headerItemVariants}
                   className="relative group h-full flex items-center"
-                  onMouseEnter={() => setHoveredDropdown('services')}
+                  onMouseEnter={() => setHoveredDropdown("services")}
                   onMouseLeave={() => setHoveredDropdown(null)}
                 >
                   <motion.button
@@ -540,12 +580,12 @@ export default function Header() {
                     whileTap={{ scale: 0.98 }}
                     className={`group-hover-item flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 cursor-default backdrop-blur-sm
                       ${
-                        hoveredDropdown === 'services'
+                        hoveredDropdown === "services"
                           ? "text-red-600 bg-gradient-to-r from-red-50/90 to-red-100/90 shadow-lg shadow-red-200/50"
                           : "text-gray-700 hover:text-red-600 hover:bg-white/70 hover:shadow-md hover:shadow-gray-100/50"
                       } border border-transparent group-hover:border-red-200/50`}
                   >
-                    <motion.div 
+                    <motion.div
                       className="w-5 h-5 flex items-center justify-center"
                       whileHover={{ scale: 1.15, rotate: 360 }}
                       transition={{ duration: 0.4 }}
@@ -560,38 +600,50 @@ export default function Header() {
                     <span>Services</span>
                     <motion.div
                       className="w-5 h-5 flex items-center justify-center"
-                      animate={{ rotate: hoveredDropdown === 'services' ? 180 : 0 }}
+                      animate={{
+                        rotate: hoveredDropdown === "services" ? 180 : 0,
+                      }}
                       transition={{ duration: 0.4 }}
                     >
-                      <ChevronDown size={14} className={hoveredDropdown === 'services' ? 'text-red-500' : 'text-gray-400'} />
+                      <ChevronDown
+                        size={14}
+                        className={
+                          hoveredDropdown === "services"
+                            ? "text-red-500"
+                            : "text-gray-400"
+                        }
+                      />
                     </motion.div>
                   </motion.button>
 
                   <AnimatePresence>
-                    {hoveredDropdown === 'services' && (
-                      <motion.div 
+                    {hoveredDropdown === "services" && (
+                      <motion.div
                         variants={glassmorphismDropdownVariants}
                         initial="hidden"
                         animate="visible"
                         exit="exit"
                         className="absolute top-full left-1/2 -translate-x-1/2 pt-3 w-64 z-50"
-                        style={{ 
-                          filter: "drop-shadow(0 25px 50px -12px rgba(0,0,0,0.25))"
+                        style={{
+                          filter:
+                            "drop-shadow(0 25px 50px -12px rgba(0,0,0,0.25))",
                         }}
                       >
-                        <motion.div 
+                        <motion.div
                           variants={shimmerEffectVariants}
                           animate="animate"
                           className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-100 rounded-2xl"
                           style={{
                             backgroundSize: "200% 100%",
-                            mask: "linear-gradient(90deg, transparent, white, transparent)"
+                            mask: "linear-gradient(90deg, transparent, white, transparent)",
                           }}
                         />
-                        
-                        <div className={`${glassmorphismBackdrop} rounded-2xl p-4 relative overflow-hidden`}>
+
+                        <div
+                          className={`${glassmorphismBackdrop} rounded-2xl p-4 relative overflow-hidden`}
+                        >
                           <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-red-500/10 via-transparent to-red-500/10" />
-                          
+
                           <div className="relative z-10 space-y-1">
                             {STATIC_SERVICES.map((item, index) => (
                               <motion.div
@@ -600,32 +652,27 @@ export default function Header() {
                                 className="group/item"
                               >
                                 {item.slug ? (
-                                  <Link 
+                                  <Link
                                     href={`/service/${item.slug}`}
                                     onClick={() => setHoveredDropdown(null)}
                                     className="block w-full text-left px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-300 flex items-center gap-3 group-hover/item:bg-red-50/80 group-hover/item:shadow-sm group-hover/item:scale-[1.02] rounded-xl border border-transparent group-hover/item:border-red-200/50 overflow-hidden relative hover:text-red-600"
                                   >
-                                    <motion.div 
-                                      className="w-10 h-10 rounded-lg bg-gradient-to-br from-red-50 to-red-100 flex items-center justify-center flex-shrink-0 shadow-sm backdrop-blur-sm"
-                                      whileHover={{ scale: 1.1, rotate: 5 }}
-                                      transition={{ type: "spring", stiffness: 400 }}
-                                    >
-                                      {item.icon}
-                                    </motion.div>
-                                    <span className="font-medium">{item.name}</span>
-                                    <motion.div 
+                                    <span className="font-medium">
+                                      {item.name}
+                                    </span>
+                                    <motion.div
                                       className="ml-auto flex items-center"
                                       initial={{ x: 5, opacity: 0 }}
                                       whileHover={{ x: 8 }}
                                     >
-                                      <ChevronRight size={16} className="text-gray-400 group-hover/item:text-red-500" />
+                                      <ChevronRight
+                                        size={16}
+                                        className="text-gray-400 group-hover/item:text-red-500"
+                                      />
                                     </motion.div>
                                   </Link>
                                 ) : (
                                   <div className="w-full text-left px-4 py-3 text-sm text-gray-400 cursor-not-allowed flex items-center gap-3">
-                                    <div className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0">
-                                      {item.icon}
-                                    </div>
                                     <span>{item.name} (Coming soon)</span>
                                   </div>
                                 )}
@@ -642,7 +689,7 @@ export default function Header() {
                 <motion.div
                   variants={headerItemVariants}
                   className="relative group h-full flex items-center"
-                  onMouseEnter={() => setHoveredDropdown('company')}
+                  onMouseEnter={() => setHoveredDropdown("company")}
                   onMouseLeave={() => setHoveredDropdown(null)}
                 >
                   <motion.button
@@ -650,12 +697,12 @@ export default function Header() {
                     whileTap={{ scale: 0.98 }}
                     className={`group-hover-item flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 cursor-default backdrop-blur-sm
                       ${
-                        hoveredDropdown === 'company'
+                        hoveredDropdown === "company"
                           ? "text-red-600 bg-gradient-to-r from-red-50/90 to-red-100/90 shadow-lg shadow-red-200/50"
                           : "text-gray-700 hover:text-red-600 hover:bg-white/70 hover:shadow-md hover:shadow-gray-100/50"
                       } border border-transparent group-hover:border-red-200/50`}
                   >
-                    <motion.div 
+                    <motion.div
                       className="w-5 h-5 flex items-center justify-center"
                       whileHover={{ scale: 1.15, rotate: 360 }}
                       transition={{ duration: 0.4 }}
@@ -670,38 +717,50 @@ export default function Header() {
                     <span>Company</span>
                     <motion.div
                       className="w-5 h-5 flex items-center justify-center"
-                      animate={{ rotate: hoveredDropdown === 'company' ? 180 : 0 }}
+                      animate={{
+                        rotate: hoveredDropdown === "company" ? 180 : 0,
+                      }}
                       transition={{ duration: 0.4 }}
                     >
-                      <ChevronDown size={14} className={hoveredDropdown === 'company' ? 'text-red-500' : 'text-gray-400'} />
+                      <ChevronDown
+                        size={14}
+                        className={
+                          hoveredDropdown === "company"
+                            ? "text-red-500"
+                            : "text-gray-400"
+                        }
+                      />
                     </motion.div>
                   </motion.button>
 
                   <AnimatePresence>
-                    {hoveredDropdown === 'company' && (
-                      <motion.div 
+                    {hoveredDropdown === "company" && (
+                      <motion.div
                         variants={glassmorphismDropdownVariants}
                         initial="hidden"
                         animate="visible"
                         exit="exit"
                         className="absolute top-full left-1/2 -translate-x-1/2 pt-3 w-64 z-50"
-                        style={{ 
-                          filter: "drop-shadow(0 25px 50px -12px rgba(0,0,0,0.25))"
+                        style={{
+                          filter:
+                            "drop-shadow(0 25px 50px -12px rgba(0,0,0,0.25))",
                         }}
                       >
-                        <motion.div 
+                        <motion.div
                           variants={shimmerEffectVariants}
                           animate="animate"
                           className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-100 rounded-2xl"
                           style={{
                             backgroundSize: "200% 100%",
-                            mask: "linear-gradient(90deg, transparent, white, transparent)"
+                            mask: "linear-gradient(90deg, transparent, white, transparent)",
                           }}
                         />
-                        
-                        <div className={`${glassmorphismBackdrop} rounded-2xl p-4 relative overflow-hidden`}>
+
+                        <div
+                          className={`${glassmorphismBackdrop} rounded-2xl p-4 relative overflow-hidden`}
+                        >
                           <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-red-500/10 via-transparent to-red-500/10" />
-                          
+
                           <div className="relative z-10 space-y-1">
                             {COMPANY_MENU?.map((item, index) => (
                               <motion.div
@@ -709,25 +768,23 @@ export default function Header() {
                                 variants={floatingDropdownItemVariants}
                                 className="group/item"
                               >
-                                <Link 
+                                <Link
                                   href={`/${item.slug}`}
                                   onClick={() => setHoveredDropdown(null)}
                                   className="block w-full text-left px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-300 flex items-center gap-3 group-hover/item:bg-red-50/80 group-hover/item:shadow-sm group-hover/item:scale-[1.02] rounded-xl border border-transparent group-hover/item:border-red-200/50 overflow-hidden relative hover:text-red-600"
                                 >
-                                  <motion.div 
-                                    className="w-10 h-10 rounded-lg bg-gradient-to-br from-red-50 to-red-100 flex items-center justify-center flex-shrink-0 shadow-sm backdrop-blur-sm"
-                                    whileHover={{ scale: 1.1, rotate: 5 }}
-                                    transition={{ type: "spring", stiffness: 400 }}
-                                  >
-                                    {item.icon}
-                                  </motion.div>
-                                  <span className="font-medium">{item.name}</span>
-                                  <motion.div 
+                                  <span className="font-medium">
+                                    {item.name}
+                                  </span>
+                                  <motion.div
                                     className="ml-auto flex items-center"
                                     initial={{ x: 5, opacity: 0 }}
                                     whileHover={{ x: 8 }}
                                   >
-                                    <ChevronRight size={16} className="text-gray-400 group-hover/item:text-red-500" />
+                                    <ChevronRight
+                                      size={16}
+                                      className="text-gray-400 group-hover/item:text-red-500"
+                                    />
                                   </motion.div>
                                 </Link>
                               </motion.div>
@@ -748,7 +805,9 @@ export default function Header() {
                   initial={{ opacity: 0, x: 5 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 5 }}
-                  onClick={() => navRef.current?.scrollBy({ left: 200, behavior: 'smooth' })}
+                  onClick={() =>
+                    navRef.current?.scrollBy({ left: 200, behavior: "smooth" })
+                  }
                   className="absolute right-0 top-0 z-[60] h-full px-1 bg-gradient-to-l from-white via-white/95 to-transparent flex items-center justify-end text-red-500 hover:text-red-700 pointer-events-auto shadow-[-10px_0_15px_-10px_rgba(255,255,255,1)]"
                 >
                   <ChevronRight size={20} />
@@ -758,12 +817,19 @@ export default function Header() {
           </div>
 
           {/* Right Side - Phone/Email & CTA */}
-          <motion.div variants={headerItemVariants} className="hidden 2xl:flex items-center gap-6 ml-auto z-10 pl-4">
+          <motion.div
+            variants={headerItemVariants}
+            className="hidden 2xl:flex items-center gap-6 ml-auto z-10 pl-4"
+          >
             <div className="flex items-center gap-3 text-gray-700">
               <motion.a
                 href="tel:+919841255715"
                 aria-label="Call PALS Holidays"
-                whileHover={{ scale: 1.1, rotate: 5, backgroundColor: "#FEE2E2" }}
+                whileHover={{
+                  scale: 1.1,
+                  rotate: 5,
+                  backgroundColor: "#FEE2E2",
+                }}
                 whileTap={{ scale: 0.95 }}
                 className="w-12 h-12 flex items-center justify-center rounded-2xl border-2 border-gray-200 hover:border-red-500 hover:text-red-600 shadow-lg hover:shadow-xl transition-all duration-300 bg-white/80 backdrop-blur-sm"
               >
@@ -772,27 +838,32 @@ export default function Header() {
               <motion.a
                 href="mailto:mail@palsholidays.com"
                 aria-label="Email PALS Holidays"
-                whileHover={{ scale: 1.1, rotate: -5, backgroundColor: "#FEE2E2" }}
+                whileHover={{
+                  scale: 1.1,
+                  rotate: -5,
+                  backgroundColor: "#FEE2E2",
+                }}
                 whileTap={{ scale: 0.95 }}
                 className="w-12 h-12 flex items-center justify-center rounded-2xl border-2 border-gray-200 hover:border-red-500 hover:text-red-600 shadow-lg hover:shadow-xl transition-all duration-300 bg-white/80 backdrop-blur-sm"
               >
                 <Mail size={20} />
               </motion.a>
             </div>
-            
+
             <motion.div variants={planTourButtonVariants} animate="animate">
               <Link href="/contact-us">
                 <motion.button
-                  whileHover={{ 
-                    scale: 1.05, 
-                    y: -3, 
+                  whileHover={{
+                    scale: 1.05,
+                    y: -3,
                     boxShadow: "0 25px 40px -12px rgba(239,68,68,0.4)",
-                    background: "linear-gradient(135deg, #DC2626 0%, #B91C1C 100%)"
+                    background:
+                      "linear-gradient(135deg, #DC2626 0%, #B91C1C 100%)",
                   }}
                   whileTap={{ scale: 0.98 }}
                   className="bg-gradient-to-r from-red-600 to-red-700 text-white px-8 py-3 rounded-2xl text-sm font-bold shadow-xl hover:shadow-2xl transition-all duration-400 flex items-center gap-2 border border-red-500/30 backdrop-blur-md cursor-pointer relative overflow-hidden group"
                 >
-                  <motion.div 
+                  <motion.div
                     className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent"
                     initial={{ x: "-100%" }}
                     whileHover={{ x: "100%" }}
@@ -808,7 +879,7 @@ export default function Header() {
           </motion.div>
 
           {/* Mobile Menu Button */}
-          <motion.button 
+          <motion.button
             variants={headerItemVariants}
             whileHover={{ scale: 1.1, rotate: 180 }}
             whileTap={{ scale: 0.95 }}
@@ -838,7 +909,7 @@ export default function Header() {
                 transition={{ type: "spring", stiffness: 260, damping: 28 }}
               >
                 <div className="flex items-center justify-between mb-6">
-                  <motion.div 
+                  <motion.div
                     className="flex items-center gap-3 p-2 rounded-2xl bg-gradient-to-r from-red-50 to-red-100"
                     whileHover={{ scale: 1.02 }}
                   >
@@ -848,7 +919,7 @@ export default function Header() {
                       className="h-10 w-auto"
                     />
                   </motion.div>
-                  
+
                   <motion.button
                     whileHover={{ scale: 1.1, rotate: 90 }}
                     whileTap={{ scale: 0.95 }}
@@ -858,20 +929,20 @@ export default function Header() {
                     <X size={24} className="text-gray-700" />
                   </motion.button>
                 </div>
-                
+
                 {/* Mobile Navigation - Using API data */}
                 <nav className="flex flex-col gap-3 mb-6">
                   {/* Dynamic Menu Items from API */}
                   {sortedSubmenus?.map((menu) => {
                     const hasSubmenu = menu?.submenus?.length > 0;
-                    const sortedSubItems = menu?.submenus 
-                      ?[...menu.submenus].sort((a, b) => a.order - b.order) 
-                      :[];
+                    const sortedSubItems = menu?.submenus
+                      ? [...menu.submenus].sort((a, b) => a.order - b.order)
+                      : [];
                     const isMobileDropdownOpen = mobileDropdownOpen[menu._id];
-                    
+
                     return (
-                      <motion.div 
-                        key={menu._id} 
+                      <motion.div
+                        key={menu._id}
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
                         className="flex flex-col gap-1"
@@ -879,17 +950,23 @@ export default function Header() {
                         <motion.button
                           whileHover={{ scale: 1.02, paddingLeft: 16 }}
                           whileTap={{ scale: 0.98 }}
-                          onClick={() => handleMainMenuClick(menu._id, hasSubmenu)}
+                          onClick={() =>
+                            handleMainMenuClick(menu._id, hasSubmenu)
+                          }
                           className={`flex items-center justify-between px-4 py-3 rounded-xl text-gray-700 font-semibold hover:bg-gradient-to-r hover:from-red-50 hover:to-red-100 transition-all duration-300 border border-gray-200 backdrop-blur-sm shadow-sm hover:shadow-md hover:border-red-200 ${
-                            isMobileDropdownOpen ? "bg-gradient-to-r from-red-50 to-red-100 text-red-600 border-red-200 shadow-md" : "bg-white/80"
+                            isMobileDropdownOpen
+                              ? "bg-gradient-to-r from-red-50 to-red-100 text-red-600 border-red-200 shadow-md"
+                              : "bg-white/80"
                           }`}
                         >
                           <div className="flex items-center gap-3">
-                            <motion.div 
+                            <motion.div
                               className="w-8 h-8 rounded-lg bg-gradient-to-br from-red-50 to-red-100 flex items-center justify-center shadow-sm backdrop-blur-sm"
                               whileHover={{ scale: 1.1 }}
                             >
-                              {menu?.icon && menu.icon !== navItemIcon && menu.icon !== companyIcon ? (
+                              {menu?.icon &&
+                              menu.icon !== navItemIcon &&
+                              menu.icon !== companyIcon ? (
                                 <CustomImage
                                   src={menu?.icon}
                                   alt="icon"
@@ -904,18 +981,27 @@ export default function Header() {
                           </div>
                           {hasSubmenu && (
                             <motion.div
-                              animate={{ rotate: isMobileDropdownOpen ? 90 : 0 }}
+                              animate={{
+                                rotate: isMobileDropdownOpen ? 90 : 0,
+                              }}
                               transition={{ duration: 0.3 }}
                             >
-                              <ChevronRight size={18} className={isMobileDropdownOpen ? "text-red-600" : "text-gray-400"} />
+                              <ChevronRight
+                                size={18}
+                                className={
+                                  isMobileDropdownOpen
+                                    ? "text-red-600"
+                                    : "text-gray-400"
+                                }
+                              />
                             </motion.div>
                           )}
                         </motion.button>
-                        
+
                         {/* Submenu Items */}
                         <AnimatePresence>
                           {hasSubmenu && isMobileDropdownOpen && (
-                            <motion.div 
+                            <motion.div
                               initial={{ height: 0, opacity: 0 }}
                               animate={{ height: "auto", opacity: 1 }}
                               exit={{ height: 0, opacity: 0 }}
@@ -937,7 +1023,10 @@ export default function Header() {
                                     className="w-full text-left text-sm font-medium text-gray-600 py-2.5 px-3 rounded-lg hover:bg-white hover:text-red-600 hover:shadow-sm transition-all duration-200 backdrop-blur-sm border border-transparent hover:border-red-200 flex items-center gap-2"
                                   >
                                     <div className="w-6 h-6 rounded-md bg-white flex items-center justify-center shadow-sm">
-                                      <Sparkles size={12} className="text-red-500" />
+                                      <Sparkles
+                                        size={12}
+                                        className="text-red-500"
+                                      />
                                     </div>
                                     <span className="truncate">{sub.name}</span>
                                   </button>
@@ -949,9 +1038,9 @@ export default function Header() {
                       </motion.div>
                     );
                   })}
-                  
+
                   {/* Mobile Services Section */}
-                  <motion.div 
+                  <motion.div
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     className="flex flex-col gap-1"
@@ -961,11 +1050,13 @@ export default function Header() {
                       whileTap={{ scale: 0.98 }}
                       onClick={toggleMobileServices}
                       className={`flex items-center justify-between px-4 py-3 rounded-xl text-gray-700 font-semibold hover:bg-gradient-to-r hover:from-red-50 hover:to-red-100 transition-all duration-300 border border-gray-200 backdrop-blur-sm shadow-sm hover:shadow-md hover:border-red-200 ${
-                        mobileDropdownOpen['mobile-services'] ? "bg-gradient-to-r from-red-50 to-red-100 text-red-600 border-red-200 shadow-md" : "bg-white/80"
+                        mobileDropdownOpen["mobile-services"]
+                          ? "bg-gradient-to-r from-red-50 to-red-100 text-red-600 border-red-200 shadow-md"
+                          : "bg-white/80"
                       }`}
                     >
                       <div className="flex items-center gap-3">
-                        <motion.div 
+                        <motion.div
                           className="w-8 h-8 rounded-lg bg-gradient-to-br from-red-50 to-red-100 flex items-center justify-center shadow-sm backdrop-blur-sm"
                           whileHover={{ scale: 1.1 }}
                         >
@@ -979,16 +1070,27 @@ export default function Header() {
                         <span className="text-sm">Services</span>
                       </div>
                       <motion.div
-                        animate={{ rotate: mobileDropdownOpen['mobile-services'] ? 90 : 0 }}
+                        animate={{
+                          rotate: mobileDropdownOpen["mobile-services"]
+                            ? 90
+                            : 0,
+                        }}
                         transition={{ duration: 0.3 }}
                       >
-                        <ChevronRight size={18} className={mobileDropdownOpen['mobile-services'] ? "text-red-600" : "text-gray-400"} />
+                        <ChevronRight
+                          size={18}
+                          className={
+                            mobileDropdownOpen["mobile-services"]
+                              ? "text-red-600"
+                              : "text-gray-400"
+                          }
+                        />
                       </motion.div>
                     </motion.button>
-                    
+
                     <AnimatePresence>
-                      {mobileDropdownOpen['mobile-services'] && (
-                        <motion.div 
+                      {mobileDropdownOpen["mobile-services"] && (
+                        <motion.div
                           initial={{ height: 0, opacity: 0 }}
                           animate={{ height: "auto", opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
@@ -1028,7 +1130,7 @@ export default function Header() {
                   </motion.div>
 
                   {/* Mobile Company Section */}
-                  <motion.div 
+                  <motion.div
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     className="flex flex-col gap-1"
@@ -1038,11 +1140,13 @@ export default function Header() {
                       whileTap={{ scale: 0.98 }}
                       onClick={toggleMobileCompany}
                       className={`flex items-center justify-between px-4 py-3 rounded-xl text-gray-700 font-semibold hover:bg-gradient-to-r hover:from-red-50 hover:to-red-100 transition-all duration-300 border border-gray-200 backdrop-blur-sm shadow-sm hover:shadow-md hover:border-red-200 ${
-                        mobileDropdownOpen['mobile-company'] ? "bg-gradient-to-r from-red-50 to-red-100 text-red-600 border-red-200 shadow-md" : "bg-white/80"
+                        mobileDropdownOpen["mobile-company"]
+                          ? "bg-gradient-to-r from-red-50 to-red-100 text-red-600 border-red-200 shadow-md"
+                          : "bg-white/80"
                       }`}
                     >
                       <div className="flex items-center gap-3">
-                        <motion.div 
+                        <motion.div
                           className="w-8 h-8 rounded-lg bg-gradient-to-br from-red-50 to-red-100 flex items-center justify-center shadow-sm backdrop-blur-sm"
                           whileHover={{ scale: 1.1 }}
                         >
@@ -1056,16 +1160,25 @@ export default function Header() {
                         <span className="text-sm">Company</span>
                       </div>
                       <motion.div
-                        animate={{ rotate: mobileDropdownOpen['mobile-company'] ? 90 : 0 }}
+                        animate={{
+                          rotate: mobileDropdownOpen["mobile-company"] ? 90 : 0,
+                        }}
                         transition={{ duration: 0.3 }}
                       >
-                        <ChevronRight size={18} className={mobileDropdownOpen['mobile-company'] ? "text-red-600" : "text-gray-400"} />
+                        <ChevronRight
+                          size={18}
+                          className={
+                            mobileDropdownOpen["mobile-company"]
+                              ? "text-red-600"
+                              : "text-gray-400"
+                          }
+                        />
                       </motion.div>
                     </motion.button>
-                    
+
                     <AnimatePresence>
-                      {mobileDropdownOpen['mobile-company'] && (
-                        <motion.div 
+                      {mobileDropdownOpen["mobile-company"] && (
+                        <motion.div
                           initial={{ height: 0, opacity: 0 }}
                           animate={{ height: "auto", opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
@@ -1126,13 +1239,13 @@ export default function Header() {
 
                 {/* Mobile CTA Button */}
                 <Link href="/contact-us" onClick={() => setOpen(false)}>
-                  <motion.button 
+                  <motion.button
                     variants={planTourButtonVariants}
                     animate="animate"
-                    whileHover={{ 
-                      scale: 1.03, 
-                      y: -2, 
-                      boxShadow: "0 20px 40px -10px rgba(239,68,68,0.4)" 
+                    whileHover={{
+                      scale: 1.03,
+                      y: -2,
+                      boxShadow: "0 20px 40px -10px rgba(239,68,68,0.4)",
                     }}
                     whileTap={{ scale: 0.98 }}
                     className="w-full text-base bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white py-4 rounded-xl font-bold shadow-xl hover:shadow-2xl transition-all duration-400 border border-red-500/30 backdrop-blur-xl flex items-center justify-center gap-2"
