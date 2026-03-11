@@ -380,7 +380,7 @@ export default function Header() {
               <Image
                 src={navbar_logo}
                 alt="Pals Holidays"
-                className="h-10 md:h-20 w-auto hover:scale-105 transition-all duration-500 hover:rotate-3"
+                className="h-10 md:h-20 w-auto"
                 priority
               />
             </Link>
