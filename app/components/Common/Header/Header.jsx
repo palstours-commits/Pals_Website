@@ -10,6 +10,7 @@ import {
   Bus,
   Calendar,
   ChevronDown,
+  ChevronLeft,
   ChevronRight,
   Compass,
   CreditCard,
@@ -29,7 +30,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 // CSS filter for red-700 color
@@ -65,7 +66,7 @@ const glassmorphismDropdownVariants = {
     rotateX: -10,
     transition: {
       duration: 0.25,
-      ease: [0.4, 0, 0.2, 1]
+      ease:[0.4, 0, 0.2, 1]
     }
   },
   visible: {
@@ -119,7 +120,7 @@ const floatingDropdownItemVariants = {
 // ✨ SHIMMER EFFECT
 const shimmerEffectVariants = {
   animate: {
-    backgroundPosition: ["200% 0", "-200% 0", "200% 0"],
+    backgroundPosition:["200% 0", "-200% 0", "200% 0"],
     transition: {
       duration: 2,
       repeat: Infinity,
@@ -194,14 +195,70 @@ export default function Header() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [hoveredDropdown, setHoveredDropdown] = useState(null);
-  const [mobileDropdownOpen, setMobileDropdownOpen] = useState({});
+  const[mobileDropdownOpen, setMobileDropdownOpen] = useState({});
   const { submenus } = useSelector((state) => state.submenu);
 
-  const sortedSubmenus = submenus ? [...submenus].sort((a, b) => a.order - b.order) : [];
+  const sortedSubmenus = submenus ? [...submenus].sort((a, b) => a.order - b.order) :[];
+
+  // Desktop Navigation Auto-scroll States
+  const navRef = useRef(null);
+  const scrollDirRef = useRef(1);
+  const[showLeftArrow, setShowLeftArrow] = useState(false);
+  const [showRightArrow, setShowRightArrow] = useState(false);
+  const [isNavHovered, setIsNavHovered] = useState(false);
+
+  // Check scroll boundary to show/hide arrows dynamically
+  const checkScroll = () => {
+    if (navRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = navRef.current;
+      setShowLeftArrow(scrollLeft > 0);
+      setShowRightArrow(scrollLeft < scrollWidth - clientWidth - 2);
+    }
+  };
 
   useEffect(() => {
     dispatch(getSubMenus());
   }, [dispatch]);
+
+  // Handle bounds checking automatically when menus update or window resizes
+  useEffect(() => {
+    checkScroll();
+    window.addEventListener('resize', checkScroll);
+    setTimeout(checkScroll, 150); // Fallback to verify after layout paints
+    return () => window.removeEventListener('resize', checkScroll);
+  },[sortedSubmenus]);
+
+  // Ping-pong elegant automatic scroll loop
+  useEffect(() => {
+    let animationId;
+    let lastTime = performance.now();
+    
+    const playScroll = (time) => {
+      // 40ms interval enforces a gentle and readable smooth scroll
+      if (time - lastTime > 40) {
+        if (navRef.current && !isNavHovered) {
+          const { scrollLeft, scrollWidth, clientWidth } = navRef.current;
+          
+          if (scrollWidth > clientWidth) {
+            const maxScroll = scrollWidth - clientWidth;
+            navRef.current.scrollLeft += scrollDirRef.current * 1;
+            
+            // Boundary detection to bounce back
+            if (navRef.current.scrollLeft >= maxScroll - 1) {
+              scrollDirRef.current = -1;
+            } else if (navRef.current.scrollLeft <= 0) {
+              scrollDirRef.current = 1;
+            }
+          }
+        }
+        lastTime = time;
+      }
+      animationId = requestAnimationFrame(playScroll);
+    };
+    
+    animationId = requestAnimationFrame(playScroll);
+    return () => cancelAnimationFrame(animationId);
+  }, [isNavHovered]);
 
   const handleSubmenuClick = (menuSlug, subSlug) => {
     router.push(`/${menuSlug}/${subSlug}`);
@@ -216,7 +273,6 @@ export default function Header() {
         [menuId]: !prev[menuId]
       }));
     } else {
-      // If no submenu, navigate to the menu page
       const menu = sortedSubmenus.find(m => m._id === menuId);
       if (menu) {
         router.push(`/${menu.slug}`);
@@ -253,7 +309,7 @@ export default function Header() {
     }));
   };
 
-  const STATIC_SERVICES = [
+  const STATIC_SERVICES =[
     { name: "Flight", slug: "flight", icon: <Plane size={18} /> },
     { name: "Hotel", slug: "hotel", icon: <Hotel size={18} /> },
     { name: "Transport", slug: "transport", icon: <Bus size={18} /> },
@@ -261,7 +317,7 @@ export default function Header() {
     { name: "Visa", slug: "visa", icon: <FileText size={18} /> },
   ];
 
-  const COMPANY_MENU = [
+  const COMPANY_MENU =[
     { name: "About Us", slug: "about-us", icon: <UserCircle size={18} /> },
     { name: "Blog", slug: "blog", icon: <FileText size={18} /> },
     { name: "Career", slug: "career", icon: <Calendar size={18} /> },
@@ -270,6 +326,16 @@ export default function Header() {
 
   return (
     <>
+      <style dangerouslySetInnerHTML={{__html: `
+        .hide-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+        .hide-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}} />
+
       {/* Animated Top Banner */}
       <motion.div
         variants={headerItemVariants}
@@ -287,416 +353,471 @@ export default function Header() {
       <header className="sticky top-0 z-[9999] bg-white/80 shadow-2xl border-b border-white/50">
         {/* Main Header Container */}
         <motion.div 
-  variants={headerContainerVariants}
-  initial="hidden"
-  animate="visible"
-  className="max-w-7xl mx-auto px-4 sm:px-6 2xl:px-8 h-16 flex items-center justify-between"
->
-  {/* Logo */}
-  <motion.div variants={headerItemVariants} className="flex-shrink-0 z-10">
-    <Link href="/" className="flex items-center gap-3">
-      <Image
-        src={navbar_logo} 
-        alt="Pals Holidays"
-        className="h-10 md:h-20 w-auto hover:scale-105 transition-all duration-500 hover:rotate-3"
-        priority
-      />
-    </Link>
-  </motion.div>
+          variants={headerContainerVariants}
+          initial="hidden"
+          animate="visible"
+          className="max-w-7xl mx-auto px-4 sm:px-6 2xl:px-8 h-16 flex items-center"
+        >
+          {/* Logo */}
+          <motion.div variants={headerItemVariants} className="z-10 md:relative top-2">
+            <Link href="/" className="flex items-center gap-3">
+              <Image
+                src={navbar_logo} 
+                alt="Pals Holidays"
+                className="h-10 md:h-20 w-auto hover:scale-105 transition-all duration-500 hover:rotate-3"
+                priority
+              />
+            </Link>
+          </motion.div>
 
-  {/* Desktop Navigation - Scrollable Container */}
-  <nav className="hidden lg:flex flex-1 min-w-0 px-4">
-    <div className="flex items-center gap-1 overflow-x-auto scrollbar-hide scroll-container">
-      {sortedSubmenus?.map((menu, index) => {
-        const hasSubmenu = menu?.submenus?.length > 0;
-        const sortedSubItems = menu?.submenus 
-          ? [...menu.submenus].sort((a, b) => a.order - b.order) 
-          : [];
-        const isHovered = hoveredDropdown === menu._id;
-        
-        return (
-          <motion.div
-            variants={headerItemVariants}
-            key={menu._id}
-            className="relative group flex-shrink-0"
-            onMouseEnter={() => setHoveredDropdown(menu._id)}
-            onMouseLeave={() => setHoveredDropdown(null)}
+          {/* Desktop Navigation - Auto Scroll Implementation */}
+          <div 
+            className="hidden lg:flex ml-8 max-w-[600px] 2xl:max-w-[760px] relative items-center h-12 w-full"
+            onMouseEnter={() => setIsNavHovered(true)}
+            onMouseLeave={() => setIsNavHovered(false)}
           >
-            <motion.button
-              whileHover={{ y: -2, scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => !hasSubmenu && router.push(`/${menu.slug}`)}
-              className={`group-hover-item flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 ${
-                hasSubmenu ? 'cursor-default' : 'cursor-pointer'
-              } backdrop-blur-sm whitespace-nowrap
-                ${isHovered 
-                  ? 'text-red-600 bg-gradient-to-r from-red-50/90 to-red-100/90 shadow-lg shadow-red-200/50' 
-                  : 'text-gray-700 hover:text-red-600 hover:bg-white/70 hover:shadow-md hover:shadow-gray-100/50'
-                } border border-transparent group-hover:border-red-200/50`}
-            >
-              <motion.div 
-                className="flex items-center justify-center w-5 h-5 flex-shrink-0"
-                whileHover={{ scale: 1.15, rotate: 360 }}
-                transition={{ duration: 0.4 }}
-              >
-                {getMenuIcon(menu.name, menu?.icon)}
-              </motion.div>
-              
-              <span className="truncate max-w-[120px]">{menu.name}</span>
-              
-              {hasSubmenu && (
-                <motion.div
-                  className="w-5 h-5 flex items-center justify-center flex-shrink-0"
-                  animate={{ rotate: isHovered ? 180 : 0 }}
-                  transition={{ duration: 0.4, ease: "easeInOut" }}
-                >
-                  <ChevronDown size={14} className={isHovered ? 'text-red-500' : 'text-gray-400'} />
-                </motion.div>
-              )}
-            </motion.button>
-
-            {/* ✨ ENHANCED GLASSMORPHISM DROPDOWN */}
+            {/* Left Scroll Indicator Arrow */}
             <AnimatePresence>
-              {hasSubmenu && isHovered && (
-                <motion.div 
-                  variants={glassmorphismDropdownVariants}
-                  initial="hidden"
-                  animate="visible"
-                  exit="exit"
-                  className="absolute top-full left-1/2 -translate-x-1/2 pt-3 w-72 z-50"
-                  style={{ 
-                    filter: "drop-shadow(0 25px 50px -12px rgba(0,0,0,0.25))"
-                  }}
+              {showLeftArrow && (
+                <motion.button
+                  initial={{ opacity: 0, x: -5 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -5 }}
+                  onClick={() => navRef.current?.scrollBy({ left: -200, behavior: 'smooth' })}
+                  className="absolute left-0 top-0 z-[60] h-full px-1 bg-gradient-to-r from-white via-white/95 to-transparent flex items-center justify-start text-red-500 hover:text-red-700 pointer-events-auto shadow-[10px_0_15px_-10px_rgba(255,255,255,1)]"
                 >
-                  {/* Shimmer Background */}
-                  <motion.div 
-                    variants={shimmerEffectVariants}
-                    animate="animate"
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"
-                    style={{
-                      backgroundSize: "200% 100%",
-                      mask: "linear-gradient(90deg, transparent, white, transparent)"
-                    }}
-                  />
-                  
-                  <div className={`${glassmorphismBackdrop} rounded-2xl p-4 relative overflow-hidden`}>
-                    {/* Subtle glow border */}
-                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-red-500/10 via-transparent to-red-500/10" />
-                    
-                    <div className="relative z-10 space-y-1 max-h-[400px] overflow-y-auto scrollbar-thin scrollbar-thumb-red-200 scrollbar-track-transparent">
-                      {sortedSubItems.map((sub, subIndex) => (
-                        <motion.div
-                          key={sub._id}
-                          variants={floatingDropdownItemVariants}
-                          className="group/item"
-                        >
-                          <motion.button
-                            whileHover={{ 
-                              x: 4, 
-                              scale: 1.02,
-                              backgroundColor: "#FEF2F2",
-                              color: "#DC2626"
-                            }}
-                            whileTap={{ scale: 0.98 }}
-                            onClick={() => handleSubmenuClick(menu.slug, sub.slug)}
-                            className="w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-gray-700 transition-all duration-300 flex items-center gap-3 group-hover/item:bg-red-50/80 group-hover/item:shadow-sm border border-transparent group-hover/item:border-red-200/50 overflow-hidden relative cursor-pointer"
-                          >
-                            <span className="font-medium truncate flex-1">{sub.name}</span>
-                            
-                            <motion.div 
-                              className="flex-shrink-0 flex items-center"
-                              initial={{ x: 5, opacity: 0 }}
-                              whileHover={{ x: 8 }}
-                              transition={{ type: "spring" }}
-                            >
-                              <ChevronRight size={16} className="text-gray-400 group-hover/item:text-red-500 transition-colors" />
-                            </motion.div>
-                          </motion.button>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </div>
-                </motion.div>
+                  <ChevronLeft size={20} />
+                </motion.button>
               )}
             </AnimatePresence>
-          </motion.div>
-        );
-      })}
 
-      {/* ✨ ENHANCED SERVICES DROPDOWN */}
-      <motion.div
-        variants={headerItemVariants}
-        className="relative group flex-shrink-0"
-        onMouseEnter={() => setHoveredDropdown('services')}
-        onMouseLeave={() => setHoveredDropdown(null)}
-      >
-        <motion.button
-          whileHover={{ y: -2, scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          className={`group-hover-item flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 cursor-default backdrop-blur-sm whitespace-nowrap
-            ${
-              hoveredDropdown === 'services'
-                ? "text-red-600 bg-gradient-to-r from-red-50/90 to-red-100/90 shadow-lg shadow-red-200/50"
-                : "text-gray-700 hover:text-red-600 hover:bg-white/70 hover:shadow-md hover:shadow-gray-100/50"
-            } border border-transparent group-hover:border-red-200/50`}
-        >
-          <motion.div 
-            className="w-5 h-5 flex items-center justify-center flex-shrink-0"
-            whileHover={{ scale: 1.15, rotate: 360 }}
-            transition={{ duration: 0.4 }}
-          >
-            <Image
-              src={navItemIcon}
-              alt="Services"
-              className="w-5 h-5 object-contain"
-              style={{ filter: red700Filter }}
-            />
-          </motion.div>
-          <span>Services</span>
-          <motion.div
-            className="w-5 h-5 flex items-center justify-center flex-shrink-0"
-            animate={{ rotate: hoveredDropdown === 'services' ? 180 : 0 }}
-            transition={{ duration: 0.4 }}
-          >
-            <ChevronDown size={14} className={hoveredDropdown === 'services' ? 'text-red-500' : 'text-gray-400'} />
-          </motion.div>
-        </motion.button>
-
-        <AnimatePresence>
-          {hoveredDropdown === 'services' && (
-            <motion.div 
-              variants={glassmorphismDropdownVariants}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              className="absolute top-full left-1/2 -translate-x-1/2 pt-3 w-64 z-50"
-              style={{ 
-                filter: "drop-shadow(0 25px 50px -12px rgba(0,0,0,0.25))"
+            {/* Scrolling Navigation Wrapper Hack preventing Dropdown clipping */}
+            <div 
+              ref={navRef}
+              onScroll={checkScroll}
+              className="hide-scrollbar scroll-smooth"
+              style={{
+                display: 'flex',
+                overflowX: 'auto',
+                overflowY: 'hidden',
+                paddingBottom: '500px', // Allocates space preventing clipped dropdowns
+                marginBottom: '-500px', // Corrects container visually back to proper height
+                height: '100%',
+                width: '100%',
+                pointerEvents: 'none',
+                boxSizing: 'content-box'
               }}
             >
-              <motion.div 
-                variants={shimmerEffectVariants}
-                animate="animate"
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-100 rounded-2xl"
-                style={{
-                  backgroundSize: "200% 100%",
-                  mask: "linear-gradient(90deg, transparent, white, transparent)"
-                }}
-              />
-              
-              <div className={`${glassmorphismBackdrop} rounded-2xl p-4 relative overflow-hidden`}>
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-red-500/10 via-transparent to-red-500/10" />
-                
-                <div className="relative z-10 space-y-1 max-h-[400px] overflow-y-auto scrollbar-thin scrollbar-thumb-red-200 scrollbar-track-transparent">
-                  {STATIC_SERVICES.map((item, index) => (
+              <div 
+                className="flex items-center gap-1 w-max px-4" 
+                style={{ pointerEvents: 'auto', height: '100%' }}
+              >
+                {sortedSubmenus?.map((menu, index) => {
+                  const hasSubmenu = menu?.submenus?.length > 0;
+                  const sortedSubItems = menu?.submenus 
+                    ? [...menu.submenus].sort((a, b) => a.order - b.order) 
+                    :[];
+                  const isHovered = hoveredDropdown === menu._id;
+                  
+                  return (
                     <motion.div
-                      key={item.name}
-                      variants={floatingDropdownItemVariants}
-                      className="group/item"
+                      variants={headerItemVariants}
+                      key={menu._id}
+                      className="relative group h-full flex items-center"
+                      onMouseEnter={() => setHoveredDropdown(menu._id)}
+                      onMouseLeave={() => setHoveredDropdown(null)}
                     >
-                      {item.slug ? (
-                        <Link 
-                          href={`/service/${item.slug}`}
-                          onClick={() => setHoveredDropdown(null)}
-                          className="block w-full text-left px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-300 flex items-center gap-3 group-hover/item:bg-red-50/80 group-hover/item:shadow-sm group-hover/item:scale-[1.02] rounded-xl border border-transparent group-hover/item:border-red-200/50 overflow-hidden relative hover:text-red-600"
-                        >
-                          <motion.div 
-                            className="w-10 h-10 rounded-lg bg-gradient-to-br from-red-50 to-red-100 flex items-center justify-center flex-shrink-0 shadow-sm backdrop-blur-sm"
-                            whileHover={{ scale: 1.1, rotate: 5 }}
-                            transition={{ type: "spring", stiffness: 400 }}
-                          >
-                            {item.icon}
-                          </motion.div>
-                          <span className="font-medium truncate flex-1">{item.name}</span>
-                          <motion.div 
-                            className="flex-shrink-0 flex items-center"
-                            initial={{ x: 5, opacity: 0 }}
-                            whileHover={{ x: 8 }}
-                          >
-                            <ChevronRight size={16} className="text-gray-400 group-hover/item:text-red-500" />
-                          </motion.div>
-                        </Link>
-                      ) : (
-                        <div className="w-full text-left px-4 py-3 text-sm text-gray-400 cursor-not-allowed flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0">
-                            {item.icon}
-                          </div>
-                          <span className="truncate">{item.name} (Coming soon)</span>
-                        </div>
-                      )}
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.div>
-
-      {/* ✨ ENHANCED COMPANY DROPDOWN */}
-      <motion.div
-        variants={headerItemVariants}
-        className="relative group flex-shrink-0"
-        onMouseEnter={() => setHoveredDropdown('company')}
-        onMouseLeave={() => setHoveredDropdown(null)}
-      >
-        <motion.button
-          whileHover={{ y: -2, scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          className={`group-hover-item flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 cursor-default backdrop-blur-sm whitespace-nowrap
-            ${
-              hoveredDropdown === 'company'
-                ? "text-red-600 bg-gradient-to-r from-red-50/90 to-red-100/90 shadow-lg shadow-red-200/50"
-                : "text-gray-700 hover:text-red-600 hover:bg-white/70 hover:shadow-md hover:shadow-gray-100/50"
-            } border border-transparent group-hover:border-red-200/50`}
-        >
-          <motion.div 
-            className="w-5 h-5 flex items-center justify-center flex-shrink-0"
-            whileHover={{ scale: 1.15, rotate: 360 }}
-            transition={{ duration: 0.4 }}
-          >
-            <Image
-              src={companyIcon}
-              alt="Company"
-              className="w-5 h-5 object-contain"
-              style={{ filter: red700Filter }}
-            />
-          </motion.div>
-          <span>Company</span>
-          <motion.div
-            className="w-5 h-5 flex items-center justify-center flex-shrink-0"
-            animate={{ rotate: hoveredDropdown === 'company' ? 180 : 0 }}
-            transition={{ duration: 0.4 }}
-          >
-            <ChevronDown size={14} className={hoveredDropdown === 'company' ? 'text-red-500' : 'text-gray-400'} />
-          </motion.div>
-        </motion.button>
-
-        <AnimatePresence>
-          {hoveredDropdown === 'company' && (
-            <motion.div 
-              variants={glassmorphismDropdownVariants}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              className="absolute top-full left-1/2 -translate-x-1/2 pt-3 w-64 z-50"
-              style={{ 
-                filter: "drop-shadow(0 25px 50px -12px rgba(0,0,0,0.25))"
-              }}
-            >
-              <motion.div 
-                variants={shimmerEffectVariants}
-                animate="animate"
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-100 rounded-2xl"
-                style={{
-                  backgroundSize: "200% 100%",
-                  mask: "linear-gradient(90deg, transparent, white, transparent)"
-                }}
-              />
-              
-              <div className={`${glassmorphismBackdrop} rounded-2xl p-4 relative overflow-hidden`}>
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-red-500/10 via-transparent to-red-500/10" />
-                
-                <div className="relative z-10 space-y-1 max-h-[400px] overflow-y-auto scrollbar-thin scrollbar-thumb-red-200 scrollbar-track-transparent">
-                  {COMPANY_MENU?.map((item, index) => (
-                    <motion.div
-                      key={item.slug}
-                      variants={floatingDropdownItemVariants}
-                      className="group/item"
-                    >
-                      <Link 
-                        href={`/${item.slug}`}
-                        onClick={() => setHoveredDropdown(null)}
-                        className="block w-full text-left px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-300 flex items-center gap-3 group-hover/item:bg-red-50/80 group-hover/item:shadow-sm group-hover/item:scale-[1.02] rounded-xl border border-transparent group-hover/item:border-red-200/50 overflow-hidden relative hover:text-red-600"
+                      <motion.button
+                        whileHover={{ y: -2, scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => !hasSubmenu && router.push(`/${menu.slug}`)}
+                        className={`group-hover-item flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 ${
+                          hasSubmenu ? 'cursor-default' : 'cursor-pointer'
+                        } backdrop-blur-sm
+                          ${isHovered 
+                            ? 'text-red-600 bg-gradient-to-r from-red-50/90 to-red-100/90 shadow-lg shadow-red-200/50' 
+                            : 'text-gray-700 hover:text-red-600 hover:bg-white/70 hover:shadow-md hover:shadow-gray-100/50'
+                          } border border-transparent group-hover:border-red-200/50`}
                       >
                         <motion.div 
-                          className="w-10 h-10 rounded-lg bg-gradient-to-br from-red-50 to-red-100 flex items-center justify-center flex-shrink-0 shadow-sm backdrop-blur-sm"
-                          whileHover={{ scale: 1.1, rotate: 5 }}
-                          transition={{ type: "spring", stiffness: 400 }}
+                          className="flex items-center justify-center w-5 h-5"
+                          whileHover={{ scale: 1.15, rotate: 360 }}
+                          transition={{ duration: 0.4 }}
                         >
-                          {item.icon}
+                          {getMenuIcon(menu.name, menu?.icon)}
                         </motion.div>
-                        <span className="font-medium truncate flex-1">{item.name}</span>
-                        <motion.div 
-                          className="flex-shrink-0 flex items-center"
-                          initial={{ x: 5, opacity: 0 }}
-                          whileHover={{ x: 8 }}
-                        >
-                          <ChevronRight size={16} className="text-gray-400 group-hover/item:text-red-500" />
-                        </motion.div>
-                      </Link>
+                        
+                        <span>{menu.name}</span>
+                        
+                        {hasSubmenu && (
+                          <motion.div
+                            className="w-5 h-5 flex items-center justify-center"
+                            animate={{ rotate: isHovered ? 180 : 0 }}
+                            transition={{ duration: 0.4, ease: "easeInOut" }}
+                          >
+                            <ChevronDown size={14} className={isHovered ? 'text-red-500' : 'text-gray-400'} />
+                          </motion.div>
+                        )}
+                      </motion.button>
+
+                      {/* ✨ ENHANCED GLASSMORPHISM DROPDOWN */}
+                      <AnimatePresence>
+                        {hasSubmenu && isHovered && (
+                          <motion.div 
+                            variants={glassmorphismDropdownVariants}
+                            initial="hidden"
+                            animate="visible"
+                            exit="exit"
+                            className="absolute top-full left-1/2 -translate-x-1/2 pt-3 w-72 z-50"
+                            style={{ 
+                              filter: "drop-shadow(0 25px 50px -12px rgba(0,0,0,0.25))"
+                            }}
+                          >
+                            {/* Shimmer Background */}
+                            <motion.div 
+                              variants={shimmerEffectVariants}
+                              animate="animate"
+                              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"
+                              style={{
+                                backgroundSize: "200% 100%",
+                                mask: "linear-gradient(90deg, transparent, white, transparent)"
+                              }}
+                            />
+                            
+                            <div className={`${glassmorphismBackdrop} rounded-2xl p-4 relative overflow-hidden`}>
+                              {/* Subtle glow border */}
+                              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-red-500/10 via-transparent to-red-500/10" />
+                              
+                              <div className="relative z-10 space-y-1">
+                                {sortedSubItems.map((sub, subIndex) => (
+                                  <motion.div
+                                    key={sub._id}
+                                    variants={floatingDropdownItemVariants}
+                                    className="group/item"
+                                  >
+                                    <motion.button
+                                      whileHover={{ 
+                                        x: 4, 
+                                        scale: 1.02,
+                                        backgroundColor: "#FEF2F2",
+                                        color: "#DC2626"
+                                      }}
+                                      whileTap={{ scale: 0.98 }}
+                                      onClick={() => handleSubmenuClick(menu.slug, sub.slug)}
+                                      className="w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-gray-700 transition-all duration-300 flex items-center gap-3 group-hover/item:bg-red-50/80 group-hover/item:shadow-sm border border-transparent group-hover/item:border-red-200/50 overflow-hidden relative cursor-pointer"
+                                    >
+                                      <span className="font-medium">{sub.name}</span>
+                                      
+                                      <motion.div 
+                                        className="ml-auto flex items-center"
+                                        initial={{ x: 5, opacity: 0 }}
+                                        whileHover={{ x: 8 }}
+                                        transition={{ type: "spring" }}
+                                      >
+                                        <ChevronRight size={16} className="text-gray-400 group-hover/item:text-red-500 transition-colors" />
+                                      </motion.div>
+                                    </motion.button>
+                                  </motion.div>
+                                ))}
+                              </div>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </motion.div>
-                  ))}
-                </div>
+                  );
+                })}
+
+                {/* ✨ ENHANCED SERVICES DROPDOWN */}
+                <motion.div
+                  variants={headerItemVariants}
+                  className="relative group h-full flex items-center"
+                  onMouseEnter={() => setHoveredDropdown('services')}
+                  onMouseLeave={() => setHoveredDropdown(null)}
+                >
+                  <motion.button
+                    whileHover={{ y: -2, scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className={`group-hover-item flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 cursor-default backdrop-blur-sm
+                      ${
+                        hoveredDropdown === 'services'
+                          ? "text-red-600 bg-gradient-to-r from-red-50/90 to-red-100/90 shadow-lg shadow-red-200/50"
+                          : "text-gray-700 hover:text-red-600 hover:bg-white/70 hover:shadow-md hover:shadow-gray-100/50"
+                      } border border-transparent group-hover:border-red-200/50`}
+                  >
+                    <motion.div 
+                      className="w-5 h-5 flex items-center justify-center"
+                      whileHover={{ scale: 1.15, rotate: 360 }}
+                      transition={{ duration: 0.4 }}
+                    >
+                      <Image
+                        src={navItemIcon}
+                        alt="Services"
+                        className="w-5 h-5 object-contain"
+                        style={{ filter: red700Filter }}
+                      />
+                    </motion.div>
+                    <span>Services</span>
+                    <motion.div
+                      className="w-5 h-5 flex items-center justify-center"
+                      animate={{ rotate: hoveredDropdown === 'services' ? 180 : 0 }}
+                      transition={{ duration: 0.4 }}
+                    >
+                      <ChevronDown size={14} className={hoveredDropdown === 'services' ? 'text-red-500' : 'text-gray-400'} />
+                    </motion.div>
+                  </motion.button>
+
+                  <AnimatePresence>
+                    {hoveredDropdown === 'services' && (
+                      <motion.div 
+                        variants={glassmorphismDropdownVariants}
+                        initial="hidden"
+                        animate="visible"
+                        exit="exit"
+                        className="absolute top-full left-1/2 -translate-x-1/2 pt-3 w-64 z-50"
+                        style={{ 
+                          filter: "drop-shadow(0 25px 50px -12px rgba(0,0,0,0.25))"
+                        }}
+                      >
+                        <motion.div 
+                          variants={shimmerEffectVariants}
+                          animate="animate"
+                          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-100 rounded-2xl"
+                          style={{
+                            backgroundSize: "200% 100%",
+                            mask: "linear-gradient(90deg, transparent, white, transparent)"
+                          }}
+                        />
+                        
+                        <div className={`${glassmorphismBackdrop} rounded-2xl p-4 relative overflow-hidden`}>
+                          <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-red-500/10 via-transparent to-red-500/10" />
+                          
+                          <div className="relative z-10 space-y-1">
+                            {STATIC_SERVICES.map((item, index) => (
+                              <motion.div
+                                key={item.name}
+                                variants={floatingDropdownItemVariants}
+                                className="group/item"
+                              >
+                                {item.slug ? (
+                                  <Link 
+                                    href={`/service/${item.slug}`}
+                                    onClick={() => setHoveredDropdown(null)}
+                                    className="block w-full text-left px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-300 flex items-center gap-3 group-hover/item:bg-red-50/80 group-hover/item:shadow-sm group-hover/item:scale-[1.02] rounded-xl border border-transparent group-hover/item:border-red-200/50 overflow-hidden relative hover:text-red-600"
+                                  >
+                                    <motion.div 
+                                      className="w-10 h-10 rounded-lg bg-gradient-to-br from-red-50 to-red-100 flex items-center justify-center flex-shrink-0 shadow-sm backdrop-blur-sm"
+                                      whileHover={{ scale: 1.1, rotate: 5 }}
+                                      transition={{ type: "spring", stiffness: 400 }}
+                                    >
+                                      {item.icon}
+                                    </motion.div>
+                                    <span className="font-medium">{item.name}</span>
+                                    <motion.div 
+                                      className="ml-auto flex items-center"
+                                      initial={{ x: 5, opacity: 0 }}
+                                      whileHover={{ x: 8 }}
+                                    >
+                                      <ChevronRight size={16} className="text-gray-400 group-hover/item:text-red-500" />
+                                    </motion.div>
+                                  </Link>
+                                ) : (
+                                  <div className="w-full text-left px-4 py-3 text-sm text-gray-400 cursor-not-allowed flex items-center gap-3">
+                                    <div className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0">
+                                      {item.icon}
+                                    </div>
+                                    <span>{item.name} (Coming soon)</span>
+                                  </div>
+                                )}
+                              </motion.div>
+                            ))}
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+
+                {/* ✨ ENHANCED COMPANY DROPDOWN */}
+                <motion.div
+                  variants={headerItemVariants}
+                  className="relative group h-full flex items-center"
+                  onMouseEnter={() => setHoveredDropdown('company')}
+                  onMouseLeave={() => setHoveredDropdown(null)}
+                >
+                  <motion.button
+                    whileHover={{ y: -2, scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className={`group-hover-item flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 cursor-default backdrop-blur-sm
+                      ${
+                        hoveredDropdown === 'company'
+                          ? "text-red-600 bg-gradient-to-r from-red-50/90 to-red-100/90 shadow-lg shadow-red-200/50"
+                          : "text-gray-700 hover:text-red-600 hover:bg-white/70 hover:shadow-md hover:shadow-gray-100/50"
+                      } border border-transparent group-hover:border-red-200/50`}
+                  >
+                    <motion.div 
+                      className="w-5 h-5 flex items-center justify-center"
+                      whileHover={{ scale: 1.15, rotate: 360 }}
+                      transition={{ duration: 0.4 }}
+                    >
+                      <Image
+                        src={companyIcon}
+                        alt="Company"
+                        className="w-5 h-5 object-contain"
+                        style={{ filter: red700Filter }}
+                      />
+                    </motion.div>
+                    <span>Company</span>
+                    <motion.div
+                      className="w-5 h-5 flex items-center justify-center"
+                      animate={{ rotate: hoveredDropdown === 'company' ? 180 : 0 }}
+                      transition={{ duration: 0.4 }}
+                    >
+                      <ChevronDown size={14} className={hoveredDropdown === 'company' ? 'text-red-500' : 'text-gray-400'} />
+                    </motion.div>
+                  </motion.button>
+
+                  <AnimatePresence>
+                    {hoveredDropdown === 'company' && (
+                      <motion.div 
+                        variants={glassmorphismDropdownVariants}
+                        initial="hidden"
+                        animate="visible"
+                        exit="exit"
+                        className="absolute top-full left-1/2 -translate-x-1/2 pt-3 w-64 z-50"
+                        style={{ 
+                          filter: "drop-shadow(0 25px 50px -12px rgba(0,0,0,0.25))"
+                        }}
+                      >
+                        <motion.div 
+                          variants={shimmerEffectVariants}
+                          animate="animate"
+                          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-100 rounded-2xl"
+                          style={{
+                            backgroundSize: "200% 100%",
+                            mask: "linear-gradient(90deg, transparent, white, transparent)"
+                          }}
+                        />
+                        
+                        <div className={`${glassmorphismBackdrop} rounded-2xl p-4 relative overflow-hidden`}>
+                          <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-red-500/10 via-transparent to-red-500/10" />
+                          
+                          <div className="relative z-10 space-y-1">
+                            {COMPANY_MENU?.map((item, index) => (
+                              <motion.div
+                                key={item.slug}
+                                variants={floatingDropdownItemVariants}
+                                className="group/item"
+                              >
+                                <Link 
+                                  href={`/${item.slug}`}
+                                  onClick={() => setHoveredDropdown(null)}
+                                  className="block w-full text-left px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-300 flex items-center gap-3 group-hover/item:bg-red-50/80 group-hover/item:shadow-sm group-hover/item:scale-[1.02] rounded-xl border border-transparent group-hover/item:border-red-200/50 overflow-hidden relative hover:text-red-600"
+                                >
+                                  <motion.div 
+                                    className="w-10 h-10 rounded-lg bg-gradient-to-br from-red-50 to-red-100 flex items-center justify-center flex-shrink-0 shadow-sm backdrop-blur-sm"
+                                    whileHover={{ scale: 1.1, rotate: 5 }}
+                                    transition={{ type: "spring", stiffness: 400 }}
+                                  >
+                                    {item.icon}
+                                  </motion.div>
+                                  <span className="font-medium">{item.name}</span>
+                                  <motion.div 
+                                    className="ml-auto flex items-center"
+                                    initial={{ x: 5, opacity: 0 }}
+                                    whileHover={{ x: 8 }}
+                                  >
+                                    <ChevronRight size={16} className="text-gray-400 group-hover/item:text-red-500" />
+                                  </motion.div>
+                                </Link>
+                              </motion.div>
+                            ))}
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
               </div>
+            </div>
+
+            {/* Right Scroll Indicator Arrow */}
+            <AnimatePresence>
+              {showRightArrow && (
+                <motion.button
+                  initial={{ opacity: 0, x: 5 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 5 }}
+                  onClick={() => navRef.current?.scrollBy({ left: 200, behavior: 'smooth' })}
+                  className="absolute right-0 top-0 z-[60] h-full px-1 bg-gradient-to-l from-white via-white/95 to-transparent flex items-center justify-end text-red-500 hover:text-red-700 pointer-events-auto shadow-[-10px_0_15px_-10px_rgba(255,255,255,1)]"
+                >
+                  <ChevronRight size={20} />
+                </motion.button>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* Right Side - Phone/Email & CTA */}
+          <motion.div variants={headerItemVariants} className="hidden 2xl:flex items-center gap-6 ml-auto z-10 pl-4">
+            <div className="flex items-center gap-3 text-gray-700">
+              <motion.a
+                href="tel:+919841255715"
+                aria-label="Call PALS Holidays"
+                whileHover={{ scale: 1.1, rotate: 5, backgroundColor: "#FEE2E2" }}
+                whileTap={{ scale: 0.95 }}
+                className="w-12 h-12 flex items-center justify-center rounded-2xl border-2 border-gray-200 hover:border-red-500 hover:text-red-600 shadow-lg hover:shadow-xl transition-all duration-300 bg-white/80 backdrop-blur-sm"
+              >
+                <Phone size={20} />
+              </motion.a>
+              <motion.a
+                href="mailto:mail@palsholidays.com"
+                aria-label="Email PALS Holidays"
+                whileHover={{ scale: 1.1, rotate: -5, backgroundColor: "#FEE2E2" }}
+                whileTap={{ scale: 0.95 }}
+                className="w-12 h-12 flex items-center justify-center rounded-2xl border-2 border-gray-200 hover:border-red-500 hover:text-red-600 shadow-lg hover:shadow-xl transition-all duration-300 bg-white/80 backdrop-blur-sm"
+              >
+                <Mail size={20} />
+              </motion.a>
+            </div>
+            
+            <motion.div variants={planTourButtonVariants} animate="animate">
+              <Link href="/contact-us">
+                <motion.button
+                  whileHover={{ 
+                    scale: 1.05, 
+                    y: -3, 
+                    boxShadow: "0 25px 40px -12px rgba(239,68,68,0.4)",
+                    background: "linear-gradient(135deg, #DC2626 0%, #B91C1C 100%)"
+                  }}
+                  whileTap={{ scale: 0.98 }}
+                  className="bg-gradient-to-r from-red-600 to-red-700 text-white px-8 py-3 rounded-2xl text-sm font-bold shadow-xl hover:shadow-2xl transition-all duration-400 flex items-center gap-2 border border-red-500/30 backdrop-blur-md cursor-pointer relative overflow-hidden group"
+                >
+                  <motion.div 
+                    className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent"
+                    initial={{ x: "-100%" }}
+                    whileHover={{ x: "100%" }}
+                    transition={{ duration: 0.6 }}
+                  />
+                  <span className="relative z-10 flex items-center gap-2">
+                    <Sparkles size={16} />
+                    Plan My Tour
+                  </span>
+                </motion.button>
+              </Link>
             </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.div>
-    </div>
-  </nav>
+          </motion.div>
 
-  {/* Right Side - Phone/Email & CTA */}
-  <motion.div variants={headerItemVariants} className="hidden 2xl:flex items-center gap-6 flex-shrink-0 ml-auto">
-    <div className="flex items-center gap-3 text-gray-700">
-      <motion.a
-        href="tel:+919841255715"
-        aria-label="Call PALS Holidays"
-        whileHover={{ scale: 1.1, rotate: 5, backgroundColor: "#FEE2E2" }}
-        whileTap={{ scale: 0.95 }}
-        className="w-12 h-12 flex items-center justify-center rounded-2xl border-2 border-gray-200 hover:border-red-500 hover:text-red-600 shadow-lg hover:shadow-xl transition-all duration-300 bg-white/80 backdrop-blur-sm flex-shrink-0"
-      >
-        <Phone size={20} />
-      </motion.a>
-      <motion.a
-        href="mailto:mail@palsholidays.com"
-        aria-label="Email PALS Holidays"
-        whileHover={{ scale: 1.1, rotate: -5, backgroundColor: "#FEE2E2" }}
-        whileTap={{ scale: 0.95 }}
-        className="w-12 h-12 flex items-center justify-center rounded-2xl border-2 border-gray-200 hover:border-red-500 hover:text-red-600 shadow-lg hover:shadow-xl transition-all duration-300 bg-white/80 backdrop-blur-sm flex-shrink-0"
-      >
-        <Mail size={20} />
-      </motion.a>
-    </div>
-    
-    <motion.div variants={planTourButtonVariants} animate="animate" className="flex-shrink-0">
-      <Link href="/contact-us">
-        <motion.button
-          whileHover={{ 
-            scale: 1.05, 
-            y: -3, 
-            boxShadow: "0 25px 40px -12px rgba(239,68,68,0.4)",
-            background: "linear-gradient(135deg, #DC2626 0%, #B91C1C 100%)"
-          }}
-          whileTap={{ scale: 0.98 }}
-          className="bg-gradient-to-r from-red-600 to-red-700 text-white px-8 py-3 rounded-2xl text-sm font-bold shadow-xl hover:shadow-2xl transition-all duration-400 flex items-center gap-2 border border-red-500/30 backdrop-blur-md cursor-pointer relative overflow-hidden group whitespace-nowrap"
-        >
-          <motion.div 
-            className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent"
-            initial={{ x: "-100%" }}
-            whileHover={{ x: "100%" }}
-            transition={{ duration: 0.6 }}
-          />
-          <span className="relative z-10 flex items-center gap-2">
-            <Sparkles size={16} />
-            Plan My Tour
-          </span>
-        </motion.button>
-      </Link>
-    </motion.div>
-  </motion.div>
-
-  {/* Mobile Menu Button */}
-  <motion.button 
-    variants={headerItemVariants}
-    whileHover={{ scale: 1.1, rotate: 180 }}
-    whileTap={{ scale: 0.95 }}
-    className="lg:hidden ml-auto p-3 rounded-2xl hover:bg-red-50/50 hover:shadow-lg transition-all duration-300 backdrop-blur-sm border border-gray-200 flex-shrink-0"
-    onClick={() => setOpen(true)}
-  >
-    <Menu size={24} className="text-gray-700" />
-  </motion.button>
-</motion.div>
+          {/* Mobile Menu Button */}
+          <motion.button 
+            variants={headerItemVariants}
+            whileHover={{ scale: 1.1, rotate: 180 }}
+            whileTap={{ scale: 0.95 }}
+            className="lg:hidden ml-auto p-3 rounded-2xl hover:bg-red-50/50 hover:shadow-lg transition-all duration-300 backdrop-blur-sm border border-gray-200"
+            onClick={() => setOpen(true)}
+          >
+            <Menu size={24} className="text-gray-700" />
+          </motion.button>
+        </motion.div>
 
         {/* Mobile Sidebar - Enhanced with API data */}
         <AnimatePresence>
@@ -744,8 +865,8 @@ export default function Header() {
                   {sortedSubmenus?.map((menu) => {
                     const hasSubmenu = menu?.submenus?.length > 0;
                     const sortedSubItems = menu?.submenus 
-                      ? [...menu.submenus].sort((a, b) => a.order - b.order) 
-                      : [];
+                      ?[...menu.submenus].sort((a, b) => a.order - b.order) 
+                      :[];
                     const isMobileDropdownOpen = mobileDropdownOpen[menu._id];
                     
                     return (

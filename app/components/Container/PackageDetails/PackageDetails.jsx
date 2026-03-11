@@ -708,7 +708,7 @@ const PackageDetails = ({ slug }) => {
       <motion.div 
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full bg-secondary py-8 sticky top-0 z-50"
+        className="w-full bg-secondary py-8 sticky top-[-60] z-50"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           <motion.div 
@@ -736,12 +736,12 @@ const PackageDetails = ({ slug }) => {
       </motion.div>
 
       {/* Sticky Tabs */}
-      <div className="w-full pt-10 sticky top-[88px] pb-6 z-40 bg-white/80 backdrop-blur-md border-b">
+      <div className="w-full pt-10 sticky top-[48px] pb-6 z-40 bg-white/80 backdrop-blur-md border-b">
         <div className="max-w-4xl mx-auto px-6 md:px-0">
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="flex gap-3 items-center overflow-x-auto scrollbar-hide"
+            className="flex gap-2 items-center overflow-x-auto scrollbar-hide p-1"
           >
             {tabs?.map((tab) => (
               <motion.button

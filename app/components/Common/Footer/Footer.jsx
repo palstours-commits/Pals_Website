@@ -1,11 +1,12 @@
-import Image from "next/image";
-import tripadvisor from "@/app/assets/tripadvisor.svg";
 import google from "@/app/assets/google.svg";
-import { socialLinks } from "@/app/utils/siteConstants";
-import Link from "next/link";
-import { useDispatch, useSelector } from "react-redux";
+import { default as tripadvisor, } from "@/app/assets/tripadvisor.svg";
+import whitelogo from "@/app/assets/whitelogo.png";
 import { getPackages } from "@/app/store/slice/packageSlice";
+import { socialLinks } from "@/app/utils/siteConstants";
+import Image from "next/image";
+import Link from "next/link";
 import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Footer() {
   const dispatch = useDispatch();
@@ -190,8 +191,9 @@ export default function Footer() {
         <div className="border-t border-gray-800 mt-16 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-xs text-gray-400 text-center md:text-left">
             © {new Date().getFullYear()} PALS HOLIDAYS. All rights reserved |
-            Developed by WEBDADS2U PRIVATE LIMITED.
+            Developed by <Image src={whitelogo} alt="@" className="inline h-4 w-auto mx-1" />
           </p>
+          
           <div className="flex gap-3">
             {socialLinks?.map(({ href, Icon }, i) => (
               <Link
