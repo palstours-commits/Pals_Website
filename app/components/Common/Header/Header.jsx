@@ -492,9 +492,8 @@ export default function Header() {
                       STATIC_SERVICES.map((item) => (
                         <motion.div key={item.name} variants={floatingDropdownItemVariants} className="group/item">
                           {item.slug ? (
-                            <Link href={`/service/${item.slug}`} onClick={() => setHoveredDropdown(null)} className="block w-full text-left px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-300 flex items-center gap-3 group-hover/item:bg-red-50/80 rounded-xl hover:text-red-600 cursor-pointer">
+                            <Link href={`/service/${item.slug}`} onClick={() => setHoveredDropdown(null)} className="block w-full text-left px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-300 flex items-center gap-3 group-hover/item:bg-white rounded-xl hover:text-red-600 cursor-pointer">
                               {item.name}
-                              <ChevronRight size={16} className="ml-auto text-gray-400 group-hover/item:text-red-500" />
                             </Link>
                           ) : (
                             <div className="w-full text-left px-4 py-3 text-sm text-gray-400 flex items-center gap-3">
@@ -508,9 +507,8 @@ export default function Header() {
                     {hoveredDropdown === "company" &&
                       COMPANY_MENU.map((item) => (
                         <motion.div key={item.slug} variants={floatingDropdownItemVariants} className="group/item">
-                          <Link href={`/${item.slug}`} onClick={() => setHoveredDropdown(null)} className="block w-full text-left px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-300 flex items-center gap-3 group-hover/item:bg-gray-100 rounded-xl hover:text-red-600 cursor-pointer">
+                          <Link href={`/${item.slug}`} onClick={() => setHoveredDropdown(null)} className="block w-full text-left px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-300 flex items-center gap-3 group-hover/item:bg-white rounded-xl hover:text-red-600 cursor-pointer">
                             {item.name}
-                            <ChevronRight size={16} className="ml-auto text-gray-400 group-hover/item:text-red-500" />
                           </Link>
                         </motion.div>
                       ))}
@@ -521,7 +519,7 @@ export default function Header() {
                         const sortedSubItems =[...menu.submenus].sort((a, b) => a.order - b.order);
                         return sortedSubItems.map((sub) => (
                           <motion.div key={sub._id} variants={floatingDropdownItemVariants} className="group/item">
-                            <button onClick={() => handleSubmenuClick(menu.slug, sub.slug)} className="w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-gray-700 transition-all duration-300 flex items-center gap-3 group-hover/item:bg-gray-100 hover:text-red-600 cursor-pointer">
+                            <button onClick={() => handleSubmenuClick(menu.slug, sub.slug)} className="w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-gray-700 transition-all duration-300 flex items-center gap-3 group-hover/item:bg-white hover:text-red-600 cursor-pointer">
                               {sub.name}
                               {/* <ChevronRight size={16} className="ml-auto text-gray-400 group-hover/item:text-red-500" /> */}
                             </button>
