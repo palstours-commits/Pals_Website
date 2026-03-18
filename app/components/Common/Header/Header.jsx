@@ -144,7 +144,7 @@ const planTourButtonVariants = {
 
 // Glassmorphism backdrop filter
 const glassmorphismBackdrop =
-  "backdrop-blur-xl bg-white/85 border border-white/60 shadow-2xl shadow-black/5";
+  "bg-white border border-gray-200 shadow-xl";
 
 const getMenuIcon = (menuName, iconPath) => {
   if (iconPath && iconPath !== navItemIcon && iconPath !== companyIcon) {
@@ -363,7 +363,7 @@ export default function Header() {
         </span>
       </motion.div>
 
-      <header className="sticky top-0 z-[9999] bg-white/80 shadow-2xl border-b border-white/50">
+      <header className="sticky top-0 z-[9999] bg-white shadow-lg border-b border-gray-200">
         {/* Main Header Container */}
         <motion.div
           variants={headerContainerVariants}
@@ -456,8 +456,8 @@ export default function Header() {
                         } backdrop-blur-sm
                           ${
                             isHovered
-                              ? "text-red-600 bg-gradient-to-r from-red-50/90 to-red-100/90 shadow-lg shadow-red-200/50"
-                              : "text-gray-700 hover:text-red-600 hover:bg-white/70 hover:shadow-md hover:shadow-gray-100/50"
+                              ? "text-red-600 bg-gradient-to-r from-red-50 to-red-100 shadow-lg shadow-red-200/50"
+                              : "text-gray-700 hover:text-red-600 hover:bg-white hover:shadow-md hover:shadow-gray-100/50"
                           } border border-transparent group-hover:border-red-200/50`}
                       >
                         <motion.div
@@ -578,11 +578,11 @@ export default function Header() {
                   <motion.button
                     whileHover={{ y: -2, scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className={`group-hover-item flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 cursor-default backdrop-blur-sm
+                    className={`group-hover-item flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 cursor-default
                       ${
                         hoveredDropdown === "services"
-                          ? "text-red-600 bg-gradient-to-r from-red-50/90 to-red-100/90 shadow-lg shadow-red-200/50"
-                          : "text-gray-700 hover:text-red-600 hover:bg-white/70 hover:shadow-md hover:shadow-gray-100/50"
+                          ? "text-red-600 bg-gradient-to-r from-red-50 to-red-100 shadow-lg shadow-red-200/50"
+                          : "text-gray-700 hover:text-red-600 hover:bg-white hover:shadow-md hover:shadow-gray-100/50"
                       } border border-transparent group-hover:border-red-200/50`}
                   >
                     <motion.div
@@ -683,7 +683,7 @@ export default function Header() {
                       </motion.div>
                     )}
                   </AnimatePresence>
-                </motion.div>
+                </motion.div>a
 
                 {/* ✨ ENHANCED COMPANY DROPDOWN */}
                 <motion.div
@@ -698,8 +698,8 @@ export default function Header() {
                     className={`group-hover-item flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 cursor-default backdrop-blur-sm
                       ${
                         hoveredDropdown === "company"
-                          ? "text-red-600 bg-gradient-to-r from-red-50/90 to-red-100/90 shadow-lg shadow-red-200/50"
-                          : "text-gray-700 hover:text-red-600 hover:bg-white/70 hover:shadow-md hover:shadow-gray-100/50"
+                          ? "text-red-600 bg-gradient-to-r from-red-50 to-red-100 shadow-lg shadow-red-200/50"
+                          : "text-gray-700 hover:text-red-600 hover:bg-white hover:shadow-md hover:shadow-gray-100/50"
                       } border border-transparent group-hover:border-red-200/50`}
                   >
                     <motion.div
@@ -831,7 +831,7 @@ export default function Header() {
                   backgroundColor: "#FEE2E2",
                 }}
                 whileTap={{ scale: 0.95 }}
-                className="w-12 h-12 flex items-center justify-center rounded-2xl border-2 border-gray-200 hover:border-red-500 hover:text-red-600 shadow-lg hover:shadow-xl transition-all duration-300 bg-white/80 backdrop-blur-sm"
+                className="w-12 h-12 flex items-center justify-center rounded-2xl border-2 border-gray-200 hover:border-red-500 hover:text-red-600 shadow-lg hover:shadow-xl transition-all duration-300 bg-white"
               >
                 <Phone size={20} />
               </motion.a>
@@ -844,7 +844,7 @@ export default function Header() {
                   backgroundColor: "#FEE2E2",
                 }}
                 whileTap={{ scale: 0.95 }}
-                className="w-12 h-12 flex items-center justify-center rounded-2xl border-2 border-gray-200 hover:border-red-500 hover:text-red-600 shadow-lg hover:shadow-xl transition-all duration-300 bg-white/80 backdrop-blur-sm"
+                className="w-12 h-12 flex items-center justify-center rounded-2xl border-2 border-gray-200 hover:border-red-500 hover:text-red-600 shadow-lg hover:shadow-xl transition-all duration-300 bg-white"
               >
                 <Mail size={20} />
               </motion.a>
@@ -861,7 +861,7 @@ export default function Header() {
                       "linear-gradient(135deg, #DC2626 0%, #B91C1C 100%)",
                   }}
                   whileTap={{ scale: 0.98 }}
-                  className="bg-gradient-to-r from-red-600 to-red-700 text-white px-8 py-3 rounded-2xl text-sm font-bold shadow-xl hover:shadow-2xl transition-all duration-400 flex items-center gap-2 border border-red-500/30 backdrop-blur-md cursor-pointer relative overflow-hidden group"
+                  className="bg-gradient-to-r from-red-600 to-red-700 text-white px-8 py-3 rounded-2xl text-sm font-bold shadow-xl hover:shadow-2xl transition-all duration-400 flex items-center gap-2 border border-red-500/30 cursor-pointer relative overflow-hidden group"
                 >
                   <motion.div
                     className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent"
@@ -895,14 +895,14 @@ export default function Header() {
           {open && (
             <>
               <motion.div
-                className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[9998]"
+                className="fixed inset-0 bg-black/40 z-[9998]"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={() => setOpen(false)}
               />
               <motion.aside
-                className="fixed top-0 right-0 h-full w-4/5 max-w-sm bg-white/95 backdrop-blur-3xl p-6 z-[9999] shadow-2xl border-l border-white/50 overflow-y-auto"
+                className="fixed top-0 right-0 h-full w-4/5 max-w-sm bg-white/95 p-6 z-[9999] shadow-2xl border-l border-white/50 overflow-y-auto"
                 initial={{ x: "100%" }}
                 animate={{ x: 0 }}
                 exit={{ x: "100%" }}
@@ -956,7 +956,7 @@ export default function Header() {
                           className={`flex items-center justify-between px-4 py-3 rounded-xl text-gray-700 font-semibold hover:bg-gradient-to-r hover:from-red-50 hover:to-red-100 transition-all duration-300 border border-gray-200 backdrop-blur-sm shadow-sm hover:shadow-md hover:border-red-200 ${
                             isMobileDropdownOpen
                               ? "bg-gradient-to-r from-red-50 to-red-100 text-red-600 border-red-200 shadow-md"
-                              : "bg-white/80"
+                              : "bg-white"
                           }`}
                         >
                           <div className="flex items-center gap-3">
@@ -1052,7 +1052,7 @@ export default function Header() {
                       className={`flex items-center justify-between px-4 py-3 rounded-xl text-gray-700 font-semibold hover:bg-gradient-to-r hover:from-red-50 hover:to-red-100 transition-all duration-300 border border-gray-200 backdrop-blur-sm shadow-sm hover:shadow-md hover:border-red-200 ${
                         mobileDropdownOpen["mobile-services"]
                           ? "bg-gradient-to-r from-red-50 to-red-100 text-red-600 border-red-200 shadow-md"
-                          : "bg-white/80"
+                          : "bg-white"
                       }`}
                     >
                       <div className="flex items-center gap-3">
@@ -1142,7 +1142,7 @@ export default function Header() {
                       className={`flex items-center justify-between px-4 py-3 rounded-xl text-gray-700 font-semibold hover:bg-gradient-to-r hover:from-red-50 hover:to-red-100 transition-all duration-300 border border-gray-200 backdrop-blur-sm shadow-sm hover:shadow-md hover:border-red-200 ${
                         mobileDropdownOpen["mobile-company"]
                           ? "bg-gradient-to-r from-red-50 to-red-100 text-red-600 border-red-200 shadow-md"
-                          : "bg-white/80"
+                          : "bg-white"
                       }`}
                     >
                       <div className="flex items-center gap-3">
@@ -1248,7 +1248,7 @@ export default function Header() {
                       boxShadow: "0 20px 40px -10px rgba(239,68,68,0.4)",
                     }}
                     whileTap={{ scale: 0.98 }}
-                    className="w-full text-base bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white py-4 rounded-xl font-bold shadow-xl hover:shadow-2xl transition-all duration-400 border border-red-500/30 backdrop-blur-xl flex items-center justify-center gap-2"
+                    className="w-full text-base bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white py-4 rounded-xl font-bold shadow-xl hover:shadow-2xl transition-all duration-400 border border-red-500/30 flex items-center justify-center gap-2"
                   >
                     <Sparkles size={18} />
                     Plan My Tour
