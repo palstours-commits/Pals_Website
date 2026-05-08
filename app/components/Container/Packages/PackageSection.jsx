@@ -16,7 +16,7 @@ const PackageSection = ({ zoneSlug, submenuSlug }) => {
   const title = zoneSlug?.replace(/-/g, " ");
   const { packagesBySubmenu, loading } = useSelector((state) => state.packages);
   const zones = packagesBySubmenu?.zones || [];
-  
+
   // Create refs for each zone slider
   const sliderRefs = useRef({});
   const [canScrollLeft, setCanScrollLeft] = useState({});
@@ -46,12 +46,12 @@ const PackageSection = ({ zoneSlug, submenuSlug }) => {
   const scroll = (zoneId, dir) => {
     const el = sliderRefs.current[zoneId];
     if (!el) return;
-    
+
     el.scrollBy({
       left: dir === "left" ? -300 : 300,
       behavior: "smooth",
     });
-    
+
     // Update scroll buttons after scroll
     setTimeout(() => checkScroll(zoneId), 350);
   };
@@ -59,19 +59,18 @@ const PackageSection = ({ zoneSlug, submenuSlug }) => {
   const checkScroll = (zoneId) => {
     const el = sliderRefs.current[zoneId];
     if (!el) return;
-    
+
     const { scrollLeft, scrollWidth, clientWidth } = el;
-    setCanScrollLeft(prev => ({ 
-      ...prev, 
-      [zoneId]: scrollLeft > 0 
+    setCanScrollLeft(prev => ({
+      ...prev,
+      [zoneId]: scrollLeft > 0
     }));
-    setCanScrollRight(prev => ({ 
-      ...prev, 
-      [zoneId]: scrollLeft + clientWidth < scrollWidth - 1 
+    setCanScrollRight(prev => ({
+      ...prev,
+      [zoneId]: scrollLeft + clientWidth < scrollWidth - 1
     }));
   };
 
-  // Initialize scroll check after packages load
   useEffect(() => {
     zones.forEach(zone => {
       setTimeout(() => checkScroll(zone._id), 100);
@@ -115,38 +114,36 @@ const PackageSection = ({ zoneSlug, submenuSlug }) => {
                   {zone.description}
                 </p>
               </div>
-              
+
               <div className="flex items-center gap-4 flex-shrink-0">
                 <div className="flex gap-2">
                   <motion.button
                     onClick={() => scroll(zone._id, "left")}
                     disabled={!canScrollLeft[zone._id]}
-                    className={`w-10 h-10 rounded-xl bg-white border-2 flex items-center justify-center shadow-md transition-all duration-300 cursor-pointer ${
-                      canScrollLeft[zone._id]
+                    className={`w-10 h-10 rounded-xl bg-white border-2 flex items-center justify-center shadow-md transition-all duration-300 cursor-pointer ${canScrollLeft[zone._id]
                         ? "border-[#da251c] text-[#da251c] hover:shadow-lg hover:border-[#da251c]/80"
                         : "border-gray-200 text-gray-400 cursor-not-allowed"
-                    }`}
+                      }`}
                     whileHover={canScrollLeft[zone._id] ? { scale: 1.05 } : {}}
                     whileTap={{ scale: 0.95 }}
                   >
                     <ChevronLeft size={18} />
                   </motion.button>
-                  
+
                   <motion.button
                     onClick={() => scroll(zone._id, "right")}
                     disabled={!canScrollRight[zone._id]}
-                    className={`w-10 h-10 rounded-xl bg-white border-2 flex items-center justify-center shadow-md transition-all duration-300 cursor-pointer ${
-                      canScrollRight[zone._id]
+                    className={`w-10 h-10 rounded-xl bg-white border-2 flex items-center justify-center shadow-md transition-all duration-300 cursor-pointer ${canScrollRight[zone._id]
                         ? "border-[#da251c] text-[#da251c] hover:shadow-lg hover:border-[#da251c]/80"
                         : "border-gray-200 text-gray-400 cursor-not-allowed"
-                    }`}
+                      }`}
                     whileHover={canScrollRight[zone._id] ? { scale: 1.05 } : {}}
                     whileTap={{ scale: 0.95 }}
                   >
                     <ChevronRight size={18} />
                   </motion.button>
                 </div>
-                
+
                 <motion.button
                   onClick={() => router.push(`/explore?zone=${zone.slug}`)}
                   className="bg-[#da251c] hover:bg-[#b91c1c] text-white px-6 py-3 rounded-xl text-sm font-semibold shadow-lg hover:shadow-xl transition-all duration-300 whitespace-nowrap cursor-pointer"
@@ -157,10 +154,10 @@ const PackageSection = ({ zoneSlug, submenuSlug }) => {
                 </motion.button>
               </div>
             </div>
-            
+
             {/* Mobile: Horizontal Scroll, Desktop: Grid */}
             <div className="lg:hidden">
-              <motion.div 
+              <motion.div
                 ref={el => sliderRefs.current[zone._id] = el}
                 className="flex gap-4 overflow-x-auto scrollbar-hide pb-4"
                 initial={{ opacity: 0 }}
@@ -224,7 +221,7 @@ const PackageSection = ({ zoneSlug, submenuSlug }) => {
           </MainLayout>
         </motion.div>
       ))}
-      
+
       <style jsx>{`
         .scrollbar-hide {
           -ms-overflow-style: none;

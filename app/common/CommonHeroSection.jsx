@@ -17,7 +17,6 @@ const CommonHeroSection = ({
   const [textVisible, setTextVisible] = useState(false);
   const containerRef = useRef(null);
 
-  // Mouse parallax effect
   useEffect(() => {
     const handleMouseMove = (e) => {
       const rect = containerRef.current?.getBoundingClientRect();
@@ -33,7 +32,6 @@ const CommonHeroSection = ({
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
-  // Text reveal animation
   useEffect(() => {
     const timer = setTimeout(() => setTextVisible(true), 300);
     return () => clearTimeout(timer);
@@ -41,12 +39,12 @@ const CommonHeroSection = ({
 
   const bgImage = getImageUrl(backgroundImage);
 
+
   return (
     <div
       ref={containerRef}
       className={`relative w-full ${height} flex items-center justify-center overflow-hidden group`}
     >
-      {/* Parallax Background */}
       <div
         className="absolute inset-0 transition-all duration-500 ease-out"
         style={{
@@ -57,32 +55,25 @@ const CommonHeroSection = ({
           filter: "brightness(0.85) contrast(1.05)",
         }}
       />
-      
-      {/* Dynamic Overlay */}
-      <div 
+
+      <div
         className={`absolute inset-0 ${overlay} transition-all duration-700 group-hover:bg-gradient-to-b group-hover:from-black/50 group-hover:to-transparent`}
       />
-      
-      {/* Floating Particles */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-10 w-2 h-2 bg-white/30 rounded-full animate-bounce [animation-delay:0s]" />
         <div className="absolute top-3/4 right-20 w-1.5 h-1.5 bg-white/20 rounded-full animate-ping [animation-delay:1.5s]" />
         <div className="absolute bottom-1/4 left-1/4 w-2.5 h-2.5 bg-gradient-to-r from-white/40 to-blue-400/20 rounded-full animate-pulse [animation-delay:0.8s]" />
         <div className="absolute bottom-1/3 right-1/3 w-1.5 h-1.5 bg-white/25 rounded-full animate-bounce [animation-delay:2s]" />
       </div>
-
-      {/* Content */}
       <div className="relative text-center text-white px-4 max-w-4xl z-10">
-        {/* Animated Title - Fixed split error */}
-        <h3 
-          className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold drop-shadow-2xl capitalize overflow-hidden leading-tight transition-all duration-1000 ${
-            textVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'
-          } group-hover:scale-[1.02]`}
+        <h3
+          className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold drop-shadow-2xl capitalize overflow-hidden leading-tight transition-all duration-1000 ${textVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'
+            } group-hover:scale-[1.02]`}
         >
           <div className="flex items-center gap-2">
             {typeof title === 'string' && title.split(' ').length > 0 ? (
               title.split(' ').map((word, i) => (
-                <span 
+                <span
                   key={i}
                   className="inline-block"
                   style={{
@@ -95,7 +86,7 @@ const CommonHeroSection = ({
                 </span>
               ))
             ) : (
-              <span 
+              <span
                 className="inline-block"
                 style={{
                   transform: textVisible ? `translateY(0)` : `translateY(30px)`,
@@ -108,19 +99,14 @@ const CommonHeroSection = ({
             )}
           </div>
         </h3>
-
-        {/* Animated Subtitle */}
         {subtitle && (
-          <p 
-            className={`mt-6 text-base md:text-lg text-white/95 drop-shadow-2xl transition-all duration-1000 delay-500 ${
-              textVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-            } group-hover:[text-shadow:0_0_25px_rgba(255,255,255,0.9)]`}
+          <p
+            className={`mt-6 text-base md:text-lg text-white/95 drop-shadow-2xl transition-all duration-1000 delay-500 ${textVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+              } group-hover:[text-shadow:0_0_25px_rgba(255,255,255,0.9)]`}
           >
             {subtitle}
           </p>
         )}
-
-        {/* Animated Breadcrumbs */}
         {breadcrumbs?.length > 0 && (
           <div className="mt-10 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-700 delay-700 flex flex-wrap justify-center items-center gap-4">
             {breadcrumbs.map((item, index) => (

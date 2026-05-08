@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react';
 
 const PackageBanner = ({ bgimg, images = [] }) => {
   const allImages = images.length > 0 ? images : (bgimg ? [bgimg] : []);
+  console.log(allImages);
+  
   const [activeIndex, setActiveIndex] = useState(0);
   const [fullView, setFullView] = useState(null);
 
