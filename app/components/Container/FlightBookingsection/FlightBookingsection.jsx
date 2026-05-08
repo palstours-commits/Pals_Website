@@ -50,7 +50,6 @@ const initialErrors = {
   flightType: "",
 };
 
-// --- Testimonial Data (8 items) ---
 const allTestimonials = [
   { id: 1, name: "Nam Smith", avatar: "https://randomuser.me/api/portraits/men/32.jpg", rating: 5, text: "Easy booking dolor sit amet, consectetur adipiscing... easy booking and great service.", subtext: "Name Komin" },
   { id: 2, name: "Kerow R.", avatar: "https://randomuser.me/api/portraits/men/45.jpg", rating: 5, text: "Easy booking, dolor sit amet, consectetur adipiscing elit, booking and great service.", subtext: "Kame Kome" },
@@ -62,20 +61,17 @@ const allTestimonials = [
   { id: 8, name: "Jessica Alba", avatar: "https://randomuser.me/api/portraits/women/66.jpg", rating: 5, text: "Amazing platform! Booking a flight has never been this stress-free and easy.", subtext: "Solo Traveler" }
 ];
 
-// Split into two rows for the animation
 const row1Testimonials = allTestimonials.slice(0, 4);
 const row2Testimonials = allTestimonials.slice(4, 8);
 
-// --- Compact Floating Label Components ---
 const FloatingLabelInput = ({ label, name, value, onChange, placeholder, required = false, isTextarea = false, type = "text", error, min }) => {
   const [isFocused, setIsFocused] = useState(false);
   const isFloating = isFocused || (value !== "" && value !== null && value !== undefined) || type === "date";
 
   return (
     <div className="relative mt-4 w-full">
-      <label className={`absolute left-3 px-1.5 transition-all duration-200 pointer-events-none z-10 ${
-        isFloating ? "-top-2.5 text-xs font-semibold text-gray-700 bg-white" : "top-3 text-sm text-gray-500 bg-transparent"
-      }`}>
+      <label className={`absolute left-3 px-1.5 transition-all duration-200 pointer-events-none z-10 ${isFloating ? "-top-2.5 text-xs font-semibold text-gray-700 bg-white" : "top-3 text-sm text-gray-500 bg-transparent"
+        }`}>
         {label} {required && <span className="text-red-500">*</span>}
       </label>
       {isTextarea ? (
@@ -122,7 +118,7 @@ const FloatingLabelSelect = ({ label, name, value, onChange, options = [], place
       >
         <span className={value ? "text-gray-900" : "text-gray-400"}>{selectedOption ? selectedOption.name : placeholder}</span>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" className={`transition-transform ${isOpen ? 'rotate-180 text-red-600' : 'text-gray-400'}`}>
-          <path d="M6 9l6 6 6-6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M6 9l6 6 6-6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </div>
       {error && <p className="text-red-500 text-xs mt-1 ml-1">{error}</p>}
@@ -150,16 +146,13 @@ const FlightBookingSection = () => {
   const { loading, error, message } = useSelector((state) => state.service);
   const [formData, setFormData] = useState(initialForm);
   const [errors, setErrors] = useState(initialErrors);
-
-  // Popup states
   const [showResultPopup, setShowResultPopup] = useState(false);
   const [popupType, setPopupType] = useState('success');
   const [popupMessage, setPopupMessage] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    
-    // Handle number inputs
+
     if (name === 'noOfAdults' || name === 'noOfChildren') {
       const numValue = value === "" ? "" : parseInt(value);
       setFormData({ ...formData, [name]: numValue });
@@ -241,7 +234,6 @@ const FlightBookingSection = () => {
     setPopupMessage("");
   };
 
-  // Flight class options
   const flightClassOptions = [
     { _id: "Economy", name: "Economy" },
     { _id: "Premium Economy", name: "Premium Economy" },
@@ -249,12 +241,13 @@ const FlightBookingSection = () => {
     { _id: "First Class", name: "First Class" }
   ];
 
+  
   return (
     <>
       <CommonHeroSection title="Flight Booking" backgroundImage={bannerimg.src} />
 
-      {/* --- Inline Styles for Marquee Animation --- */}
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         @keyframes scrollLeft {
           0% { transform: translateX(0); }
           100% { transform: translateX(-50%); }
@@ -279,8 +272,6 @@ const FlightBookingSection = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
-
-            {/* Left Column: Why Book With Us */}
             <div className="flex flex-col h-full">
               <div className="p-6 md:p-8 h-full flex flex-col">
                 <div className="text-center lg:text-left mb-6">

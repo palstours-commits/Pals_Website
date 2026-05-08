@@ -54,9 +54,7 @@ const TopDestination = () => {
         viewport={{ once: true }}
         className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto"
       >
-        
-        {/* Compact Header */}
-        <motion.div 
+        <motion.div
           variants={textVariants}
           className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10 lg:mb-12"
         >
@@ -79,7 +77,7 @@ const TopDestination = () => {
             >
               <ChevronLeft size={18} className="text-gray-700" />
             </motion.button>
-            
+
             <motion.button
               onClick={() => scroll("right")}
               className="w-12 h-12 rounded-xl bg-white border-2 border-gray-200 flex items-center justify-center shadow-md hover:shadow-lg hover:border-[#da251c] transition-all duration-300 cursor-pointer"
@@ -88,7 +86,7 @@ const TopDestination = () => {
             >
               <ChevronRight size={18} className="text-gray-700" />
             </motion.button>
-            
+
             <motion.button
               onClick={handleDiscoverMore}
               className="bg-[#da251c] hover:bg-[#b91c1c] text-white px-6 py-3 rounded-xl text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300 whitespace-nowrap cursor-pointer"
@@ -100,8 +98,7 @@ const TopDestination = () => {
           </div>
         </motion.div>
 
-        {/* Compact Cards Slider */}
-        <motion.div 
+        <motion.div
           ref={sliderRef}
           className="flex gap-6 overflow-x-auto scrollbar-hide pb-8"
           initial={{ opacity: 0 }}
@@ -112,13 +109,10 @@ const TopDestination = () => {
             <motion.div
               key={item._id}
               className="relative min-w-[260px] h-[300px] rounded-2xl overflow-hidden cursor-pointer shadow-lg group"
-              whileHover={{ y: -8, scale: 1.02 }}
               transition={{ duration: 0.3 }}
               onClick={() => router.push(`/packages/${item.subMenuId.slug}/${item.slug}`)}
             >
-              
-              {/* Image */}
-              <motion.div 
+              <motion.div
                 className="absolute inset-0 rounded-2xl overflow-hidden"
                 whileHover={{ scale: 1.08 }}
                 transition={{ duration: 0.5 }}
@@ -127,17 +121,15 @@ const TopDestination = () => {
                   src={item.image}
                   alt={item.name}
                   fill
-                  className="object-cover"
+                  className="object-cover transition-transform duration-500"
                 />
-                
-                {/* Gradient Overlay */}
+
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent/0" />
               </motion.div>
 
-              {/* Always visible content (removed hover condition) - matching HolidayPlanner style */}
               <div className="absolute bottom-6 left-6 right-6 z-20">
                 <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4 border border-white/30 shadow-xl">
-                  <h5 className="text-xl font-bold text-white leading-tight drop-shadow-lg">
+                  <h5 className="text-xl font-semibold text-center text-white leading-tight drop-shadow-lg">
                     {item.name}
                   </h5>
                 </div>

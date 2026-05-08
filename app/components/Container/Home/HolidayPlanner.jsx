@@ -44,18 +44,10 @@ const HolidayPlanner = ({ menuSlug = "holidays", activeSlugFromRoute }) => {
   const checkScroll = () => {
     const el = sliderRef.current;
     if (!el) return;
-
     const { scrollLeft, scrollWidth, clientWidth } = el;
-
     setCanScrollLeft(scrollLeft > 0);
     setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 1);
   };
-
-  /*
-  ==============================
-  FETCH MENU + ZONES
-  ==============================
-  */
 
   useEffect(() => {
     const slug = menuSlug || "holidays";
@@ -79,13 +71,6 @@ const HolidayPlanner = ({ menuSlug = "holidays", activeSlugFromRoute }) => {
 
         if (subMenus.length > 0) {
           let selectedSubmenu = null;
-
-          /*
-          ==============================
-          MATCH ROUTE SUBMENU
-          ==============================
-          */
-
           if (activeSlugFromRoute) {
             const routeSlug = activeSlugFromRoute.toLowerCase();
 
@@ -96,23 +81,11 @@ const HolidayPlanner = ({ menuSlug = "holidays", activeSlugFromRoute }) => {
             );
           }
 
-          /*
-          ==============================
-          FALLBACK FIRST SUBMENU
-          ==============================
-          */
-
           if (!selectedSubmenu) {
             selectedSubmenu = subMenus[0];
           }
 
           setActiveSubmenu(selectedSubmenu);
-
-          /*
-          ==============================
-          FILTER ZONES
-          ==============================
-          */
 
           const filtered = zones.filter(
             (zone) => zone?.subMenuId?._id === selectedSubmenu?._id,
@@ -128,12 +101,6 @@ const HolidayPlanner = ({ menuSlug = "holidays", activeSlugFromRoute }) => {
       });
   }, [menuSlug, activeSlugFromRoute, dispatch]);
 
-  /*
-  ==============================
-  SUBMENU CLICK
-  ==============================
-  */
-
   const handleSubmenuClick = (submenu) => {
     setActiveSubmenu(submenu);
 
@@ -143,20 +110,10 @@ const HolidayPlanner = ({ menuSlug = "holidays", activeSlugFromRoute }) => {
 
     setFilteredZones(zonesForSubmenu);
 
-    /*
-    Navigate only if NOT homepage holidays
-    */
-
     if (menuSlug !== "holidays") {
       router.push(`/${menuSlug}/${submenu.slug}`);
     }
   };
-
-  /*
-  ==============================
-  SCROLL BUTTON LOGIC
-  ==============================
-  */
 
   useEffect(() => {
     const el = sliderRef.current;
@@ -201,7 +158,6 @@ const HolidayPlanner = ({ menuSlug = "holidays", activeSlugFromRoute }) => {
               {activeSubmenu?.name || formatMenuName(menuSlug)} Trip Planner
             </span>
           </motion.h3>
-
           {filteredZones.length > 0 && (
             <div className="flex gap-3">
               <motion.button
@@ -224,29 +180,22 @@ const HolidayPlanner = ({ menuSlug = "holidays", activeSlugFromRoute }) => {
             </div>
           )}
         </div>
-
-        {/* SUBMENUS */}
-
         <div className="flex gap-3 overflow-x-auto pb-4 mb-10 scrollbar-hide">
           {menuSubmenus?.map((submenu) => (
             <button
               key={submenu._id}
               onClick={() => handleSubmenuClick(submenu)}
               className={`px-5 py-2 rounded-xl border text-sm whitespace-nowrap cursor-pointer
-              ${
-                activeSubmenu?._id === submenu._id
+              ${activeSubmenu?._id === submenu._id
                   ? "bg-red-600 text-white border-red-600"
                   : "bg-white border-gray-200 hover:border-red-500"
-              }`}
+                }`}
             >
               {submenu.name}
             </button>
           ))}
         </div>
       </motion.div>
-
-      {/* ZONES - Updated with TopDestination card styling */}
-
       {loading ? (
         <div className="text-center py-20">Loading...</div>
       ) : filteredZones?.length > 0 ? (
@@ -261,13 +210,11 @@ const HolidayPlanner = ({ menuSlug = "holidays", activeSlugFromRoute }) => {
             <motion.div
               key={zone._id}
               className="relative min-w-[260px] h-[300px] rounded-2xl overflow-hidden cursor-pointer shadow-lg group"
-              whileHover={{ y: -8, scale: 1.02 }}
               transition={{ duration: 0.3 }}
               onClick={() =>
                 router.push(`/packages/${activeSubmenu?.slug}/${zone.slug}`)
               }
             >
-              {/* Image with hover scale effect */}
               <motion.div
                 className="absolute inset-0 rounded-2xl overflow-hidden"
                 whileHover={{ scale: 1.08 }}
@@ -277,17 +224,15 @@ const HolidayPlanner = ({ menuSlug = "holidays", activeSlugFromRoute }) => {
                   src={zone.image || ""}
                   alt={zone.name}
                   fill
-                  className="object-cover"
+                  className="object-cover transition-transform duration-500"
                 />
 
-                {/* Gradient Overlay - matching TopDestination style */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent/0" />
               </motion.div>
 
-              {/* Card content - matching TopDestination style */}
               <div className="absolute bottom-6 left-6 right-6 z-20">
                 <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4 border border-white/30 shadow-xl">
-                  <h5 className="text-xl font-bold text-white leading-tight drop-shadow-lg">
+                  <h5 className="text-xl font-semibold text-white text-center leading-tight drop-shadow-lg">
                     {zone.name}
                   </h5>
                 </div>
