@@ -25,7 +25,7 @@ import {
   Sparkles,
   UserCircle,
   Users,
-  X // <-- Added missing X import for the mobile menu close button
+  X 
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -352,75 +352,45 @@ export default function Header() {
               }}
             >
               <div className="flex items-center gap-1 w-max px-4 h-full">
-                {/* Dynamically Loaded Submenus */}
-                  {sortedSubmenus?.map((menu, index) => {
-                    const hasSubmenu = menu?.submenus?.length > 0;
-                    
-                    // FIX: Use slug or name as a safe, guaranteed key instead of _id
-                    const menuKey = menu.slug || menu.name || `menu-${index}`;
-                    const isOpen = mobileDropdownOpen[menuKey];
+                
+                {/* Dynamically Loaded Submenus - FIXED: Back to normal desktop horizontal buttons */}
+                {sortedSubmenus?.map((menu) => {
+                  const hasSubmenu = menu?.submenus?.length > 0;
+                  const isHovered = hoveredDropdown === menu._id;
 
-                    return (
-                      <div key={menuKey} className="border-b border-gray-50/50 pb-1">
-                        <button
-                          onClick={(e) => {
-                            e.preventDefault(); // Prevents touch-screen bubbling issues
-                            if (hasSubmenu) {
-                              toggleMobileDropdown(menuKey); // Use the safe key
-                            } else {
-                              router.push(`/${menu.slug}`);
-                              setOpen(false);
-                            }
-                          }}
-                          className="ems-center justify-between py-3 px-2 text-gray-700 font-semibold hover:text-red-600 transition-colors rounded-xl hover:bg-gray-50"
-                        >
-                          <div className="flex items-center gap-3">
-                            <div className="w-5 h-5 flex items-center justify-center">
-                              {getMenuIcon(menu.name, menu?.icon)}
-                            </div>
-                            <span>{menu.name}</span>
-                          </div>
-                          {hasSubmenu && (
-                            <ChevronDown
-                              size={16}
-                              className={`transition-transform duration-300 ${isOpen ? "rotate-180 text-red-600" : "text-gray-400"}`}
-                            />
-                          )}
-                        </button>
-                        
-                        {/* Submenus Accordion */}
-                        <AnimatePresence>
-                          {hasSubmenu && isOpen && (
-                            <motion.div
-                              initial={{ height: 0, opacity: 0 }}
-                              animate={{ height: "auto", opacity: 1 }}
-                              exit={{ height: 0, opacity: 0 }}
-                              className="overflow-hidden"
-                            >
-                              <div className="pl-10 pr-2 py-2 space-y-1 border-l-2 border-red-100 ml-4 mb-2">
-                                {/* Safe fallback for submenus mapping */}
-                                {[...(menu.submenus || [])].sort((a, b) => (a.order || 0) - (b.order || 0)).map((sub, subIdx) => {
-                                  const subKey = sub.slug || sub.name || `sub-${subIdx}`;
-                                  return (
-                                    <button
-                                      key={subKey}
-                                      onClick={(e) => {
-                                        e.preventDefault();
-                                        handleSubmenuClick(menu.slug, sub.slug);
-                                      }}
-                                      className="w-full text-left py-2 px-3 text-sm font-medium text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                                    >
-                                      {sub.name}
-                                    </button>
-                                  );
-                                })}
-                              </div>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </div>
-                    );
-                  })}
+                  return (
+                    <motion.div
+                      variants={headerItemVariants}
+                      key={menu._id}
+                      className="relative group h-full flex items-center"
+                      onMouseEnter={(e) => hasSubmenu && handleMouseEnter(e, menu._id)}
+                      onMouseLeave={() => hasSubmenu && handleMouseLeave()}
+                    >
+                      <motion.button
+                        whileHover={{ y: -2, scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => !hasSubmenu && router.push(`/${menu.slug}`)}
+                        className={`group-hover-item flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 ${
+                          hasSubmenu ? "cursor-default" : "cursor-pointer"
+                        } backdrop-blur-sm ${
+                          isHovered
+                            ? "text-red-600 bg-gradient-to-r from-red-50 to-red-100 shadow-lg shadow-red-200/50"
+                            : "text-gray-700 hover:text-red-600 hover:bg-white hover:shadow-md hover:shadow-gray-100/50"
+                        } border border-transparent group-hover:border-red-200/50`}
+                      >
+                        <motion.div className="flex items-center justify-center w-5 h-5" whileHover={{ scale: 1.15, rotate: 360 }}>
+                          {getMenuIcon(menu.name, menu?.icon)}
+                        </motion.div>
+                        <span>{menu.name}</span>
+                        {hasSubmenu && (
+                          <motion.div animate={{ rotate: isHovered ? 180 : 0 }} transition={{ duration: 0.4 }}>
+                            <ChevronDown size={14} className={isHovered ? "text-red-500" : "text-gray-400"} />
+                          </motion.div>
+                        )}
+                      </motion.button>
+                    </motion.div>
+                  );
+                })}
 
                 {/* Services Hover Button */}
                 <motion.div
@@ -616,16 +586,20 @@ export default function Header() {
                 <div className="flex-1 overflow-y-auto px-4 py-4 space-y-1">
                   
                   {/* Dynamic API Menus */}
-                  {sortedSubmenus?.map((menu) => {
+                  {sortedSubmenus?.map((menu, index) => {
                     const hasSubmenu = menu?.submenus?.length > 0;
-                    const isOpen = mobileDropdownOpen[menu._id];
+                    
+                    // FIX: Use slug or name as a safe, guaranteed key instead of _id
+                    const menuKey = menu.slug || menu.name || `menu-${index}`;
+                    const isOpen = mobileDropdownOpen[menuKey];
 
                     return (
-                      <div key={menu._id} className="border-b border-gray-50/50 pb-1 ">
+                      <div key={menuKey} className="border-b border-gray-50/50 pb-1">
                         <button
-                          onClick={() => {
+                          onClick={(e) => {
+                            e.preventDefault(); 
                             if (hasSubmenu) {
-                              toggleMobileDropdown(menu._id);
+                              toggleMobileDropdown(menuKey);
                             } else {
                               router.push(`/${menu.slug}`);
                               setOpen(false);
@@ -642,7 +616,7 @@ export default function Header() {
                           {hasSubmenu && (
                             <ChevronDown
                               size={16}
-                              className={`transition-transform duration-300  ${isOpen ? "rotate-180 text-red-600" : "text-gray-400"}`}
+                              className={`transition-transform duration-300 ${isOpen ? "rotate-180 text-red-600" : "text-gray-400"}`}
                             />
                           )}
                         </button>
@@ -657,15 +631,22 @@ export default function Header() {
                               className="overflow-hidden"
                             >
                               <div className="pl-10 pr-2 py-2 space-y-1 border-l-2 border-red-100 ml-4 mb-2">
-                                {[...menu.submenus].sort((a, b) => a.order - b.order).map((sub) => (
-                                  <button
-                                    key={sub._id}
-                                    onClick={() => handleSubmenuClick(menu.slug, sub.slug)}
-                                    className="w-full text-left py-2 px-3 text-sm font-medium text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
-                                  >
-                                    {sub.name}
-                                  </button>
-                                ))}
+                                {/* Safe fallback for submenus mapping */}
+                                {[...(menu.submenus || [])].sort((a, b) => (a.order || 0) - (b.order || 0)).map((sub, subIdx) => {
+                                  const subKey = sub.slug || sub.name || `sub-${subIdx}`;
+                                  return (
+                                    <button
+                                      key={subKey}
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        handleSubmenuClick(menu.slug, sub.slug);
+                                      }}
+                                      className="w-full text-left py-2 px-3 text-sm font-medium text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+                                    >
+                                      {sub.name}
+                                    </button>
+                                  );
+                                })}
                               </div>
                             </motion.div>
                           )}
