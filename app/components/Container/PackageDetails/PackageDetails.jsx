@@ -624,7 +624,7 @@ const PackageDetails = ({ slug }) => {
       </motion.div>
 
       {/* Mobile Tabs Dropdown */}
-      <div className="w-full pt-6 sm:pt-10 sticky top-[60px] sm:top-[72px] md:top-[80px] pb-4 sm:pb-6 z-40 bg-white/80 backdrop-blur-md border-b">
+      <div className="w-full pt-6 sm:pt-10 sticky top-[60px] sm:top-[72px] md:top-[80px] z-40 bg-white/80 backdrop-blur-md border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Mobile Dropdown Button */}
           <button
@@ -649,7 +649,7 @@ const PackageDetails = ({ slug }) => {
                 <button
                   key={tab}
                   onClick={() => handleTabClick(tab)}
-                  className={`w-full px-4 py-3 text-left transition-all cursor-pointer ${active === tab
+                  className={`w-full px-4 text-left transition-all cursor-pointer ${active === tab
                     ? "bg-red-50 text-primary font-semibold"
                     : "text-gray-700 hover:bg-gray-50"
                     }`}
@@ -664,7 +664,7 @@ const PackageDetails = ({ slug }) => {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="hidden md:flex gap-2 items-center overflow-x-auto scrollbar-hide p-1"
+            className="hidden md:flex gap-2 items-center overflow-x-auto scrollbar-hide p-4"
           >
             {tabs?.map((tab) => (
               <motion.button
