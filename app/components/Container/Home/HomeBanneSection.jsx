@@ -125,7 +125,7 @@ const HomeBannerSection = () => {
         >
           {slides.map((slide, index) => (
             <SwiperSlide key={index}>
-              <div className="relative w-full h-full rounded-b-xl overflow-hidden">
+              <div className="relative w-full h-full overflow-hidden">
                 <Image
                   src={slide.image}
                   alt={`Banner ${index + 1}`}

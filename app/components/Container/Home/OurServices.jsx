@@ -128,7 +128,7 @@ const OurServices = () => {
         </motion.div>
         <div
           ref={sliderRef}
-          className="flex gap-8 overflow-x-auto scrollbar-hide whitespace-nowrap pb-2"
+          className="flex gap-2 overflow-x-auto scrollbar-hide whitespace-nowrap pb-2"
         >
           {services.map(({ title, Icon, slug, disabled }, i) => {
             const Card = (
