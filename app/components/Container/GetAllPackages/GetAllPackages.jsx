@@ -161,13 +161,13 @@ const GetAllPackages = () => {
             transition={{ delay: 0.3 }}
             className="flex justify-center mt-12"
           >
-            <button
-              className="bg-white border-2 border-[#da251c] text-[#da251c] hover:bg-[#da251c] hover:text-white px-8 py-3.5 rounded-xl text-base font-semibold transition-all duration-300 shadow-md hover:shadow-lg cursor-pointer"
+            <motion.button
+               className="w-[250px] mt-6 md:mt-8 bg-red-600 text-white font-semibold py-2 sm:py-4 rounded-xl shadow-lg hover:bg-red-700 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
               Load More Packages
-            </button>
+            </motion.button>
           </motion.div>
         )}
       </MainLayout>

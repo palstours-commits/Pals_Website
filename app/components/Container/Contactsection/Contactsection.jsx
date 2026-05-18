@@ -319,7 +319,7 @@ const Contactsection = () => {
               animate={{ opacity: 1, y: 0 }}
               className="bg-white p-6 sm:p-8 md:p-10 rounded-[2rem] shadow-2xl border border-gray-100 mt-4 lg:mt-0"
             >
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 text-center">
+              <h2 className="text-xl sm:text-xl md:text-2xl font-bold text-gray-900 text-center">
                 Plan Your Dream Trip Today
               </h2>
 
@@ -382,7 +382,7 @@ const Contactsection = () => {
                   whileTap={{ scale: 0.98 }}
                   type="submit"
                   disabled={loading}
-                  className="w-full mt-6 md:mt-8 bg-red-600 text-white font-semibold py-3.5 sm:py-4 rounded-xl shadow-lg hover:bg-red-700 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
+                  className="w-full mt-6 md:mt-8 bg-red-600 text-white font-semibold py-2 sm:py-4 rounded-xl shadow-lg hover:bg-red-700 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
                 >
                   {loading ? "Submitting..." : "Send Message"}
                 </motion.button>
