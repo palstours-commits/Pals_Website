@@ -140,47 +140,46 @@ const HolidayPlanner = ({ menuSlug = "holidays", activeSlugFromRoute }) => {
   };
 
   return (
-    <MainLayout className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-12 lg:py-16">
+    <MainLayout className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-10 sm-py-6 lg:py-10">
       <motion.div
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
         className="mb-12"
       >
-        <div className="flex flex-col lg:flex-row justify-between gap-6 mb-10">
+        <div className="flex flex-col lg:flex-row justify-between gap-6 mb-8">
           <motion.h3
             variants={textVariants}
-            className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900"
+            className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 "
           >
-            Quick and easy
-            <br />
+            Quick and easy {""}
             <span className="text-[#da251c]">
               {activeSubmenu?.name || formatMenuName(menuSlug)} Trip Planner
             </span>
           </motion.h3>
           {filteredZones.length > 0 && (
-            <div className="flex gap-3">
-              <motion.button
-                onClick={() => scroll("left")}
-                className="w-12 h-12 rounded-xl bg-white border-2 border-gray-200 flex items-center justify-center shadow-md hover:shadow-lg hover:border-[#da251c] transition-all duration-300 cursor-pointer"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <ChevronLeft size={18} className="text-gray-700" />
-              </motion.button>
+  <div className="hidden md:flex items-center gap-3">
+    <motion.button
+      onClick={() => scroll("left")}
+      className="w-12 h-12 rounded-xl bg-white border-2 border-gray-200 flex items-center justify-center shadow-md hover:shadow-lg hover:border-[#da251c] transition-all duration-300 cursor-pointer"
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+    >
+      <ChevronLeft size={18} className="text-gray-700" />
+    </motion.button>
 
-              <motion.button
-                onClick={() => scroll("right")}
-                className="w-12 h-12 rounded-xl bg-white border-2 border-gray-200 flex items-center justify-center shadow-md hover:shadow-lg hover:border-[#da251c] transition-all duration-300 cursor-pointer"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <ChevronRight size={18} className="text-gray-700" />
-              </motion.button>
-            </div>
-          )}
+    <motion.button
+      onClick={() => scroll("right")}
+      className="w-12 h-12 rounded-xl bg-white border-2 border-gray-200 flex items-center justify-center shadow-md hover:shadow-lg hover:border-[#da251c] transition-all duration-300 cursor-pointer"
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+    >
+      <ChevronRight size={18} className="text-gray-700" />
+    </motion.button>
+  </div>
+)}
         </div>
-        <div className="flex gap-3 overflow-x-auto pb-4 mb-10 scrollbar-hide">
+        <div className="flex gap-3 overflow-x-auto pb-4 mb-4 scrollbar-hide">
           {menuSubmenus?.map((submenu) => (
             <button
               key={submenu._id}
@@ -201,7 +200,7 @@ const HolidayPlanner = ({ menuSlug = "holidays", activeSlugFromRoute }) => {
       ) : filteredZones?.length > 0 ? (
         <motion.div
           ref={sliderRef}
-          className="flex gap-6 overflow-x-auto scrollbar-hide pb-8"
+          className="flex gap-4 overflow-x-auto scrollbar-hide pb-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6 }}

@@ -52,7 +52,7 @@ const TrendingOffers = () => {
             </p>
           </div>
 
-          <div className="flex items-center gap-3 flex-shrink-0">
+          <div className=" hidden md:flex flex items-center gap-3 flex-shrink-0">
             <motion.button
               onClick={() => scroll("left")}
               className="w-10 h-10 rounded-xl bg-white border-2 border-gray-200 flex items-center justify-center shadow-sm hover:shadow-md hover:border-[#da251c] transition-all duration-300 cursor-pointer"

@@ -28,7 +28,7 @@ const FloatingLabelInput = ({ label, name, value, onChange, placeholder, require
   const isFloating = isFocused || value !== "" && value !== null && value !== undefined || type === "date";
 
   return (
-    <div className="relative mt-6 w-full">
+    <div className="relative mt-2 w-full">
       <label className={`absolute left-3 px-1.5 transition-all duration-200 pointer-events-none z-10 ${isFloating ? "-top-2.5 text-[11px] font-bold text-gray-800 bg-white" : "top-3.5 text-gray-500 text-sm bg-transparent"}`}>
         {label.toUpperCase()} {required && <span className="text-red-500">*</span>}
       </label>
@@ -61,8 +61,6 @@ const FloatingLabelInput = ({ label, name, value, onChange, placeholder, require
     </div>
   );
 };
-
-
 
 const EnhancedPackageForm = ({ packageId, packageName, onConfirm }) => {
   const dispatch = useDispatch();
@@ -192,28 +190,28 @@ const EnhancedPackageForm = ({ packageId, packageName, onConfirm }) => {
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.6 }}
-      className="bg-white p-8 rounded-[2rem] shadow-2xl border border-gray-100 h-full overflow-y-auto"
+      className="bg-white p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-[2rem] shadow-2xl border border-gray-100 h-full overflow-y-auto"
     >
-      <div className="flex items-center gap-4 mb-2">
-        <div className="bg-red-600 p-4 rounded-2xl text-white">
-          <BookText size={30} />
+      <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+        <div className="bg-red-600 p-3 sm:p-4 rounded-xl sm:rounded-2xl text-white">
+          <BookText size={24} className="sm:w-[30px] sm:h-[30px]" />
         </div>
         <div>
-          <h2 className="text-2xl font-black">Grab This Package</h2>
-          <span className="text-gray-500 text-sm">{packageName}</span>
+          <h2 className="text-xl sm:text-2xl font-black">Grab This Package</h2>
+          <span className="text-gray-500 text-xs sm:text-sm">{packageName}</span>
         </div>
       </div>
       {hasErrors && (
-        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl">
-          <p className="text-red-600 font-semibold mb-2">Please fix the following errors:</p>
-          <ul className="list-disc list-inside text-sm text-red-500">
+        <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-red-50 border border-red-200 rounded-xl">
+          <p className="text-red-600 font-semibold mb-2 text-sm sm:text-base">Please fix the following errors:</p>
+          <ul className="list-disc list-inside text-xs sm:text-sm text-red-500">
             {Object.values(errors).map((error, index) => error && <li key={index}>{error}</li>)}
           </ul>
         </div>
       )}
 
       <form onSubmit={handleSubmitClick}>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4">
           <FloatingLabelInput
             label="Full Name"
             name="name"
@@ -233,7 +231,7 @@ const EnhancedPackageForm = ({ packageId, packageName, onConfirm }) => {
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4">
           <FloatingLabelInput
             label="Phone Number"
             name="phone"
@@ -253,7 +251,7 @@ const EnhancedPackageForm = ({ packageId, packageName, onConfirm }) => {
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4">
           <FloatingLabelInput
             label="Number of Persons"
             name="numberOfPersons"
@@ -291,7 +289,7 @@ const EnhancedPackageForm = ({ packageId, packageName, onConfirm }) => {
           whileTap={{ scale: 0.98 }}
           type="submit"
           disabled={loading}
-          className="w-full mt-2 bg-gray-900 text-white font-bold py-4 rounded-2xl shadow-xl hover:bg-red-600 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full mt-4 sm:mt-6 bg-gray-900 text-white font-bold py-3 sm:py-4 rounded-xl sm:rounded-2xl shadow-xl hover:bg-red-600 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
         >
           {loading ? "Processing..." : "Book This Package"}
         </motion.button>
@@ -308,11 +306,11 @@ const ImageCarousel = ({ images, currentIndex, onNext, onPrev, onClose }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm"
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4"
       onClick={onClose}
     >
-      <div className="relative w-full max-w-6xl mx-4" onClick={(e) => e.stopPropagation()}>
-        <div className="relative aspect-video rounded-2xl overflow-hidden">
+      <div className="relative w-full max-w-6xl mx-auto" onClick={(e) => e.stopPropagation()}>
+        <div className="relative aspect-video rounded-xl sm:rounded-2xl overflow-hidden">
           <CustomImage
             src={images[currentIndex]}
             alt={`Gallery image ${currentIndex + 1}`}
@@ -324,36 +322,36 @@ const ImageCarousel = ({ images, currentIndex, onNext, onPrev, onClose }) => {
           <>
             <button
               onClick={onPrev}
-              className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white p-3 rounded-full transition-all"
+              className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white p-2 sm:p-3 rounded-full transition-all"
             >
-              <ChevronLeft size={24} />
+              <ChevronLeft size={20} className="sm:w-6 sm:h-6" />
             </button>
             <button
               onClick={onNext}
-              className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white p-3 rounded-full transition-all"
+              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white p-2 sm:p-3 rounded-full transition-all"
             >
-              <ChevronRight size={24} />
+              <ChevronRight size={20} className="sm:w-6 sm:h-6" />
             </button>
           </>
         )}
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/50 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm">
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/50 backdrop-blur-sm text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm">
           {currentIndex + 1} / {images.length}
         </div>
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white p-3 rounded-full transition-all"
+          className="absolute top-2 sm:top-4 right-2 sm:right-4 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white p-2 sm:p-3 rounded-full transition-all"
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg width="16" height="16" className="sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" />
           </svg>
         </button>
         {images.length > 1 && (
-          <div className="absolute -bottom-24 left-1/2 -translate-x-1/2 flex gap-2 p-2 bg-black/50 backdrop-blur-sm rounded-xl">
+          <div className="absolute -bottom-20 sm:-bottom-24 left-1/2 -translate-x-1/2 flex gap-1 sm:gap-2 p-2 bg-black/50 backdrop-blur-sm rounded-xl overflow-x-auto max-w-[90vw]">
             {images.map((img, idx) => (
               <button
                 key={idx}
                 onClick={() => onPrev()}
-                className={`relative w-16 h-16 rounded-lg overflow-hidden transition-all ${idx === currentIndex ? 'ring-2 ring-white scale-110' : 'opacity-50 hover:opacity-100'
+                className={`relative w-10 h-10 sm:w-16 sm:h-16 rounded-lg overflow-hidden transition-all flex-shrink-0 ${idx === currentIndex ? 'ring-2 ring-white scale-110' : 'opacity-50 hover:opacity-100'
                   }`}
               >
                 <CustomImage
@@ -395,6 +393,7 @@ const PackageDetails = ({ slug }) => {
   const [showGallery, setShowGallery] = useState(false);
   const [galleryIndex, setGalleryIndex] = useState(0);
   const [allImages, setAllImages] = useState([]);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const overviewRef = useRef(null);
   const highlightsRef = useRef(null);
@@ -446,6 +445,7 @@ const PackageDetails = ({ slug }) => {
     setShowFlightAnimation(false);
     dispatch(clearEnquiryState());
   };
+  
   useEffect(() => {
     if (importantInfo.length > 0) {
       setActiveInfoIndex(0);
@@ -454,6 +454,7 @@ const PackageDetails = ({ slug }) => {
 
   const handleTabClick = (tab) => {
     setActive(tab);
+    setIsMobileMenuOpen(false);
 
     let ref = null;
     switch (tab) {
@@ -590,22 +591,24 @@ const PackageDetails = ({ slug }) => {
         )}
       </AnimatePresence>
       <PackageBaneer images={bannerImages} />
+      
+      {/* Mobile Sticky Header */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full bg-secondary py-8 sticky top-[-60] z-50"
+        className="w-full bg-secondary py-4 sm:py-6 md:py-8 sticky top-0 z-50"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
           <motion.div
             initial={{ x: -20 }}
             animate={{ x: 0 }}
-            className="text-white"
+            className="text-white w-full sm:w-auto"
           >
-            <h4 className="mb-1 font-semibold capitalize text-xl">
+            <h4 className="mb-1 font-semibold capitalize text-lg sm:text-xl">
               {singlePackage?.packageName}
             </h4>
-            <p className="flex items-center gap-2">
-              <Clock size={18} />
+            <p className="flex items-center gap-2 text-sm sm:text-base">
+              <Clock size={16} className="sm:w-[18px] sm:h-[18px]" />
               {singlePackage?.nights} Nights / {singlePackage?.days} Days
             </p>
           </motion.div>
@@ -613,18 +616,55 @@ const PackageDetails = ({ slug }) => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => handleTabClick("Get a Quote")}
-            className="text-sm bg-primary hover:opacity-90 transition text-white px-6 py-2 rounded-full font-semibold"
+            className="text-sm bg-primary hover:opacity-90 transition text-white px-4 sm:px-6 py-1.5 sm:py-2 rounded-full font-semibold w-full sm:w-auto"
           >
             Get a Quote
           </motion.button>
         </div>
       </motion.div>
-      <div className="w-full pt-10 sticky top-[48px] pb-6 z-40 bg-white/80 backdrop-blur-md border-b">
-        <div className="max-w-4xl mx-auto px-6 md:px-0">
+
+      {/* Mobile Tabs Dropdown */}
+      <div className="w-full pt-6 sm:pt-10 sticky top-[60px] sm:top-[72px] md:top-[80px] pb-4 sm:pb-6 z-40 bg-white/80 backdrop-blur-md border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Mobile Dropdown Button */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="md:hidden w-full px-4 py-3 bg-gray-100 rounded-xl flex items-center justify-between"
+          >
+            <span className="font-semibold">{active}</span>
+            <svg className={`w-5 h-5 transition-transform ${isMobileMenuOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          {/* Mobile Dropdown Menu */}
+          {isMobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="md:hidden absolute left-0 right-0 top-full mt-2 bg-white shadow-xl rounded-xl overflow-hidden z-50"
+            >
+              {tabs?.map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => handleTabClick(tab)}
+                  className={`w-full px-4 py-3 text-left transition-all ${active === tab
+                    ? "bg-red-50 text-primary font-semibold"
+                    : "text-gray-700 hover:bg-gray-50"
+                    }`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </motion.div>
+          )}
+
+          {/* Desktop Tabs */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="flex gap-2 items-center overflow-x-auto scrollbar-hide p-1"
+            className="hidden md:flex gap-2 items-center overflow-x-auto scrollbar-hide p-1"
           >
             {tabs?.map((tab) => (
               <motion.button
@@ -632,7 +672,7 @@ const PackageDetails = ({ slug }) => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => handleTabClick(tab)}
-                className={`px-6 py-2 rounded-full transition-all duration-300 whitespace-nowrap cursor-pointer ${active === tab
+                className={`px-4 lg:px-6 py-2 rounded-full transition-all duration-300 whitespace-nowrap cursor-pointer text-sm lg:text-base ${active === tab
                   ? "border border-primary text-primary bg-primary-light shadow-lg"
                   : "text-black hover:text-primary"
                   }`}
@@ -643,24 +683,26 @@ const PackageDetails = ({ slug }) => {
           </motion.div>
         </div>
       </div>
+
+      {/* Overview Section */}
       <motion.div
         ref={overviewRef}
         initial="initial"
         whileInView="animate"
         viewport={{ once: true }}
         variants={staggerContainer}
-        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12"
       >
         <motion.h4
           variants={fadeInUp}
           id="overview"
-          className="font-semibold mb-4 text-2xl"
+          className="font-semibold mb-4 text-xl sm:text-2xl"
         >
           Overview
         </motion.h4>
         <motion.p
           variants={fadeInUp}
-          className="text-gray-900 leading-relaxed text-lg"
+          className="text-gray-900 leading-relaxed text-base sm:text-lg"
         >
           {singlePackage?.overview?.Description}
         </motion.p>
@@ -668,7 +710,7 @@ const PackageDetails = ({ slug }) => {
         {overviewIcons.length > 0 && (
           <motion.div
             variants={fadeInUp}
-            className="max-w-4xl mx-auto px-10 md:px-0 flex justify-center gap-8 md:gap-20 mt-12"
+            className="max-w-4xl mx-auto px-4 sm:px-6 md:px-0 flex flex-wrap justify-center gap-6 sm:gap-8 md:gap-12 lg:gap-20 mt-8 sm:mt-12"
           >
             {overviewIcons.map((item, index) => (
               <motion.div
@@ -677,16 +719,16 @@ const PackageDetails = ({ slug }) => {
                 whileInView={{ opacity: 1, scale: 1 }}
                 whileHover={{ scale: 1.1 }}
                 transition={{ delay: index * 0.1 }}
-                className="flex flex-col items-center gap-4"
+                className="flex flex-col items-center gap-2 sm:gap-4"
               >
-                <div className="w-20 h-20 flex items-center justify-center rounded-full bg-gradient-to-br from-gray-50 to-gray-100 shadow-md">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center rounded-full bg-gradient-to-br from-gray-50 to-gray-100 shadow-md p-3 sm:p-4">
                   <CustomImage
                     src={item.iconPath}
                     alt={item.name}
-                    className="object-cover"
+                    className="object-cover w-full h-full"
                   />
                 </div>
-                <h5 className="text-lg font-semibold text-gray-800 text-center">
+                <h5 className="text-sm sm:text-base lg:text-lg font-semibold text-gray-800 text-center">
                   {item.name}
                 </h5>
               </motion.div>
@@ -694,6 +736,8 @@ const PackageDetails = ({ slug }) => {
           </motion.div>
         )}
       </motion.div>
+
+      {/* Trip Highlights Section */}
       <motion.div
         ref={highlightsRef}
         initial="initial"
@@ -701,21 +745,21 @@ const PackageDetails = ({ slug }) => {
         viewport={{ once: true }}
         className="bg-gradient-to-b from-white to-gray-50"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
           <motion.h4
             variants={fadeInUp}
             id="trip-highlights"
-            className="text-3xl font-semibold mb-12 scroll-mt-[180px]"
+            className="text-2xl sm:text-3xl font-semibold mb-8 sm:mb-12 scroll-mt-[180px]"
           >
             Trip Highlights
           </motion.h4>
 
-          <div className="grid md:grid-cols-2 gap-12 items-stretch">
+          <div className="grid md:grid-cols-2 gap-8 sm:gap-12 items-stretch">
             <motion.div
               variants={fadeInUp}
-              className="rounded-2xl p-8 h-full bg-white shadow-lg"
+              className="rounded-2xl p-6 sm:p-8 h-full bg-white shadow-lg"
             >
-              <ul className="space-y-4 text-[17px] leading-relaxed">
+              <ul className="space-y-3 sm:space-y-4 text-sm sm:text-[17px] leading-relaxed">
                 {points?.map((item, index) => (
                   <motion.li
                     key={index}
@@ -732,7 +776,7 @@ const PackageDetails = ({ slug }) => {
             </motion.div>
             <motion.div
               variants={fadeInUp}
-              className="grid grid-flow-col auto-cols-[80%] gap-4 overflow-x-auto snap-x snap-mandatory md:grid-cols-6 md:auto-cols-auto md:grid-flow-row md:overflow-x-hidden auto-rows-[220px] h-full relative"
+              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 sm:gap-4 auto-rows-[180px] sm:auto-rows-[200px] md:auto-rows-[220px] relative"
             >
               {gridImages.map((image, index) => (
                 <motion.div
@@ -740,12 +784,12 @@ const PackageDetails = ({ slug }) => {
                   whileHover={{ scale: 1.02 }}
                   transition={{ duration: 0.3 }}
                   onClick={() => handleImageClick(index)}
-                  className={`relative rounded-3xl overflow-hidden snap-start shadow-lg cursor-pointer ${index === 0 ? "md:col-span-3" :
-                    index === 1 ? "md:col-span-3" :
-                      index === 2 ? "md:col-span-2" :
-                        index === 3 ? "md:col-span-2" :
-                          index === 4 ? "md:col-span-4" :
-                            "md:col-span-2 md:row-span-2"
+                  className={`relative rounded-2xl sm:rounded-3xl overflow-hidden snap-start shadow-lg cursor-pointer ${index === 0 ? "col-span-2 md:col-span-3" :
+                    index === 1 ? "col-span-2 md:col-span-3" :
+                      index === 2 ? "col-span-2 md:col-span-2" :
+                        index === 3 ? "col-span-2 md:col-span-2" :
+                          index === 4 ? "col-span-2 md:col-span-4" :
+                            "col-span-2 md:col-span-2 md:row-span-2"
                     }`}
                 >
                   <CustomImage
@@ -763,11 +807,11 @@ const PackageDetails = ({ slug }) => {
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.5 }}
                   onClick={() => handleImageClick(6)}
-                  className="absolute bottom-4 right-4 z-10 cursor-pointer"
+                  className="absolute bottom-2 sm:bottom-4 right-2 sm:right-4 z-10 cursor-pointer"
                 >
-                  <div className="bg-black/70 backdrop-blur-sm text-white px-4 py-2 rounded-full flex items-center gap-2 hover:bg-black/90 transition-all">
-                    <span className="text-sm font-semibold">+{carouselImages.length} More Photos</span>
-                    <ChevronRight size={18} />
+                  <div className="bg-black/70 backdrop-blur-sm text-white px-2 py-1 sm:px-4 sm:py-2 rounded-full flex items-center gap-1 sm:gap-2 hover:bg-black/90 transition-all text-xs sm:text-sm">
+                    <span className="font-semibold">+{carouselImages.length} More</span>
+                    <ChevronRight size={14} className="sm:w-[18px] sm:h-[18px]" />
                   </div>
                 </motion.div>
               )}
@@ -776,12 +820,13 @@ const PackageDetails = ({ slug }) => {
         </div>
       </motion.div>
 
+      {/* Destinations Section */}
       <motion.div
         ref={destinationsRef}
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
-        className="w-full bg-gradient-to-r from-red-600 to-red-500 py-8"
+        className="w-full bg-gradient-to-r from-red-600 to-red-500 py-6 sm:py-8"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-center text-white">
           <motion.div
@@ -789,52 +834,54 @@ const PackageDetails = ({ slug }) => {
               x: [0, 10, 0],
               transition: { duration: 2, repeat: Infinity }
             }}
-            className="flex items-center gap-2 text-center"
+            className="flex items-center gap-2 text-center flex-wrap justify-center"
           >
-            <MapPin className="shrink-0" />
-            <h4 id="destinations" className="font-semibold text-lg">
+            <MapPin className="shrink-0 w-4 h-4 sm:w-5 sm:h-5" />
+            <h4 id="destinations" className="font-semibold text-sm sm:text-base md:text-lg">
               Bangalore - Mysore - Hassan – Hospet - Hampi – Badami - Goa - Mumbai.
             </h4>
           </motion.div>
         </div>
       </motion.div>
 
+      {/* Tour Itinerary Section */}
       <motion.div
         ref={itineraryRef}
         initial="initial"
         whileInView="animate"
         viewport={{ once: true }}
-        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16"
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16"
       >
         <motion.div variants={fadeInUp} id="tour-itinerary">
-          <h2 className="text-3xl font-semibold mb-8">Tour Itinerary</h2>
+          <h2 className="text-2xl sm:text-3xl font-semibold mb-6 sm:mb-8">Tour Itinerary</h2>
           <ItineraryAccordion items={singlePackage?.itinerary} />
         </motion.div>
       </motion.div>
 
+      {/* Information & Quote Section */}
       <motion.div
         ref={informationRef}
         initial="initial"
         whileInView="animate"
         viewport={{ once: true }}
-        className="py-16 bg-gray-50"
+        className="py-12 sm:py-16 bg-gray-50"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-stretch">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-stretch">
             <motion.div
               variants={fadeInUp}
-              className="h-[600px] overflow-y-auto pr-4 scrollbar-thin scrollbar-thumb-gray-300"
+              className="h-auto lg:h-[600px] overflow-y-auto pr-2 sm:pr-4 scrollbar-thin scrollbar-thumb-gray-300"
             >
               <h2
                 id="information"
-                className="font-bold mb-8 text-3xl"
+                className="font-bold mb-6 sm:mb-8 text-2xl sm:text-3xl"
               >
                 Important Information
               </h2>
 
-              <div className="flex gap-3 mb-6 overflow-x-auto whitespace-nowrap scrollbar-hide pb-2">
+              <div className="flex gap-2 sm:gap-3 mb-6 overflow-x-auto whitespace-nowrap scrollbar-hide pb-2">
                 {importantInfo.length === 0 ? (
-                  <span className="text-gray-400 text-sm">No information available</span>
+                  <span className="text-gray-400 text-xs sm:text-sm">No information available</span>
                 ) : (
                   importantInfo.map((info, index) => (
                     <motion.button
@@ -842,7 +889,7 @@ const PackageDetails = ({ slug }) => {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => setActiveInfoIndex(index)}
-                      className={`px-6 py-2 rounded-full border text-sm sm:text-base transition-all shrink-0
+                      className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border text-xs sm:text-sm md:text-base transition-all shrink-0
                         ${activeInfoIndex === index
                           ? "bg-red-600 text-white border-red-600 shadow-lg"
                           : "border-gray-300 text-gray-600 hover:border-red-400 hover:text-red-600"
@@ -862,7 +909,7 @@ const PackageDetails = ({ slug }) => {
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <h4 className="font-semibold mb-4 text-lg">
+                  <h4 className="font-semibold mb-3 sm:mb-4 text-base sm:text-lg">
                     Hotel Accommodation Details
                   </h4>
                   {importantInfo[activeInfoIndex] && (
@@ -879,14 +926,14 @@ const PackageDetails = ({ slug }) => {
             <motion.div
               ref={quoteRef}
               variants={fadeInUp}
-              className="h-[600px]"
+              className="h-auto lg:h-[600px]"
             >
               <EnhancedPackageForm
                 packageId={singlePackage?._id}
                 packageName={
                   <>
-                    <span className="font-semibold text-gray-800 text-[20px]">{singlePackage?.packageName}</span>
-                    <span> {singlePackage?.nights} Nights / {singlePackage?.days} Days</span>
+                    <span className="font-semibold text-gray-800 text-base sm:text-[20px]">{singlePackage?.packageName}</span>
+                    <span className="text-xs sm:text-sm"> {singlePackage?.nights} Nights / {singlePackage?.days} Days</span>
                   </>
                 }
                 onConfirm={handleConfirmRequest}
@@ -895,36 +942,40 @@ const PackageDetails = ({ slug }) => {
           </div>
         </div>
       </motion.div>
-      <MainLayout className="w-full bg-gradient-to-r from-[#e6dcc8] to-[#d6ccb8] py-12">
+
+      {/* Customize Your Trip Section */}
+      <MainLayout className="w-full bg-gradient-to-r from-[#e6dcc8] to-[#d6ccb8] py-8 sm:py-12">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="max-w-7xl mx-auto px-6 lg:px-8 
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 
                     flex flex-col md:flex-row 
                     items-start md:items-center 
-                    justify-between gap-10"
+                    justify-between gap-6 sm:gap-10"
         >
           <div className="max-w-xl">
-            <h4 className="mb-2 font-semibold text-2xl">
+            <h4 className="mb-2 font-semibold text-xl sm:text-2xl">
               Customize Your Trip
             </h4>
-            <p className="text-gray-900 text-base leading-relaxed">
+            <p className="text-gray-900 text-sm sm:text-base leading-relaxed">
               Create a travel experience tailored to your preferences, budget,
               and schedule for a truly personalized journey.
             </p>
           </div>
-          <Link href={"/contact-us"}>
+          <Link href={"/contact-us"} className="w-full md:w-auto">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="text-sm bg-primary hover:opacity-90 transition text-white px-8 py-3 rounded-full font-semibold shadow-lg"
+              className="text-sm bg-primary hover:opacity-90 transition text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-full font-semibold shadow-lg w-full md:w-auto"
             >
               Customize your Trip
             </motion.button>
           </Link>
         </motion.div>
       </MainLayout>
+
+      {/* Popups */}
       <Message_Popups
         isOpen={showConfirmPopup}
         type="confirm"
@@ -937,7 +988,7 @@ const PackageDetails = ({ slug }) => {
           type="error"
           onClose={handleClosePopups}
         >
-          <div className="text-center">
+          <div className="text-center p-4">
             <p className="text-sm text-gray-800">{popupMessage}</p>
           </div>
         </Message_Popups>

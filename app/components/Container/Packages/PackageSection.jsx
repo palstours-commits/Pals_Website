@@ -146,7 +146,7 @@ const PackageSection = ({ zoneSlug, submenuSlug }) => {
 
                 <motion.button
                   onClick={() => router.push(`/explore?zone=${zone.slug}`)}
-                  className="bg-[#da251c] hover:bg-[#b91c1c] text-white px-6 py-3 rounded-xl text-sm font-semibold shadow-lg hover:shadow-xl transition-all duration-300 whitespace-nowrap cursor-pointer"
+                  className="bg-[#da251c] hover:bg-[#b91c1c] text-white px-6 py-2 rounded-xl text-sm shadow-lg hover:shadow-xl transition-all duration-300 whitespace-nowrap cursor-pointer"
                   whileHover={{ scale: 1.02, y: -1 }}
                   whileTap={{ scale: 0.98 }}
                 >

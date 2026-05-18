@@ -97,7 +97,7 @@ const OurServices = () => {
               value.
             </p>
           </div>
-          <div className="flex gap-3">
+          <div className="hidden md:flex flex gap-3">
             <button
               onClick={() => scroll("left")}
               disabled={!canScrollLeft}

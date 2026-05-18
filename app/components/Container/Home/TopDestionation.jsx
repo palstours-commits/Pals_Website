@@ -47,7 +47,7 @@ const TopDestination = () => {
   };
 
   return (
-    <MainLayout className="bg-gradient-to-r from-[#FAF3E1] to-[#F8E8C8] py-12 lg:py-16">
+    <MainLayout className="bg-gradient-to-r from-[#FAF3E1] to-[#F8E8C8] pt-10 lg:pt-10">
       <motion.div
         initial="hidden"
         whileInView="visible"
@@ -69,7 +69,8 @@ const TopDestination = () => {
           </div>
 
           <div className="flex items-center gap-3 flex-shrink-0">
-            <motion.button
+            <div className="hidden md:flex flex items-center gap-2">
+              <motion.button
               onClick={() => scroll("left")}
               className="w-12 h-12 rounded-xl bg-white border-2 border-gray-200 flex items-center justify-center shadow-md hover:shadow-lg hover:border-[#da251c] transition-all duration-300 cursor-pointer"
               whileHover={{ scale: 1.05 }}
@@ -86,10 +87,11 @@ const TopDestination = () => {
             >
               <ChevronRight size={18} className="text-gray-700" />
             </motion.button>
+            </div>
 
             <motion.button
               onClick={handleDiscoverMore}
-              className="bg-[#da251c] hover:bg-[#b91c1c] text-white px-6 py-3 rounded-xl text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300 whitespace-nowrap cursor-pointer"
+              className="bg-[#da251c] hover:bg-[#b91c1c] text-white px-6 py-2 rounded-xl text-base shadow-lg hover:shadow-xl transition-all duration-300 whitespace-nowrap cursor-pointer"
               whileHover={{ scale: 1.02, y: -1 }}
               whileTap={{ scale: 0.98 }}
             >

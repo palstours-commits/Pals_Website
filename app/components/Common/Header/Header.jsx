@@ -24,7 +24,8 @@ import {
   Plane,
   Sparkles,
   UserCircle,
-  Users
+  Users,
+  X // <-- Added missing X import for the mobile menu close button
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -36,7 +37,7 @@ import { useDispatch, useSelector } from "react-redux";
 const red700Filter =
   "brightness(0) saturate(100%) invert(20%) sepia(89%) saturate(5000%) hue-rotate(355deg) brightness(90%) contrast(120%)";
 
-// ✨ ENHANCED ANIMATION VARIANTS
+//  ENHANCED ANIMATION VARIANTS
 const headerContainerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -54,7 +55,7 @@ const headerItemVariants = {
   },
 };
 
-// 🔥 UNIQUE GLASSMORPHISM DROPDOWN ANIMATION
+//  UNIQUE GLASSMORPHISM DROPDOWN ANIMATION
 const glassmorphismDropdownVariants = {
   hidden: {
     opacity: 0,
@@ -89,13 +90,6 @@ const floatingDropdownItemVariants = {
     x: 0,
     y: 0,
     transition: { type: "spring", stiffness: 500, damping: 25 },
-  },
-};
-
-const shimmerEffectVariants = {
-  animate: {
-    backgroundPosition:["200% 0", "-200% 0", "200% 0"],
-    transition: { duration: 2, repeat: Infinity, ease: "linear" },
   },
 };
 
@@ -137,10 +131,10 @@ export default function Header() {
   const router = useRouter();
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
-  const[mobileDropdownOpen, setMobileDropdownOpen] = useState({});
+  const [mobileDropdownOpen, setMobileDropdownOpen] = useState({});
   const { submenus } = useSelector((state) => state.submenu);
 
-  const sortedSubmenus = submenus ? [...submenus].sort((a, b) => a.order - b.order) :[];
+  const sortedSubmenus = submenus ? [...submenus].sort((a, b) => a.order - b.order) : [];
 
   // Desktop Navigation Auto-scroll States
   const navRef = useRef(null);
@@ -152,10 +146,10 @@ export default function Header() {
   // Global Dropdown States & Refs
   const containerRef = useRef(null);
   const timeoutRef = useRef(null);
-  const[hoveredDropdown, setHoveredDropdown] = useState(null);
-  const[dropdownConfig, setDropdownConfig] = useState({ left: 0, top: 0, width: 288 });
+  const [hoveredDropdown, setHoveredDropdown] = useState(null);
+  const [dropdownConfig, setDropdownConfig] = useState({ left: 0, top: 0, width: 288 });
 
-  // ✨ GLOBAL POPUP LOGIC: Dynamically calculates position relative to outer header
+  //  GLOBAL POPUP LOGIC: Dynamically calculates position relative to outer header
   const handleMouseEnter = (e, menuId) => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
 
@@ -253,7 +247,14 @@ export default function Header() {
     setMobileDropdownOpen({});
   };
 
-  const STATIC_SERVICES =[
+  const toggleMobileDropdown = (menuId) => {
+    setMobileDropdownOpen((prev) => ({
+      ...prev,
+      [menuId]: !prev[menuId],
+    }));
+  };
+
+  const STATIC_SERVICES = [
     { name: "Flight", slug: "flight", icon: <Plane size={18} /> },
     { name: "Hotel", slug: "hotel", icon: <Hotel size={18} /> },
     { name: "Transport", slug: "transport", icon: <Bus size={18} /> },
@@ -261,12 +262,21 @@ export default function Header() {
     { name: "Visa", slug: "visa", icon: <FileText size={18} /> },
   ];
 
-  const COMPANY_MENU =[
+  const COMPANY_MENU = [
     { name: "About Us", slug: "about-us", icon: <UserCircle size={18} /> },
     { name: "Blog", slug: "blog", icon: <FileText size={18} /> },
     { name: "Career", slug: "career", icon: <Calendar size={18} /> },
     { name: "Contact Us", slug: "contact-us", icon: <Mail size={18} /> },
   ];
+
+  // Disables background scrolling when mobile menu is open
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [open]);
 
   return (
     <>
@@ -516,19 +526,17 @@ export default function Header() {
                     {/* Dynamic API Menus Content */}
                     {sortedSubmenus.map((menu) => {
                       if (hoveredDropdown === menu._id && menu.submenus?.length > 0) {
-                        const sortedSubItems =[...menu.submenus].sort((a, b) => a.order - b.order);
+                        const sortedSubItems = [...menu.submenus].sort((a, b) => a.order - b.order);
                         return sortedSubItems.map((sub) => (
                           <motion.div key={sub._id} variants={floatingDropdownItemVariants} className="group/item">
                             <button onClick={() => handleSubmenuClick(menu.slug, sub.slug)} className="w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-gray-700 transition-all duration-300 flex items-center gap-3 group-hover/item:bg-white hover:text-red-600 cursor-pointer">
                               {sub.name}
-                              {/* <ChevronRight size={16} className="ml-auto text-gray-400 group-hover/item:text-red-500" /> */}
                             </button>
                           </motion.div>
                         ));
                       }
                       return null;
                     })}
-
                   </div>
                 </div>
               </motion.div>
@@ -541,13 +549,214 @@ export default function Header() {
           </motion.button>
         </motion.div>
 
-        {/* --- Sidebar code continues unchanged below --- */}
+        {/* --- MOBILE SIDEBAR FULLY IMPLEMENTED --- */}
         <AnimatePresence>
           {open && (
-             // Sidebar overlay logic identical to original
-             <>
-               {/* Mobile Sidebar layout untouched for brevity in this snippet! Keep exactly as it was. */}
-             </>
+            <>
+              {/* Overlay Backdrop */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setOpen(false)}
+                className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[99998] lg:hidden"
+              />
+
+              {/* Sidebar Menu Drawer */}
+              <motion.div
+                initial={{ x: "100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "100%" }}
+                transition={{ type: "spring", stiffness: 250, damping: 25 }}
+                className="fixed top-0 right-0 w-[85vw] max-w-sm h-[100dvh] bg-white shadow-2xl z-[99999] flex flex-col overflow-hidden lg:hidden"
+              >
+                {/* Drawer Header */}
+                <div className="p-4 border-b border-gray-100 flex items-center justify-between bg-white shadow-sm">
+                  <Image src={navbar_logo} alt="Pals Holidays" className="h-8 w-auto" />
+                  <button
+                    onClick={() => setOpen(false)}
+                    className="p-2 bg-gray-50 rounded-full hover:bg-red-50 text-gray-500 hover:text-red-600 transition-colors"
+                  >
+                    <X size={20} />
+                  </button>
+                </div>
+
+                {/* Mobile Menu Items */}
+                <div className="flex-1 overflow-y-auto px-4 py-4 space-y-1">
+                  
+                  {/* Dynamic API Menus */}
+                  {sortedSubmenus?.map((menu) => {
+                    const hasSubmenu = menu?.submenus?.length > 0;
+                    const isOpen = mobileDropdownOpen[menu._id];
+
+                    return (
+                      <div key={menu._id} className="border-b border-gray-50/50 pb-1">
+                        <button
+                          onClick={() => {
+                            if (hasSubmenu) {
+                              toggleMobileDropdown(menu._id);
+                            } else {
+                              router.push(`/${menu.slug}`);
+                              setOpen(false);
+                            }
+                          }}
+                          className="w-full flex items-center justify-between py-3 px-2 text-gray-700 font-semibold hover:text-red-600 transition-colors rounded-xl hover:bg-gray-50"
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className="w-5 h-5 flex items-center justify-center">
+                              {getMenuIcon(menu.name, menu?.icon)}
+                            </div>
+                            <span>{menu.name}</span>
+                          </div>
+                          {hasSubmenu && (
+                            <ChevronDown
+                              size={16}
+                              className={`transition-transform duration-300 ${isOpen ? "rotate-180 text-red-600" : "text-gray-400"}`}
+                            />
+                          )}
+                        </button>
+                        
+                        {/* Submenus Accordion */}
+                        <AnimatePresence>
+                          {hasSubmenu && isOpen && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              className="overflow-hidden"
+                            >
+                              <div className="pl-10 pr-2 py-2 space-y-1 border-l-2 border-red-100 ml-4 mb-2">
+                                {[...menu.submenus].sort((a, b) => a.order - b.order).map((sub) => (
+                                  <button
+                                    key={sub._id}
+                                    onClick={() => handleSubmenuClick(menu.slug, sub.slug)}
+                                    className="w-full text-left py-2 px-3 text-sm font-medium text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                  >
+                                    {sub.name}
+                                  </button>
+                                ))}
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    );
+                  })}
+
+                  {/* Services Accordion */}
+                  <div className="border-b border-gray-50/50 pb-1">
+                    <button
+                      onClick={() => toggleMobileDropdown("services")}
+                      className="w-full flex items-center justify-between py-3 px-2 text-gray-700 font-semibold hover:text-red-600 transition-colors rounded-xl hover:bg-gray-50"
+                    >
+                      <div className="flex items-center gap-3">
+                        <Image src={navItemIcon} alt="Services" className="w-5 h-5 object-contain" style={{ filter: red700Filter }} />
+                        <span>Services</span>
+                      </div>
+                      <ChevronDown
+                        size={16}
+                        className={`transition-transform duration-300 ${mobileDropdownOpen["services"] ? "rotate-180 text-red-600" : "text-gray-400"}`}
+                      />
+                    </button>
+                    <AnimatePresence>
+                      {mobileDropdownOpen["services"] && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          className="overflow-hidden"
+                        >
+                          <div className="pl-10 pr-2 py-2 space-y-1 border-l-2 border-red-100 ml-4 mb-2">
+                            {STATIC_SERVICES.map((item) => (
+                              <button
+                                key={item.name}
+                                onClick={() => item.slug ? handleMobileServiceClick(item) : null}
+                                className={`w-full text-left py-2 px-3 text-sm font-medium transition-colors rounded-lg flex items-center gap-2 ${
+                                  item.slug ? "text-gray-600 hover:text-red-600 hover:bg-red-50 cursor-pointer" : "text-gray-400 cursor-default"
+                                }`}
+                              >
+                                {item.name} {!item.slug && "(Coming soon)"}
+                              </button>
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+
+                  {/* Company Accordion */}
+                  <div className="border-b border-gray-50/50 pb-1">
+                    <button
+                      onClick={() => toggleMobileDropdown("company")}
+                      className="w-full flex items-center justify-between py-3 px-2 text-gray-700 font-semibold hover:text-red-600 transition-colors rounded-xl hover:bg-gray-50"
+                    >
+                      <div className="flex items-center gap-3">
+                        <Image src={companyIcon} alt="Company" className="w-5 h-5 object-contain" style={{ filter: red700Filter }} />
+                        <span>Company</span>
+                      </div>
+                      <ChevronDown
+                        size={16}
+                        className={`transition-transform duration-300 ${mobileDropdownOpen["company"] ? "rotate-180 text-red-600" : "text-gray-400"}`}
+                      />
+                    </button>
+                    <AnimatePresence>
+                      {mobileDropdownOpen["company"] && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          className="overflow-hidden"
+                        >
+                          <div className="pl-10 pr-2 py-2 space-y-1 border-l-2 border-red-100 ml-4 mb-2">
+                            {COMPANY_MENU.map((item) => (
+                              <button
+                                key={item.slug}
+                                onClick={() => {
+                                  router.push(`/${item.slug}`);
+                                  setOpen(false);
+                                }}
+                                className="w-full text-left py-2 px-3 text-sm font-medium text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                              >
+                                {item.name}
+                              </button>
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+
+                </div>
+
+                {/* Mobile Drawer Footer Contacts & Plan Tour */}
+                <div className="p-4 bg-gray-50 mt-auto border-t border-gray-100">
+                  <div className="flex justify-center gap-4 mb-4">
+                    <a
+                      href="tel:+919841255715"
+                      className="p-3 bg-white rounded-xl shadow-sm border border-gray-200 text-red-600 hover:bg-red-50 hover:border-red-200 transition-all"
+                    >
+                      <Phone size={20} />
+                    </a>
+                    <a
+                      href="mailto:mail@palsholidays.com"
+                      className="p-3 bg-white rounded-xl shadow-sm border border-gray-200 text-red-600 hover:bg-red-50 hover:border-red-200 transition-all"
+                    >
+                      <Mail size={20} />
+                    </a>
+                  </div>
+                  <button
+                    onClick={() => {
+                      router.push('/contact-us');
+                      setOpen(false);
+                    }}
+                    className="w-full py-3 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-xl font-bold shadow-lg shadow-red-200 flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all"
+                  >
+                    <Sparkles size={18} />
+                    Plan My Tour
+                  </button>
+                </div>
+              </motion.div>
+            </>
           )}
         </AnimatePresence>
       </header>
