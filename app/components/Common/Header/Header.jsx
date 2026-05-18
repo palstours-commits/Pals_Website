@@ -780,7 +780,7 @@ export default function Header() {
                       router.push('/contact-us');
                       setOpen(false);
                     }}
-                    className="w-full py-3 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-xl font-bold shadow-lg shadow-red-200 flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all"
+                    className="w-full py-3 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-xl font-bold shadow-lg shadow-red-200 flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all cursor-pointer"
                   >
                     <Sparkles size={18} />
                     Plan My Tour
