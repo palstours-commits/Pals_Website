@@ -616,7 +616,7 @@ const PackageDetails = ({ slug }) => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => handleTabClick("Get a Quote")}
-            className="text-sm bg-primary hover:opacity-90 transition text-white px-4 sm:px-6 py-1.5 sm:py-2 rounded-full font-semibold w-full sm:w-auto"
+            className="text-sm bg-primary hover:opacity-90 transition text-white px-4 sm:px-6 py-1.5 sm:py-2 rounded-full font-semibold w-full sm:w-auto cursor-pointer"
           >
             Get a Quote
           </motion.button>
