@@ -853,7 +853,7 @@ const PackageDetails = ({ slug }) => {
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16"
       >
         <motion.div variants={fadeInUp} id="tour-itinerary">
-          <h2 className="text-2xl sm:text-3xl font-semibold mb-6 sm:mb-8">Tour Itinerary</h2>
+          <h2 className="text-2xl sm:text-3xl font-semibold mb-6 sm:mb-8 cursor">Tour Itinerary</h2>
           <ItineraryAccordion items={singlePackage?.itinerary} />
         </motion.div>
       </motion.div>
@@ -879,7 +879,7 @@ const PackageDetails = ({ slug }) => {
                 Important Information
               </h2>
 
-              <div className="flex gap-2 sm:gap-3 mb-6 overflow-x-auto whitespace-nowrap scrollbar-hide pb-2">
+              <div className="flex gap-2 sm:gap-3 mb-6 overflow-x-auto whitespace-nowrap scrollbar-hide pb-2 p-2">
                 {importantInfo.length === 0 ? (
                   <span className="text-gray-400 text-xs sm:text-sm">No information available</span>
                 ) : (
@@ -889,7 +889,7 @@ const PackageDetails = ({ slug }) => {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => setActiveInfoIndex(index)}
-                      className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border text-xs sm:text-sm md:text-base transition-all shrink-0
+                      className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border text-xs sm:text-sm md:text-base transition-all shrink-0 cursor-pointer
                         ${activeInfoIndex === index
                           ? "bg-red-600 text-white border-red-600 shadow-lg"
                           : "border-gray-300 text-gray-600 hover:border-red-400 hover:text-red-600"
@@ -967,7 +967,7 @@ const PackageDetails = ({ slug }) => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="text-sm bg-primary hover:opacity-90 transition text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-full font-semibold shadow-lg w-full md:w-auto cursor-pointer"
+               className="w-full mt-6 bg-red-600 text-white font-semibold px-6 sm:px-8 py-2.5 sm:py-3 rounded-xl shadow-lg hover:bg-red-700 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed text-sm"
             >
               Customize your Trip
             </motion.button>

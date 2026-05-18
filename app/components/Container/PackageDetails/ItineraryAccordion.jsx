@@ -19,7 +19,7 @@ export const ItineraryAccordion = ({ items }) => {
           <button
             onClick={() => toggle(index)}
             className="w-full flex items-center justify-between 
-                       px-6 py-5 text-left"
+                       px-6 py-5 text-left cursor-pointer"
           >
             <h5 className="text-orange-500 font-semibold text-lg">
               Day {item.title} {item?.location}
