@@ -649,7 +649,7 @@ const PackageDetails = ({ slug }) => {
                 <button
                   key={tab}
                   onClick={() => handleTabClick(tab)}
-                  className={`w-full px-4 py-3 text-left transition-all ${active === tab
+                  className={`w-full px-4 py-3 text-left transition-all cursor-pointer ${active === tab
                     ? "bg-red-50 text-primary font-semibold"
                     : "text-gray-700 hover:bg-gray-50"
                     }`}
