@@ -289,7 +289,7 @@ const EnhancedPackageForm = ({ packageId, packageName, onConfirm }) => {
           whileTap={{ scale: 0.98 }}
           type="submit"
           disabled={loading}
-          className="w-full mt-4 sm:mt-6 bg-gray-900 text-white font-bold py-3 sm:py-4 rounded-xl sm:rounded-2xl shadow-xl hover:bg-red-600 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
+          className="w-full mt-6 bg-red-600 text-white font-semibold py-3.5 rounded-xl shadow-lg hover:bg-red-700 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed text-sm"
         >
           {loading ? "Processing..." : "Book This Package"}
         </motion.button>
@@ -967,7 +967,7 @@ const PackageDetails = ({ slug }) => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="text-sm bg-primary hover:opacity-90 transition text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-full font-semibold shadow-lg w-full md:w-auto"
+              className="text-sm bg-primary hover:opacity-90 transition text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-full font-semibold shadow-lg w-full md:w-auto cursor-pointer"
             >
               Customize your Trip
             </motion.button>
