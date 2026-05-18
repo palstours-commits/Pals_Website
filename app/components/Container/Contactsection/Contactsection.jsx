@@ -319,7 +319,7 @@ const Contactsection = () => {
               animate={{ opacity: 1, y: 0 }}
               className="bg-white p-6 sm:p-8 md:p-10 rounded-[2rem] shadow-2xl border border-gray-100 mt-4 lg:mt-0"
             >
-              <h2 className="text-xl sm:text-xl md:text-2xl font-bold text-gray-900 text-center">
+              <h2 className="text-xl sm:text-xl md:text-xl font-bold text-gray-900 text-center">
                 Plan Your Dream Trip Today
               </h2>
 
