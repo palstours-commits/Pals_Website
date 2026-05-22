@@ -175,7 +175,7 @@ const HomeBannerSection = () => {
             </motion.p>
 
             <motion.div variants={textVariants} className="mb-12">
-              <div ref={searchContainerRef} className="relative w-full max-w-2xl lg:max-w-3xl">
+              <div ref={searchContainerRef} className="relative w-full max-w-2xl ">
                 <div className="bg-white rounded-full p-1.5 flex items-center shadow-2xl relative z-[60] border-2 border-transparent">
                   <input
                     type="text"
@@ -201,7 +201,7 @@ const HomeBannerSection = () => {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -8 }}
                       transition={{ duration: 0.15 }}
-                      className="absolute top-[115%] left-0 w-full sm:w-[85%] lg:w-[75%] bg-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.18)] border border-gray-100 overflow-hidden z-[999]"
+                      className="absolute top-[115%] left-0 w-full  max-w-2xl bg-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.18)] border border-gray-100 overflow-hidden z-[999]"
                     >
                       <div className="max-h-[300px] overflow-y-auto custom-search-scrollbar py-2">
                         {filteredPackages.length > 0 ? (

@@ -48,11 +48,10 @@ const FloatingLabelInput = ({
   return (
     <div className="relative mt-5 sm:mt-6 w-full">
       <label
-        className={`absolute left-3 px-1.5 transition-all duration-200 pointer-events-none z-10 ${
-          isFloating
-            ? "-top-2.5 text-[11px] font-bold text-gray-800 bg-white"
-            : "top-3.5 text-gray-500 text-sm bg-transparent"
-        }`}
+        className={`absolute left-3 px-1.5 transition-all duration-200 pointer-events-none z-10 ${isFloating
+          ? "-top-2.5 text-[11px] font-bold text-gray-800 bg-white"
+          : "top-3.5 text-gray-500 text-sm bg-transparent"
+          }`}
       >
         {label.toUpperCase()} {required && <span className="text-red-500">*</span>}
       </label>
@@ -65,9 +64,8 @@ const FloatingLabelInput = ({
           rows="4"
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
-          className={`w-full px-4 py-3 rounded-xl border ${
-            error ? "border-red-500 bg-red-50" : "border-gray-200"
-          } focus:border-gray-800 focus:ring-2 focus:ring-red-100 outline-none transition-all resize-none text-sm sm:text-base`}
+          className={`w-full px-4 py-3 rounded-xl border ${error ? "border-red-500 bg-red-50" : "border-gray-200"
+            } focus:border-gray-800 focus:ring-2 focus:ring-red-100 outline-none transition-all resize-none text-sm sm:text-base`}
         />
       ) : (
         <input
@@ -78,9 +76,8 @@ const FloatingLabelInput = ({
           placeholder={isFocused ? placeholder : ""}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
-          className={`w-full px-4 py-3 rounded-xl border ${
-            error ? "border-red-500 bg-red-50" : "border-gray-200"
-          } focus:border-red-600 focus:ring-2 focus:ring-red-100 outline-none transition-all text-sm sm:text-base`}
+          className={`w-full px-4 py-3 rounded-xl border ${error ? "border-red-500 bg-red-50" : "border-gray-200"
+            } focus:border-red-600 focus:ring-2 focus:ring-red-100 outline-none transition-all text-sm sm:text-base`}
         />
       )}
 
@@ -231,12 +228,12 @@ const Contactsection = () => {
 
       <MainLayout className="bg-gray-50 py-10 md:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 items-start">
-            
+
             {/* Left Side - Contact Info */}
             <div className="space-y-6 md:space-y-8">
-              
+
               {/* Header Section */}
               <div>
                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-gray-900 mb-2 sm:mb-3 leading-tight">
@@ -277,7 +274,7 @@ const Contactsection = () => {
                   }
                 ].map((item, i) => (
                   <div key={i} className="flex gap-3 sm:gap-4 items-start group">
-                    
+
                     {/* Icon Container */}
                     <div className="text-red-600 bg-red-50 p-2.5 sm:p-3 rounded-xl h-fit shrink-0 transition-colors duration-300 group-hover:bg-red-100">
                       <item.icon className="w-5 h-5 sm:w-[22px] sm:h-[22px]" />
@@ -288,13 +285,13 @@ const Contactsection = () => {
                       <h4 className="font-bold text-gray-900 text-sm sm:text-base mb-1">
                         {item.title}
                       </h4>
-                      
+
                       <div className="space-y-0.5 sm:space-y-1 mt-1">
                         {item.lines.map((line, j) => (
                           line.href ? (
-                            <a 
-                              key={j} 
-                              href={line.href} 
+                            <a
+                              key={j}
+                              href={line.href}
                               className="block text-gray-600 text-xs sm:text-sm hover:text-red-600 transition-colors py-0.5"
                             >
                               {line.text}
@@ -404,6 +401,18 @@ const Contactsection = () => {
           </p>
         </div>
       </Message_Popups>
+      <div className="w-full">
+        <iframe
+          title="Pals Holidays"
+          src="https://maps.google.com/maps?q=Pals%20Holidays&t=&z=15&ie=UTF8&iwloc=&output=embed"
+          width="100%"
+          height="450"
+          style={{ border: 0 }}
+          allowFullScreen
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+        />
+      </div>
     </>
   );
 };
