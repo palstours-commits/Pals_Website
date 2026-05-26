@@ -1,5 +1,4 @@
 "use client";
-
 import bannerimg from "@/app/assets/contact-banner.svg";
 import CommonHeroSection from "@/app/common/CommonHeroSection";
 import MainLayout from "@/app/common/MainLayout";

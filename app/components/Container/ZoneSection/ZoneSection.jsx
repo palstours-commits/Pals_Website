@@ -21,7 +21,7 @@ const ZoneSection = ({ menu, submenu }) => {
 
   return (
     <>
-      <CommonHeroSection
+      <CommonHeroSections
         title={
           <>
             Experience the Timeless Beauty

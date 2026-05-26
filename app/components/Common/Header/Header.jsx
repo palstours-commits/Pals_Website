@@ -314,7 +314,7 @@ export default function Header() {
           {/* Logo */}
           <motion.div variants={headerItemVariants} className="z-10 md:relative top-2">
             <Link href="/" className="flex items-center gap-3">
-              <Image src={navbar_logo} alt="Pals Holidays" className="h-10 md:h-20 w-auto" priority />
+              <Image src={navbar_logo} alt="Pals Holidays" className="h-16 md:h-24 w-auto" priority />
             </Link>
           </motion.div>
 
@@ -466,7 +466,7 @@ export default function Header() {
             </div>
             <motion.div variants={planTourButtonVariants} animate="animate">
               <Link href="/contact-us">
-                <motion.button whileHover={{ scale: 1.05, y: -3 }} className="bg-gradient-to-r from-red-600 to-red-700 text-white px-8 py-3 rounded-2xl text-sm font-bold shadow-xl transition-all duration-400 flex items-center gap-2 border border-red-500/30">
+                <motion.button whileHover={{ scale: 1.05, y: -3 }} className="bg-gradient-to-r from-red-600 to-red-700 flex items-center text-white px-4 py-3 rounded-2xl text-sm font-bold shadow-xl transition-all duration-400 flex items-center gap-2 border border-red-500/30 cursor-pointer">
                   <Sparkles size={16} /> Plan My Tour
                 </motion.button>
               </Link>
