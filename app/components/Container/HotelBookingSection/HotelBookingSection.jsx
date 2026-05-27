@@ -274,7 +274,12 @@ const HotelBookingSection = () => {
 
   return (
     <>
-      <CommonHeroSection title="Hotel Booking" backgroundImage={bannerimg.src} />
+      <CommonHeroSection title="Hotel Booking" backgroundImage={bannerimg.src} 
+      breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "Hotel Booking", href: "/service/hotel" },
+        ]}
+      />
 
       {/* --- Inline Styles for Marquee Animation --- */}
       <style dangerouslySetInnerHTML={{ __html: `

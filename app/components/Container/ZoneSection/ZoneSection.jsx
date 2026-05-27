@@ -11,10 +11,11 @@ import HolidayPlanner from "../Home/HolidayPlanner";
 const ZoneSection = ({ menu, submenu }) => {
   const dispatch = useDispatch();
   const { selectedData } = useSelector((state) => state.submenu);
+  console.log("ZoneSection selectedData:", menu);
 
   useEffect(() => {
     if (submenu) {
-      dispatch(getIdBySubmenu(submenu));
+      dispatch(getIdBySubmenu(submenu));e
       dispatch(getSlugBySubmenu(menu)); // fetch zones using menu slug
     }
   }, [submenu, menu, dispatch]);

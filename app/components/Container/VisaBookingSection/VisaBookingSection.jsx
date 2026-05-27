@@ -296,7 +296,12 @@ const VisaBookingSection = () => {
 
   return (
     <>
-      <CommonHeroSection title="Visa Services" backgroundImage={bannerimg.src} />
+      <CommonHeroSection title="Visa Services" backgroundImage={bannerimg.src} 
+      breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "Visa Services", href: "/service/visa" },
+        ]}
+      />
 
       {/* --- Inline Styles for Marquee Animation --- */}
       <style dangerouslySetInnerHTML={{ __html: `

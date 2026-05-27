@@ -25,29 +25,22 @@ import { useDispatch, useSelector } from "react-redux";
 
 const initialForm = {
   serviceType: "flight",
-  name: "",
-  email: "",
-  phoneNo: "",
-  country: "",
-  countryOfResidence: "",
-  flightType: "",
-  from: "",
-  to: "",
-  departureDate: "",
-  returnDate: "",
-  noOfAdults: 1,
-  noOfChildren: 0,
-  message: "",
+  firstName: "",
+  lastName: "",
+  emailAddress: "",
+  phone: "",
+  tentativeDateOfArrival: "",
+  noOfNights: "",
+  accommodationType: "",
+  honeymoon: "",
+  comments: "",
 };
 
 const initialErrors = {
-  name: "",
-  email: "",
-  phoneNo: "",
-  from: "",
-  to: "",
-  departureDate: "",
-  flightType: "",
+  emailAddress: "",
+  phone: "",
+  noOfNights: "",
+  comments: "",
 };
 
 const allTestimonials = [
@@ -64,7 +57,7 @@ const allTestimonials = [
 const row1Testimonials = allTestimonials.slice(0, 4);
 const row2Testimonials = allTestimonials.slice(4, 8);
 
-const FloatingLabelInput = ({ label, name, value, onChange, placeholder, required = false, isTextarea = false, type = "text", error, min }) => {
+const FloatingLabelInput = ({ label, name, value, onChange, placeholder, required = false, isTextarea = false, type = "text", error, min, max }) => {
   const [isFocused, setIsFocused] = useState(false);
   const isFloating = isFocused || (value !== "" && value !== null && value !== undefined) || type === "date";
 
@@ -94,6 +87,7 @@ const FloatingLabelInput = ({ label, name, value, onChange, placeholder, require
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           min={min}
+          max={max}
           className={`w-full px-4 py-3 text-sm rounded-xl border ${error ? 'border-red-500 bg-red-50' : 'border-gray-200'} focus:border-red-600 focus:ring-2 focus:ring-red-100 outline-none transition-all`}
           placeholder={isFocused ? placeholder : ""}
         />
@@ -153,7 +147,9 @@ const FlightBookingSection = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    if (name === 'noOfAdults' || name === 'noOfChildren') {
+    if (name === 'noOfNights') {
+      // Limit to 2 digits based on the form image reference
+      if (value.length > 2) return;
       const numValue = value === "" ? "" : parseInt(value);
       setFormData({ ...formData, [name]: numValue });
     } else {
@@ -169,32 +165,20 @@ const FlightBookingSection = () => {
     const newErrors = {};
     let isValid = true;
 
-    if (!formData.name.trim()) {
-      newErrors.name = "Name is required";
+    if (!formData.emailAddress.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.emailAddress)) {
+      newErrors.emailAddress = "Valid email is required";
       isValid = false;
     }
-    if (!formData.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = "Valid email is required";
+    if (!formData.phone.trim()) {
+      newErrors.phone = "Valid phone number is required";
       isValid = false;
     }
-    if (!formData.phoneNo.trim() || !/^[0-9+\-\s()]{10,15}$/.test(formData.phoneNo)) {
-      newErrors.phoneNo = "Valid phone number is required";
+    if (!formData.noOfNights.toString().trim()) {
+      newErrors.noOfNights = "Number of nights is required";
       isValid = false;
     }
-    if (!formData.from.trim()) {
-      newErrors.from = "Departure city is required";
-      isValid = false;
-    }
-    if (!formData.to.trim()) {
-      newErrors.to = "Arrival city is required";
-      isValid = false;
-    }
-    if (!formData.departureDate) {
-      newErrors.departureDate = "Departure date is required";
-      isValid = false;
-    }
-    if (!formData.flightType) {
-      newErrors.flightType = "Flight class is required";
+    if (!formData.comments.trim()) {
+      newErrors.comments = "Comments/Queries are required";
       isValid = false;
     }
 
@@ -234,17 +218,14 @@ const FlightBookingSection = () => {
     setPopupMessage("");
   };
 
-  const flightClassOptions = [
-    { _id: "Economy", name: "Economy" },
-    { _id: "Premium Economy", name: "Premium Economy" },
-    { _id: "Business", name: "Business Class" },
-    { _id: "First Class", name: "First Class" }
-  ];
-
-  
   return (
     <>
-      <CommonHeroSection title="Flight Booking" backgroundImage={bannerimg.src} />
+      <CommonHeroSection title="Flight Booking" backgroundImage={bannerimg.src} 
+      breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "Flight Booking", href: "/service/flight" },
+        ]}
+      />
 
       <style dangerouslySetInnerHTML={{
         __html: `
@@ -388,133 +369,120 @@ const FlightBookingSection = () => {
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-1">
+                  
+                  {/* Name Fields */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <FloatingLabelInput
-                      label="Full Name"
-                      name="name"
-                      value={formData.name}
+                      label="First Name"
+                      name="firstName"
+                      value={formData.firstName}
                       onChange={handleChange}
-                      required
-                      error={errors.name}
-                      placeholder="Enter your full name"
+                      placeholder="First Name"
                     />
                     <FloatingLabelInput
-                      label="Residence"
-                      name="countryOfResidence"
-                      value={formData.countryOfResidence}
+                      label="Last Name"
+                      name="lastName"
+                      value={formData.lastName}
                       onChange={handleChange}
-                      placeholder="Your country"
+                      placeholder="Last Name"
                     />
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {/* Contact Info */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
                     <FloatingLabelInput
-                      label="Email"
-                      name="email"
-                      value={formData.email}
+                      label="Email Address"
+                      name="emailAddress"
+                      value={formData.emailAddress}
                       onChange={handleChange}
                       required
                       type="email"
-                      error={errors.email}
-                      placeholder="Enter your email"
+                      error={errors.emailAddress}
+                      placeholder="Email Address"
                     />
                     <FloatingLabelInput
-                      label="Phone"
-                      name="phoneNo"
-                      value={formData.phoneNo}
+                      label="Phone Number"
+                      name="phone"
+                      value={formData.phone}
                       onChange={handleChange}
                       required
                       type="tel"
-                      error={errors.phoneNo}
-                      placeholder="Phone number"
+                      error={errors.phone}
+                      placeholder="Phone"
                     />
                   </div>
 
-                  <FloatingLabelSelect
-                    label="Flight Class"
-                    name="flightType"
-                    options={flightClassOptions}
-                    value={formData.flightType}
-                    onChange={handleChange}
-                    placeholder="Select flight class"
-                    required
-                    error={errors.flightType}
-                  />
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {/* Arrival and Nights */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
                     <FloatingLabelInput
-                      label="From"
-                      name="from"
-                      value={formData.from}
-                      onChange={handleChange}
-                      required
-                      error={errors.from}
-                      placeholder="Departure city"
-                    />
-                    <FloatingLabelInput
-                      label="To"
-                      name="to"
-                      value={formData.to}
-                      onChange={handleChange}
-                      required
-                      error={errors.to}
-                      placeholder="Arrival city"
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <FloatingLabelInput
-                      label="Departure"
-                      name="departureDate"
+                      label="Tentative Date of Arrival"
+                      name="tentativeDateOfArrival"
                       type="date"
-                      value={formData.departureDate}
+                      value={formData.tentativeDateOfArrival}
                       onChange={handleChange}
-                      required
-                      error={errors.departureDate}
                       min={new Date().toISOString().split('T')[0]}
                     />
-                    <FloatingLabelInput
-                      label="Return"
-                      name="returnDate"
-                      type="date"
-                      value={formData.returnDate}
+                    <div>
+                      <FloatingLabelInput
+                        label="No. of Nights"
+                        type="number"
+                        name="noOfNights"
+                        value={formData.noOfNights}
+                        onChange={handleChange}
+                        required
+                        error={errors.noOfNights}
+                        placeholder="e.g. 7"
+                        max="99"
+                      />
+                      <p className="text-[10px] text-gray-500 mt-1 ml-1">Maximum of 2 digits.</p>
+                    </div>
+                  </div>
+
+                  {/* Accommodation & Honeymoon */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+                    <FloatingLabelSelect
+                      label="Select Accommodation Type"
+                      name="accommodationType"
+                      options={[
+                        { _id: "Not Yet Decided", name: "Not Yet Decided" },
+                        { _id: "Only HomeStays/Bead & Breakfast", name: "Only HomeStays/Bead & Breakfast" },
+                        { _id: "Budget Hotels", name: "Budget Hotels" },
+                        { _id: "3 Star Hotels/ HouseBoat", name: "3 Star Hotels/ HouseBoat" },
+                        { _id: "4 Star Hotels/ HouseBoat", name: "4 Star Hotels/ HouseBoat" },
+                        { _id: "Luxury 5 Star Hotels/ HouseBoat", name: "Luxury 5 Star Hotels/ HouseBoat" },
+                        { _id: "HouseBoat Day Cruise", name: "HouseBoat Day Cruise" },
+                        { _id: "HouseBoat Overnight Stay & Cruise", name: "HouseBoat Overnight Stay & Cruise" },
+                      ]}
+                      value={formData.accommodationType}
                       onChange={handleChange}
-                      min={formData.departureDate}
-                      placeholder="Optional"
+                      placeholder="Select Type of Stay"
+                    />
+                    <FloatingLabelSelect
+                      label="Are you looking for a Honeymoon?"
+                      name="honeymoon"
+                      options={[
+                        { _id: "Yes", name: "Yes" },
+                        { _id: "No", name: "No" }
+                      ]}
+                      value={formData.honeymoon}
+                      onChange={handleChange}
+                      placeholder="Yes / No"
                     />
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {/* Comments/Queries */}
+                  <div className="mt-4">
                     <FloatingLabelInput
-                      label="Adults"
-                      name="noOfAdults"
-                      type="number"
-                      min="1"
-                      max="10"
-                      value={formData.noOfAdults}
+                      label="Comments/ Questions/ Queries"
+                      name="comments"
+                      value={formData.comments}
                       onChange={handleChange}
-                      placeholder="Number of adults"
-                    />
-                    <FloatingLabelInput
-                      label="Children"
-                      name="noOfChildren"
-                      type="number"
-                      min="0"
-                      max="10"
-                      value={formData.noOfChildren}
-                      onChange={handleChange}
-                      placeholder="Number of children"
+                      required
+                      isTextarea
+                      error={errors.comments}
+                      placeholder="Indicate the number of people travelling with you and submit more details about your request including destinations and activities you may want in your holiday"
                     />
                   </div>
-
-                  <FloatingLabelInput
-                    label="Special Requests"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    isTextarea
-                    placeholder="Any special requirements or preferences..."
-                  />
 
                   <motion.button
                     whileHover={{ scale: 1.01 }}
@@ -523,7 +491,7 @@ const FlightBookingSection = () => {
                     disabled={loading}
                     className="w-full mt-6 bg-red-600 text-white font-semibold py-3.5 rounded-xl shadow-lg hover:bg-red-700 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                   >
-                    {loading ? "Processing..." : "Check Availability"}
+                    {loading ? "Processing..." : "Submit Enquiry"}
                   </motion.button>
                 </form>
               </motion.div>

@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { FetchApi } from "../../api/FetchApi";
 
-export const getSubMenus = createAsyncThunk(
+export const getMenus = createAsyncThunk(
   "submenu/getAllSubMenus",
   async (_, thunkAPI) => {
     try {
       const response = await FetchApi({
-        endpoint: "/user/submenu/getAllSubMenus",
+        endpoint: "/user/menu",
         method: "GET",
       });
 
@@ -26,7 +26,7 @@ export const getIdBySubmenu = createAsyncThunk(
   async (slug, thunkAPI) => {
     try {
       const response = await FetchApi({
-        endpoint: `/user/submenu/getSubMenuBySlug/${slug}`,
+        endpoint: `/user/zone/getzonebymenu/${slug}`,
         method: "GET",
       });
 
@@ -115,11 +115,11 @@ const submenuSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // Get all submenus
-      .addCase(getSubMenus.pending, (state) => {
+      .addCase(getMenus.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(getSubMenus.fulfilled, (state, action) => {
+      .addCase(getMenus.fulfilled, (state, action) => {
         state.loading = false;
         state.submenus = action.payload?.menus || [];
         
@@ -152,7 +152,7 @@ const submenuSlice = createSlice({
           }
         }
       })
-      .addCase(getSubMenus.rejected, (state, action) => {
+      .addCase(getMenus.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
