@@ -43,7 +43,7 @@ export const getZoneByPackage = createAsyncThunk(
   async (slug, thunkAPI) => {
     try {
       const response = await FetchApi({
-        endpoint: `/user/package/zone/${slug}`,
+        endpoint: `/user/package/by-zone/${slug}`,
         method: "GET",
       });
 

@@ -9,7 +9,6 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import zone_banner from "@/app/assets/zone_banner.png";
-import { getSlugBySubmenu } from "@/app/store/slice/submenuSlice";
 import { getZoneByPackage } from "@/app/store/slice/packageSlice";
 
 const PackageSection = ({ zoneSlug, menuSlug }) => {
@@ -24,11 +23,10 @@ const PackageSection = ({ zoneSlug, menuSlug }) => {
   const [canScrollRight, setCanScrollRight] = useState({});
 
   useEffect(() => {
-    if (menuSlug && zoneSlug) {
+    if (zoneSlug) {
       dispatch(getZoneByPackage(zoneSlug));
-      dispatch(getSlugBySubmenu(menuSlug));
     }
-  }, [menuSlug, zoneSlug, dispatch]);
+  }, [zoneSlug]);
 
 
   useEffect(() => {

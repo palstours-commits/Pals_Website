@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 export const FloatingLabelInput = ({ label, name, value, onChange, placeholder, required = false, isTextarea = false, type = "text", error, min, max }) => {
     const [isFocused, setIsFocused] = useState(false);
     const isFloating = isFocused || value !== "" && value !== null && value !== undefined || type === "date";

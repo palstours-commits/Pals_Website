@@ -1,6 +1,6 @@
 import { submitEnquiry } from "@/app/store/slice/enquirySlice";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import { FloatingLabelInput } from "@/app/common/FloatingLabelInput";
 import { BookText } from "lucide-react";
@@ -8,6 +8,7 @@ import { BookText } from "lucide-react";
 export const EnhancedPackageForm = ({ packageId, packageName }) => {
     const dispatch = useDispatch();
     const { loading } = useSelector((state) => state.enquiry);
+
     const [formData, setFormData] = useState({
         packageId: packageId,
         name: "",

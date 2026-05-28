@@ -65,8 +65,6 @@ const PackageDetails = ({ slug }) => {
     if (singlePackage?.images?.length > 0) {
       const processedImages = singlePackage.images.map(getImageUrl);
       setAllImages(processedImages);
-    } else {
-      setAllImages(fallbackImages);
     }
   }, [singlePackage]);
 
