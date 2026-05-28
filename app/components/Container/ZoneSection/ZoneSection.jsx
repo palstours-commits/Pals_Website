@@ -1,25 +1,9 @@
 "use client";
 import CommonHeroSection from "@/app/common/CommonHeroSection";
-import {
-  getIdBySubmenu,
-  getSlugBySubmenu,
-} from "@/app/store/slice/submenuSlice";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import HolidayPlanner from "../Home/HolidayPlanner";
+import HolidayPlanner from "../../../common/HolidayPlanner";
+import zone_banner from "@/app/assets/zone_banner.png";
 
-const ZoneSection = ({ menu, submenu }) => {
-  const dispatch = useDispatch();
-  const { selectedData } = useSelector((state) => state.submenu);
-  console.log("ZoneSection selectedData:", menu);
-
-  useEffect(() => {
-    if (submenu) {
-      dispatch(getIdBySubmenu(submenu));e
-      dispatch(getSlugBySubmenu(menu)); // fetch zones using menu slug
-    }
-  }, [submenu, menu, dispatch]);
-
+const ZoneSection = ({ menu }) => {
   return (
     <>
       <CommonHeroSection
@@ -27,18 +11,16 @@ const ZoneSection = ({ menu, submenu }) => {
           <>
             Experience the Timeless Beauty
             <br />
-            {submenu}
+            {menu}
           </>
         }
-        backgroundImage={selectedData?.bannerImage}
+        backgroundImage={zone_banner}
         breadcrumbs={[
           { label: "Home", href: "/" },
-          { label: submenu },
+          { label: menu },
         ]}
       />
-
-      {/* pass menu slug */}
-      <HolidayPlanner menuSlug={menu} activeSlugFromRoute={submenu} />
+      <HolidayPlanner menuSlug={menu} activeSlugFromRoute={menu} />
     </>
   );
 };

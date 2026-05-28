@@ -40,10 +40,8 @@ const GetAllPackages = () => {
           { label: "All Packages" },
         ]}
       />
-      
-      <MainLayout className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-12 lg:py-16">
-        
-        {/* Header Section with improved alignment */}
+
+      <MainLayout className="px-4 md:px-1 max-w-7xl mx-auto py-12 lg:py-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -58,8 +56,6 @@ const GetAllPackages = () => {
               Discover your next adventure with our curated collection
             </p>
           </div>
-          
-          {/* Search Bar - Improved styling */}
           <div className="relative w-full md:w-80 lg:w-96">
             <input
               value={search}
@@ -81,8 +77,6 @@ const GetAllPackages = () => {
             )}
           </div>
         </motion.div>
-
-        {/* Results count */}
         {!loading && filteredPackages?.length > 0 && (
           <motion.p
             initial={{ opacity: 0 }}
@@ -92,8 +86,6 @@ const GetAllPackages = () => {
             Showing {filteredPackages.length} package{filteredPackages.length !== 1 ? 's' : ''}
           </motion.p>
         )}
-
-        {/* Packages Grid */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
@@ -152,8 +144,6 @@ const GetAllPackages = () => {
             </motion.div>
           )}
         </motion.div>
-
-        {/* Load More Button - Optional */}
         {!loading && filteredPackages?.length > 0 && filteredPackages.length >= 8 && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -162,7 +152,7 @@ const GetAllPackages = () => {
             className="flex justify-center mt-12"
           >
             <motion.button
-               className="w-[250px] mt-6 md:mt-8 bg-red-600 text-white font-semibold py-2 sm:py-4 rounded-xl shadow-lg hover:bg-red-700 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
+              className="w-[250px] mt-6 md:mt-8 bg-red-600 text-white font-semibold py-2 sm:py-4 rounded-xl shadow-lg hover:bg-red-700 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -171,16 +161,6 @@ const GetAllPackages = () => {
           </motion.div>
         )}
       </MainLayout>
-
-      <style jsx>{`
-        .scrollbar-hide {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
     </>
   );
 };

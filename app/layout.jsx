@@ -1,4 +1,4 @@
-import { Inter, Poppins } from "next/font/google";
+import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import AppWrapper from "./protectedRoute/ProtectedRoute";
 import ReduxProvider from "./provider/ReduxProvider";
@@ -8,21 +8,18 @@ export const metadata = {
   description: "Smart holiday and travel management platform",
 };
 
-const poppins = Poppins({
+
+
+const dmSans = DM_Sans({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-poppins",
+  variable: "--font-dmSans",
 });
 
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-inter",
-});
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${poppins.variable} ${inter.variable}`}>
+    <html lang="en" className={` ${dmSans.variable}`}>
       <body suppressHydrationWarning>
         <ReduxProvider>
           <AppWrapper>{children}</AppWrapper>

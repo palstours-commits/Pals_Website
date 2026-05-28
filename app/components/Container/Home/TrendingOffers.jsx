@@ -35,11 +35,9 @@ const TrendingOffers = () => {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto"
+        className="px-4 md:px-1 max-w-7xl mx-auto"
       >
-        
-        {/* Compact Header - Reduced spacing */}
-        <motion.div 
+        <motion.div
           variants={textVariants}
           className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-8 lg:mb-10"
         >
@@ -47,7 +45,7 @@ const TrendingOffers = () => {
             <h4 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">
               Trending Offers
             </h4>
-            <p className="text-base lg:text-lg text-gray-600 mt-2 max-w-sm font-light">
+            <p className="text-base lg:text-lg text-gray-600 mt-2 max-w-sm font-medium">
               Promotions, deals, and special offers for you
             </p>
           </div>
@@ -61,7 +59,7 @@ const TrendingOffers = () => {
             >
               <ChevronLeft size={16} className="text-gray-700" />
             </motion.button>
-            
+
             <motion.button
               onClick={() => scroll("right")}
               className="w-10 h-10 rounded-xl bg-white border-2 border-gray-200 flex items-center justify-center shadow-sm hover:shadow-md hover:border-[#da251c] transition-all duration-300 cursor-pointer"
@@ -74,7 +72,7 @@ const TrendingOffers = () => {
         </motion.div>
 
         {/* Offers Slider */}
-        <motion.div 
+        <motion.div
           ref={sliderRef}
           className="flex gap-6 overflow-x-auto scrollbar-hide pb-6"
           initial={{ opacity: 0 }}

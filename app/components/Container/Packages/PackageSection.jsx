@@ -3,28 +3,33 @@ import CommonHeroSection from "@/app/common/CommonHeroSection";
 import MainLayout from "@/app/common/MainLayout";
 import TravelCard from "@/app/common/TravelCard";
 import { TravelCardSkeleton } from "@/app/common/animations";
-import { getPackagesBySubmenu } from "@/app/store/slice/packageSlice";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import zone_banner from "@/app/assets/zone_banner.png";
+import { getSlugBySubmenu } from "@/app/store/slice/submenuSlice";
+import { getZoneByPackage } from "@/app/store/slice/packageSlice";
 
-const PackageSection = ({ zoneSlug, submenuSlug }) => {
+const PackageSection = ({ zoneSlug, menuSlug }) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const title = zoneSlug?.replace(/-/g, " ");
-  const { packagesBySubmenu, loading } = useSelector((state) => state.packages);
-  const zones = packagesBySubmenu?.zones || [];
-
-  // Create refs for each zone slider
+  const { loading } = useSelector((state) => state.packages);
+  const { menuZones } = useSelector((state) => state.submenu);
+  const zones = [];
   const sliderRefs = useRef({});
   const [canScrollLeft, setCanScrollLeft] = useState({});
   const [canScrollRight, setCanScrollRight] = useState({});
 
   useEffect(() => {
-    dispatch(getPackagesBySubmenu(submenuSlug));
-  }, [submenuSlug, dispatch]);
+    if (menuSlug && zoneSlug) {
+      dispatch(getZoneByPackage(zoneSlug));
+      dispatch(getSlugBySubmenu(menuSlug));
+    }
+  }, [menuSlug, zoneSlug, dispatch]);
+
 
   useEffect(() => {
     if (!zoneSlug) return;
@@ -51,15 +56,12 @@ const PackageSection = ({ zoneSlug, submenuSlug }) => {
       left: dir === "left" ? -300 : 300,
       behavior: "smooth",
     });
-
-    // Update scroll buttons after scroll
     setTimeout(() => checkScroll(zoneId), 350);
   };
 
   const checkScroll = (zoneId) => {
     const el = sliderRefs.current[zoneId];
     if (!el) return;
-
     const { scrollLeft, scrollWidth, clientWidth } = el;
     setCanScrollLeft(prev => ({
       ...prev,
@@ -87,14 +89,14 @@ const PackageSection = ({ zoneSlug, submenuSlug }) => {
             {title}
           </>
         }
-        backgroundImage={packagesBySubmenu?.subMenu?.bannerImage}
+        backgroundImage={zone_banner}
         breadcrumbs={[
           { label: "Home", href: "/" },
-          { label: submenuSlug, href: `/holidays/${submenuSlug}` },
+          { label: menuSlug, href: `/${menuSlug}` },
           { label: title || "Destination" },
         ]}
       />
-      {zones?.map((zone) => (
+      {menuZones?.map((zone) => (
         <motion.div
           key={zone._id}
           id={zone.slug}
@@ -104,7 +106,7 @@ const PackageSection = ({ zoneSlug, submenuSlug }) => {
           transition={{ duration: 0.6, delay: 0.1 }}
           className={zone.isTrending ? "bg-[#FAF3E1]" : "bg-white"}
         >
-          <MainLayout className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-10 md:pt-15">
+          <MainLayout className="px-4 md:px-1 max-w-7xl mx-auto py-10 md:pt-15">
             <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
               <div>
                 <h4 className="text-2xl md:text-3xl font-bold text-gray-900">
@@ -114,28 +116,26 @@ const PackageSection = ({ zoneSlug, submenuSlug }) => {
                   {zone.description}
                 </p>
               </div>
-
               <div className="flex items-center gap-4 flex-shrink-0">
                 <div className="flex gap-2">
                   <motion.button
                     onClick={() => scroll(zone._id, "left")}
                     disabled={!canScrollLeft[zone._id]}
                     className={`w-10 h-10 rounded-xl bg-white border-2 flex items-center justify-center shadow-md transition-all duration-300 cursor-pointer ${canScrollLeft[zone._id]
-                        ? "border-[#da251c] text-[#da251c] hover:shadow-lg hover:border-[#da251c]/80"
-                        : "border-gray-200 text-gray-400 cursor-not-allowed"
+                      ? "border-[#da251c] text-[#da251c] hover:shadow-lg hover:border-[#da251c]/80"
+                      : "border-gray-200 text-gray-400 cursor-not-allowed"
                       }`}
                     whileHover={canScrollLeft[zone._id] ? { scale: 1.05 } : {}}
                     whileTap={{ scale: 0.95 }}
                   >
                     <ChevronLeft size={18} />
                   </motion.button>
-
                   <motion.button
                     onClick={() => scroll(zone._id, "right")}
                     disabled={!canScrollRight[zone._id]}
                     className={`w-10 h-10 rounded-xl bg-white border-2 flex items-center justify-center shadow-md transition-all duration-300 cursor-pointer ${canScrollRight[zone._id]
-                        ? "border-[#da251c] text-[#da251c] hover:shadow-lg hover:border-[#da251c]/80"
-                        : "border-gray-200 text-gray-400 cursor-not-allowed"
+                      ? "border-[#da251c] text-[#da251c] hover:shadow-lg hover:border-[#da251c]/80"
+                      : "border-gray-200 text-gray-400 cursor-not-allowed"
                       }`}
                     whileHover={canScrollRight[zone._id] ? { scale: 1.05 } : {}}
                     whileTap={{ scale: 0.95 }}
@@ -143,7 +143,6 @@ const PackageSection = ({ zoneSlug, submenuSlug }) => {
                     <ChevronRight size={18} />
                   </motion.button>
                 </div>
-
                 <motion.button
                   onClick={() => router.push(`/explore?zone=${zone.slug}`)}
                   className="bg-[#da251c] hover:bg-[#b91c1c] text-white px-6 py-2 rounded-xl text-sm shadow-lg hover:shadow-xl transition-all duration-300 whitespace-nowrap cursor-pointer"
@@ -155,7 +154,6 @@ const PackageSection = ({ zoneSlug, submenuSlug }) => {
               </div>
             </div>
 
-            {/* Mobile: Horizontal Scroll, Desktop: Grid */}
             <div className="lg:hidden">
               <motion.div
                 ref={el => sliderRefs.current[zone._id] = el}
@@ -180,7 +178,7 @@ const PackageSection = ({ zoneSlug, submenuSlug }) => {
                         duration={`${pkg.nights} Nights / ${pkg.days} Days`}
                         slug={pkg.slug}
                         zoneSlug={zone.slug}
-                        submenuSlug={submenuSlug}
+                        submenuSlug={menuSlug}
                         newArrivals={pkg?.newArrivals}
                       />
                     </div>
@@ -192,8 +190,6 @@ const PackageSection = ({ zoneSlug, submenuSlug }) => {
                 )}
               </motion.div>
             </div>
-
-            {/* Desktop: Grid Layout */}
             <div className="hidden lg:grid lg:grid-cols-4 gap-6">
               {loading ? (
                 Array.from({ length: 4 }).map((_, i) => (
@@ -208,7 +204,7 @@ const PackageSection = ({ zoneSlug, submenuSlug }) => {
                     duration={`${pkg.nights} Nights / ${pkg.days} Days`}
                     slug={pkg.slug}
                     zoneSlug={zone.slug}
-                    submenuSlug={submenuSlug}
+                    submenuSlug={menuSlug}
                     newArrivals={pkg?.newArrivals}
                   />
                 ))
@@ -221,16 +217,6 @@ const PackageSection = ({ zoneSlug, submenuSlug }) => {
           </MainLayout>
         </motion.div>
       ))}
-
-      <style jsx>{`
-        .scrollbar-hide {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
     </>
   );
 };

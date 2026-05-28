@@ -52,22 +52,21 @@ const TopDestination = () => {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto"
+        className="px-4 md:px-1 max-w-7xl mx-auto"
       >
         <motion.div
           variants={textVariants}
           className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10 lg:mb-12"
         >
           <div>
-            <h4 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
+            <h4 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-00 leading-tight">
               Top Indian Destinations
             </h4>
-            <p className="text-lg lg:text-xl text-gray-600 mt-3 max-w-sm font-light">
+            <p className="text-md mt-3 max-w-sm">
               Explore the diversity of India—from mountains to beaches, temples
               to adventure zones.
             </p>
           </div>
-
           <div className="flex items-center gap-3 flex-shrink-0">
             <div className="hidden md:flex flex items-center gap-2">
               <motion.button

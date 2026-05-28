@@ -1,8 +1,6 @@
-import SingleSelectDropdown from "@/app/common/SingleSelectDropdown";
 import { submitEnquiry } from "@/app/store/slice/enquirySlice";
-import { getPackages } from "@/app/store/slice/packageSlice";
 import { ChevronDown } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const initialFormState = {
@@ -20,11 +18,6 @@ const PackageForm = ({ packageId }) => {
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.enquiry);
   const [form, setForm] = useState(initialFormState);
-  const { packages } = useSelector((state) => state.packages);
-
-  useEffect(() => {
-    dispatch(getPackages());
-  }, [dispatch]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

@@ -1,13 +1,10 @@
 "use client";
-
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 const PackageBanner = ({ bgimg, images = [] }) => {
   const allImages = images.length > 0 ? images : (bgimg ? [bgimg] : []);
-  console.log(allImages);
-  
   const [activeIndex, setActiveIndex] = useState(0);
   const [fullView, setFullView] = useState(null);
 
@@ -23,8 +20,6 @@ const PackageBanner = ({ bgimg, images = [] }) => {
 
   return (
     <div className="relative w-full overflow-hidden shadow-2xl border border-gray-100 bg-gray-900">
-      
-      {/* --- LIGHTBOX --- */}
       <AnimatePresence>
         {fullView && (
           <motion.div 

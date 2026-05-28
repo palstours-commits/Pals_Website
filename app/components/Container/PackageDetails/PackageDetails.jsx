@@ -1,11 +1,5 @@
 "use client";
 import PackageBanner from "@/app/assets/package_bg.png";
-import travel1 from "@/app/assets/travelimg1.svg";
-import travel2 from "@/app/assets/travelimg2.svg";
-import travel3 from "@/app/assets/travelimg3.svg";
-import travel4 from "@/app/assets/travelimg4.svg";
-import travel5 from "@/app/assets/travelimg5.svg";
-import travel6 from "@/app/assets/travelimg6.svg";
 import Flight_Movement from "@/app/common/Flight_Movement";
 import CustomImage from "@/app/common/Image";
 import MainLayout from "@/app/common/MainLayout";
@@ -14,360 +8,15 @@ import { clearEnquiryState, submitEnquiry } from "@/app/store/slice/enquirySlice
 import { getPackagesById } from "@/app/store/slice/packageSlice";
 import { getImageUrl } from "@/app/utils/getImageUrl";
 import { AnimatePresence, motion } from "framer-motion";
-import { BookText, ChevronLeft, ChevronRight, Clock, MapPin } from "lucide-react";
+import { ChevronRight, Clock, MapPin } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ItineraryAccordion } from "./ItineraryAccordion";
 import PackageBaneer from "./PackageBanner";
+import { ImageCarousel } from "./ImageCarousel";
+import { EnhancedPackageForm } from "./EnhancedPackageForm";
 
-const fallbackImages = [travel1, travel2, travel3, travel4, travel5, travel6];
-
-const FloatingLabelInput = ({ label, name, value, onChange, placeholder, required = false, isTextarea = false, type = "text", error, min, max }) => {
-  const [isFocused, setIsFocused] = useState(false);
-  const isFloating = isFocused || value !== "" && value !== null && value !== undefined || type === "date";
-
-  return (
-    <div className="relative mt-2 w-full">
-      <label className={`absolute left-3 px-1.5 transition-all duration-200 pointer-events-none z-10 ${isFloating ? "-top-2.5 text-[11px] font-bold text-gray-800 bg-white" : "top-3.5 text-gray-500 text-sm bg-transparent"}`}>
-        {label.toUpperCase()} {required && <span className="text-red-500">*</span>}
-      </label>
-      {isTextarea ? (
-        <textarea
-          name={name}
-          value={value}
-          onChange={onChange}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
-          className={`w-full px-4 py-3 rounded-xl border ${error ? 'border-red-500 bg-red-50' : 'border-gray-200'} focus:border-red-600 focus:ring-2 focus:ring-red-100 outline-none transition-all resize-none`}
-          rows="4"
-          placeholder={isFocused ? placeholder : ""}
-        />
-      ) : (
-        <input
-          type={type}
-          name={name}
-          value={value}
-          onChange={onChange}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
-          min={min}
-          max={max}
-          className={`w-full px-4 py-3 rounded-xl border ${error ? 'border-red-500 bg-red-50' : 'border-gray-200'} focus:border-red-600 focus:ring-2 focus:ring-red-100 outline-none transition-all`}
-          placeholder={isFocused ? placeholder : ""}
-        />
-      )}
-      {error && <p className="text-red-500 text-xs mt-1 ml-1">{error}</p>}
-    </div>
-  );
-};
-
-const EnhancedPackageForm = ({ packageId, packageName, onConfirm }) => {
-  const dispatch = useDispatch();
-  const { loading } = useSelector((state) => state.enquiry);
-
-  const [formData, setFormData] = useState({
-    packageId: packageId,
-    name: "",
-    email: "",
-    phone: "",
-    country: "",
-    numberOfPersons: "",
-    date: "",
-    message: "",
-  });
-
-  const [errors, setErrors] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    country: "",
-    numberOfPersons: "",
-    date: "",
-  });
-
-  useEffect(() => {
-    setFormData(prev => ({
-      ...prev,
-      packageId: packageId
-    }));
-  }, [packageId]);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    if (name === 'numberOfPersons') {
-      const numValue = parseInt(value) || 1;
-      setFormData({ ...formData, [name]: numValue });
-    } else {
-      setFormData({ ...formData, [name]: value });
-    }
-
-    if (errors[name]) {
-      setErrors({ ...errors, [name]: "" });
-    }
-  };
-
-  const validateForm = () => {
-    const newErrors = {};
-    let isValid = true;
-
-    if (!formData.packageId) {
-      newErrors.packageId = "Package ID is required";
-      isValid = false;
-    }
-
-    if (!formData.name.trim()) {
-      newErrors.name = "Full name is required";
-      isValid = false;
-    } else if (formData.name.trim().length < 2) {
-      newErrors.name = "Name must be at least 2 characters";
-      isValid = false;
-    }
-
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
-      isValid = false;
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = "Please enter a valid email address";
-      isValid = false;
-    }
-
-    if (!formData.phone.trim()) {
-      newErrors.phone = "Phone number is required";
-      isValid = false;
-    } else if (!/^[0-9+\-\s()]{10,15}$/.test(formData.phone)) {
-      newErrors.phone = "Please enter a valid phone number";
-      isValid = false;
-    }
-
-    if (!formData.country.trim()) {
-      newErrors.country = "Country is required";
-      isValid = false;
-    }
-
-    if (!formData.date) {
-      newErrors.date = "Departure date is required";
-      isValid = false;
-    } else {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      const departureDate = new Date(formData.date);
-      if (departureDate < today) {
-        newErrors.date = "Departure date must be in the future";
-        isValid = false;
-      }
-    }
-
-    if (!formData.numberOfPersons || formData.numberOfPersons < 0) {
-      newErrors.numberOfPersons = "At least 1 person is required";
-      isValid = false;
-    } else if (formData.numberOfPersons > 50) {
-      newErrors.numberOfPersons = "Maximum 50 persons allowed. For larger groups, please contact us directly.";
-      isValid = false;
-    }
-
-    setErrors(newErrors);
-    return isValid;
-  };
-
-  const handleSubmitClick = (e) => {
-    e.preventDefault();
-    if (validateForm()) {
-      const submitData = {
-        ...formData,
-        packageId: packageId
-      };
-      dispatch(submitEnquiry(submitData));
-    } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  };
-
-  const hasErrors = Object.keys(errors).some(key => errors[key]);
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, x: 20 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.6 }}
-      className="bg-white p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-[2rem] shadow-2xl border border-gray-100 h-full overflow-y-auto"
-    >
-      <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
-        <div className="bg-red-600 p-3 sm:p-4 rounded-xl sm:rounded-2xl text-white">
-          <BookText size={24} className="sm:w-[30px] sm:h-[30px]" />
-        </div>
-        <div>
-          <h2 className="text-xl sm:text-2xl font-black">Grab This Package</h2>
-          <span className="text-gray-500 text-xs sm:text-sm">{packageName}</span>
-        </div>
-      </div>
-      {hasErrors && (
-        <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-red-50 border border-red-200 rounded-xl">
-          <p className="text-red-600 font-semibold mb-2 text-sm sm:text-base">Please fix the following errors:</p>
-          <ul className="list-disc list-inside text-xs sm:text-sm text-red-500">
-            {Object.values(errors).map((error, index) => error && <li key={index}>{error}</li>)}
-          </ul>
-        </div>
-      )}
-
-      <form onSubmit={handleSubmitClick}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4">
-          <FloatingLabelInput
-            label="Full Name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-            error={errors.name}
-          />
-          <FloatingLabelInput
-            label="Email Address"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            type="email"
-            error={errors.email}
-          />
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4">
-          <FloatingLabelInput
-            label="Phone Number"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            required
-            type="tel"
-            error={errors.phone}
-          />
-          <FloatingLabelInput
-            label="Country"
-            name="country"
-            value={formData.country}
-            onChange={handleChange}
-            required
-            error={errors.country}
-          />
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4">
-          <FloatingLabelInput
-            label="Number of Persons"
-            name="numberOfPersons"
-            value={formData.numberOfPersons}
-            onChange={handleChange}
-            type="number"
-            max="50"
-            required
-            error={errors.numberOfPersons}
-            placeholder="Enter number of travelers"
-          />
-          <FloatingLabelInput
-            label="Departure Date"
-            name="date"
-            value={formData.date}
-            onChange={handleChange}
-            type="date"
-            required
-            error={errors.date}
-            min={new Date().toISOString().split('T')[0]}
-          />
-        </div>
-
-        <FloatingLabelInput
-          label="Special Requests"
-          name="message"
-          value={formData.message}
-          onChange={handleChange}
-          isTextarea
-          placeholder="Tell us about your preferences, dietary requirements, or any special requests..."
-        />
-
-        <motion.button
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          type="submit"
-          disabled={loading}
-          className="w-full mt-6 bg-red-600 text-white font-semibold py-3.5 rounded-xl shadow-lg hover:bg-red-700 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed text-sm"
-        >
-          {loading ? "Processing..." : "Book This Package"}
-        </motion.button>
-      </form>
-    </motion.div>
-  );
-};
-
-const ImageCarousel = ({ images, currentIndex, onNext, onPrev, onClose }) => {
-  if (!images || images.length === 0) return null;
-
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4"
-      onClick={onClose}
-    >
-      <div className="relative w-full max-w-6xl mx-auto" onClick={(e) => e.stopPropagation()}>
-        <div className="relative aspect-video rounded-xl sm:rounded-2xl overflow-hidden">
-          <CustomImage
-            src={images[currentIndex]}
-            alt={`Gallery image ${currentIndex + 1}`}
-            fill
-            className="object-contain"
-          />
-        </div>
-        {images.length > 1 && (
-          <>
-            <button
-              onClick={onPrev}
-              className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white p-2 sm:p-3 rounded-full transition-all"
-            >
-              <ChevronLeft size={20} className="sm:w-6 sm:h-6" />
-            </button>
-            <button
-              onClick={onNext}
-              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white p-2 sm:p-3 rounded-full transition-all"
-            >
-              <ChevronRight size={20} className="sm:w-6 sm:h-6" />
-            </button>
-          </>
-        )}
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/50 backdrop-blur-sm text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm">
-          {currentIndex + 1} / {images.length}
-        </div>
-        <button
-          onClick={onClose}
-          className="absolute top-2 sm:top-4 right-2 sm:right-4 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white p-2 sm:p-3 rounded-full transition-all"
-        >
-          <svg width="16" height="16" className="sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" />
-          </svg>
-        </button>
-        {images.length > 1 && (
-          <div className="absolute -bottom-20 sm:-bottom-24 left-1/2 -translate-x-1/2 flex gap-1 sm:gap-2 p-2 bg-black/50 backdrop-blur-sm rounded-xl overflow-x-auto max-w-[90vw]">
-            {images.map((img, idx) => (
-              <button
-                key={idx}
-                onClick={() => onPrev()}
-                className={`relative w-10 h-10 sm:w-16 sm:h-16 rounded-lg overflow-hidden transition-all flex-shrink-0 ${idx === currentIndex ? 'ring-2 ring-white scale-110' : 'opacity-50 hover:opacity-100'
-                  }`}
-              >
-                <CustomImage
-                  src={img}
-                  alt={`Thumbnail ${idx + 1}`}
-                  fill
-                  className="object-cover"
-                />
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
-    </motion.div>
-  );
-};
 
 const PackageDetails = ({ slug }) => {
   const tabs = [
@@ -445,7 +94,7 @@ const PackageDetails = ({ slug }) => {
     setShowFlightAnimation(false);
     dispatch(clearEnquiryState());
   };
-  
+
   useEffect(() => {
     if (importantInfo.length > 0) {
       setActiveInfoIndex(0);
@@ -591,8 +240,6 @@ const PackageDetails = ({ slug }) => {
         )}
       </AnimatePresence>
       <PackageBaneer images={bannerImages} />
-      
-      {/* Mobile Sticky Header */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -622,11 +269,8 @@ const PackageDetails = ({ slug }) => {
           </motion.button>
         </div>
       </motion.div>
-
-      {/* Mobile Tabs Dropdown */}
       <div className="w-full pt-6 sm:pt-10 sticky top-[60px] sm:top-[72px] md:top-[80px] z-40 bg-white/80 backdrop-blur-md border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Mobile Dropdown Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="md:hidden w-full px-4 py-3 bg-gray-100 rounded-xl flex items-center justify-between"
@@ -636,8 +280,6 @@ const PackageDetails = ({ slug }) => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
           </button>
-
-          {/* Mobile Dropdown Menu */}
           {isMobileMenuOpen && (
             <motion.div
               initial={{ opacity: 0, y: -10 }}
@@ -659,8 +301,6 @@ const PackageDetails = ({ slug }) => {
               ))}
             </motion.div>
           )}
-
-          {/* Desktop Tabs */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -683,8 +323,6 @@ const PackageDetails = ({ slug }) => {
           </motion.div>
         </div>
       </div>
-
-      {/* Overview Section */}
       <motion.div
         ref={overviewRef}
         initial="initial"
@@ -737,7 +375,6 @@ const PackageDetails = ({ slug }) => {
         )}
       </motion.div>
 
-      {/* Trip Highlights Section */}
       <motion.div
         ref={highlightsRef}
         initial="initial"
@@ -819,8 +456,6 @@ const PackageDetails = ({ slug }) => {
           </div>
         </div>
       </motion.div>
-
-      {/* Destinations Section */}
       <motion.div
         ref={destinationsRef}
         initial={{ opacity: 0 }}
@@ -843,8 +478,6 @@ const PackageDetails = ({ slug }) => {
           </motion.div>
         </div>
       </motion.div>
-
-      {/* Tour Itinerary Section */}
       <motion.div
         ref={itineraryRef}
         initial="initial"
@@ -857,8 +490,6 @@ const PackageDetails = ({ slug }) => {
           <ItineraryAccordion items={singlePackage?.itinerary} />
         </motion.div>
       </motion.div>
-
-      {/* Information & Quote Section */}
       <motion.div
         ref={informationRef}
         initial="initial"
@@ -942,8 +573,6 @@ const PackageDetails = ({ slug }) => {
           </div>
         </div>
       </motion.div>
-
-      {/* Customize Your Trip Section */}
       <MainLayout className="w-full bg-gradient-to-r from-[#e6dcc8] to-[#d6ccb8] py-8 sm:py-12">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -967,15 +596,13 @@ const PackageDetails = ({ slug }) => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-               className="w-full mt-6 bg-red-600 text-white font-semibold px-6 sm:px-8 py-2.5 sm:py-3 rounded-xl shadow-lg hover:bg-red-700 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+              className="w-full mt-6 bg-red-600 text-white font-semibold px-6 sm:px-8 py-2.5 sm:py-3 rounded-xl shadow-lg hover:bg-red-700 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed text-sm"
             >
               Customize your Trip
             </motion.button>
           </Link>
         </motion.div>
       </MainLayout>
-
-      {/* Popups */}
       <Message_Popups
         isOpen={showConfirmPopup}
         type="confirm"

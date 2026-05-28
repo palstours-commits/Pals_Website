@@ -1,12 +1,11 @@
 "use client";
 import CustomImage from "@/app/common/Image";
 import MainLayout from "@/app/common/MainLayout";
-import { getZones } from "@/app/store/slice/zoneSlice";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useMemo, useRef } from "react";
+import { useSelector } from "react-redux";
 
 const textVariants = {
   hidden: { opacity: 0, y: 25 },
@@ -14,15 +13,9 @@ const textVariants = {
 };
 
 const TrendingDestinations = () => {
-  const dispatch = useDispatch();
   const router = useRouter();
   const sliderRef = useRef(null);
   const { zones } = useSelector((state) => state.zones);
-
-  useEffect(() => {
-    dispatch(getZones());
-  }, [dispatch]);
-
   const topDestinationZones = useMemo(
     () => zones?.filter((z) => z.istrending === true),
     [zones],
@@ -43,7 +36,6 @@ const TrendingDestinations = () => {
 
   const handleDiscoverMore = () => {
     if (!discoverSubMenu?.menuId?.slug || !discoverSubMenu?.slug) return;
-
     router.push(`/${discoverSubMenu.menuId.slug}/${discoverSubMenu.slug}`);
   };
 
@@ -53,7 +45,7 @@ const TrendingDestinations = () => {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto"
+        className="px-4 md:px-1 max-w-7xl mx-auto"
       >
 
         <motion.div
@@ -61,11 +53,10 @@ const TrendingDestinations = () => {
           className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10 lg:mb-12"
         >
           <div>
-            <h4 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
+            <h4 className="text-3xl md:text-4xl lg:text-5xl font-bold  leading-med">
               Trending International Destinations
             </h4>
-
-            <p className="text-lg lg:text-xl text-gray-600 mt-3 max-w-sm font-light">
+            <p className="text-md  mt-3 max-w-sm ">
               Fly beyond borders with customized itineraries for the world’s
               most loved spots.
             </p>
@@ -74,22 +65,22 @@ const TrendingDestinations = () => {
           <div className="flex items-center gap-3 flex-shrink-0">
             <div className="hidden md:flex flex items-center gap-2">
               <motion.button
-              onClick={() => scroll("left")}
-              className="w-12 h-12 rounded-xl bg-white border-2 border-gray-200 flex items-center justify-center shadow-md hover:shadow-lg hover:border-[#da251c] transition-all duration-300 cursor-pointer"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <ChevronLeft size={18} className="text-gray-700" />
-            </motion.button>
+                onClick={() => scroll("left")}
+                className="w-12 h-12 rounded-xl bg-white border-2 border-gray-200 flex items-center justify-center shadow-md hover:shadow-lg hover:border-[#da251c] transition-all duration-300 cursor-pointer"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <ChevronLeft size={18} className="text-gray-700" />
+              </motion.button>
 
-            <motion.button
-              onClick={() => scroll("right")}
-              className="w-12 h-12 rounded-xl bg-white border-2 border-gray-200 flex items-center justify-center shadow-md hover:shadow-lg hover:border-[#da251c] transition-all duration-300 cursor-pointer"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <ChevronRight size={18} className="text-gray-700" />
-            </motion.button>
+              <motion.button
+                onClick={() => scroll("right")}
+                className="w-12 h-12 rounded-xl bg-white border-2 border-gray-200 flex items-center justify-center shadow-md hover:shadow-lg hover:border-[#da251c] transition-all duration-300 cursor-pointer"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <ChevronRight size={18} className="text-gray-700" />
+              </motion.button>
             </div>
 
             <motion.button

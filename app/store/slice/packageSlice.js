@@ -38,12 +38,12 @@ export const getPackagesById = createAsyncThunk(
   },
 );
 
-export const getPackagesBySubmenu = createAsyncThunk(
-  "package/getPackagesBySubmenu",
+export const getZoneByPackage = createAsyncThunk(
+  "package/getZoneByPackage",
   async (slug, thunkAPI) => {
     try {
       const response = await FetchApi({
-        endpoint: `/user/package/by-submenu/${slug}`,
+        endpoint: `/user/package/zone/${slug}`,
         method: "GET",
       });
 
@@ -103,15 +103,15 @@ const packageSlice = createSlice({
         state.error = action.payload;
       })
 
-      .addCase(getPackagesBySubmenu.pending, (state) => {
+      .addCase(getZoneByPackage.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(getPackagesBySubmenu.fulfilled, (state, action) => {
+      .addCase(getZoneByPackage.fulfilled, (state, action) => {
         state.loading = false;
         state.packagesBySubmenu = action.payload || [];
       })
-      .addCase(getPackagesBySubmenu.rejected, (state, action) => {
+      .addCase(getZoneByPackage.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

@@ -18,7 +18,7 @@ export default function Footer() {
 
   return (
     <footer className="bg-black text-white pt-12 md:pt-20 pb-8 md:pb-6">
-      <div className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <div className="px-4 md:px-1 max-w-7xl mx-auto">
         
         {/* Smart Responsive Grid: 2 cols on mobile, 5 cols on desktop */}
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-x-6 gap-y-10 md:gap-10">

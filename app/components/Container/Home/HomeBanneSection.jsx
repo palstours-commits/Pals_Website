@@ -17,11 +17,36 @@ import { Autoplay, EffectFade, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 const slides = [
-  { image: BannerImg1, title: "Live the Moments", subtitle: "Love the Journey.", desc: "Plan your dream escape — mountains, beaches, cities & more!" },
-  { image: BannerImg2, title: "The World is Too", subtitle: "Big to Stay Home.", desc: "Plan your dream escape — mountains, beaches, cities & more!" },
-  { image: BannerImg3, title: "Go Somewhere You've", subtitle: "Never Felt Before.", desc: "Plan your dream escape — mountains, beaches, cities & more!" },
-  { image: BannerImg4, title: "Where Every Trip", subtitle: "Becomes a Story.", desc: "Plan your dream escape — mountains, beaches, cities & more!" },
-  { image: BannerImg5, title: "Pack Your Bags", subtitle: "We'll Handle the Rest.", desc: "Plan your dream escape — mountains, beaches, cities & more!" },
+  {
+    image: BannerImg1,
+    title: "Live the Moments",
+    subtitle: "Love the Journey.",
+    desc: "Discover unforgettable destinations, exciting adventures, and relaxing escapes tailored just for you.",
+  },
+  {
+    image: BannerImg2,
+    title: "The World is Too",
+    subtitle: "Big to Stay Home.",
+    desc: "Explore breathtaking places around the globe and create memories that last a lifetime.",
+  },
+  {
+    image: BannerImg3,
+    title: "Go Somewhere You've",
+    subtitle: "Never Felt Before.",
+    desc: "Experience new cultures, hidden gems, and unique journeys beyond your imagination.",
+  },
+  {
+    image: BannerImg4,
+    title: "Where Every Trip",
+    subtitle: "Becomes a Story.",
+    desc: "Turn every vacation into a beautiful story filled with joy, adventure, and discovery.",
+  },
+  {
+    image: BannerImg5,
+    title: "Pack Your Bags",
+    subtitle: "We'll Handle the Rest.",
+    desc: "From booking to boarding, enjoy stress-free travel planning with complete comfort.",
+  },
 ];
 
 const searchPackages = [
@@ -148,32 +173,30 @@ const HomeBannerSection = () => {
         animate="visible"
         variants={staggerContainer}
       >
-        <div className="px-6 sm:px-8 lg:px-12 max-w-7xl mx-auto w-full pointer-events-auto">
+        <div className="px-4 md:px-1 max-w-7xl mx-auto w-full pointer-events-auto">
           <motion.div className="text-white max-w-5xl" variants={staggerContainer}>
             <motion.div variants={textVariants}>
               <motion.h1
                 key={activeIndex}
-                className="font-black leading-[0.88] text-5xl sm:text-7xl tracking-[-0.04em] bg-gradient-to-r from-white via-emerald-50 to-blue-100 bg-clip-text text-transparent mb-6 drop-shadow-4xl"
+                className="font-black  text-5xl sm:text-7xl  bg-gradient-to-r from-white via-emerald-50 to-blue-100 bg-clip-text text-transparent mb-6 drop-shadow-4xl"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
               >
-                <span className="inline-block pb-1 lg:pb-3">{activeSlide.title}</span>
+                <span className="inline-block">{activeSlide.title}</span>
                 <br />
-                <span className="inline-block">{activeSlide.subtitle}</span>
+                <span className="inline-">{activeSlide.subtitle}</span>
               </motion.h1>
             </motion.div>
-
             <motion.p
               key={`desc-${activeIndex}`}
               variants={textVariants}
               initial="hidden"
               animate="visible"
-              className="mt-4 mb-8 text-lg sm:text-xl text-white/95 leading-relaxed max-w-4xl font-light tracking-wide"
+              className=" mb-8 text-lg sm:text-xl text-white/95 leading-relaxed max-w-2xl font-light tracking-wide"
             >
               {activeSlide.desc}
             </motion.p>
-
             <motion.div variants={textVariants} className="mb-12">
               <div ref={searchContainerRef} className="relative w-full max-w-2xl ">
                 <div className="bg-white rounded-full p-1.5 flex items-center shadow-2xl relative z-[60] border-2 border-transparent">
@@ -193,7 +216,6 @@ const HomeBannerSection = () => {
                     <Search size={20} strokeWidth={2.5} className="sm:w-6 sm:h-6" />
                   </button>
                 </div>
-
                 <AnimatePresence>
                   {showDropdown && (
                     <motion.div

@@ -1,7 +1,7 @@
 @import "tailwindcss";
 :root {
-  --font-heading: var(--font-poppins);
-  --font-body: var(--font-inter);
+  --font-primary: var(--font-dmSans);
+  --font-heading: var(--font-dmSans);
   --color-primary: #da251c;
   --color-primary-light: #ffdcda;
   --color-secondary: #fa812f;
@@ -37,7 +37,7 @@
 }
 
 body {
-  font-family: var(--font-body);
+  font-family: var(--font-primary);
 }
 
 .text-primary {

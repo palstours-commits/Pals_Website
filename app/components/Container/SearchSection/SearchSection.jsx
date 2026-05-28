@@ -48,7 +48,7 @@ const SearchSection = () => {
   const isLoading = search.trim().length >= 2 ? searchLoading : packageLoading;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div className="max-w-7xl mx-auto px-4 md:px-1 py-10">
       <MainLayout>
         <div className="relative backdrop-blur-lg bg-white/30 border border-white/40 rounded-full flex items-center gap-4 shadow-xl my-10 px-5 sm:px-6 py-3">
           <Camera size={18} className="text-gray-700 shrink-0" />

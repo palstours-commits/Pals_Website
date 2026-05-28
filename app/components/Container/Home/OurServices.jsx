@@ -84,7 +84,7 @@ const OurServices = () => {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.2 }}
-        className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-10 md:py-15"
+        className="px-4 md:px-1 max-w-7xl mx-auto py-10 md:py-15"
       >
         <motion.div
           variants={fadeItem}
@@ -92,7 +92,7 @@ const OurServices = () => {
         >
           <div>
             <h4 className="font-bold">Our Services</h4>
-            <p className="text-sm opacity-90">
+            <p className="opacity-90 text-md font-medium">
               We offer end-to-end travel solutions designed for convenience and
               value.
             </p>
@@ -102,11 +102,10 @@ const OurServices = () => {
               onClick={() => scroll("left")}
               disabled={!canScrollLeft}
               className={`w-8 h-8 rounded-lg border-2 flex items-center justify-center transition
-      ${
-        canScrollLeft
-          ? "border-white text-white"
-          : "border-white/40 text-white/40 cursor-not-allowed"
-      }
+      ${canScrollLeft
+                  ? "border-white text-white"
+                  : "border-white/40 text-white/40 cursor-not-allowed"
+                }
     `}
             >
               <ChevronLeft size={18} />
@@ -115,11 +114,10 @@ const OurServices = () => {
               onClick={() => scroll("right")}
               disabled={!canScrollRight}
               className={`w-8 h-8 rounded-lg border-2 flex items-center justify-center transition
-      ${
-        canScrollRight
-          ? "border-white text-white"
-          : "border-white/40 text-white/40 cursor-not-allowed"
-      }
+      ${canScrollRight
+                  ? "border-white text-white"
+                  : "border-white/40 text-white/40 cursor-not-allowed"
+                }
     `}
             >
               <ChevronRight size={18} />

@@ -38,7 +38,7 @@ const textVariants = {
 const VisaExperience = () => {
   return (
     <MainLayout className="bg-gradient-to-br from-[#FA812F] to-[#FF6B35] py-16 lg:py-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 md:px-1">
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -51,7 +51,6 @@ const VisaExperience = () => {
           >
             Experience Hassle-free Visa Journey
           </motion.h3>
-
           <motion.p
             variants={textVariants}
             className="text-xl text-white/90 max-w-2xl mx-auto"
@@ -61,7 +60,7 @@ const VisaExperience = () => {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-          {FEATURES.map((item, i) => (
+          {FEATURES?.map((item, i) => (
             <motion.div
               key={i}
               variants={textVariants}
@@ -78,7 +77,7 @@ const VisaExperience = () => {
               <h4 className="text-2xl font-bold text-white mb-2 leading-tight">
                 {item.title}
               </h4>
-              <p className="text-white/90 text-base leading-relaxed">
+              <p className="text-white/90 text-base ">
                 {item.desc}
               </p>
             </motion.div>
