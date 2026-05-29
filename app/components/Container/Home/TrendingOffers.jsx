@@ -35,7 +35,7 @@ const TrendingOffers = () => {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="px-4 md:px-1 max-w-7xl mx-auto"
+        className="px-4  max-w-7xl mx-auto"
       >
         <motion.div
           variants={textVariants}

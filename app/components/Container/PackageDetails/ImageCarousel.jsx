@@ -1,8 +1,8 @@
 import CustomImage from "@/app/common/Image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-
 export const ImageCarousel = ({ images, currentIndex, onNext, onPrev, onClose }) => {
+
   if (!images || images.length === 0) return null;
   return (
     <motion.div

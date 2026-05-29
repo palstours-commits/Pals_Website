@@ -7,16 +7,21 @@ import { getMenus } from "@/app/store/slice/submenuSlice";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Building2,
+  Bus,
   Car,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
   Compass,
+  CreditCard,
+  FileText,
   Globe2,
+  Hotel,
   Mail,
   Map,
   Menu,
   Phone,
+  Plane,
   Sparkles,
   Tag,
   Users,
@@ -101,8 +106,9 @@ const getMenuIcon = (menuName, iconPath) => {
         <CustomImage
           src={iconPath}
           alt="icon"
-          className="w-5 h-5 object-contain"
-          style={{ filter: red700Filter }}
+          className={`object-contain ${iconPath ? "w-20 h-20" : "w-10 h-10"}`}
+          style={!iconPath ? { filter: red700Filter } : {}}
+
         />
       </div>
     );
@@ -119,15 +125,59 @@ const getMenuIcon = (menuName, iconPath) => {
   return iconMap[menuName] || <Sparkles size={18} className="text-red-600" />;
 };
 
+function DesktopDropdown({ items, dropdownConfig, onClose, onMouseEnter, onMouseLeave }) {
+  return (
+    <motion.div
+      variants={glassmorphismDropdownVariants}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      style={{
+        position: "absolute",
+        left: dropdownConfig.left,
+        top: dropdownConfig.top,
+        width: dropdownConfig.width,
+        zIndex: 99999,
+        filter: "drop-shadow(0 25px 50px -12px rgba(0,0,0,0.25))",
+      }}
+    >
+      <div className={`${glassmorphismBackdrop} rounded-2xl p-4 relative overflow-hidden`}>
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-red-500/10 via-transparent to-red-500/10" />
+        <div className="relative z-10 space-y-1">
+          {items.map((item) => (
+            <motion.div key={item.slug || item.name} variants={floatingDropdownItemVariants} className="group/item">
+              {item.slug ? (
+                <Link
+                  href={`/${item.slug}`}
+                  onClick={onClose}
+                  className="block w-full text-left px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-300 flex items-center gap-3 group-hover/item:bg-white rounded-xl hover:text-red-600 cursor-pointer"
+                >
+                  {item.icon && <span className="text-red-600">{item.icon}</span>}
+                  {item.name}
+                </Link>
+              ) : (
+                <span className="block w-full text-left px-4 py-3 text-sm font-medium text-gray-400 flex items-center gap-3 rounded-xl cursor-not-allowed">
+                  {item.icon && <span className="text-red-300">{item.icon}</span>}
+                  {item.name}
+                </span>
+              )}
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 export default function Header() {
   const router = useRouter();
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [mobileDropdownOpen, setMobileDropdownOpen] = useState({});
   const { submenus } = useSelector((state) => state.submenu);
-
   const sortedSubmenus = submenus ? [...submenus].sort((a, b) => a.order - b.order) : [];
-
   const navRef = useRef(null);
   const scrollDirRef = useRef(1);
   const [showLeftArrow, setShowLeftArrow] = useState(false);
@@ -136,11 +186,19 @@ export default function Header() {
   const containerRef = useRef(null);
   const timeoutRef = useRef(null);
   const [hoveredDropdown, setHoveredDropdown] = useState(null);
-  const [dropdownConfig, setDropdownConfig] = useState({ left: 0, top: 0, width: 288 });
+  const [dropdownConfigs, setDropdownConfigs] = useState({});
+
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [open]);
 
   const handleMouseEnter = (e, menuId) => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    if (e.currentTarget && containerRef.current && menuId === "special-offers") {
+    if (e.currentTarget && containerRef.current) {
       const buttonRect = e.currentTarget.getBoundingClientRect();
       const containerRect = containerRef.current.getBoundingClientRect();
       const dropdownWidth = 288;
@@ -150,11 +208,14 @@ export default function Header() {
       if (leftPos + dropdownWidth > containerRect.width) {
         leftPos = containerRect.width - dropdownWidth;
       }
-      setDropdownConfig({
-        left: leftPos,
-        top: buttonRect.bottom - containerRect.top + 8,
-        width: dropdownWidth,
-      });
+      setDropdownConfigs((prev) => ({
+        ...prev,
+        [menuId]: {
+          left: leftPos,
+          top: buttonRect.bottom - containerRect.top + 8,
+          width: dropdownWidth,
+        },
+      }));
       setHoveredDropdown(menuId);
     }
   };
@@ -198,7 +259,7 @@ export default function Header() {
     const playScroll = (time) => {
       if (time - lastTime > 40) {
         if (navRef.current && !isNavHovered && !hoveredDropdown) {
-          const { scrollLeft, scrollWidth, clientWidth } = navRef.current;
+          const { scrollWidth, clientWidth } = navRef.current;
           if (scrollWidth > clientWidth) {
             const maxScroll = scrollWidth - clientWidth;
             navRef.current.scrollLeft += scrollDirRef.current * 1;
@@ -228,13 +289,34 @@ export default function Header() {
     { name: "Special Promo Offers", slug: "special-offers/special-promo" },
   ];
 
-  useEffect(() => {
-    if (open) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
+  const STATIC_SERVICES = [
+    { name: "Flight", slug: "service/flight", icon: <Plane size={16} /> },
+    { name: "Hotel", slug: "service/hotel", icon: <Hotel size={16} /> },
+    { name: "Transport", slug: "service/transport", icon: <Bus size={16} /> },
+    { name: "Money Exchange", icon: <CreditCard size={16} /> },
+    { name: "Visa", slug: "service/visa", icon: <FileText size={16} /> },
+  ];
+
+  const COMPANY_MENU = [
+    { name: "About Us", slug: "about-us" },
+    { name: "Blog", slug: "blog" },
+    { name: "Career", slug: "career" },
+    { name: "Contact Us", slug: "contact-us" },
+  ];
+
+  const handleMobileServiceClick = (service) => {
+    if (service.slug) {
+      router.push(`/${service.slug}`);
     }
-  }, [open]);
+    setOpen(false);
+    setMobileDropdownOpen({});
+  };
+
+  const desktopNavBtnClass = (menuId) =>
+    `group-hover-item flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 cursor-pointer backdrop-blur-sm whitespace-nowrap border border-transparent ${hoveredDropdown === menuId
+      ? "text-red-600 bg-gradient-to-r from-red-50 to-red-100 shadow-lg shadow-red-200/50"
+      : "text-gray-700 hover:text-red-600 hover:bg-white hover:shadow-md hover:shadow-gray-100/50 group-hover:border-red-200/50"
+    }`;
 
   return (
     <>
@@ -266,7 +348,7 @@ export default function Header() {
           variants={headerContainerVariants}
           initial="hidden"
           animate="visible"
-          className="max-w-7xl mx-auto px-4 sm:px-1 h-16 flex items-center relative"
+          className="max-w-7xl mx-auto px-4 h-16 flex items-center relative"
         >
           <motion.div variants={headerItemVariants} className="z-10 md:relative top-2">
             <Link href="/" className="flex items-center gap-3">
@@ -320,57 +402,55 @@ export default function Header() {
                       className="group-hover-item flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 cursor-pointer backdrop-blur-sm text-gray-700 hover:text-red-600 hover:bg-white hover:shadow-md hover:shadow-gray-100/50 border border-transparent group-hover:border-red-200/50 whitespace-nowrap"
                     >
                       <motion.div className="flex items-center justify-center w-5 h-5 flex-shrink-0" whileHover={{ scale: 1.15, rotate: 360 }}>
-                        {getMenuIcon(menu.name, menu?.icon)}
+                        {getMenuIcon(menu.name, menu?.imagePath)}
                       </motion.div>
                       <span className="whitespace-nowrap">{menu.name}</span>
                     </motion.button>
                   </motion.div>
                 ))}
-
                 <motion.div
                   variants={headerItemVariants}
                   className="relative group h-full flex items-center flex-shrink-0"
+                  onMouseEnter={(e) => handleMouseEnter(e, "services")}
+                  onMouseLeave={handleMouseLeave}
                 >
                   <motion.button
                     whileHover={{ y: -2, scale: 1.02 }}
-                    onClick={() => router.push("/services")}
-                    className="group-hover-item flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 cursor-pointer backdrop-blur-sm text-gray-700 hover:text-red-600 hover:bg-white hover:shadow-md hover:shadow-gray-100/50 border border-transparent group-hover:border-red-200/50 whitespace-nowrap"
+                    className={desktopNavBtnClass("services")}
                   >
-                    <Image src={navItemIcon} alt="Services" className="w-5 h-5 object-contain flex-shrink-0" style={{ filter: red700Filter }} />
-                    <span>Services</span>
-                  </motion.button>
-                </motion.div>
-
-                <motion.div
-                  variants={headerItemVariants}
-                  className="relative group h-full flex items-center flex-shrink-0"
-                >
-                  <motion.button
-                    whileHover={{ y: -2, scale: 1.02 }}
-                    onClick={() => router.push("/company")}
-                    className="group-hover-item flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 cursor-pointer backdrop-blur-sm text-gray-700 hover:text-red-600 hover:bg-white hover:shadow-md hover:shadow-gray-100/50 border border-transparent group-hover:border-red-200/50 whitespace-nowrap"
-                  >
-                    <Image src={companyIcon} alt="Company" className="w-5 h-5 object-contain flex-shrink-0" style={{ filter: red700Filter }} />
-                    <span>Company</span>
-                  </motion.button>
-                </motion.div>
-
-                <motion.div
-                  variants={headerItemVariants}
-                  className="relative group h-full flex items-center flex-shrink-0"
-                >
-                  <motion.button
-                    whileHover={{ y: -2, scale: 1.02 }}
-                    onClick={() => router.push("/car-rentals")}
-                    className="group-hover-item flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 cursor-pointer backdrop-blur-sm text-gray-700 hover:text-red-600 hover:bg-white hover:shadow-md hover:shadow-gray-100/50 border border-transparent group-hover:border-red-200/50 whitespace-nowrap"
-                  >
-                    <div className="w-5 h-5 flex items-center justify-center text-red-600 flex-shrink-0">
-                      <Car size={18} />
+                    <div className="w-5 h-5 flex items-center justify-center flex-shrink-0">
+                      <Image
+                        src={navItemIcon}
+                        alt="Services"
+                        className="w-5 h-5 object-contain"
+                        style={{ filter: red700Filter }}
+                      />
                     </div>
-                    <span>Car Rentals</span>
+                    <span>Services</span>
+                    <motion.div animate={{ rotate: hoveredDropdown === "services" ? 180 : 0 }} transition={{ duration: 0.4 }}>
+                      <ChevronDown size={14} className={hoveredDropdown === "services" ? "text-red-500" : "text-gray-400"} />
+                    </motion.div>
                   </motion.button>
                 </motion.div>
-
+                <motion.div
+                  variants={headerItemVariants}
+                  className="relative group h-full flex items-center flex-shrink-0"
+                  onMouseEnter={(e) => handleMouseEnter(e, "company")}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  <motion.button
+                    whileHover={{ y: -2, scale: 1.02 }}
+                    className={desktopNavBtnClass("company")}
+                  >
+                    <div className="w-5 h-5 flex items-center justify-center flex-shrink-0">
+                      <Image src={companyIcon} alt="Company" className="w-5 h-5 object-contain" style={{ filter: red700Filter }} />
+                    </div>
+                    <span>Company</span>
+                    <motion.div animate={{ rotate: hoveredDropdown === "company" ? 180 : 0 }} transition={{ duration: 0.4 }}>
+                      <ChevronDown size={14} className={hoveredDropdown === "company" ? "text-red-500" : "text-gray-400"} />
+                    </motion.div>
+                  </motion.button>
+                </motion.div>
                 <motion.div
                   variants={headerItemVariants}
                   className="relative group h-full flex items-center flex-shrink-0"
@@ -379,10 +459,7 @@ export default function Header() {
                 >
                   <motion.button
                     whileHover={{ y: -2, scale: 1.02 }}
-                    className={`group-hover-item flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 cursor-default backdrop-blur-sm whitespace-nowrap ${hoveredDropdown === "special-offers"
-                      ? "text-red-600 bg-gradient-to-r from-red-50 to-red-100 shadow-lg shadow-red-200/50"
-                      : "text-gray-700 hover:text-red-600 hover:bg-white hover:shadow-md hover:shadow-gray-100/50"
-                      } border border-transparent group-hover:border-red-200/50`}
+                    className={desktopNavBtnClass("special-offers")}
                   >
                     <div className="w-5 h-5 flex items-center justify-center text-red-600 flex-shrink-0">
                       <Tag size={18} />
@@ -391,6 +468,26 @@ export default function Header() {
                     <motion.div animate={{ rotate: hoveredDropdown === "special-offers" ? 180 : 0 }} transition={{ duration: 0.4 }}>
                       <ChevronDown size={14} className={hoveredDropdown === "special-offers" ? "text-red-500" : "text-gray-400"} />
                     </motion.div>
+                  </motion.button>
+                </motion.div>
+                <motion.div
+                  variants={headerItemVariants}
+                  className="relative group h-full flex items-center flex-shrink-0"
+                >
+                  <motion.button
+                    whileHover={{ y: -2, scale: 1.02 }}
+                    onClick={() =>
+                      window.open(
+                        "https://royalmilesindia.webdadsprojects.com",
+                        "_blank"
+                      )
+                    }
+                    className="group-hover-item flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 cursor-pointer backdrop-blur-sm text-gray-700 hover:text-red-600 hover:bg-white hover:shadow-md hover:shadow-gray-100/50 border border-transparent group-hover:border-red-200/50 whitespace-nowrap"
+                  >
+                    <div className="w-5 h-5 flex items-center justify-center text-red-600 flex-shrink-0">
+                      <Car size={18} />
+                    </div>
+                    <span>Car Rentals</span>
                   </motion.button>
                 </motion.div>
               </div>
@@ -429,37 +526,40 @@ export default function Header() {
             </motion.div>
           </motion.div>
 
+          {/* ── Desktop dropdowns rendered via shared component ── */}
           <AnimatePresence>
-            {hoveredDropdown === "special-offers" && (
-              <motion.div
-                variants={glassmorphismDropdownVariants}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
+            {hoveredDropdown === "special-offers" && dropdownConfigs["special-offers"] && (
+              <DesktopDropdown
+                items={SPECIAL_OFFERS_MENU}
+                dropdownConfig={dropdownConfigs["special-offers"]}
+                onClose={() => setHoveredDropdown(null)}
                 onMouseEnter={handleDropdownMouseEnter}
                 onMouseLeave={handleDropdownMouseLeave}
-                style={{
-                  position: "absolute",
-                  left: dropdownConfig.left,
-                  top: dropdownConfig.top,
-                  width: dropdownConfig.width,
-                  zIndex: 99999,
-                  filter: "drop-shadow(0 25px 50px -12px rgba(0,0,0,0.25))",
-                }}
-              >
-                <div className={`${glassmorphismBackdrop} rounded-2xl p-4 relative overflow-hidden`}>
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-red-500/10 via-transparent to-red-500/10" />
-                  <div className="relative z-10 space-y-1">
-                    {SPECIAL_OFFERS_MENU.map((item) => (
-                      <motion.div key={item.slug} variants={floatingDropdownItemVariants} className="group/item">
-                        <Link href={`/${item.slug}`} onClick={() => setHoveredDropdown(null)} className="block w-full text-left px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-300 flex items-center gap-3 group-hover/item:bg-white rounded-xl hover:text-red-600 cursor-pointer">
-                          {item.name}
-                        </Link>
-                      </motion.div>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
+              />
+            )}
+          </AnimatePresence>
+
+          <AnimatePresence>
+            {hoveredDropdown === "services" && dropdownConfigs["services"] && (
+              <DesktopDropdown
+                items={STATIC_SERVICES}
+                dropdownConfig={dropdownConfigs["services"]}
+                onClose={() => setHoveredDropdown(null)}
+                onMouseEnter={handleDropdownMouseEnter}
+                onMouseLeave={handleDropdownMouseLeave}
+              />
+            )}
+          </AnimatePresence>
+
+          <AnimatePresence>
+            {hoveredDropdown === "company" && dropdownConfigs["company"] && (
+              <DesktopDropdown
+                items={COMPANY_MENU}
+                dropdownConfig={dropdownConfigs["company"]}
+                onClose={() => setHoveredDropdown(null)}
+                onMouseEnter={handleDropdownMouseEnter}
+                onMouseLeave={handleDropdownMouseLeave}
+              />
             )}
           </AnimatePresence>
 
@@ -468,6 +568,7 @@ export default function Header() {
           </motion.button>
         </motion.div>
 
+        {/* ── Mobile drawer ── */}
         <AnimatePresence>
           {open && (
             <>
@@ -494,14 +595,15 @@ export default function Header() {
                     <X size={20} />
                   </button>
                 </div>
+
                 <div className="flex-1 overflow-y-auto px-4 py-4 space-y-1">
+                  {/* Dynamic submenus */}
                   {sortedSubmenus?.map((menu, index) => {
                     const menuKey = menu.slug || menu.name || `menu-${index}`;
                     return (
                       <div key={menuKey} className="border-b border-gray-50/50 pb-1">
                         <button
-                          onClick={(e) => {
-                            e.preventDefault();
+                          onClick={() => {
                             router.push(`/${menu.slug}`);
                             setOpen(false);
                           }}
@@ -517,34 +619,93 @@ export default function Header() {
                       </div>
                     );
                   })}
+
+                  {/* Services — accordion */}
                   <div className="border-b border-gray-50/50 pb-1">
                     <button
-                      onClick={() => {
-                        router.push("/services");
-                        setOpen(false);
-                      }}
+                      onClick={() => toggleMobileDropdown("services")}
                       className="w-full flex items-center justify-between py-3 px-2 text-gray-700 font-semibold hover:text-red-600 transition-colors rounded-xl hover:bg-gray-50 cursor-pointer"
                     >
-                      <div className="flex items-center gap-3 cursor-pointer">
+                      <div className="flex items-center gap-3">
                         <Image src={navItemIcon} alt="Services" className="w-5 h-5 object-contain" style={{ filter: red700Filter }} />
                         <span>Services</span>
                       </div>
+                      <ChevronDown
+                        size={16}
+                        className={`transition-transform duration-300 ${mobileDropdownOpen["services"] ? "rotate-180 text-red-600" : "text-gray-400"}`}
+                      />
                     </button>
+                    <AnimatePresence>
+                      {mobileDropdownOpen["services"] && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          className="overflow-hidden"
+                        >
+                          <div className="pl-10 pr-2 py-2 space-y-1 border-l-2 border-red-100 ml-4 mb-2">
+                            {STATIC_SERVICES.map((item) => (
+                              <button
+                                key={item.name}
+                                onClick={() => handleMobileServiceClick(item)}
+                                className={`w-full text-left py-2 px-3 text-sm font-medium flex items-center gap-2 rounded-lg transition-colors ${item.slug
+                                  ? "text-gray-600 hover:text-red-600 hover:bg-red-50 cursor-pointer"
+                                  : "text-gray-400 cursor-not-allowed"
+                                  }`}
+                              >
+                                {item.icon && <span className={item.slug ? "text-red-500" : "text-gray-300"}>{item.icon}</span>}
+                                {item.name}
+                              </button>
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
+
+                  {/* Company — accordion */}
                   <div className="border-b border-gray-50/50 pb-1">
                     <button
-                      onClick={() => {
-                        router.push("/company");
-                        setOpen(false);
-                      }}
+                      onClick={() => toggleMobileDropdown("company")}
                       className="w-full flex items-center justify-between py-3 px-2 text-gray-700 font-semibold hover:text-red-600 transition-colors rounded-xl hover:bg-gray-50 cursor-pointer"
                     >
-                      <div className="flex items-center gap-3 cursor-pointer">
+                      <div className="flex items-center gap-3">
                         <Image src={companyIcon} alt="Company" className="w-5 h-5 object-contain" style={{ filter: red700Filter }} />
                         <span>Company</span>
                       </div>
+                      <ChevronDown
+                        size={16}
+                        className={`transition-transform duration-300 ${mobileDropdownOpen["company"] ? "rotate-180 text-red-600" : "text-gray-400"}`}
+                      />
                     </button>
+                    <AnimatePresence>
+                      {mobileDropdownOpen["company"] && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          className="overflow-hidden"
+                        >
+                          <div className="pl-10 pr-2 py-2 space-y-1 border-l-2 border-red-100 ml-4 mb-2">
+                            {COMPANY_MENU.map((item) => (
+                              <button
+                                key={item.slug}
+                                onClick={() => {
+                                  router.push(`/${item.slug}`);
+                                  setOpen(false);
+                                }}
+                                className="w-full text-left py-2 px-3 text-sm font-medium text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+                              >
+                                {item.name}
+                              </button>
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
+
+                  {/* Car Rentals */}
                   <div className="border-b border-gray-50/50 pb-1">
                     <button
                       onClick={() => {
@@ -553,24 +714,26 @@ export default function Header() {
                       }}
                       className="w-full flex items-center justify-between py-3 px-2 text-gray-700 font-semibold hover:text-red-600 transition-colors rounded-xl hover:bg-gray-50 cursor-pointer"
                     >
-                      <div className="flex items-center gap-3 cursor-pointer text-red-600">
-                        <div className="w-5 h-5 flex items-center justify-center">
+                      <div className="flex items-center gap-3">
+                        <div className="w-5 h-5 flex items-center justify-center text-red-600">
                           <Car size={18} />
                         </div>
-                        <span className="text-gray-700 group-hover:text-red-600 transition-colors">Car Rentals</span>
+                        <span>Car Rentals</span>
                       </div>
                     </button>
                   </div>
+
+                  {/* Special Offers — accordion */}
                   <div className="border-b border-gray-50/50 pb-1">
                     <button
                       onClick={() => toggleMobileDropdown("special-offers")}
                       className="w-full flex items-center justify-between py-3 px-2 text-gray-700 font-semibold hover:text-red-600 transition-colors rounded-xl hover:bg-gray-50 cursor-pointer"
                     >
-                      <div className="flex items-center gap-3 cursor-pointer text-red-600">
-                        <div className="w-5 h-5 flex items-center justify-center">
+                      <div className="flex items-center gap-3">
+                        <div className="w-5 h-5 flex items-center justify-center text-red-600">
                           <Tag size={18} />
                         </div>
-                        <span className="text-gray-700 group-hover:text-red-600 transition-colors">Special Offers</span>
+                        <span>Special Offers</span>
                       </div>
                       <ChevronDown
                         size={16}
@@ -604,6 +767,7 @@ export default function Header() {
                     </AnimatePresence>
                   </div>
                 </div>
+
                 <div className="p-4 bg-gray-50 mt-auto border-t border-gray-100">
                   <div className="flex justify-center gap-4 mb-4">
                     <a
@@ -621,7 +785,7 @@ export default function Header() {
                   </div>
                   <button
                     onClick={() => {
-                      router.push('/contact-us');
+                      router.push("/contact-us");
                       setOpen(false);
                     }}
                     className="w-full py-3 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-xl font-bold shadow-lg shadow-red-200 flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all cursor-pointer"

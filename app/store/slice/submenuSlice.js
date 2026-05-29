@@ -21,8 +21,8 @@ export const getMenus = createAsyncThunk(
   },
 );
 
-export const getSlugBySubmenu = createAsyncThunk(
-  "submenu/getSlugBySubmenu",
+export const getMenuByZone = createAsyncThunk(
+  "submenu/getMenuByZone",
   async (slug, thunkAPI) => {
     try {
       const response = await FetchApi({
@@ -79,7 +79,6 @@ const submenuSlice = createSlice({
       .addCase(getMenus.fulfilled, (state, action) => {
         state.loading = false;
         state.submenus = action.payload?.menus || [];
-
         if (action.payload?.menus?.length > 0) {
           const holidaysMenu = action.payload.menus.find(
             (menu) =>
@@ -109,15 +108,16 @@ const submenuSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      .addCase(getSlugBySubmenu.pending, (state) => {
+
+      .addCase(getMenuByZone.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(getSlugBySubmenu.fulfilled, (state, action) => {
+      .addCase(getMenuByZone.fulfilled, (state, action) => {
         state.loading = false;
-        state.menuZones = action.payload?.data?.zones || [];
+        state.menuZones = action.payload?.zones || [];
       })
-      .addCase(getSlugBySubmenu.rejected, (state, action) => {
+      .addCase(getMenuByZone.rejected, (state, action) => {
         state.loading = false;
         state.menuZones = [];
         state.error = action.payload;

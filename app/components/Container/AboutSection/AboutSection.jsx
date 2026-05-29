@@ -15,7 +15,7 @@ const AboutSection = () => {
     <>
       <AboutPalsSection />
       <section className="w-full bg-secondary py-12">
-        <div className="max-w-7xl mx-auto px-4 md:px-1">
+        <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 text-center gap-8">
             <motion.div
               variants={fadeFromBottom}

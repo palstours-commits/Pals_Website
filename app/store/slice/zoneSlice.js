@@ -17,22 +17,6 @@ export const getZones = createAsyncThunk(
   },
 );
 
-export const getByIdZones = createAsyncThunk(
-  "menu/getByIdZones",
-  async (slug, thunkAPI) => {
-    try {
-      const response = await FetchApi({
-        endpoint: `/user/zone/getZoneById/${slug}`,
-        method: "GET",
-      });
-
-      return response?.data;
-    } catch (err) {
-      return thunkAPI.rejectWithValue(err.message || "Failed to fetch zones");
-    }
-  },
-);
-
 export const getAllNewZones = createAsyncThunk(
   "menu/getAllNewZones",
   async (_, thunkAPI) => {
@@ -76,19 +60,6 @@ const zonesSlice = createSlice({
         state.zones = action.payload?.zones || [];
       })
       .addCase(getZones.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
-
-      .addCase(getByIdZones.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(getByIdZones.fulfilled, (state, action) => {
-        state.loading = false;
-        state.zoned = action.payload?.zones || [];
-      })
-      .addCase(getByIdZones.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

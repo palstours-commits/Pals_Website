@@ -16,6 +16,7 @@ const TrendingDestinations = () => {
   const router = useRouter();
   const sliderRef = useRef(null);
   const { zones } = useSelector((state) => state.zones);
+  
   const topDestinationZones = useMemo(
     () => zones?.filter((z) => z.istrending === true),
     [zones],
@@ -45,7 +46,7 @@ const TrendingDestinations = () => {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="px-4 md:px-1 max-w-7xl mx-auto"
+        className="px-4  max-w-7xl mx-auto"
       >
 
         <motion.div
@@ -107,7 +108,7 @@ const TrendingDestinations = () => {
               className="relative min-w-[260px] h-[300px] rounded-2xl overflow-hidden cursor-pointer shadow-lg group"
               transition={{ duration: 0.3 }}
               onClick={() =>
-                router.push(`/packages/${item.subMenuId.slug}/${item.slug}`)
+                router.push(`/packages/${item.menuId}/${item.slug}`)
               }
             >
               <motion.div

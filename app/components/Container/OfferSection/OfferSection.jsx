@@ -49,7 +49,7 @@ const OfferSection = () => {
         ]}
       />
       <MainLayout className="py-12 md:py-20">
-        <div className="max-w-7xl mx-auto px-4 md:px-1">
+        <div className="max-w-7xl mx-auto px-4">
           <h3 className="text-2xl font-bold mb-8">Flash Sale Live Now</h3>
           <Swiper
             modules={[Pagination]}

@@ -38,7 +38,7 @@ const textVariants = {
 const VisaExperience = () => {
   return (
     <MainLayout className="bg-gradient-to-br from-[#FA812F] to-[#FF6B35] py-16 lg:py-10">
-      <div className="max-w-7xl mx-auto px-4 md:px-1">
+      <div className="max-w-7xl mx-auto px-4 ">
         <motion.div
           initial="hidden"
           whileInView="visible"

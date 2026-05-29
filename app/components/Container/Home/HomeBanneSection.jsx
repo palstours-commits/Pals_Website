@@ -4,12 +4,15 @@ import BannerImg2 from "@/app/assets/BannerImg2.svg";
 import BannerImg3 from "@/app/assets/BannerImg3.svg";
 import BannerImg4 from "@/app/assets/BannerImg4.svg";
 import BannerImg5 from "@/app/assets/BannerImg5.svg";
+import CustomImage from "@/app/common/Image";
 import MainLayout from "@/app/common/MainLayout";
+import { clearSearchResults, searchPackages } from "@/app/store/slice/searchSlice";
 import { AnimatePresence, motion } from "framer-motion";
 import { Search } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import "swiper/css";
 import "swiper/css/effect-fade";
 import "swiper/css/pagination";
@@ -49,13 +52,7 @@ const slides = [
   },
 ];
 
-const searchPackages = [
-  { id: "maldives-package", title: "New Package", location: "Maldives", image: "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=100&q=80" },
-  { id: "bali-romantic", title: "Romantic Getaway", location: "Bali, Indonesia", image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=100&q=80" },
-  { id: "swiss-alps", title: "Mountain Adventure", location: "Swiss Alps", image: "https://images.unsplash.com/photo-1531366936337-7785a649c758?auto=format&fit=crop&w=100&q=80" },
-  { id: "dubai-safari", title: "Desert Safari", location: "Dubai, UAE", image: "https://images.unsplash.com/photo-1512632578888-169bbbc64f33?auto=format&fit=crop&w=100&q=80" },
-  { id: "phuket-paradise", title: "Tropical Paradise", location: "Phuket, Thailand", image: "https://images.unsplash.com/photo-1589394815804-964ce0fae2eb?auto=format&fit=crop&w=100&q=80" },
-];
+
 
 const textVariants = {
   hidden: { opacity: 0, y: 40 },
@@ -73,6 +70,8 @@ const HomeBannerSection = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const searchContainerRef = useRef(null);
   const debounceRef = useRef(null);
+  const dispatch = useDispatch();
+  const { results, loading } = useSelector((state) => state.search);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -86,24 +85,25 @@ const HomeBannerSection = () => {
 
   const activeSlide = useMemo(() => slides[activeIndex] ?? slides[0], [activeIndex]);
 
-  const filteredPackages = useMemo(
-    () =>
-      searchPackages.filter(
-        (pkg) =>
-          pkg.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          pkg.location.toLowerCase().includes(searchTerm.toLowerCase())
-      ),
-    [searchTerm]
-  );
 
-  const handleSearchChange = useCallback((e) => {
-    const val = e.target.value;
-    if (debounceRef.current) clearTimeout(debounceRef.current);
-    debounceRef.current = setTimeout(() => {
-      setSearchTerm(val);
-      setShowDropdown(true);
-    }, 120);
-  }, []);
+
+  const handleSearchChange = useCallback(
+    (e) => {
+      const value = e.target.value;
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+      debounceRef.current = setTimeout(() => {
+        setSearchTerm(value);
+        if (value.trim().length >= 2) {
+          dispatch(searchPackages(value));
+          setShowDropdown(true);
+        } else {
+          dispatch(clearSearchResults());
+          setShowDropdown(false);
+        }
+      }, 100);
+    },
+    [dispatch]
+  );
 
   const handleSearchSubmit = useCallback(() => {
     if (searchTerm.trim()) {
@@ -121,9 +121,8 @@ const HomeBannerSection = () => {
 
   const handlePackageClick = useCallback(
     (pkg) => {
-      setSearchTerm(pkg.title);
       setShowDropdown(false);
-      router.push(`/package/${pkg.id}`);
+      router.push(`/package/${pkg.slug}`);
     },
     [router]
   );
@@ -173,7 +172,7 @@ const HomeBannerSection = () => {
         animate="visible"
         variants={staggerContainer}
       >
-        <div className="px-4 md:px-1 max-w-7xl mx-auto w-full pointer-events-auto">
+        <div className="px-4  max-w-7xl mx-auto w-full pointer-events-auto">
           <motion.div className="text-white max-w-5xl" variants={staggerContainer}>
             <motion.div variants={textVariants}>
               <motion.h1
@@ -226,27 +225,36 @@ const HomeBannerSection = () => {
                       className="absolute top-[115%] left-0 w-full  max-w-2xl bg-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.18)] border border-gray-100 overflow-hidden z-[999]"
                     >
                       <div className="max-h-[300px] overflow-y-auto custom-search-scrollbar py-2">
-                        {filteredPackages.length > 0 ? (
-                          filteredPackages.map((pkg) => (
+                        {loading ? (
+                          <div className="px-6 py-8 text-center text-gray-500">
+                            Loading...
+                          </div>
+                        ) : results?.length > 0 ? (
+                          results.map((pkg) => (
                             <div
-                              key={pkg.id}
+                              key={pkg._id}
                               className="flex items-center gap-4 px-5 py-3 hover:bg-red-50 border-b border-gray-50 last:border-0 cursor-pointer transition-colors"
                               onClick={() => handlePackageClick(pkg)}
                             >
-                              <img
-                                src={pkg.image}
-                                alt={pkg.title}
+                              <CustomImage
+                                src={pkg.images?.[0]}
+                                alt={pkg.packageName}
                                 className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl object-cover shadow-sm flex-shrink-0"
                               />
+
                               <div className="flex flex-col">
-                                <span className="text-sm sm:text-base font-bold text-gray-800 line-clamp-1">{pkg.title}</span>
-                                <span className="text-xs sm:text-sm text-gray-500 font-medium">{pkg.location}</span>
+                                <span className="text-sm sm:text-base font-bold text-gray-800 line-clamp-1">
+                                  {pkg.packageName}
+                                </span>
+                                <span className="text-xs sm:text-sm text-gray-500 font-medium">
+                                  {pkg.zoneId?.name}
+                                </span>
                               </div>
                             </div>
                           ))
                         ) : (
-                          <div className="px-6 py-8 text-center text-gray-500 font-medium text-sm sm:text-base">
-                            No packages found for "{searchTerm}"
+                          <div className="px-6 py-8 text-center text-gray-500">
+                            No packages found
                           </div>
                         )}
                       </div>

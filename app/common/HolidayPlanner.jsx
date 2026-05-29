@@ -2,7 +2,7 @@
 import { TravelCardSkeleton } from "@/app/common/animations";
 import CustomImage from "@/app/common/Image";
 import MainLayout from "@/app/common/MainLayout";
-import { getSlugBySubmenu } from "@/app/store/slice/submenuSlice";
+import { getMenuByZone } from "@/app/store/slice/submenuSlice";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -36,7 +36,7 @@ const HolidayPlanner = ({ menuSlug = "holidays" }) => {
 
   useEffect(() => {
     setLoading(true);
-    dispatch(getSlugBySubmenu(menuSlug))
+    dispatch(getMenuByZone(menuSlug))
       .then((res) => {
         const data = res?.payload;
         if (!data) {
@@ -63,7 +63,7 @@ const HolidayPlanner = ({ menuSlug = "holidays" }) => {
   };
 
   return (
-    <MainLayout className="px-4 md:px-1 max-w-7xl mx-auto py-10 sm-py-6 lg:py-10">
+    <MainLayout className="px-4 md:p max-w-7xl mx-auto py-10 sm-py-6 lg:py-10">
       <motion.div
         initial="hidden"
         whileInView="visible"

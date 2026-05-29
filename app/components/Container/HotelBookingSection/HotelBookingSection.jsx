@@ -49,7 +49,6 @@ const initialErrors = {
   noOfAdults: "",
 };
 
-// --- Testimonial Data (8 items) - Hotel focused ---
 const allTestimonials = [
   { id: 1, name: "Sarah Johnson", avatar: "https://randomuser.me/api/portraits/women/32.jpg", rating: 5, text: "Amazing hotel booking experience! Found the perfect beach resort at an unbeatable price.", subtext: "Beach Lover" },
   { id: 2, name: "Michael Chen", avatar: "https://randomuser.me/api/portraits/men/45.jpg", rating: 5, text: "The customer service was exceptional. They helped me find a family-friendly hotel with great amenities.", subtext: "Family Traveler" },
@@ -72,9 +71,8 @@ const FloatingLabelInput = ({ label, name, value, onChange, placeholder, require
 
   return (
     <div className="relative mt-4 w-full">
-      <label className={`absolute left-3 px-1.5 transition-all duration-200 pointer-events-none z-10 ${
-        isFloating ? "-top-2.5 text-xs font-semibold text-gray-700 bg-white" : "top-3 text-sm text-gray-500 bg-transparent"
-      }`}>
+      <label className={`absolute left-3 px-1.5 transition-all duration-200 pointer-events-none z-10 ${isFloating ? "-top-2.5 text-xs font-semibold text-gray-700 bg-white" : "top-3 text-sm text-gray-500 bg-transparent"
+        }`}>
         {label} {required && <span className="text-red-500">*</span>}
       </label>
       {isTextarea ? (
@@ -122,7 +120,7 @@ const FloatingLabelSelect = ({ label, name, value, onChange, options = [], place
       >
         <span className={value ? "text-gray-900" : "text-gray-400"}>{selectedOption ? selectedOption.name : placeholder}</span>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" className={`transition-transform ${isOpen ? 'rotate-180 text-red-600' : 'text-gray-400'}`}>
-          <path d="M6 9l6 6 6-6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M6 9l6 6 6-6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </div>
       {error && <p className="text-red-500 text-xs mt-1 ml-1">{error}</p>}
@@ -158,8 +156,6 @@ const HotelBookingSection = () => {
   const { loading, error, message } = useSelector((state) => state.service);
   const [formData, setFormData] = useState(initialHotelForm);
   const [errors, setErrors] = useState(initialErrors);
-
-  // Popup states
   const [showResultPopup, setShowResultPopup] = useState(false);
   const [popupType, setPopupType] = useState('success');
   const [popupMessage, setPopupMessage] = useState('');
@@ -167,7 +163,6 @@ const HotelBookingSection = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // Handle number inputs
     if (name === 'rooms' || name === 'noOfAdults' || name === 'noOfChildren') {
       const numValue = value === "" ? "" : parseInt(value);
       setFormData({ ...formData, [name]: numValue });
@@ -175,7 +170,6 @@ const HotelBookingSection = () => {
       setFormData({ ...formData, [name]: value });
     }
 
-    // Clear error for this field when user starts typing
     if (errors[name]) {
       setErrors({ ...errors, [name]: "" });
     }
@@ -254,7 +248,6 @@ const HotelBookingSection = () => {
     setPopupMessage("");
   };
 
-  // Room type options
   const roomTypeOptions = [
     { _id: "Standard", name: "Standard Room" },
     { _id: "Deluxe", name: "Deluxe Room" },
@@ -274,15 +267,15 @@ const HotelBookingSection = () => {
 
   return (
     <>
-      <CommonHeroSection title="Hotel Booking" backgroundImage={bannerimg.src} 
-      breadcrumbs={[
+      <CommonHeroSection title="Hotel Booking" backgroundImage={bannerimg.src}
+        breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Hotel Booking", href: "/service/hotel" },
         ]}
       />
 
-      {/* --- Inline Styles for Marquee Animation --- */}
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         @keyframes scrollLeft {
           0% { transform: translateX(0); }
           100% { transform: translateX(-50%); }
@@ -304,11 +297,8 @@ const HotelBookingSection = () => {
       ` }} />
 
       <MainLayout className="bg-gray-50 py-12 md:py-16">
-        <div className="max-w-7xl mx-auto px-4 md:px-1">
-
+        <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
-
-            {/* Left Column: Why Book With Us */}
             <div className="flex flex-col h-full">
               <div className=" p-6 md:p-8 h-full flex flex-col">
                 <div className="text-center lg:text-left mb-6">
@@ -382,8 +372,6 @@ const HotelBookingSection = () => {
                 </div>
               </div>
             </div>
-
-            {/* Right Column: Compact Form Component */}
             <div className="w-full h-full">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -556,13 +544,10 @@ const HotelBookingSection = () => {
               </motion.div>
             </div>
           </div>
-
-          {/* How It Works Section */}
           <div className="mt-16 md:mt-20">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-10 text-center">
               How It Works
             </h2>
-
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
               <div className="flex flex-col items-center text-center group">
                 <div className="bg-red-50 p-4 rounded-xl text-red-600 mb-4 group-hover:bg-red-600 group-hover:text-white transition-all duration-300">
@@ -576,7 +561,6 @@ const HotelBookingSection = () => {
                   </div>
                 </div>
               </div>
-
               <div className="flex flex-col items-center text-center group">
                 <div className="bg-red-50 p-4 rounded-xl text-red-600 mb-4 group-hover:bg-red-600 group-hover:text-white transition-all duration-300">
                   <Calendar size={28} />
@@ -589,7 +573,6 @@ const HotelBookingSection = () => {
                   </div>
                 </div>
               </div>
-
               <div className="flex flex-col items-center text-center group">
                 <div className="bg-red-50 p-4 rounded-xl text-red-600 mb-4 group-hover:bg-red-600 group-hover:text-white transition-all duration-300">
                   <Coffee size={28} />
@@ -604,15 +587,11 @@ const HotelBookingSection = () => {
               </div>
             </div>
           </div>
-
-          {/* Testimonials Section */}
           <div className="mt-16 md:mt-20 overflow-hidden">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-10 text-center">
               What Our Travelers Say
             </h2>
-
             <div className="flex flex-col gap-6">
-              {/* Row 1: Scrolls Right to Left */}
               <div className="flex w-max animate-scroll-left gap-4 px-4">
                 {[...row1Testimonials, ...row1Testimonials].map((testimonial, idx) => (
                   <div
@@ -643,8 +622,6 @@ const HotelBookingSection = () => {
                   </div>
                 ))}
               </div>
-
-              {/* Row 2: Scrolls Left to Right */}
               <div className="flex w-max animate-scroll-right gap-4 px-4">
                 {[...row2Testimonials, ...row2Testimonials].map((testimonial, idx) => (
                   <div
@@ -679,8 +656,6 @@ const HotelBookingSection = () => {
           </div>
         </div>
       </MainLayout>
-
-      {/* Success/Error Popup */}
       <Message_Popups
         isOpen={showResultPopup}
         type={popupType}

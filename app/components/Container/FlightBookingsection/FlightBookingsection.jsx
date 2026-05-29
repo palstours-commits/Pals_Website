@@ -2,10 +2,12 @@
 import bannerimg from "@/app/assets/flight-bg.svg";
 import flightBookingVector from "@/app/assets/flightBookingVector.png";
 import CommonHeroSection from "@/app/common/CommonHeroSection";
+import { FloatingLabelInput } from "@/app/common/FloatingLabelInput";
+import { FloatingLabelSelect } from "@/app/common/FloatingLabelSelect";
 import MainLayout from "@/app/common/MainLayout";
 import Message_Popups from "@/app/common/Message_Popups";
 import { clearServiceFormState, submitFlightForm } from "@/app/store/slice/serviceFormSlice";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   Clock,
   CreditCard,
@@ -25,22 +27,29 @@ import { useDispatch, useSelector } from "react-redux";
 
 const initialForm = {
   serviceType: "flight",
-  firstName: "",
-  lastName: "",
-  emailAddress: "",
-  phone: "",
-  tentativeDateOfArrival: "",
-  noOfNights: "",
-  accommodationType: "",
-  honeymoon: "",
-  comments: "",
+  name: "",
+  email: "",
+  phoneNo: "",
+  country: "",
+  countryOfResidence: "",
+  flightType: "",
+  from: "",
+  to: "",
+  departureDate: "",
+  returnDate: "",
+  noOfAdults: 1,
+  noOfChildren: 0,
+  message: "",
 };
 
 const initialErrors = {
-  emailAddress: "",
-  phone: "",
-  noOfNights: "",
-  comments: "",
+  name: "",
+  email: "",
+  phoneNo: "",
+  from: "",
+  to: "",
+  departureDate: "",
+  flightType: "",
 };
 
 const allTestimonials = [
@@ -57,83 +66,6 @@ const allTestimonials = [
 const row1Testimonials = allTestimonials.slice(0, 4);
 const row2Testimonials = allTestimonials.slice(4, 8);
 
-const FloatingLabelInput = ({ label, name, value, onChange, placeholder, required = false, isTextarea = false, type = "text", error, min, max }) => {
-  const [isFocused, setIsFocused] = useState(false);
-  const isFloating = isFocused || (value !== "" && value !== null && value !== undefined) || type === "date";
-
-  return (
-    <div className="relative mt-4 w-full">
-      <label className={`absolute left-3 px-1.5 transition-all duration-200 pointer-events-none z-10 ${isFloating ? "-top-2.5 text-xs font-semibold text-gray-700 bg-white" : "top-3 text-sm text-gray-500 bg-transparent"
-        }`}>
-        {label} {required && <span className="text-red-500">*</span>}
-      </label>
-      {isTextarea ? (
-        <textarea
-          name={name}
-          value={value}
-          onChange={onChange}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
-          className={`w-full px-4 py-3 text-sm rounded-xl border ${error ? 'border-red-500 bg-red-50' : 'border-gray-200'} focus:border-red-600 focus:ring-2 focus:ring-red-100 outline-none transition-all resize-none`}
-          rows="3"
-          placeholder={isFocused ? placeholder : ""}
-        />
-      ) : (
-        <input
-          type={type}
-          name={name}
-          value={value}
-          onChange={onChange}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
-          min={min}
-          max={max}
-          className={`w-full px-4 py-3 text-sm rounded-xl border ${error ? 'border-red-500 bg-red-50' : 'border-gray-200'} focus:border-red-600 focus:ring-2 focus:ring-red-100 outline-none transition-all`}
-          placeholder={isFocused ? placeholder : ""}
-        />
-      )}
-      {error && <p className="text-red-500 text-xs mt-1 ml-1">{error}</p>}
-    </div>
-  );
-};
-
-const FloatingLabelSelect = ({ label, name, value, onChange, options = [], placeholder, required = false, error }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const selectedOption = options.find(opt => opt._id === value);
-
-  return (
-    <div className="relative mt-4 w-full">
-      <label className="absolute -top-2.5 left-3 px-1.5 text-xs font-semibold text-gray-700 bg-white z-10">
-        {label} {required && <span className="text-red-500">*</span>}
-      </label>
-      <div
-        onClick={() => setIsOpen(!isOpen)}
-        className={`w-full px-4 py-3 text-sm rounded-xl border ${error ? 'border-red-500 bg-red-50' : 'border-gray-200'} cursor-pointer flex justify-between items-center bg-white hover:border-red-600 transition-all`}
-      >
-        <span className={value ? "text-gray-900" : "text-gray-400"}>{selectedOption ? selectedOption.name : placeholder}</span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" className={`transition-transform ${isOpen ? 'rotate-180 text-red-600' : 'text-gray-400'}`}>
-          <path d="M6 9l6 6 6-6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </div>
-      {error && <p className="text-red-500 text-xs mt-1 ml-1">{error}</p>}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -5 }} className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-xl shadow-lg p-1 max-h-60 overflow-y-auto">
-            {options.map(opt => (
-              <div
-                key={opt._id}
-                className="px-4 py-2.5 hover:bg-red-50 rounded-lg cursor-pointer text-sm transition-all"
-                onClick={() => { onChange({ target: { name, value: opt._id } }); setIsOpen(false); }}
-              >
-                {opt.name}
-              </div>
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-};
 
 const FlightBookingSection = () => {
   const dispatch = useDispatch();
@@ -147,9 +79,7 @@ const FlightBookingSection = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    if (name === 'noOfNights') {
-      // Limit to 2 digits based on the form image reference
-      if (value.length > 2) return;
+    if (name === 'noOfAdults' || name === 'noOfChildren') {
       const numValue = value === "" ? "" : parseInt(value);
       setFormData({ ...formData, [name]: numValue });
     } else {
@@ -165,20 +95,32 @@ const FlightBookingSection = () => {
     const newErrors = {};
     let isValid = true;
 
-    if (!formData.emailAddress.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.emailAddress)) {
-      newErrors.emailAddress = "Valid email is required";
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required";
       isValid = false;
     }
-    if (!formData.phone.trim()) {
-      newErrors.phone = "Valid phone number is required";
+    if (!formData.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Valid email is required";
       isValid = false;
     }
-    if (!formData.noOfNights.toString().trim()) {
-      newErrors.noOfNights = "Number of nights is required";
+    if (!formData.phoneNo.trim() || !/^[0-9+\-\s()]{10,15}$/.test(formData.phoneNo)) {
+      newErrors.phoneNo = "Valid phone number is required";
       isValid = false;
     }
-    if (!formData.comments.trim()) {
-      newErrors.comments = "Comments/Queries are required";
+    if (!formData.from.trim()) {
+      newErrors.from = "Departure city is required";
+      isValid = false;
+    }
+    if (!formData.to.trim()) {
+      newErrors.to = "Arrival city is required";
+      isValid = false;
+    }
+    if (!formData.departureDate) {
+      newErrors.departureDate = "Departure date is required";
+      isValid = false;
+    }
+    if (!formData.flightType) {
+      newErrors.flightType = "Flight class is required";
       isValid = false;
     }
 
@@ -218,15 +160,20 @@ const FlightBookingSection = () => {
     setPopupMessage("");
   };
 
+  const flightClassOptions = [
+    { _id: "Economy", name: "Economy" },
+    { _id: "Premium Economy", name: "Premium Economy" },
+    { _id: "Business", name: "Business Class" },
+    { _id: "First Class", name: "First Class" }
+  ];
+
+
   return (
     <>
-      <CommonHeroSection title="Flight Booking" backgroundImage={bannerimg.src} 
-      breadcrumbs={[
-          { label: "Home", href: "/" },
-          { label: "Flight Booking", href: "/service/flight" },
-        ]}
-      />
-
+      <CommonHeroSection title="Flight Booking" backgroundImage={bannerimg.src} breadcrumbs={[
+        { label: "Home", href: "/" },
+        { label: "Flight" || "Destination" },
+      ]} />
       <style dangerouslySetInnerHTML={{
         __html: `
         @keyframes scrollLeft {
@@ -250,8 +197,7 @@ const FlightBookingSection = () => {
       ` }} />
 
       <MainLayout className="bg-gray-50 py-12 md:py-16">
-        <div className="max-w-7xl mx-auto px-4 md:px-1">
-
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
             <div className="flex flex-col h-full">
               <div className="p-6 md:p-8 h-full flex flex-col">
@@ -351,12 +297,11 @@ const FlightBookingSection = () => {
               </div>
             </div>
 
-            {/* Right Column: Compact Form Component */}
             <div className="w-full h-full">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-white p-6 md:p-8 rounded-2xl shadow-xl border border-gray-100 h-full"
+                className="bg-white p-6 md:p-8 rounded-2xl border border-gray-100 h-full"
               >
                 <div className="flex items-center gap-3 mb-6">
                   <div className="bg-red-600 p-2.5 rounded-lg text-white">
@@ -369,120 +314,133 @@ const FlightBookingSection = () => {
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-1">
-                  
-                  {/* Name Fields */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <FloatingLabelInput
-                      label="First Name"
-                      name="firstName"
-                      value={formData.firstName}
+                      label="Full Name"
+                      name="name"
+                      value={formData.name}
                       onChange={handleChange}
-                      placeholder="First Name"
+                      required
+                      error={errors.name}
+                      placeholder="Enter your full name"
                     />
                     <FloatingLabelInput
-                      label="Last Name"
-                      name="lastName"
-                      value={formData.lastName}
+                      label="Residence"
+                      name="countryOfResidence"
+                      value={formData.countryOfResidence}
                       onChange={handleChange}
-                      placeholder="Last Name"
+                      placeholder="Your country"
                     />
                   </div>
 
-                  {/* Contact Info */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <FloatingLabelInput
-                      label="Email Address"
-                      name="emailAddress"
-                      value={formData.emailAddress}
+                      label="Email"
+                      name="email"
+                      value={formData.email}
                       onChange={handleChange}
                       required
                       type="email"
-                      error={errors.emailAddress}
-                      placeholder="Email Address"
+                      error={errors.email}
+                      placeholder="Enter your email"
                     />
                     <FloatingLabelInput
-                      label="Phone Number"
-                      name="phone"
-                      value={formData.phone}
+                      label="Phone"
+                      name="phoneNo"
+                      value={formData.phoneNo}
                       onChange={handleChange}
                       required
                       type="tel"
-                      error={errors.phone}
-                      placeholder="Phone"
+                      error={errors.phoneNo}
+                      placeholder="Phone number"
                     />
                   </div>
 
-                  {/* Arrival and Nights */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+                  <FloatingLabelSelect
+                    label="Flight Class"
+                    name="flightType"
+                    options={flightClassOptions}
+                    value={formData.flightType}
+                    onChange={handleChange}
+                    placeholder="Select flight class"
+                    required
+                    error={errors.flightType}
+                  />
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <FloatingLabelInput
-                      label="Tentative Date of Arrival"
-                      name="tentativeDateOfArrival"
-                      type="date"
-                      value={formData.tentativeDateOfArrival}
-                      onChange={handleChange}
-                      min={new Date().toISOString().split('T')[0]}
-                    />
-                    <div>
-                      <FloatingLabelInput
-                        label="No. of Nights"
-                        type="number"
-                        name="noOfNights"
-                        value={formData.noOfNights}
-                        onChange={handleChange}
-                        required
-                        error={errors.noOfNights}
-                        placeholder="e.g. 7"
-                        max="99"
-                      />
-                      <p className="text-[10px] text-gray-500 mt-1 ml-1">Maximum of 2 digits.</p>
-                    </div>
-                  </div>
-
-                  {/* Accommodation & Honeymoon */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
-                    <FloatingLabelSelect
-                      label="Select Accommodation Type"
-                      name="accommodationType"
-                      options={[
-                        { _id: "Not Yet Decided", name: "Not Yet Decided" },
-                        { _id: "Only HomeStays/Bead & Breakfast", name: "Only HomeStays/Bead & Breakfast" },
-                        { _id: "Budget Hotels", name: "Budget Hotels" },
-                        { _id: "3 Star Hotels/ HouseBoat", name: "3 Star Hotels/ HouseBoat" },
-                        { _id: "4 Star Hotels/ HouseBoat", name: "4 Star Hotels/ HouseBoat" },
-                        { _id: "Luxury 5 Star Hotels/ HouseBoat", name: "Luxury 5 Star Hotels/ HouseBoat" },
-                        { _id: "HouseBoat Day Cruise", name: "HouseBoat Day Cruise" },
-                        { _id: "HouseBoat Overnight Stay & Cruise", name: "HouseBoat Overnight Stay & Cruise" },
-                      ]}
-                      value={formData.accommodationType}
-                      onChange={handleChange}
-                      placeholder="Select Type of Stay"
-                    />
-                    <FloatingLabelSelect
-                      label="Are you looking for a Honeymoon?"
-                      name="honeymoon"
-                      options={[
-                        { _id: "Yes", name: "Yes" },
-                        { _id: "No", name: "No" }
-                      ]}
-                      value={formData.honeymoon}
-                      onChange={handleChange}
-                      placeholder="Yes / No"
-                    />
-                  </div>
-
-                  {/* Comments/Queries */}
-                  <div className="mt-4">
-                    <FloatingLabelInput
-                      label="Comments/ Questions/ Queries"
-                      name="comments"
-                      value={formData.comments}
+                      label="From"
+                      name="from"
+                      value={formData.from}
                       onChange={handleChange}
                       required
-                      isTextarea
-                      error={errors.comments}
-                      placeholder="Indicate the number of people travelling with you and submit more details about your request including destinations and activities you may want in your holiday"
+                      error={errors.from}
+                      placeholder="Departure city"
+                    />
+                    <FloatingLabelInput
+                      label="To"
+                      name="to"
+                      value={formData.to}
+                      onChange={handleChange}
+                      required
+                      error={errors.to}
+                      placeholder="Arrival city"
                     />
                   </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <FloatingLabelInput
+                      label="Departure"
+                      name="departureDate"
+                      type="date"
+                      value={formData.departureDate}
+                      onChange={handleChange}
+                      required
+                      error={errors.departureDate}
+                      min={new Date().toISOString().split('T')[0]}
+                    />
+                    <FloatingLabelInput
+                      label="Return"
+                      name="returnDate"
+                      type="date"
+                      value={formData.returnDate}
+                      onChange={handleChange}
+                      min={formData.departureDate}
+                      placeholder="Optional"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <FloatingLabelInput
+                      label="Adults"
+                      name="noOfAdults"
+                      type="number"
+                      min="1"
+                      max="10"
+                      value={formData.noOfAdults}
+                      onChange={handleChange}
+                      placeholder="Number of adults"
+                    />
+                    <FloatingLabelInput
+                      label="Children"
+                      name="noOfChildren"
+                      type="number"
+                      min="0"
+                      max="10"
+                      value={formData.noOfChildren}
+                      onChange={handleChange}
+                      placeholder="Number of children"
+                    />
+                  </div>
+
+                  <FloatingLabelInput
+                    label="Special Requests"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    isTextarea
+                    placeholder="Any special requirements or preferences..."
+                  />
 
                   <motion.button
                     whileHover={{ scale: 1.01 }}
@@ -491,14 +449,12 @@ const FlightBookingSection = () => {
                     disabled={loading}
                     className="w-full mt-6 bg-red-600 text-white font-semibold py-3.5 rounded-xl shadow-lg hover:bg-red-700 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                   >
-                    {loading ? "Processing..." : "Submit Enquiry"}
+                    {loading ? "Processing..." : "Check Availability"}
                   </motion.button>
                 </form>
               </motion.div>
             </div>
           </div>
-
-          {/* How It Works Section */}
           <div className="mt-16 md:mt-20">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-10 text-center">
               How It Works
@@ -545,15 +501,11 @@ const FlightBookingSection = () => {
               </div>
             </div>
           </div>
-
-          {/* Testimonials Section */}
           <div className="mt-16 md:mt-20 overflow-hidden">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-10 text-center">
               What Our Travelers Say
             </h2>
-
             <div className="flex flex-col gap-6">
-              {/* Row 1: Scrolls Right to Left */}
               <div className="flex w-max animate-scroll-left gap-4 px-4">
                 {[...row1Testimonials, ...row1Testimonials].map((testimonial, idx) => (
                   <div
@@ -584,8 +536,6 @@ const FlightBookingSection = () => {
                   </div>
                 ))}
               </div>
-
-              {/* Row 2: Scrolls Left to Right */}
               <div className="flex w-max animate-scroll-right gap-4 px-4">
                 {[...row2Testimonials, ...row2Testimonials].map((testimonial, idx) => (
                   <div
@@ -620,8 +570,6 @@ const FlightBookingSection = () => {
           </div>
         </div>
       </MainLayout>
-
-      {/* Success/Error Popup */}
       <Message_Popups
         isOpen={showResultPopup}
         type={popupType}

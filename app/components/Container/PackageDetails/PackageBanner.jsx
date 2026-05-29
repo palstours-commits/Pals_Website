@@ -22,7 +22,7 @@ const PackageBanner = ({ bgimg, images = [] }) => {
     <div className="relative w-full overflow-hidden shadow-2xl border border-gray-100 bg-gray-900">
       <AnimatePresence>
         {fullView && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4"
             onClick={() => setFullView(null)}
@@ -32,12 +32,7 @@ const PackageBanner = ({ bgimg, images = [] }) => {
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* --- BANNER CONTAINER --- */}
-      {/* Aspect ratio: square/portrait on mobile, wide on desktop */}
       <div className="relative w-full aspect-[4/3] md:aspect-[16/6] grid grid-cols-12 gap-1 p-1">
-        
-        {/* Main Hero Image */}
         <motion.div
           key={allImages[activeIndex]}
           initial={{ opacity: 0 }} animate={{ opacity: 1 }}
@@ -46,8 +41,6 @@ const PackageBanner = ({ bgimg, images = [] }) => {
         >
           <img src={allImages[activeIndex]} className="w-full h-full object-cover" alt="Main" />
         </motion.div>
-
-        {/* Side Grid - HIDE on mobile, SHOW on desktop */}
         <div className="hidden md:grid col-span-5 h-full grid-cols-2 grid-rows-2 gap-1.5">
           {[1, 2, 3, 4].map((offset) => {
             const imgIndex = (activeIndex + offset) % allImages.length;
@@ -63,8 +56,6 @@ const PackageBanner = ({ bgimg, images = [] }) => {
           })}
         </div>
       </div>
-
-      {/* Navigation - Only visible if more than 1 image */}
       {allImages.length > 1 && (
         <>
           <button
@@ -81,8 +72,6 @@ const PackageBanner = ({ bgimg, images = [] }) => {
           </button>
         </>
       )}
-
-      {/* Counter */}
       <div className="absolute top-4 left-4 bg-black/50 text-white px-3 py-1 rounded-full text-xs font-bold backdrop-blur z-20">
         {activeIndex + 1} / {allImages.length}
       </div>

@@ -1,92 +1,35 @@
 "use client";
 import bannerimg from "@/app/assets/contact-banner.svg";
 import CommonHeroSection from "@/app/common/CommonHeroSection";
+import { FloatingLabelInput } from "@/app/common/FloatingLabelInput";
+import { FloatingLabelSelect } from "@/app/common/FloatingLabelSelect";
 import MainLayout from "@/app/common/MainLayout";
 import Message_Popups from "@/app/common/Message_Popups";
 import { clearContactState, submitContact } from "@/app/store/slice/contactSlice";
 import { getPackages } from "@/app/store/slice/packageSlice";
 import { motion } from "framer-motion";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin, Phone, PlaneTakeoff } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const initialForm = {
+  serviceType: "flight",
   firstName: "",
   lastName: "",
-  email: "",
-  mobile: "",
-  message: ""
+  emailAddress: "",
+  phone: "",
+  tentativeDateOfArrival: "",
+  noOfNights: "",
+  accommodationType: "",
+  honeymoon: "",
+  comments: "",
 };
 
 const initialErrors = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  mobile: "",
-  message: ""
-};
-
-const FloatingLabelInput = ({
-  label,
-  name,
-  value,
-  onChange,
-  placeholder,
-  required = false,
-  isTextarea = false,
-  type = "text",
-  error
-}) => {
-  const [isFocused, setIsFocused] = useState(false);
-
-  const isFloating =
-    isFocused ||
-    (value !== "" && value !== null && value !== undefined) ||
-    type === "date";
-
-  return (
-    <div className="relative mt-5 sm:mt-6 w-full">
-      <label
-        className={`absolute left-3 px-1.5 transition-all duration-200 pointer-events-none z-10 ${isFloating
-          ? "-top-2.5 text-[11px] font-bold text-gray-800 bg-white"
-          : "top-3.5 text-gray-500 text-sm bg-transparent"
-          }`}
-      >
-        {label.toUpperCase()} {required && <span className="text-red-500">*</span>}
-      </label>
-
-      {isTextarea ? (
-        <textarea
-          name={name}
-          value={value}
-          onChange={onChange}
-          rows="4"
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
-          className={`w-full px-4 py-3 rounded-xl border ${error ? "border-red-500 bg-red-50" : "border-gray-200"
-            } focus:border-gray-800 focus:ring-2 focus:ring-red-100 outline-none transition-all resize-none text-sm sm:text-base`}
-        />
-      ) : (
-        <input
-          type={type}
-          name={name}
-          value={value}
-          onChange={onChange}
-          placeholder={isFocused ? placeholder : ""}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
-          className={`w-full px-4 py-3 rounded-xl border ${error ? "border-red-500 bg-red-50" : "border-gray-200"
-            } focus:border-red-600 focus:ring-2 focus:ring-red-100 outline-none transition-all text-sm sm:text-base`}
-        />
-      )}
-
-      {error && (
-        <p className="text-red-500 text-xs mt-1 ml-1">
-          {error}
-        </p>
-      )}
-    </div>
-  );
+  emailAddress: "",
+  phone: "",
+  noOfNights: "",
+  comments: "",
 };
 
 const Contactsection = () => {
@@ -106,17 +49,9 @@ const Contactsection = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    setForm({
-      ...form,
-      [name]: value
-    });
-
+    setForm((prev) => ({ ...prev, [name]: value }));
     if (errors[name]) {
-      setErrors({
-        ...errors,
-        [name]: ""
-      });
+      setErrors((prev) => ({ ...prev, [name]: "" }));
     }
   };
 
@@ -124,36 +59,30 @@ const Contactsection = () => {
     const newErrors = {};
     let isValid = true;
 
-    if (!form.firstName.trim()) {
-      newErrors.firstName = "First name is required";
+    if (!form.emailAddress.trim()) {
+      newErrors.emailAddress = "Email is required";
+      isValid = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.emailAddress)) {
+      newErrors.emailAddress = "Please enter a valid email address";
       isValid = false;
     }
 
-    if (!form.lastName.trim()) {
-      newErrors.lastName = "Last name is required";
+    if (!form.phone.trim()) {
+      newErrors.phone = "Phone number is required";
       isValid = false;
     }
 
-    if (!form.email.trim()) {
-      newErrors.email = "Email is required";
-      isValid = false;
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
-      newErrors.email = "Please enter a valid email address";
+    if (!form.noOfNights.toString().trim()) {
+      newErrors.noOfNights = "Number of nights is required";
       isValid = false;
     }
 
-    if (!form.mobile.trim()) {
-      newErrors.mobile = "Mobile number is required";
-      isValid = false;
-    }
-
-    if (!form.message.trim()) {
-      newErrors.message = "Message is required";
+    if (!form.comments.trim()) {
+      newErrors.comments = "Comments are required";
       isValid = false;
     }
 
     setErrors(newErrors);
-
     return isValid;
   };
 
@@ -163,14 +92,17 @@ const Contactsection = () => {
     if (validateForm()) {
       dispatch(
         submitContact({
-          name: `${form.firstName} ${form.lastName}`.trim(),
-          email: form.email,
-          mobile: form.mobile,
-          message: form.message
+          firstName: form.firstName,
+          lastName: form.lastName,
+          email: form.emailAddress,
+          mobile: form.phone,
+          tentativeArrivalDate: form.tentativeDateOfArrival,
+          numberOfNights: Number(form.noOfNights),
+          accommodationType: form.accommodationType,
+          message: form.comments,
         })
       );
     } else {
-      // Adjusted scroll for mobile so it doesn't overshoot
       const formElement = document.getElementById("contact-form-container");
       if (formElement) {
         formElement.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -191,10 +123,8 @@ const Contactsection = () => {
       setPopupType("success");
       setPopupMessage(responseMessage);
       setShowResultPopup(true);
-
       setForm(initialForm);
       setErrors(initialErrors);
-
       dispatch(clearContactState());
     }
 
@@ -208,7 +138,6 @@ const Contactsection = () => {
       setPopupType("error");
       setPopupMessage(errorMessage);
       setShowResultPopup(true);
-
       dispatch(clearContactState());
     }
   }, [message, error, dispatch]);
@@ -220,20 +149,15 @@ const Contactsection = () => {
 
   return (
     <>
-      <CommonHeroSection
-        title="Contact Us"
-        backgroundImage={bannerimg.src}
-      />
-
+      <CommonHeroSection title="Contact Us" backgroundImage={bannerimg.src} breadcrumbs={[
+        { label: "Home", href: "/" },
+        { label: "Contact" || "Destination" },
+      ]} />
       <MainLayout className="bg-gray-50 py-10 md:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 items-start">
 
-            {/* Left Side - Contact Info */}
             <div className="space-y-6 md:space-y-8">
-
-              {/* Header Section */}
               <div>
                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-gray-900 mb-2 sm:mb-3 leading-tight">
                   Get in Touch
@@ -243,8 +167,6 @@ const Contactsection = () => {
                 </p>
               </div>
 
-              {/* Contact Items List */}
-              {/* FIX: Changed from 'flex items-center justify-between' to 'flex flex-col' so they stack on mobile */}
               <div className="flex flex-col gap-6 md:gap-8">
                 {[
                   {
@@ -252,41 +174,36 @@ const Contactsection = () => {
                     title: "Email",
                     lines: [
                       { text: "mail@palsholidays.com", href: "mailto:mail@palsholidays.com" },
-                      { text: "palstours@gmail.com", href: "mailto:palstours@gmail.com" }
-                    ]
+                      { text: "palstours@gmail.com", href: "mailto:palstours@gmail.com" },
+                    ],
                   },
                   {
                     icon: Phone,
                     title: "Call / WhatsApp",
                     lines: [
                       { text: "+91 98412 55715", href: "tel:+919841255715" },
-                      { text: "+91 90030 12226", href: "tel:+919003012226" }
-                    ]
+                      { text: "+91 90030 12226", href: "tel:+919003012226" },
+                    ],
                   },
                   {
                     icon: MapPin,
                     title: "India Address",
                     lines: [
                       { text: "No.6, TNHB Office Complex,", href: null },
-                      { text: "Mogappair, Chennai", href: null }
-                    ]
-                  }
+                      { text: "Mogappair, Chennai", href: null },
+                    ],
+                  },
                 ].map((item, i) => (
                   <div key={i} className="flex gap-3 sm:gap-4 items-start group">
-
-                    {/* Icon Container */}
                     <div className="text-red-600 bg-red-50 p-2.5 sm:p-3 rounded-xl h-fit shrink-0 transition-colors duration-300 group-hover:bg-red-100">
                       <item.icon className="w-5 h-5 sm:w-[22px] sm:h-[22px]" />
                     </div>
-
-                    {/* Text Container */}
                     <div>
                       <h4 className="font-bold text-gray-900 text-sm sm:text-base mb-1">
                         {item.title}
                       </h4>
-
                       <div className="space-y-0.5 sm:space-y-1 mt-1">
-                        {item.lines.map((line, j) => (
+                        {item.lines.map((line, j) =>
                           line.href ? (
                             <a
                               key={j}
@@ -300,7 +217,7 @@ const Contactsection = () => {
                               {line.text}
                             </p>
                           )
-                        ))}
+                        )}
                       </div>
                     </div>
                   </div>
@@ -308,7 +225,6 @@ const Contactsection = () => {
               </div>
             </div>
 
-            {/* Right Side - Form */}
             <motion.div
               id="contact-form-container"
               initial={{ opacity: 0, y: 20 }}
@@ -323,66 +239,135 @@ const Contactsection = () => {
                 <div className="h-1 w-16 md:w-20 bg-red-600 rounded-full"></div>
               </div>
 
-              <form onSubmit={handleSubmitClick} className="space-y-2 mt-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 md:gap-x-6">
-                  <FloatingLabelInput
-                    label="First Name"
-                    name="firstName"
-                    value={form.firstName}
-                    onChange={handleChange}
-                    required
-                    error={errors.firstName}
-                  />
-
-                  <FloatingLabelInput
-                    label="Last Name"
-                    name="lastName"
-                    value={form.lastName}
-                    onChange={handleChange}
-                    required
-                    error={errors.lastName}
-                  />
-                </div>
-
-                <FloatingLabelInput
-                  label="Email Address"
-                  name="email"
-                  type="email"
-                  value={form.email}
-                  onChange={handleChange}
-                  required
-                  error={errors.email}
-                />
-
-                <FloatingLabelInput
-                  label="Mobile Number"
-                  name="mobile"
-                  value={form.mobile}
-                  onChange={handleChange}
-                  required
-                  error={errors.mobile}
-                />
-
-                <FloatingLabelInput
-                  label="Message"
-                  name="message"
-                  value={form.message}
-                  onChange={handleChange}
-                  isTextarea
-                  required
-                  error={errors.message}
-                />
-
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  type="submit"
-                  disabled={loading}
-                  className="w-full mt-6 md:mt-8 bg-red-600 text-white font-semibold py-2 sm:py-4 rounded-xl shadow-lg hover:bg-red-700 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
+              <div className="w-full h-full">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-white p-6 h-full"
                 >
-                  {loading ? "Submitting..." : "Send Message"}
-                </motion.button>
-              </form>
+                  <div className="flex items-center gap-3 mb-6 text-center justify-center">
+                    <div className="bg-red-600 p-2.5 rounded-lg text-white">
+                      <PlaneTakeoff size={22} />
+                    </div>
+                    <div>
+                      <h2 className="text-xl font-bold text-gray-900">Book Your Flight</h2>
+                      <p className="text-gray-500 text-xs">Experience seamless travel with us</p>
+                    </div>
+                  </div>
+
+                  <form onSubmit={handleSubmitClick} className="space-y-1">
+                    <div className="space-y-6">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <FloatingLabelInput
+                          label="First Name"
+                          name="firstName"
+                          value={form.firstName}
+                          onChange={handleChange}
+                          placeholder="First Name"
+                        />
+                        <FloatingLabelInput
+                          label="Last Name"
+                          name="lastName"
+                          value={form.lastName}
+                          onChange={handleChange}
+                          placeholder="Last Name"
+                        />
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+                        <FloatingLabelInput
+                          label="Email Address"
+                          name="emailAddress"
+                          value={form.emailAddress}
+                          onChange={handleChange}
+                          required
+                          type="email"
+                          error={errors.emailAddress}
+                          placeholder="Email Address"
+                        />
+                        <FloatingLabelInput
+                          label="Phone Number"
+                          name="phone"
+                          value={form.phone}
+                          onChange={handleChange}
+                          required
+                          type="tel"
+                          error={errors.phone}
+                          placeholder="Phone"
+                        />
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+                        <FloatingLabelInput
+                          label="Tentative Date of Arrival"
+                          name="tentativeDateOfArrival"
+                          type="date"
+                          value={form.tentativeDateOfArrival}
+                          onChange={handleChange}
+                          min={new Date().toISOString().split("T")[0]}
+                        />
+                        <div>
+                          <FloatingLabelInput
+                            label="No. of Nights"
+                            type="number"
+                            name="noOfNights"
+                            value={form.noOfNights}
+                            onChange={handleChange}
+                            required
+                            error={errors.noOfNights}
+                            placeholder="e.g. 7"
+                            max="99"
+                          />
+                          <p className="text-[10px] text-gray-500 mt-1 ml-1">Maximum of 2 digits.</p>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 gap-3 mt-3">
+                        <FloatingLabelSelect
+                          label="Select Accommodation Type"
+                          name="accommodationType"
+                          options={[
+                            { _id: "Not Yet Decided", name: "Not Yet Decided" },
+                            { _id: "Only HomeStays/Bead & Breakfast", name: "Only HomeStays/Bead & Breakfast" },
+                            { _id: "Budget Hotels", name: "Budget Hotels" },
+                            { _id: "3 Star Hotels/ HouseBoat", name: "3 Star Hotels/ HouseBoat" },
+                            { _id: "4 Star Hotels/ HouseBoat", name: "4 Star Hotels/ HouseBoat" },
+                            { _id: "Luxury 5 Star Hotels/ HouseBoat", name: "Luxury 5 Star Hotels/ HouseBoat" },
+                            { _id: "HouseBoat Day Cruise", name: "HouseBoat Day Cruise" },
+                            { _id: "HouseBoat Overnight Stay & Cruise", name: "HouseBoat Overnight Stay & Cruise" },
+                          ]}
+                          value={form.accommodationType}
+                          onChange={handleChange}
+                          placeholder="Select Type of Stay"
+                        />
+                      </div>
+
+                      <div className="mt-4">
+                        <FloatingLabelInput
+                          label="Comments/ Questions/ Queries"
+                          name="comments"
+                          value={form.comments}
+                          onChange={handleChange}
+                          required
+                          isTextarea
+                          error={errors.comments}
+                          placeholder="Indicate the number of people travelling with you and submit more details about your request including destinations and activities you may want in your holiday"
+                        />
+                      </div>
+                    </div>
+
+                    <motion.button
+                      whileHover={{ scale: 1.01 }}
+                      whileTap={{ scale: 0.99 }}
+                      type="submit"
+                      disabled={loading}
+                      className="w-full mt-6 bg-red-600 text-white font-semibold py-3.5 rounded-xl shadow-lg hover:bg-red-700 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                    >
+                      {loading ? "Processing..." : "Submit Enquiry"}
+                    </motion.button>
+                  </form>
+                </motion.div>
+              </div>
             </motion.div>
 
           </div>
@@ -395,11 +380,10 @@ const Contactsection = () => {
         onClose={handleClosePopups}
       >
         <div className="text-center">
-          <p className="text-sm text-gray-800">
-            {popupMessage}
-          </p>
+          <p className="text-sm text-gray-800">{popupMessage}</p>
         </div>
       </Message_Popups>
+
       <div className="w-full">
         <iframe
           title="Pals Holidays"

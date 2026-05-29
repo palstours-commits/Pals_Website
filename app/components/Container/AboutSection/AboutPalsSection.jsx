@@ -25,7 +25,7 @@ const AboutPalsSection = () => {
       />
 
       <MainLayout className="bg-[#f3f3f3] py-16">
-        <div className="max-w-7xl mx-auto px-4 md:px-1">
+        <div className="max-w-7xl mx-auto px-4 ">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
             <div className="lg:col-span-8">
               <motion.div

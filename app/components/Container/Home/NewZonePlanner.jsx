@@ -26,6 +26,8 @@ const NewZonePlanner = () => {
         (state) => state.zones
     );
 
+    
+
     const scroll = (dir) => {
         const el = sliderRef.current;
 
@@ -42,7 +44,7 @@ const NewZonePlanner = () => {
     }, [dispatch]);
 
     return (
-        <MainLayout className="px-4 md:px-1 max-w-7xl mx-auto py-10 sm:py-6 lg:py-10">
+        <MainLayout className="px-4 max-w-7xl mx-auto py-10 sm:py-6 lg:py-10">
             <motion.div
                 initial="hidden"
                 whileInView="visible"

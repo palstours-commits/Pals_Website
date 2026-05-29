@@ -6,9 +6,8 @@ import MainLayout from "@/app/common/MainLayout";
 import Message_Popups from "@/app/common/Message_Popups";
 import { clearEnquiryState, submitEnquiry } from "@/app/store/slice/enquirySlice";
 import { getPackagesById } from "@/app/store/slice/packageSlice";
-import { getImageUrl } from "@/app/utils/getImageUrl";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronRight, Clock, MapPin } from "lucide-react";
+import { Clock, MapPin } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -52,7 +51,7 @@ const PackageDetails = ({ slug }) => {
   const quoteRef = useRef(null);
 
   const bannerImages = singlePackage?.images?.length > 0
-    ? singlePackage.images.map(img => `${process.env.NEXT_PUBLIC_BASE_IMAGE_URL}/${img}`)
+    ? singlePackage.images.map(img => `${process.env.NEXT_PUBLIC_BASE_IMAGE_URL}${img}`)
     : [PackageBanner.src];
 
   useEffect(() => {
@@ -63,16 +62,17 @@ const PackageDetails = ({ slug }) => {
 
   useEffect(() => {
     if (singlePackage?.images?.length > 0) {
-      const processedImages = singlePackage.images.map(getImageUrl);
-      setAllImages(processedImages);
+      setAllImages(singlePackage.images);
     }
   }, [singlePackage]);
+
 
   const points = singlePackage?.tripHighlightsPoints || [];
   const importantInfo = singlePackage?.importantInfo || [];
   const overviewIcons = singlePackage?.overview?.icon || [];
   const gridImages = allImages.slice(0, 6);
   const carouselImages = allImages.slice(6);
+
 
   useEffect(() => {
     if (message && !error) {
@@ -218,6 +218,7 @@ const PackageDetails = ({ slug }) => {
       }
     }
   };
+
 
   return (
     <>
@@ -411,45 +412,35 @@ const PackageDetails = ({ slug }) => {
             </motion.div>
             <motion.div
               variants={fadeInUp}
-              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 sm:gap-4 auto-rows-[180px] sm:auto-rows-[200px] md:auto-rows-[220px] relative"
+              className="grid grid-cols-12 gap-2 auto-rows-[220px]"
             >
-              {gridImages.map((image, index) => (
-                <motion.div
-                  key={index}
-                  whileHover={{ scale: 1.02 }}
-                  transition={{ duration: 0.3 }}
-                  onClick={() => handleImageClick(index)}
-                  className={`relative rounded-2xl sm:rounded-3xl overflow-hidden snap-start shadow-lg cursor-pointer ${index === 0 ? "col-span-2 md:col-span-3" :
-                    index === 1 ? "col-span-2 md:col-span-3" :
-                      index === 2 ? "col-span-2 md:col-span-2" :
-                        index === 3 ? "col-span-2 md:col-span-2" :
-                          index === 4 ? "col-span-2 md:col-span-4" :
-                            "col-span-2 md:col-span-2 md:row-span-2"
-                    }`}
-                >
-                  <CustomImage
-                    src={image}
-                    alt={`Highlight ${index + 1}`}
-                    fill
-                    className="object-cover transition duration-500 hover:scale-110"
-                  />
-                </motion.div>
-              ))}
+              {gridImages.slice(0, 5).map((image, index) => {
+                const layouts = [
+                  "col-span-12 md:col-span-8 row-span-2",
+                  "col-span-6 md:col-span-4",
+                  "col-span-6 md:col-span-4",
+                  "col-span-6 md:col-span-6",
+                  "col-span-6 md:col-span-6",
+                ];
+                return (
+                  <motion.div
+                    key={index}
+                    whileHover={{ scale: 1.02 }}
+                    transition={{ duration: 0.3 }}
+                    onClick={() => handleImageClick(index)}
+                    className={`relative overflow-hidden rounded-3xl cursor-pointer group ${layouts[index]}`}
+                  >
+                    <CustomImage
+                      src={image}
+                      alt={`Gallery ${index + 1}`}
+                      fill
+                      className="object-cover transition-all duration-700 group-hover:scale-110"
+                    />
 
-              {carouselImages.length > 0 && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.5 }}
-                  onClick={() => handleImageClick(6)}
-                  className="absolute bottom-2 sm:bottom-4 right-2 sm:right-4 z-10 cursor-pointer"
-                >
-                  <div className="bg-black/70 backdrop-blur-sm text-white px-2 py-1 sm:px-4 sm:py-2 rounded-full flex items-center gap-1 sm:gap-2 hover:bg-black/90 transition-all text-xs sm:text-sm">
-                    <span className="font-semibold">+{carouselImages.length} More</span>
-                    <ChevronRight size={14} className="sm:w-[18px] sm:h-[18px]" />
-                  </div>
-                </motion.div>
-              )}
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-500" />
+                  </motion.div>
+                );
+              })}
             </motion.div>
           </div>
         </div>

@@ -38,7 +38,7 @@ const InspirationSection = () => {
   };
 
   return (
-    <MainLayout className="w-full mb-20 px-4 md:px-1 max-w-7xl mx-auto overflow-x-hidden">
+    <MainLayout className="w-full mb-20 px-4  max-w-7xl mx-auto overflow-x-hidden">
       <motion.div
         variants={fadeContainer}
         initial="hidden"

@@ -56,11 +56,29 @@ export const getZoneByPackage = createAsyncThunk(
   },
 );
 
+export const getPackagesByMenuAndZone = createAsyncThunk(
+  "package/getPackagesByMenuAndZone",
+  async ({ menuSlug }, thunkAPI) => {
+    try {
+      const response = await FetchApi({
+        endpoint: `/user/package/by-menu/${menuSlug}`,
+        method: "GET",
+      });
+      return response?.data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(
+        err?.message || "Failed to fetch packages by menu and zone",
+      );
+    }
+  },
+);
+
 const packageSlice = createSlice({
   name: "package",
   initialState: {
     packages: [],
     packagesBySubmenu: [],
+    packagesByMenuAndZone: [],
     singlePackage: null,
     loading: false,
     error: null,
@@ -112,6 +130,19 @@ const packageSlice = createSlice({
         state.packagesBySubmenu = action.payload || [];
       })
       .addCase(getZoneByPackage.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      .addCase(getPackagesByMenuAndZone.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getPackagesByMenuAndZone.fulfilled, (state, action) => {
+        state.loading = false;
+        state.packagesByMenuAndZone = action.payload.zones || [];
+      })
+      .addCase(getPackagesByMenuAndZone.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

@@ -73,9 +73,8 @@ const FloatingLabelInput = ({ label, name, value, onChange, placeholder, require
 
   return (
     <div className="relative mt-4 w-full">
-      <label className={`absolute left-3 px-1.5 transition-all duration-200 pointer-events-none z-10 ${
-        isFloating ? "-top-2.5 text-xs font-semibold text-gray-700 bg-white" : "top-3 text-sm text-gray-500 bg-transparent"
-      }`}>
+      <label className={`absolute left-3 px-1.5 transition-all duration-200 pointer-events-none z-10 ${isFloating ? "-top-2.5 text-xs font-semibold text-gray-700 bg-white" : "top-3 text-sm text-gray-500 bg-transparent"
+        }`}>
         {label} {required && <span className="text-red-500">*</span>}
       </label>
       {isTextarea ? (
@@ -123,7 +122,7 @@ const FloatingLabelSelect = ({ label, name, value, onChange, options = [], place
       >
         <span className={value ? "text-gray-900" : "text-gray-400"}>{selectedOption ? selectedOption.name : placeholder}</span>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" className={`transition-transform ${isOpen ? 'rotate-180 text-red-600' : 'text-gray-400'}`}>
-          <path d="M6 9l6 6 6-6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M6 9l6 6 6-6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </div>
       {error && <p className="text-red-500 text-xs mt-1 ml-1">{error}</p>}
@@ -283,15 +282,15 @@ const TransportSection = () => {
 
   return (
     <>
-      <CommonHeroSection title="Transport Booking" backgroundImage={bannerimg.src} 
-      breadcrumbs={[
+      <CommonHeroSection title="Transport Booking" backgroundImage={bannerimg.src}
+        breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Transport Booking", href: "/service/transport" },
         ]}
       />
 
-      {/* --- Inline Styles for Marquee Animation --- */}
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         @keyframes scrollLeft {
           0% { transform: translateX(0); }
           100% { transform: translateX(-50%); }
@@ -313,11 +312,9 @@ const TransportSection = () => {
       ` }} />
 
       <MainLayout className="bg-gray-50 py-12 md:py-16">
-        <div className="max-w-7xl mx-auto px-4 md:px-1">
+        <div className="max-w-7xl mx-auto px-4 ">
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
-
-            {/* Left Column: Why Book With Us */}
             <div className="flex flex-col h-full">
               <div className=" p-6 md:p-8 h-full flex flex-col">
                 <div className="text-center lg:text-left mb-6">

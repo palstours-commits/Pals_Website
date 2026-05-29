@@ -41,7 +41,7 @@ const GetAllPackages = () => {
         ]}
       />
 
-      <MainLayout className="px-4 md:px-1 max-w-7xl mx-auto py-12 lg:py-16">
+      <MainLayout className="px-4  max-w-7xl mx-auto py-12 lg:py-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
