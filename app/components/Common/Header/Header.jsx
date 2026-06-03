@@ -408,6 +408,46 @@ export default function Header() {
                     </motion.button>
                   </motion.div>
                 ))}
+
+                <motion.div
+                  variants={headerItemVariants}
+                  className="relative group h-full flex items-center flex-shrink-0"
+                  onMouseEnter={(e) => handleMouseEnter(e, "special-offers")}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  <motion.button
+                    whileHover={{ y: -2, scale: 1.02 }}
+                    className={desktopNavBtnClass("special-offers")}
+                  >
+                    <div className="w-5 h-5 flex items-center justify-center text-red-600 flex-shrink-0">
+                      <Tag size={18} />
+                    </div>
+                    <span>Special Offers</span>
+                    <motion.div animate={{ rotate: hoveredDropdown === "special-offers" ? 180 : 0 }} transition={{ duration: 0.4 }}>
+                      <ChevronDown size={14} className={hoveredDropdown === "special-offers" ? "text-red-500" : "text-gray-400"} />
+                    </motion.div>
+                  </motion.button>
+                </motion.div>
+                <motion.div
+                  variants={headerItemVariants}
+                  className="relative group h-full flex items-center flex-shrink-0"
+                >
+                  <motion.button
+                    whileHover={{ y: -2, scale: 1.02 }}
+                    onClick={() =>
+                      window.open(
+                        "https://royalmilesindia.webdadsprojects.com",
+                        "_blank"
+                      )
+                    }
+                    className="group-hover-item flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 cursor-pointer backdrop-blur-sm text-gray-700 hover:text-red-600 hover:bg-white hover:shadow-md hover:shadow-gray-100/50 border border-transparent group-hover:border-red-200/50 whitespace-nowrap"
+                  >
+                    <div className="w-5 h-5 flex items-center justify-center text-red-600 flex-shrink-0">
+                      <Car size={18} />
+                    </div>
+                    <span>Car Rentals</span>
+                  </motion.button>
+                </motion.div>
                 <motion.div
                   variants={headerItemVariants}
                   className="relative group h-full flex items-center flex-shrink-0"
@@ -451,45 +491,7 @@ export default function Header() {
                     </motion.div>
                   </motion.button>
                 </motion.div>
-                <motion.div
-                  variants={headerItemVariants}
-                  className="relative group h-full flex items-center flex-shrink-0"
-                  onMouseEnter={(e) => handleMouseEnter(e, "special-offers")}
-                  onMouseLeave={handleMouseLeave}
-                >
-                  <motion.button
-                    whileHover={{ y: -2, scale: 1.02 }}
-                    className={desktopNavBtnClass("special-offers")}
-                  >
-                    <div className="w-5 h-5 flex items-center justify-center text-red-600 flex-shrink-0">
-                      <Tag size={18} />
-                    </div>
-                    <span>Special Offers</span>
-                    <motion.div animate={{ rotate: hoveredDropdown === "special-offers" ? 180 : 0 }} transition={{ duration: 0.4 }}>
-                      <ChevronDown size={14} className={hoveredDropdown === "special-offers" ? "text-red-500" : "text-gray-400"} />
-                    </motion.div>
-                  </motion.button>
-                </motion.div>
-                <motion.div
-                  variants={headerItemVariants}
-                  className="relative group h-full flex items-center flex-shrink-0"
-                >
-                  <motion.button
-                    whileHover={{ y: -2, scale: 1.02 }}
-                    onClick={() =>
-                      window.open(
-                        "https://royalmilesindia.webdadsprojects.com",
-                        "_blank"
-                      )
-                    }
-                    className="group-hover-item flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 cursor-pointer backdrop-blur-sm text-gray-700 hover:text-red-600 hover:bg-white hover:shadow-md hover:shadow-gray-100/50 border border-transparent group-hover:border-red-200/50 whitespace-nowrap"
-                  >
-                    <div className="w-5 h-5 flex items-center justify-center text-red-600 flex-shrink-0">
-                      <Car size={18} />
-                    </div>
-                    <span>Car Rentals</span>
-                  </motion.button>
-                </motion.div>
+                
               </div>
             </div>
 
