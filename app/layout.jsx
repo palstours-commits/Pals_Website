@@ -19,7 +19,7 @@ const dmSans = DM_Sans({
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={` ${dmSans.variable}`}>
+    <html lang="en" suppressHydrationWarning className={` ${dmSans.variable}`}>
       <body suppressHydrationWarning>
         <ReduxProvider>
           <AppWrapper>{children}</AppWrapper>

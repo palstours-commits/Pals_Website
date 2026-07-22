@@ -2,7 +2,7 @@ import { Facebook, Instagram, Youtube, Twitter, Globe } from "lucide-react";
 import { FaLinkedinIn } from "react-icons/fa";
 export const socialLinks = [
   {
-    href: "https://www.facebook.com/palsgroups",
+    href: "https://www.facebook.com/share/1C2UVXCA6e/",
     Icon: Facebook,
   },
   {

@@ -179,7 +179,6 @@ export default function Header() {
   const { submenus } = useSelector((state) => state.submenu);
   const sortedSubmenus = submenus ? [...submenus].sort((a, b) => a.order - b.order) : [];
   const navRef = useRef(null);
-  const scrollDirRef = useRef(1);
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(false);
   const [isNavHovered, setIsNavHovered] = useState(false);
@@ -295,6 +294,7 @@ export default function Header() {
     { name: "Transport", slug: "service/transport", icon: <Bus size={16} /> },
     { name: "Money Exchange", icon: <CreditCard size={16} /> },
     { name: "Visa", slug: "service/visa", icon: <FileText size={16} /> },
+    { name: "Car Rental", slug: "car-rentals", icon:<Car size={16}/> }
   ];
 
   const COMPANY_MENU = [
@@ -313,7 +313,7 @@ export default function Header() {
   };
 
   const desktopNavBtnClass = (menuId) =>
-    `group-hover-item flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 cursor-pointer backdrop-blur-sm whitespace-nowrap border border-transparent ${hoveredDropdown === menuId
+    `group-hover-item flex items-center gap-2 px-2 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 cursor-pointer backdrop-blur-sm whitespace-nowrap border border-transparent ${hoveredDropdown === menuId
       ? "text-red-600 bg-gradient-to-r from-red-50 to-red-100 shadow-lg shadow-red-200/50"
       : "text-gray-700 hover:text-red-600 hover:bg-white hover:shadow-md hover:shadow-gray-100/50 group-hover:border-red-200/50"
     }`;
@@ -348,7 +348,7 @@ export default function Header() {
           variants={headerContainerVariants}
           initial="hidden"
           animate="visible"
-          className="max-w-7xl mx-auto px-4 h-16 flex items-center relative"
+          className="max-w-full mx-auto px-4 h-16 flex items-center relative"
         >
           <motion.div variants={headerItemVariants} className="z-10 md:relative top-2">
             <Link href="/" className="flex items-center gap-3">
@@ -357,7 +357,7 @@ export default function Header() {
           </motion.div>
 
           <div
-            className="hidden lg:flex ml-8 max-w-[600px] 2xl:max-w-[760px] relative items-center h-12 w-full"
+            className="hidden lg:flex ml-8 max-w-[900px] 2xl:max-w-[1060px] relative items-center h-12 w-full"
             onMouseEnter={() => setIsNavHovered(true)}
             onMouseLeave={() => setIsNavHovered(false)}
           >
@@ -368,40 +368,29 @@ export default function Header() {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -5 }}
                   onClick={() => navRef.current?.scrollBy({ left: -200, behavior: "smooth" })}
-                  className="absolute left-0 top-0 z-[60] h-full px-1 bg-gradient-to-r from-white via-white/95 to-transparent flex items-center justify-start text-red-500 hover:text-red-700 pointer-events-auto"
                 >
-                  <ChevronLeft size={20} />
                 </motion.button>
               )}
             </AnimatePresence>
 
             <div
-              ref={navRef}
-              onScroll={checkScroll}
-              className="hide-scrollbar scroll-smooth"
-              style={{
-                display: "flex",
-                overflowX: "auto",
-                overflowY: "hidden",
-                height: "100%",
-                width: "100%",
-                pointerEvents: "auto",
-              }}
-            >
-              <div className="flex items-center gap-1 min-w-max px-4 h-full">
+  ref={navRef}
+  className="hide-scrollbar flex overflow-x-auto overflow-y-hidden scroll-smooth whitespace-nowrap w-full"
+>
+              <div className="flex items-center gap-1 px-2 h-full flex-nowrap">
                 {sortedSubmenus?.map((menu) => (
                   <motion.div
                     variants={headerItemVariants}
                     key={menu._id}
-                    className="relative group h-full flex items-center flex-shrink-0"
+                    className="relative group h-full flex items-center"
                   >
                     <motion.button
                       whileHover={{ y: -2, scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => router.push(`/${menu.slug}`)}
-                      className="group-hover-item flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 cursor-pointer backdrop-blur-sm text-gray-700 hover:text-red-600 hover:bg-white hover:shadow-md hover:shadow-gray-100/50 border border-transparent group-hover:border-red-200/50 whitespace-nowrap"
+                      className="group-hover-item flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 cursor-pointer backdrop-blur-sm text-gray-700 hover:text-red-600 hover:bg-white hover:shadow-md hover:shadow-gray-100/50 border border-transparent group-hover:border-red-200/50 whitespace-nowrap"
                     >
-                      <motion.div className="flex items-center justify-center w-5 h-5 flex-shrink-0" whileHover={{ scale: 1.15, rotate: 360 }}>
+                      <motion.div className="flex items-center justify-center w-5 h-5" whileHover={{ scale: 1.15, rotate: 360 }}>
                         {getMenuIcon(menu.name, menu?.imagePath)}
                       </motion.div>
                       <span className="whitespace-nowrap">{menu.name}</span>
@@ -432,21 +421,6 @@ export default function Header() {
                   variants={headerItemVariants}
                   className="relative group h-full flex items-center flex-shrink-0"
                 >
-                  <motion.button
-                    whileHover={{ y: -2, scale: 1.02 }}
-                    onClick={() =>
-                      window.open(
-                        "https://royalmilesindia.webdadsprojects.com",
-                        "_blank"
-                      )
-                    }
-                    className="group-hover-item flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 cursor-pointer backdrop-blur-sm text-gray-700 hover:text-red-600 hover:bg-white hover:shadow-md hover:shadow-gray-100/50 border border-transparent group-hover:border-red-200/50 whitespace-nowrap"
-                  >
-                    <div className="w-5 h-5 flex items-center justify-center text-red-600 flex-shrink-0">
-                      <Car size={18} />
-                    </div>
-                    <span>Car Rentals</span>
-                  </motion.button>
                 </motion.div>
                 <motion.div
                   variants={headerItemVariants}
@@ -502,9 +476,7 @@ export default function Header() {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 5 }}
                   onClick={() => navRef.current?.scrollBy({ left: 200, behavior: "smooth" })}
-                  className="absolute right-0 top-0 z-[60] h-full px-1 bg-gradient-to-l from-white via-white/95 to-transparent flex items-center justify-end text-red-500 hover:text-red-700 pointer-events-auto"
                 >
-                  <ChevronRight size={20} />
                 </motion.button>
               )}
             </AnimatePresence>
@@ -705,24 +677,6 @@ export default function Header() {
                         </motion.div>
                       )}
                     </AnimatePresence>
-                  </div>
-
-                  {/* Car Rentals */}
-                  <div className="border-b border-gray-50/50 pb-1">
-                    <button
-                      onClick={() => {
-                        router.push("/car-rentals");
-                        setOpen(false);
-                      }}
-                      className="w-full flex items-center justify-between py-3 px-2 text-gray-700 font-semibold hover:text-red-600 transition-colors rounded-xl hover:bg-gray-50 cursor-pointer"
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="w-5 h-5 flex items-center justify-center text-red-600">
-                          <Car size={18} />
-                        </div>
-                        <span>Car Rentals</span>
-                      </div>
-                    </button>
                   </div>
 
                   {/* Special Offers — accordion */}
