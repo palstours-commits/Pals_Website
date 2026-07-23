@@ -4,6 +4,7 @@ import BannerImg2 from "@/app/assets/BannerImageKashmir.png";
 import BannerImg3 from "@/app/assets/BannerImageKerla.png";
 import BannerImg4 from "@/app/assets/BannerIndia.png";
 import BannerImg5 from "@/app/assets/WildLifeImage.png";
+import BannerImg6 from "@/app/assets/BannerInternational.png";
 import CustomImage from "@/app/common/Image";
 import MainLayout from "@/app/common/MainLayout";
 import { clearSearchResults, searchPackages } from "@/app/store/slice/searchSlice";
@@ -35,7 +36,7 @@ const slides = [
   {
     image: BannerImg2,
     // title: "The World is Too",
-    // subtitle: "Big to Stay Home.",
+    // subtitle: "Big to Stay Home.",                                                                                                     
     // desc: "Explore breathtaking places around the globe and create memories that last a lifetime.",
   },
   {
@@ -44,12 +45,17 @@ const slides = [
     // subtitle: "Never Felt Before.",
     // desc: "Experience new cultures, hidden gems, and unique journeys beyond your imagination.",
   },
-  
   {
     image: BannerImg5,
     // title: "Pack Your Bags",
     // subtitle: "We'll Handle the Rest.",
     // desc: "From booking to boarding, enjoy stress-free travel planning with complete comfort.",
+  },
+  {
+    image: BannerImg6,
+    // title: "Go Somewhere You've",
+    // subtitle: "Never Felt Before.",
+    // desc: "Experience new cultures, hidden gems, and unique journeys beyond your imagination.",
   },
 ];
 
