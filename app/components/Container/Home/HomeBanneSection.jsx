@@ -1,9 +1,9 @@
 "use client";
 import BannerImg1 from "@/app/assets/banner_img.png";
-import BannerImg2 from "@/app/assets/BannerImg2.svg";
-import BannerImg3 from "@/app/assets/BannerImg3.svg";
-import BannerImg4 from "@/app/assets/BannerImg4.svg";
-import BannerImg5 from "@/app/assets/BannerImg5.svg";
+import BannerImg2 from "@/app/assets/BannerKashmir.png";
+// import BannerImg3 from "@/app/assets/BannerImg3.svg";
+// import BannerImg4 from "@/app/assets/BannerImg4.svg";
+// import BannerImg5 from "@/app/assets/BannerImg5.svg";
 import CustomImage from "@/app/common/Image";
 import MainLayout from "@/app/common/MainLayout";
 import { clearSearchResults, searchPackages } from "@/app/store/slice/searchSlice";
@@ -32,24 +32,24 @@ const slides = [
     // subtitle: "Big to Stay Home.",
     // desc: "Explore breathtaking places around the globe and create memories that last a lifetime.",
   },
-  {
-    image: BannerImg3,
-    // title: "Go Somewhere You've",
-    // subtitle: "Never Felt Before.",
-    // desc: "Experience new cultures, hidden gems, and unique journeys beyond your imagination.",
-  },
-  {
-    image: BannerImg4,
-    // title: "Where Every Trip",
-    // subtitle: "Becomes a Story.",
-    // desc: "Turn every vacation into a beautiful story filled with joy, adventure, and discovery.",
-  },
-  {
-    image: BannerImg5,
-    // title: "Pack Your Bags",
-    // subtitle: "We'll Handle the Rest.",
-    // desc: "From booking to boarding, enjoy stress-free travel planning with complete comfort.",
-  },
+  // {
+  //   image: BannerImg3,
+  //   // title: "Go Somewhere You've",
+  //   // subtitle: "Never Felt Before.",
+  //   // desc: "Experience new cultures, hidden gems, and unique journeys beyond your imagination.",
+  // },
+  // {
+  //   image: BannerImg4,
+  //   // title: "Where Every Trip",
+  //   // subtitle: "Becomes a Story.",
+  //   // desc: "Turn every vacation into a beautiful story filled with joy, adventure, and discovery.",
+  // },
+  // {
+  //   image: BannerImg5,
+  //   // title: "Pack Your Bags",
+  //   // subtitle: "We'll Handle the Rest.",
+  //   // desc: "From booking to boarding, enjoy stress-free travel planning with complete comfort.",
+  // },
 ];
 
 
@@ -131,22 +131,23 @@ const HomeBannerSection = () => {
     <MainLayout className="relative w-full h-[420px] lg:h-[90vh] p-0 z-10">
       <div className="absolute inset-0 z-0 overflow-hidden">
         <Swiper
-          modules={[Autoplay, EffectFade, Pagination]}
-          effect="fade"
-          fadeEffect={{ crossFade: true }}
-          grabCursor
-          loop
-          speed={1600}
-          autoplay={{ delay: 4500, disableOnInteraction: false, pauseOnMouseEnter: true }}
-          pagination={{
-            clickable: true,
-            dynamicBullets: true,
-            renderBullet: (_, className) =>
-              `<span class="${className} bg-white/60 w-3 h-3 rounded-full shadow transition-all duration-500"></span>`,
-          }}
-          onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
-          className="h-full w-full"
-        >
+  modules={[Autoplay, EffectFade, Pagination]}
+  effect="fade"
+  fadeEffect={{ crossFade: true }}
+  grabCursor={false}  // Changed from true to false
+  loop
+  speed={1600}
+  autoplay={{ delay: 4500, disableOnInteraction: false, pauseOnMouseEnter: false }}
+  pagination={{
+    clickable: true,
+    dynamicBullets: true,
+    renderBullet: (_, className) =>
+      `<span class="${className} bg-white/60 w-3 h-3 rounded-full shadow transition-all duration-500"></span>`,
+  }}
+  onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
+  className="h-full w-full"
+  allowTouchMove={false}  // Add this to disable touch/drag interactions
+>
           {slides.map((slide, index) => (
             <SwiperSlide key={index}>
               <div className="relative w-full h-full overflow-hidden">
@@ -157,7 +158,7 @@ const HomeBannerSection = () => {
                   sizes="100vw"
                   priority={index < 2}
                   quality={85}
-                  className="object-cover"
+                   className="object-cover pointer-events-none"
                 />
                 <div className="absolute inset-0 bg-gradient-to-br from-black/25 via-transparent to-black/55" />
               </div>
