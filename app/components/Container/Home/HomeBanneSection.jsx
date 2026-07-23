@@ -1,5 +1,5 @@
 "use client";
-import BannerImg1 from "@/app/assets/banner_img.png";
+import BannerImg1 from "@/app/assets/BannerIndia.png";
 import BannerImg2 from "@/app/assets/BannerKashmir.png";
 // import BannerImg3 from "@/app/assets/BannerImg3.svg";
 // import BannerImg4 from "@/app/assets/BannerImg4.svg";
