@@ -1,7 +1,7 @@
 "use client";
-import BannerImg1 from "@/app/assets/BannerIndia.png";
-import BannerImg2 from "@/app/assets/BannerKashmir.png";
-// import BannerImg3 from "@/app/assets/BannerImg3.svg";
+import BannerImg1 from "@/app/assets/BannerImageIndia.png";
+import BannerImg2 from "@/app/assets/BannerImageKashmir.png";
+import BannerImg3 from "@/app/assets/BannerImageKerla.png";
 // import BannerImg4 from "@/app/assets/BannerImg4.svg";
 // import BannerImg5 from "@/app/assets/BannerImg5.svg";
 import CustomImage from "@/app/common/Image";
@@ -32,12 +32,12 @@ const slides = [
     // subtitle: "Big to Stay Home.",
     // desc: "Explore breathtaking places around the globe and create memories that last a lifetime.",
   },
-  // {
-  //   image: BannerImg3,
-  //   // title: "Go Somewhere You've",
-  //   // subtitle: "Never Felt Before.",
-  //   // desc: "Experience new cultures, hidden gems, and unique journeys beyond your imagination.",
-  // },
+  {
+    image: BannerImg3,
+    // title: "Go Somewhere You've",
+    // subtitle: "Never Felt Before.",
+    // desc: "Experience new cultures, hidden gems, and unique journeys beyond your imagination.",
+  },
   // {
   //   image: BannerImg4,
   //   // title: "Where Every Trip",
