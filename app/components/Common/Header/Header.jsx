@@ -352,8 +352,14 @@ export default function Header() {
         >
           <motion.div variants={headerItemVariants} className="z-10 md:relative top-2">
             <Link href="/" className="flex items-center gap-3">
-              <Image src={navbar_logo} alt="Pals Holidays" className="h-18 md:h-26 w-auto" priority />
-            </Link>
+<div className="h-[130px] w-[100px] overflow-hidden">
+  <Image
+    src={navbar_logo}
+    alt="Pals Holidays"
+    className="h-full w-auto object-cover"
+    priority
+  />
+</div></Link>
           </motion.div>
 
           <div

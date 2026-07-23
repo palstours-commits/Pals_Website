@@ -15,6 +15,7 @@ import { ItineraryAccordion } from "./ItineraryAccordion";
 import PackageBaneer from "./PackageBanner";
 import { ImageCarousel } from "./ImageCarousel";
 import { EnhancedPackageForm } from "./EnhancedPackageForm";
+import Destination from "@/app/common/Destination";
 
 
 const PackageDetails = ({ slug }) => {
@@ -609,6 +610,10 @@ const PackageDetails = ({ slug }) => {
           </div>
         </Message_Popups>
       )}
+
+      {/* --- ADDED DESTINATION COMPONENT HERE --- */}
+      <Destination />
+
     </>
   );
 };

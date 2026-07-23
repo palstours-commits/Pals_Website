@@ -1,5 +1,5 @@
 "use client";
-import BannerImg1 from "@/app/assets/banner_img.svg";
+import BannerImg1 from "@/app/assets/banner_img.png";
 import BannerImg2 from "@/app/assets/BannerImg2.svg";
 import BannerImg3 from "@/app/assets/BannerImg3.svg";
 import BannerImg4 from "@/app/assets/BannerImg4.svg";
@@ -22,33 +22,33 @@ import { Swiper, SwiperSlide } from "swiper/react";
 const slides = [
   {
     image: BannerImg1,
-    title: "Live the Moments",
-    subtitle: "Love the Journey.",
-    desc: "Discover unforgettable destinations, exciting adventures, and relaxing escapes tailored just for you.",
+    // title: "Live the Moments",
+    // subtitle: "Love the Journey.",
+    // desc: "Discover unforgettable destinations, exciting adventures, and relaxing escapes tailored just for you.",
   },
   {
     image: BannerImg2,
-    title: "The World is Too",
-    subtitle: "Big to Stay Home.",
-    desc: "Explore breathtaking places around the globe and create memories that last a lifetime.",
+    // title: "The World is Too",
+    // subtitle: "Big to Stay Home.",
+    // desc: "Explore breathtaking places around the globe and create memories that last a lifetime.",
   },
   {
     image: BannerImg3,
-    title: "Go Somewhere You've",
-    subtitle: "Never Felt Before.",
-    desc: "Experience new cultures, hidden gems, and unique journeys beyond your imagination.",
+    // title: "Go Somewhere You've",
+    // subtitle: "Never Felt Before.",
+    // desc: "Experience new cultures, hidden gems, and unique journeys beyond your imagination.",
   },
   {
     image: BannerImg4,
-    title: "Where Every Trip",
-    subtitle: "Becomes a Story.",
-    desc: "Turn every vacation into a beautiful story filled with joy, adventure, and discovery.",
+    // title: "Where Every Trip",
+    // subtitle: "Becomes a Story.",
+    // desc: "Turn every vacation into a beautiful story filled with joy, adventure, and discovery.",
   },
   {
     image: BannerImg5,
-    title: "Pack Your Bags",
-    subtitle: "We'll Handle the Rest.",
-    desc: "From booking to boarding, enjoy stress-free travel planning with complete comfort.",
+    // title: "Pack Your Bags",
+    // subtitle: "We'll Handle the Rest.",
+    // desc: "From booking to boarding, enjoy stress-free travel planning with complete comfort.",
   },
 ];
 
@@ -198,7 +198,7 @@ const HomeBannerSection = () => {
             </motion.p>
             <motion.div variants={textVariants} className="mb-12">
               <div ref={searchContainerRef} className="relative w-full max-w-2xl ">
-                <div className="bg-white rounded-full p-1.5 flex items-center shadow-2xl relative z-[60] border-2 border-transparent">
+                {/* <div className="bg-white rounded-full p-1.5 flex items-center shadow-2xl relative z-[60] border-2 border-transparent">
                   <input
                     type="text"
                     placeholder="Search destination, packages..."
@@ -214,7 +214,7 @@ const HomeBannerSection = () => {
                   >
                     <Search size={20} strokeWidth={2.5} className="sm:w-6 sm:h-6" />
                   </button>
-                </div>
+                </div> */}
                 <AnimatePresence>
                   {showDropdown && (
                     <motion.div
