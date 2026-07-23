@@ -333,7 +333,7 @@ export default function Header() {
         variants={headerItemVariants}
         initial="hidden"
         animate="visible"
-        className="w-full bg-gradient-to-r from-red-600 to-red-700 text-white text-xs font-light text-center py-2 hidden md:block"
+        className="w-full bg-[#DA251C] text-white text-xs font-light text-center py-2 hidden md:block"
       >
         <span className="inline-flex items-center gap-2">
           <Sparkles size={14} />
@@ -499,7 +499,7 @@ export default function Header() {
             </div>
             <motion.div variants={planTourButtonVariants} animate="animate">
               <Link href="/contact-us">
-                <motion.button whileHover={{ scale: 1.05, y: -3 }} className="bg-gradient-to-r from-red-600 to-red-700 flex items-center text-white px-4 py-3 rounded-2xl text-sm font-bold shadow-xl transition-all duration-400 flex items-center gap-2 border border-red-500/30 cursor-pointer">
+                <motion.button whileHover={{ scale: 1.05, y: -3 }} className="bg-[#DA251C] flex items-center text-white px-4 py-3 rounded-2xl text-sm font-bold shadow-xl transition-all duration-400 flex items-center gap-2 border border-red-500/30 cursor-pointer">
                   <Sparkles size={16} /> Plan My Tour
                 </motion.button>
               </Link>
