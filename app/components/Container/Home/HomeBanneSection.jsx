@@ -19,45 +19,79 @@ import "swiper/css/effect-fade";
 import "swiper/css/pagination";
 import { Autoplay, EffectFade, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import Mobile1 from "@/app/assets/Hero_MobileImages/Mobile1.png";
+import Mobile2 from "@/app/assets/Hero_MobileImages/Mobile1.png";
+import Mobile3 from "@/app/assets/Hero_MobileImages/Mobile1.png";
+import Mobile4 from "@/app/assets/Hero_MobileImages/Mobile1.png";
 
 const slides = [
   {
-    image: BannerImg1,
-    // title: "Live the Moments",
-    // subtitle: "Love the Journey.",
-    // desc: "Discover unforgettable destinations, exciting adventures, and relaxing escapes tailored just for you.",
+    desktop: BannerImg1,
+    mobile: Mobile1,
   },
   {
-    image: BannerImg4,
-    // title: "Where Every Trip",
-    // subtitle: "Becomes a Story.",
-    // desc: "Turn every vacation into a beautiful story filled with joy, adventure, and discovery.",
+    desktop: BannerImg4,
+    mobile: Mobile2,
   },
   {
-    image: BannerImg2,
-    // title: "The World is Too",
-    // subtitle: "Big to Stay Home.",                                                                                                     
-    // desc: "Explore breathtaking places around the globe and create memories that last a lifetime.",
+    desktop: BannerImg2,
+    mobile: Mobile3,
   },
   {
-    image: BannerImg3,
-    // title: "Go Somewhere You've",
-    // subtitle: "Never Felt Before.",
-    // desc: "Experience new cultures, hidden gems, and unique journeys beyond your imagination.",
+    desktop: BannerImg3,
+    mobile: Mobile4,
   },
   {
-    image: BannerImg5,
-    // title: "Pack Your Bags",
-    // subtitle: "We'll Handle the Rest.",
-    // desc: "From booking to boarding, enjoy stress-free travel planning with complete comfort.",
+    desktop: BannerImg5,
+    mobile: Mobile2,
   },
   {
-    image: BannerImg6,
-    // title: "Go Somewhere You've",
-    // subtitle: "Never Felt Before.",
-    // desc: "Experience new cultures, hidden gems, and unique journeys beyond your imagination.",
+    desktop: BannerImg6,
+    mobile: Mobile2,
   },
 ];
+
+
+// const slides = [
+//   {
+//     image: BannerImg1,
+//     // title: "Live the Moments",
+//     // subtitle: "Love the Journey.",
+//     // desc: "Discover unforgettable destinations, exciting adventures, and relaxing escapes tailored just for you.",
+//   },
+//   {
+//     image: BannerImg4,
+//     // title: "Where Every Trip",
+//     // subtitle: "Becomes a Story.",
+//     // desc: "Turn every vacation into a beautiful story filled with joy, adventure, and discovery.",
+//   },
+//   {
+//     image: BannerImg2,
+//     // title: "The World is Too",
+//     // subtitle: "Big to Stay Home.",                                                                                                     
+//     // desc: "Explore breathtaking places around the globe and create memories that last a lifetime.",
+//   },
+//   {
+//     image: BannerImg3,
+//     // title: "Go Somewhere You've",
+//     // subtitle: "Never Felt Before.",
+//     // desc: "Experience new cultures, hidden gems, and unique journeys beyond your imagination.",
+//   },
+//   {
+//     image: BannerImg5,
+//     // title: "Pack Your Bags",
+//     // subtitle: "We'll Handle the Rest.",
+//     // desc: "From booking to boarding, enjoy stress-free travel planning with complete comfort.",
+//   },
+//   {
+//     image: BannerImg6,
+//     // title: "Go Somewhere You've",
+//     // subtitle: "Never Felt Before.",
+//     // desc: "Experience new cultures, hidden gems, and unique journeys beyond your imagination.",
+//   },
+// ];
+
+
 
 
 
@@ -158,15 +192,31 @@ const HomeBannerSection = () => {
           {slides.map((slide, index) => (
             <SwiperSlide key={index}>
               <div className="relative w-full h-full overflow-hidden">
-                <Image
-                  src={slide.image}
-                  alt={`Banner ${index + 1}`}
-                  fill
-                  sizes="100vw"
-                  priority={index < 2}
-                  quality={85}
-                   className="object-cover pointer-events-none"
-                />
+                <>
+<>
+  {/* Desktop */}
+  <Image
+    src={slide.desktop}
+    alt={`Desktop Banner ${index + 1}`}
+    fill
+    priority={index < 2}
+    quality={85}
+    sizes="100vw"
+    className="hidden md:block object-cover w-full h-full"
+  />
+
+  {/* Mobile */}
+  <Image
+    src={slide.mobile}
+    alt={`Mobile Banner ${index + 1}`}
+    fill
+    priority={index < 2}
+    quality={85}
+    sizes="100vw"
+    className="block md:hidden object-cover w-full h-full"
+  />
+</>
+</>
                 <div className="absolute inset-0 bg-gradient-to-br from-black/25 via-transparent to-black/55" />
               </div>
             </SwiperSlide>
