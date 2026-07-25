@@ -8,7 +8,6 @@ import { useRouter, usePathname } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { getMenus } from "@/app/store/slice/submenuSlice";
 
-// --- STATIC MENU DATA ---
 const SPECIAL_OFFERS_MENU = [
   { name: "Early Bird Offers", slug: "special-offers/early-bird" },
   { name: "EMI Offers", slug: "special-offers/emi" },
@@ -54,10 +53,8 @@ const Fixed_ContactSection = () => {
   const { submenus } = useSelector((state) => state.submenu);
   const sortedSubmenus = submenus ? [...submenus].sort((a, b) => a.order - b.order) : [];
 
-  // Check if we're on the package details page
   const isPackageDetailsPage = pathname?.includes('/package/') || pathname?.includes('/packages/');
   
-  // Check if desktop view
   const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
@@ -309,28 +306,18 @@ const Fixed_ContactSection = () => {
     );
   }
 
-  // For mobile (all pages) - show all icons including location
-  // For desktop (non-package pages) - show only Plan Tour, Mail, Phone (no location)
-  return (
-    <div className="fixed bottom-24 right-4 z-[9998] lg:block flex flex-col items-end gap-3 pb-safe pointer-events-none">
-      
-      {/* Plan My Tour (Pill Shape) */}
-      <div className="pointer-events-auto">
-        <Link href="/contact-us">
-          <motion.button 
-            whileTap={{ scale: 0.95 }}
-            className="px-4 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-full font-bold shadow-lg shadow-red-200/50 flex items-center justify-center gap-2"
-          >
-            <Sparkles size={18} />
-            <span className="text-sm whitespace-nowrap">Plan Tour</span>
-          </motion.button>
-        </Link>
-      </div>
+  // For desktop (non-package pages) - show NOTHING (no icons at all)
+  if (isDesktop && !isPackageDetailsPage) {
+    return null;
+  }
 
-      {/* Location Icon - Only show on mobile */}
-      <div className="lg:hidden">
-        <LocationIcon />
-      </div>
+  // For mobile (all pages) - show all icons including location
+  return (
+    <div className="fixed bottom-24 right-4 z-[9998] flex flex-col items-end gap-3 pb-safe pointer-events-none">
+    
+
+      {/* Location Icon */}
+      <LocationIcon />
 
       {/* Mail Icon (Circle) */}
       <motion.a 

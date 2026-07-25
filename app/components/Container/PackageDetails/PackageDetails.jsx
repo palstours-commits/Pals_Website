@@ -41,7 +41,6 @@ const PackageDetails = ({ slug }) => {
   const [galleryIndex, setGalleryIndex] = useState(0);
   const [allImages, setAllImages] = useState([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [showLocationPopup, setShowLocationPopup] = useState(false);
 
   const overviewRef = useRef(null);
   const highlightsRef = useRef(null);
@@ -49,7 +48,6 @@ const PackageDetails = ({ slug }) => {
   const itineraryRef = useRef(null);
   const informationRef = useRef(null);
   const quoteRef = useRef(null);
-  const locationRef = useRef(null);
 
   const bannerImages = singlePackage?.images?.length > 0
     ? singlePackage.images.map(img => `${process.env.NEXT_PUBLIC_BASE_IMAGE_URL}${img}`)
@@ -136,23 +134,6 @@ const PackageDetails = ({ slug }) => {
     }
   };
 
-  const handleLocationClick = () => {
-    setShowLocationPopup(!showLocationPopup);
-  };
-
-  const scrollToDestinations = () => {
-    if (destinationsRef.current) {
-      const offset = 180;
-      const elementPosition = destinationsRef.current.getBoundingClientRect().top + window.pageYOffset;
-      window.scrollTo({
-        top: elementPosition - offset,
-        behavior: 'smooth'
-      });
-      setShowLocationPopup(false);
-      setActive("Destinations");
-    }
-  };
-
   useEffect(() => {
     const handleScroll = () => {
       const sections = [
@@ -178,19 +159,6 @@ const PackageDetails = ({ slug }) => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  // Close location popup on outside click
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (locationRef.current && !locationRef.current.contains(event.target)) {
-        setShowLocationPopup(false);
-      }
-    };
-    if (showLocationPopup) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [showLocationPopup]);
 
   const handleConfirmRequest = (formData) => {
     const submitData = {
@@ -267,7 +235,7 @@ const PackageDetails = ({ slug }) => {
       </AnimatePresence>
       <PackageBaneer images={bannerImages} />
       
-      {/* Sticky Header with Location Icon */}
+      {/* Sticky Header - WITHOUT Location Icon */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -277,60 +245,15 @@ const PackageDetails = ({ slug }) => {
           <motion.div
             initial={{ x: -20 }}
             animate={{ x: 0 }}
-            className="text-white w-full sm:w-auto flex items-center gap-3"
+            className="text-white w-full sm:w-auto"
           >
-            <div>
-              <h4 className="mb-1 font-semibold capitalize text-lg sm:text-xl">
-                {singlePackage?.packageName}
-              </h4>
-              <p className="flex items-center gap-2 text-sm sm:text-base">
-                <Clock size={16} className="sm:w-[18px] sm:h-[18px]" />
-                {singlePackage?.nights} Nights / {singlePackage?.days} Days
-              </p>
-            </div>
-            
-            {/* Location Icon - Visible on both mobile and desktop */}
-            <div className="relative" ref={locationRef}>
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={handleLocationClick}
-                className="bg-white/20 hover:bg-white/30 backdrop-blur-sm p-2 rounded-full transition-all duration-300 cursor-pointer"
-                aria-label="View Destinations"
-              >
-                <MapPin size={20} className="text-white" />
-              </motion.button>
-
-              {/* Location Popup */}
-              <AnimatePresence>
-                {showLocationPopup && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                    className="absolute top-full mt-2 left-0 sm:left-auto sm:right-0 w-64 bg-white rounded-xl shadow-2xl p-3 z-[9999] border border-gray-100"
-                  >
-                    <div className="flex flex-col gap-1">
-                      <button
-                        onClick={scrollToDestinations}
-                        className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer w-full"
-                      >
-                        <MapPin size={16} className="text-red-500" />
-                        <span>View Destinations</span>
-                      </button>
-                      <div className="h-px bg-gray-100 my-1"></div>
-                      <div className="px-3 py-2">
-                        <p className="text-xs text-gray-500 font-medium">Destinations:</p>
-                        <p className="text-xs text-gray-700 mt-1">
-                          Bangalore - Mysore - Hassan – Hospet - Hampi – Badami - Goa - Mumbai
-                        </p>
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+            <h4 className="mb-1 font-semibold capitalize text-lg sm:text-xl">
+              {singlePackage?.packageName}
+            </h4>
+            <p className="flex items-center gap-2 text-sm sm:text-base">
+              <Clock size={16} className="sm:w-[18px] sm:h-[18px]" />
+              {singlePackage?.nights} Nights / {singlePackage?.days} Days
+            </p>
           </motion.div>
           
           <motion.button

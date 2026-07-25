@@ -12,8 +12,6 @@ export default function AppWrapper({ children }) {
   return (
     <>
       {!isNotFound && <Header />}
-      
-      {/* Added responsive bottom padding */}
       <main className="pb-28 sm:pb-24 md:pb-20 lg:pb-0">
         {children}
       </main>
