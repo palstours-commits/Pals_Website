@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import { getMenus } from "@/app/store/slice/submenuSlice"; // Adjust path if needed
+import { getMenus } from "@/app/store/slice/submenuSlice";
 
 // --- STATIC MENU DATA ---
 const SPECIAL_OFFERS_MENU = [
@@ -44,29 +44,25 @@ const getDynamicIcon = (name) => {
   if (lowerName.includes("cruise") || lowerName.includes("ship")) return <Ship size={20} />;
   if (lowerName.includes("spiritual") || lowerName.includes("temple")) return <Sun size={20} />;
   if (lowerName.includes("beach") || lowerName.includes("island")) return <Palmtree size={20} />;
-  return <MapPin size={20} />; // Fallback icon
+  return <MapPin size={20} />;
 };
-
 
 const Destination = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [expandedMenus, setExpandedMenus] = useState({}); // To track which static dropdown is open
+  const [expandedMenus, setExpandedMenus] = useState({});
   const router = useRouter();
   const dropdownRef = useRef(null);
   const dispatch = useDispatch();
 
-  // Fetch dynamic location data from Redux
   const { submenus } = useSelector((state) => state.submenu);
   const sortedSubmenus = submenus ? [...submenus].sort((a, b) => a.order - b.order) : [];
 
   useEffect(() => {
-    // Dispatch if data is not already loaded
     if (!submenus || submenus.length === 0) {
       dispatch(getMenus());
     }
   }, [dispatch, submenus]);
 
-  // Handle clicking outside to close the dropdown
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -79,17 +75,16 @@ const Destination = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen]);
 
-  // Reset dropdowns when popup closes
   useEffect(() => {
     if (!isOpen) {
-      setTimeout(() => setExpandedMenus({}), 300); // delay reset until exit animation finishes
+      setTimeout(() => setExpandedMenus({}), 300);
     }
   }, [isOpen]);
 
   const handleNavigate = (slug) => {
     if (!slug) return;
-    setIsOpen(false); // Close dropdown
-    router.push(`/${slug}`); // Navigate
+    setIsOpen(false);
+    router.push(`/${slug}`);
   };
 
   const toggleAccordion = (menuId) => {
@@ -100,14 +95,92 @@ const Destination = () => {
   };
 
   return (
-    <div className="fixed bottom-24 right-6 z-[9990]" ref={dropdownRef}>
-      
+    <div 
+      className="destination-wrapper"
+      ref={dropdownRef}
+    >
       <style
         dangerouslySetInnerHTML={{
           __html: `
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-      `,
+            .hide-scrollbar::-webkit-scrollbar { display: none; }
+            .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+            
+            /* Main wrapper positioning */
+            .destination-wrapper {
+              position: fixed;
+              z-index: 99999 !important;
+              bottom: 100px;
+              right: 24px;
+            }
+            
+            /* Responsive adjustments */
+            @media (max-width: 1024px) {
+              .destination-wrapper {
+                bottom: 90px;
+                right: 20px;
+              }
+            }
+            
+            @media (max-width: 768px) {
+              .destination-wrapper {
+                bottom: 80px !important;
+                right: 16px !important;
+              }
+              .destination-button {
+                padding: 10px !important;
+              }
+              .destination-button svg {
+                width: 24px !important;
+                height: 24px !important;
+              }
+              .destination-popup {
+                width: 300px !important;
+                right: 0 !important;
+                max-height: 60vh !important;
+              }
+            }
+            
+            @media (max-width: 480px) {
+              .destination-wrapper {
+                bottom: 75px !important;
+                right: 12px !important;
+              }
+              .destination-button {
+                padding: 8px !important;
+              }
+              .destination-button svg {
+                width: 20px !important;
+                height: 20px !important;
+              }
+              .destination-popup {
+                width: 280px !important;
+                right: -10px !important;
+                max-height: 55vh !important;
+                padding: 12px !important;
+              }
+              .destination-popup button {
+                padding: 10px 12px !important;
+                font-size: 14px !important;
+              }
+            }
+            
+            /* Safe area for notched phones */
+            @supports (padding: max(0px)) {
+              .destination-wrapper {
+                bottom: max(100px, env(safe-area-inset-bottom, 0px) + 80px);
+              }
+              @media (max-width: 768px) {
+                .destination-wrapper {
+                  bottom: max(80px, env(safe-area-inset-bottom, 0px) + 60px) !important;
+                }
+              }
+              @media (max-width: 480px) {
+                .destination-wrapper {
+                  bottom: max(75px, env(safe-area-inset-bottom, 0px) + 55px) !important;
+                }
+              }
+            }
+          `,
         }}
       />
 
@@ -118,10 +191,9 @@ const Destination = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ type: "spring", stiffness: 400, damping: 30 }}
-            className="absolute bottom-full mb-4 right-0 w-72 bg-[#FEF2F2] rounded-[24px] shadow-[0_10px_40px_-10px_rgba(0,0,0,0.2)] p-3 flex flex-col border border-red-100/50 max-h-[65vh] overflow-y-auto hide-scrollbar"
+            className="absolute bottom-full mb-4 right-0 w-72 bg-[#FEF2F2] rounded-[24px] shadow-[0_10px_40px_-10px_rgba(0,0,0,0.2)] p-3 flex flex-col border border-red-100/50 max-h-[65vh] overflow-y-auto hide-scrollbar destination-popup"
           >
-            
-            {/* 1. DYNAMIC MENUS (From API/Redux) */}
+            {/* Dynamic Menus */}
             {sortedSubmenus.length > 0 ? (
               sortedSubmenus.map((loc) => (
                 <button
@@ -139,10 +211,9 @@ const Destination = () => {
               <div className="text-center py-4 text-sm text-gray-500">Loading destinations...</div>
             )}
 
-            {/* Divider */}
             <div className="h-px bg-red-200/50 my-2 mx-2"></div>
 
-            {/* 2. STATIC MENU: SPECIAL OFFERS */}
+            {/* Special Offers */}
             <div>
               <button
                 onClick={() => toggleAccordion("special-offers")}
@@ -179,7 +250,7 @@ const Destination = () => {
               </AnimatePresence>
             </div>
 
-            {/* 3. STATIC MENU: SERVICES */}
+            {/* Services */}
             <div>
               <button
                 onClick={() => toggleAccordion("services")}
@@ -217,7 +288,7 @@ const Destination = () => {
               </AnimatePresence>
             </div>
 
-            {/* 4. STATIC MENU: COMPANY */}
+            {/* Company */}
             <div>
               <button
                 onClick={() => toggleAccordion("company")}
@@ -253,7 +324,6 @@ const Destination = () => {
                 )}
               </AnimatePresence>
             </div>
-
           </motion.div>
         )}
       </AnimatePresence>
@@ -263,15 +333,23 @@ const Destination = () => {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(!isOpen)}
-        className={`p-3 rounded-full shadow-2xl flex items-center justify-center gap-2 transition-colors duration-300 cursor-pointer ${
-          isOpen ? "text-red-600 bg-[#FEF2F2]" : "text-white bg-red-600 hover:bg-red-700"
-        }`}
+        className={`
+          p-3 rounded-full shadow-2xl flex items-center justify-center gap-2 
+          transition-colors duration-300 cursor-pointer
+          ${isOpen ? "text-red-600 bg-[#FEF2F2]" : "text-white bg-red-600 hover:bg-red-700"}
+          destination-button
+        `}
         aria-label="View Menu"
+        style={{
+          boxShadow: isOpen ? '0 8px 32px rgba(0,0,0,0.2)' : '0 8px 32px rgba(220, 38, 38, 0.4)',
+        }}
       >
         <MapPin 
           size={28} 
           className={!isOpen ? "animate-bounce" : ""} 
-          style={{ animationDuration: '2s' }} 
+          style={{ 
+            animationDuration: '2s',
+          }} 
         />
       </motion.button>
     </div>

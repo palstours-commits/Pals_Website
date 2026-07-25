@@ -20,9 +20,9 @@ import "swiper/css/pagination";
 import { Autoplay, EffectFade, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Mobile1 from "@/app/assets/Hero_MobileImages/Mobile1.png";
-import Mobile2 from "@/app/assets/Hero_MobileImages/Mobile1.png";
-import Mobile3 from "@/app/assets/Hero_MobileImages/Mobile1.png";
-import Mobile4 from "@/app/assets/Hero_MobileImages/Mobile1.png";
+import Mobile2 from "@/app/assets/Hero_MobileImages/Mobile2.png";
+import Mobile3 from "@/app/assets/Hero_MobileImages/Mobile3.png";
+import Mobile4 from "@/app/assets/Hero_MobileImages/Mobile4.png";
 
 const slides = [
   {
@@ -43,11 +43,11 @@ const slides = [
   },
   {
     desktop: BannerImg5,
-    mobile: Mobile2,
+    mobile: Mobile3,
   },
   {
     desktop: BannerImg6,
-    mobile: Mobile2,
+    mobile: Mobile4,
   },
 ];
 
@@ -194,27 +194,27 @@ const HomeBannerSection = () => {
               <div className="relative w-full h-full overflow-hidden">
                 <>
 <>
-  {/* Desktop */}
-  <Image
-    src={slide.desktop}
-    alt={`Desktop Banner ${index + 1}`}
-    fill
-    priority={index < 2}
-    quality={85}
-    sizes="100vw"
-    className="hidden md:block object-cover w-full h-full"
-  />
+{/* Desktop */}
+<Image
+  src={slide.desktop}
+  alt={`Desktop Banner ${index + 1}`}
+  fill
+  priority={index < 2}
+  quality={85}
+  sizes="100vw"
+  className="hidden md:block object-cover"
+/>
 
-  {/* Mobile */}
-  <Image
-    src={slide.mobile}
-    alt={`Mobile Banner ${index + 1}`}
-    fill
-    priority={index < 2}
-    quality={85}
-    sizes="100vw"
-    className="block md:hidden object-cover w-full h-full"
-  />
+{/* Mobile */}
+<Image
+  src={slide.mobile}
+  alt={`Mobile Banner ${index + 1}`}
+  fill
+  priority={index < 2}
+  quality={85}
+  sizes="100vw"
+  className="block md:hidden object-cover"
+/>
 </>
 </>
                 <div className="absolute inset-0 bg-gradient-to-br from-black/25 via-transparent to-black/55" />

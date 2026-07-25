@@ -13,8 +13,10 @@ export default function AppWrapper({ children }) {
     <>
       {!isNotFound && <Header />}
       
-      {/* Added bottom padding on mobile (pb-20) so the fixed bar doesn't overlap website content */}
-      <main className="pb-20 lg:pb-0">{children}</main>
+      {/* Added responsive bottom padding */}
+      <main className="pb-28 sm:pb-24 md:pb-20 lg:pb-0">
+        {children}
+      </main>
       
       {!isNotFound && (
         <>
