@@ -1,8 +1,7 @@
 "use client";
-import BannerImg1 from "@/app/assets/BannerImageIndia.png";
 import BannerImg2 from "@/app/assets/BannerImageKashmir.png";
 import BannerImg3 from "@/app/assets/BannerImageKerla.png";
-import BannerImg4 from "@/app/assets/BannerIndia.png";
+import BannerImg4 from "@/app/assets/BannerImageIndia1.png";
 import BannerImg5 from "@/app/assets/WildLifeImage.png";
 import BannerImg6 from "@/app/assets/BannerInternational.png";
 import CustomImage from "@/app/common/Image";
@@ -23,23 +22,20 @@ import Mobile1 from "@/app/assets/Hero_MobileImages/Mobile1.png";
 import Mobile2 from "@/app/assets/Hero_MobileImages/Mobile2.png";
 import Mobile3 from "@/app/assets/Hero_MobileImages/Mobile3.png";
 import Mobile4 from "@/app/assets/Hero_MobileImages/Mobile4.png";
+import Mobile5 from "@/app/assets/Hero_MobileImages/Mobile5.png"
 
 const slides = [
   {
-    desktop: BannerImg1,
-    mobile: Mobile1,
-  },
-  {
     desktop: BannerImg4,
-    mobile: Mobile2,
+    mobile: Mobile5,
   },
   {
     desktop: BannerImg2,
-    mobile: Mobile3,
+    mobile: Mobile1,
   },
   {
     desktop: BannerImg3,
-    mobile: Mobile4,
+    mobile: Mobile2,
   },
   {
     desktop: BannerImg5,

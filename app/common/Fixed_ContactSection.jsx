@@ -53,7 +53,8 @@ const Fixed_ContactSection = () => {
   const { submenus } = useSelector((state) => state.submenu);
   const sortedSubmenus = submenus ? [...submenus].sort((a, b) => a.order - b.order) : [];
 
-  const isPackageDetailsPage = pathname?.includes('/package/') || pathname?.includes('/packages/');
+  // MORE SPECIFIC: Check if it's a package details page (not the package listing page)
+  const isPackageDetailsPage = pathname?.includes('/package/') && !pathname?.includes('/packages/');
   
   const [isDesktop, setIsDesktop] = useState(false);
 
@@ -110,7 +111,7 @@ const Fixed_ContactSection = () => {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(!isOpen)}
-        className={`w-12 h-12 rounded-full border border-gray-100 shadow-[0_4px_12px_rgba(0,0,0,0.1)] flex items-center justify-center transition-colors duration-200 ${
+        className={`w-12 h-12 rounded-full border border-gray-100 shadow-[0_4px_12px_rgba(0,0,0,0.1)] flex items-center justify-center transition-colors duration-200 cursor-pointer ${
           isOpen ? 'bg-red-600 text-white' : 'bg-white text-red-600'
         }`}
         aria-label="Destinations"
@@ -297,7 +298,8 @@ const Fixed_ContactSection = () => {
     </div>
   );
 
-  // If on package details page AND desktop, show ONLY the location icon
+  // UPDATED LOGIC: 
+  // Show ONLY location icon on PackageDetails page (not PackageSection) and ONLY on desktop
   if (isPackageDetailsPage && isDesktop) {
     return (
       <div className="fixed bottom-24 right-4 z-[9998] flex flex-col items-end gap-3 pb-safe pointer-events-none">
@@ -306,41 +308,38 @@ const Fixed_ContactSection = () => {
     );
   }
 
-  // For desktop (non-package pages) - show NOTHING (no icons at all)
-  if (isDesktop && !isPackageDetailsPage) {
-    return null;
+  // Show ALL icons (Phone, Mail, Location) on mobile for all pages
+  if (!isDesktop) {
+    return (
+      <div className="fixed bottom-24 right-4 z-[9998] flex flex-col items-end gap-3 pb-safe pointer-events-none">
+        {/* Location Icon */}
+        <LocationIcon />
+
+        {/* Mail Icon (Circle) */}
+        <motion.a 
+          whileTap={{ scale: 0.9 }}
+          href="mailto:mail@palsholidays.com" 
+          className="w-12 h-12 bg-white text-red-600 rounded-full border border-gray-100 shadow-[0_4px_12px_rgba(0,0,0,0.1)] flex items-center justify-center pointer-events-auto"
+          aria-label="Email Us"
+        >
+          <Mail size={22} />
+        </motion.a>
+
+        {/* Phone Icon (Circle) */}
+        <motion.a 
+          whileTap={{ scale: 0.9 }}
+          href="tel:+919841255715" 
+          className="w-12 h-12 bg-white text-red-600 rounded-full border border-gray-100 shadow-[0_4px_12px_rgba(0,0,0,0.1)] flex items-center justify-center pointer-events-auto"
+          aria-label="Call Us"
+        >
+          <Phone size={22} />
+        </motion.a>
+      </div>
+    );
   }
 
-  // For mobile (all pages) - show all icons including location
-  return (
-    <div className="fixed bottom-24 right-4 z-[9998] flex flex-col items-end gap-3 pb-safe pointer-events-none">
-    
-
-      {/* Location Icon */}
-      <LocationIcon />
-
-      {/* Mail Icon (Circle) */}
-      <motion.a 
-        whileTap={{ scale: 0.9 }}
-        href="mailto:mail@palsholidays.com" 
-        className="w-12 h-12 bg-white text-red-600 rounded-full border border-gray-100 shadow-[0_4px_12px_rgba(0,0,0,0.1)] flex items-center justify-center pointer-events-auto"
-        aria-label="Email Us"
-      >
-        <Mail size={22} />
-      </motion.a>
-
-      {/* Phone Icon (Circle) */}
-      <motion.a 
-        whileTap={{ scale: 0.9 }}
-        href="tel:+919841255715" 
-        className="w-12 h-12 bg-white text-red-600 rounded-full border border-gray-100 shadow-[0_4px_12px_rgba(0,0,0,0.1)] flex items-center justify-center pointer-events-auto"
-        aria-label="Call Us"
-      >
-        <Phone size={22} />
-      </motion.a>
-
-    </div>
-  );
+  // For desktop (non-package pages including PackageSection) - show NOTHING
+  return null;
 };
 
 export default Fixed_ContactSection;
