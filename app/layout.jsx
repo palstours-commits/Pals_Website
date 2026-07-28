@@ -9,7 +9,7 @@ const jost = Jost({
   variable: "--font-jost",
 });
 
-const siteUrl = process.env.NEXT_SITE_URL;
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
 export const metadata = {
   metadataBase: new URL(siteUrl),
