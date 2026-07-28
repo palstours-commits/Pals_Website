@@ -234,7 +234,6 @@ const FlightBookingSection = () => {
                       </p>
                     </div>
                   </div>
-
                   <div className="flex gap-3 items-start group">
                     <div className="bg-red-50 p-2.5 rounded-lg text-red-600 group-hover:bg-red-600 group-hover:text-white transition-all duration-300 shrink-0">
                       <Clock size={20} />
