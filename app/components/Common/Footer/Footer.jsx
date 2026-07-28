@@ -7,7 +7,7 @@ import { socialLinks } from "@/app/utils/siteConstants";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, } from "react-redux";
 import Product1 from "@/app/assets/footerLogo/Product1.png";
 import Product2 from "@/app/assets/footerLogo/Product2.png";
 import Product3 from "@/app/assets/footerLogo/Product3.png";
@@ -17,7 +17,6 @@ import Product6 from "@/app/assets/footerLogo/Product6.png";
 import navbar_logo from "@/app/assets/navbar_logo.svg";
 export default function Footer() {
   const dispatch = useDispatch();
-  // const { packages } = useSelector((state) => state.packages);
 
   useEffect(() => {
     dispatch(getPackages());
@@ -25,17 +24,8 @@ export default function Footer() {
 
   return (
     <footer className="bg-[#0a0a0a] text-white pt-12 md:pt-16 pb-8">
-      {/* Container with responsive padding */}
       <div className="px-5 sm:px-6 md:px-8 max-w-7xl mx-auto">
-        {/* 
-          SMART RESPONSIVE GRID: 
-          - Mobile (Default): 1 Column (Stacks perfectly)
-          - Small Tablet (sm): 2 Columns
-          - Large Tablet (md): 3 Columns
-          - Desktop (lg): 6 Columns
-        */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-6 gap-y-12 lg:gap-8">
-          {/* 1. Quick Links */}
           <div className="flex flex-col">
             <h4 className="font-semibold text-lg mb-5 text-white">
               Quick Links
@@ -74,7 +64,6 @@ export default function Footer() {
                 </Link>
               </li>
             </ul>
-            {/* Logo at the bottom of the first column */}
             <div className="mt-8 md:mt-auto pt-8">
               <Image
                 src={navbar_logo}
@@ -85,7 +74,6 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* 2. Package */}
           <div>
             <h4 className="font-semibold text-lg mb-5 text-white">Packages</h4>
             <ul className="space-y-3 text-sm text-gray-400">
@@ -124,30 +112,12 @@ export default function Footer() {
                   Honeymoon Holidays
                 </Link>
               </li>
-
-              {/* {packages?.slice(0, 5).map((item) => (
-                <li key={item._id}>
-                  <Link
-                    href={`/package/${item.slug || item._id}`}
-                    className="hover:text-red-500 transition-colors block line-clamp-2 leading-relaxed"
-                  >
-                    {item.packageName}
-                  </Link>
-                </li>
-              ))} */}
             </ul>
           </div>
 
-          {/* 3. Services */}
           <div>
             <h4 className="font-semibold text-lg mb-5 text-white">Services</h4>
             <ul className="space-y-3 text-sm text-gray-400">
-              {/* <li><Link href="/service/flight" className="hover:text-red-500 transition-colors block">Flights</Link></li>
-              <li><Link href="/service/hotel" className="hover:text-red-500 transition-colors block">Hotels</Link></li>
-              <li><Link href="/service/transport" className="hover:text-red-500 transition-colors block">Transportation</Link></li>
-              <li><Link href="/service/visa" className="hover:text-red-500 transition-colors block">Visa Services</Link></li> */}
-
-              {/* <li><Link href="/service/transport" className="hover:text-red-500 transition-colors block">Travel Insurance</Link></li> */}
               <li>
                 <Link
                   href="/service/hotel"
@@ -172,7 +142,6 @@ export default function Footer() {
                   Visa Services
                 </Link>
               </li>
-              {/* <li><Link href="/service/visa" className="hover:text-red-500 transition-colors block">Forexchange </Link></li> */}
               <li>
                 <Link
                   href="car-rentals"
@@ -184,7 +153,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* 4. Contact Us */}
           <div>
             <h4 className="font-semibold text-lg mb-5 text-white">
               Contact Us
@@ -253,7 +221,6 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* 5. Review Us */}
           <div>
             <h4 className="font-semibold text-lg mb-5 text-white">Review Us</h4>
             <div className="flex flex-row sm:flex-col gap-4">
@@ -282,7 +249,6 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* 6. Associate */}
           <div>
             <h4 className="font-semibold text-lg mb-5 text-white leading-tight">
               Associate with Incredible India
@@ -306,7 +272,6 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Bottom Bar Section */}
         <div className="border-t border-gray-800 mt-12 md:mt-16 pt-6 flex flex-col-reverse md:flex-row items-center justify-between gap-6">
           <p className="text-xs text-gray-400 text-center md:text-left leading-relaxed">
             © {new Date().getFullYear()} PALS HOLIDAYS. All rights reserved
