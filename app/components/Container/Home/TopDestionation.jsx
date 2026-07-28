@@ -46,6 +46,8 @@ const TopDestination = () => {
     router.push(`/${discoverSubMenu.menuId.slug}/${discoverSubMenu.slug}`);
   };
 
+
+
   return (
     <MainLayout className="bg-gradient-to-r from-[#FAF3E1] to-[#F8E8C8] pt-10 lg:pt-10">
       <motion.div

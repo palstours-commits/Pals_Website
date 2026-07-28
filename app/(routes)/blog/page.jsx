@@ -1,14 +1,8 @@
 import BlogSection from "@/app/components/Container/BlogSection/BlogSection";
 
-export async function generateMetadata({ params }) {
-  const slug = params?.slug ?? "";
-
-  const title = slug
-    .replace(/-/g, " ")
-    .replace(/\b\w/g, (char) => char.toUpperCase());
-
+export async function generateMetadata() {
   return {
-    title: title || "Blog",
+    title: "Blog",
     description: `Read ${title || "our latest blogs"} on Pals Holidays and discover travel tips, destination guides, and holiday inspiration.`,
     alternates: {
       canonical: `/blog/${slug}`,
@@ -16,6 +10,6 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default function Page({ params }) {
-  return <BlogSection slug={params?.slug} />;
+export default function Page() {
+  return <BlogSection />;
 }
