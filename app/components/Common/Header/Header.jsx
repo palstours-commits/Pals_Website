@@ -10,8 +10,6 @@ import {
   Bus,
   Car,
   ChevronDown,
-  ChevronLeft,
-  ChevronRight,
   Compass,
   CreditCard,
   FileText,
@@ -363,7 +361,7 @@ export default function Header() {
           </motion.div>
 
           <div
-            className="hidden lg:flex ml-8 max-w-[900px] 2xl:max-w-[1060px] relative items-center h-12 w-full"
+            className="hidden lg:flex ml-8 max-w-[900px] 2xl:max-w-[1060px] relative  items-center h-12 w-full"
             onMouseEnter={() => setIsNavHovered(true)}
             onMouseLeave={() => setIsNavHovered(false)}
           >
@@ -381,9 +379,9 @@ export default function Header() {
 
             <div
               ref={navRef}
-              className="hide-scrollbar flex overflow-x-auto overflow-y-hidden scroll-smooth whitespace-nowrap w-full"
+              className="hide-scrollbar flex overflow-x-auto overflow-y-hidden scroll-smooth whitespace-nowrap w-full justify-center-safe"
             >
-              <div className="flex items-center gap-1 px-2 h-full flex-nowrap">
+              <div className="flex items-center  gap-1 px-2 h-full flex-nowrap">
                 {sortedSubmenus?.map((menu) => (
                   <motion.div
                     variants={headerItemVariants}
@@ -488,8 +486,8 @@ export default function Header() {
             </AnimatePresence>
           </div>
 
-          <motion.div variants={headerItemVariants} className="hidden 2xl:flex items-center gap-6 ml-auto z-10 pl-4">
-            <div className="flex items-center gap-3 text-gray-700">
+          <motion.div variants={headerItemVariants} className="hidden 2xl:flex items-center gap-4 ml-auto z-10 pl-4">
+            <div className="flex items-center gap-1 text-gray-700">
               <motion.a href="tel:+919841255715" whileHover={{ scale: 1.1, rotate: 5, backgroundColor: "#FEE2E2" }} className="w-12 h-12 flex items-center justify-center rounded-2xl border-2 border-gray-200 hover:border-red-500 hover:text-red-600 shadow-lg bg-white">
                 <Phone size={20} />
               </motion.a>
@@ -576,7 +574,6 @@ export default function Header() {
                 </div>
 
                 <div className="flex-1 overflow-y-auto px-4 py-4 space-y-1">
-                  {/* Dynamic submenus */}
                   {sortedSubmenus?.map((menu, index) => {
                     const menuKey = menu.slug || menu.name || `menu-${index}`;
                     return (
@@ -599,7 +596,6 @@ export default function Header() {
                     );
                   })}
 
-                  {/* Services — accordion */}
                   <div className="border-b border-gray-50/50 pb-1">
                     <button
                       onClick={() => toggleMobileDropdown("services")}
