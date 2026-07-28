@@ -1,7 +1,7 @@
 @import "tailwindcss";
 :root {
-  --font-primary: var(--font-dmSans);
-  --font-heading: var(--font-dmSans);
+  --font-primary: var(--font-jost);
+  --font-heading: var(--font-jost);
   --color-primary: #da251c;
   --color-primary-light: #ffdcda;
   --color-secondary: #fa812f;
@@ -140,4 +140,16 @@ h6 {
 .blog-content img {
   border-radius: 12px;
   margin: 2rem 0;
+}
+
+
+.leaflet-container {
+  z-index: 1 !important;
+}
+
+.leaflet-pane,
+.leaflet-top,
+.leaflet-bottom,
+.leaflet-control {
+  z-index: 1 !important;
 }

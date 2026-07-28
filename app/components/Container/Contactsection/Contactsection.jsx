@@ -159,15 +159,15 @@ const Contactsection = () => {
 
             <div className="space-y-6 md:space-y-8">
               <div>
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-gray-900 mb-2 sm:mb-3 leading-tight">
+                <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-gray-900  leading-tight">
                   Get in Touch
-                </h2>
+                </h3>
                 <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
                   We're here to help you plan your perfect journey.
                 </p>
               </div>
 
-              <div className="flex flex-col gap-6 md:gap-8">
+              <div className="flex flex-col gap-6">
                 {[
                   {
                     icon: Mail,
@@ -208,12 +208,12 @@ const Contactsection = () => {
                             <a
                               key={j}
                               href={line.href}
-                              className="block text-gray-600 text-xs sm:text-sm hover:text-red-600 transition-colors py-0.5"
+                              className="block text-gray-600 text-xs sm:text-sm hover:text-red-600 transition-colors"
                             >
                               {line.text}
                             </a>
                           ) : (
-                            <p key={j} className="text-gray-600 text-xs sm:text-sm py-0.5">
+                            <p key={j} className="text-gray-600 text-xs sm:text-sm ">
                               {line.text}
                             </p>
                           )
@@ -229,16 +229,14 @@ const Contactsection = () => {
               id="contact-form-container"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-white p-6 sm:p-8 md:p-10 rounded-[2rem] shadow-2xl border border-gray-100 mt-4 lg:mt-0"
+              className="bg-white p-6 sm:p-8 rounded-[2rem] shadow-2xl border border-gray-100 mt-4 lg:mt-0"
             >
-              <h2 className="text-xl sm:text-xl md:text-xl font-bold text-gray-900 text-center">
+              <h3 className="text-xl sm:text-xl md:text-xl font-bold text-gray-900 text-center">
                 Plan Your Dream Trip Today
-              </h2>
-
-              <div className="flex justify-center mt-3 md:mt-4">
-                <div className="h-1 w-16 md:w-20 bg-red-600 rounded-full"></div>
+              </h3>
+              <div className="flex justify-center mt-1">
+                <div className="h-1 w-16 md:w-30 bg-red-600 rounded-full"></div>
               </div>
-
               <div className="w-full h-full">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -250,13 +248,13 @@ const Contactsection = () => {
                       <PlaneTakeoff size={22} />
                     </div>
                     <div>
-                      <h2 className="text-xl font-bold text-gray-900">Book Your Flight</h2>
+                      <h4 className="text-xl font-bold text-gray-900">Book Your Flight</h4>
                       <p className="text-gray-500 text-xs">Experience seamless travel with us</p>
                     </div>
                   </div>
 
-                  <form onSubmit={handleSubmitClick} className="space-y-1">
-                    <div className="space-y-6">
+                  <form onSubmit={handleSubmitClick} >
+                    <div className="space-y-3">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                         <FloatingLabelInput
                           label="First Name"
@@ -324,6 +322,7 @@ const Contactsection = () => {
 
                       <div className="grid grid-cols-1 gap-3 mt-3">
                         <FloatingLabelSelect
+                          isLabel={false}
                           label="Select Accommodation Type"
                           name="accommodationType"
                           options={[

@@ -15,12 +15,15 @@ import { ItineraryAccordion } from "./ItineraryAccordion";
 import PackageBaneer from "./PackageBanner";
 import { ImageCarousel } from "./ImageCarousel";
 import { EnhancedPackageForm } from "./EnhancedPackageForm";
+import { parseHtmlList } from "@/app/utils/textConvertor";
+import RouteTimeline from "./RouteTimeline";
 
 const PackageDetails = ({ slug }) => {
   const tabs = [
     "Overview",
     "Trip Highlights",
     "Destinations",
+    "Map",
     "Tour Itinerary",
     "Information",
     "Get a Quote",
@@ -43,6 +46,7 @@ const PackageDetails = ({ slug }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const overviewRef = useRef(null);
+  const mapRef = useRef(null)
   const highlightsRef = useRef(null);
   const destinationsRef = useRef(null);
   const itineraryRef = useRef(null);
@@ -65,11 +69,10 @@ const PackageDetails = ({ slug }) => {
     }
   }, [singlePackage]);
 
-  const points = singlePackage?.tripHighlightsPoints || [];
   const importantInfo = singlePackage?.importantInfo || [];
   const overviewIcons = singlePackage?.overview?.icon || [];
   const gridImages = allImages.slice(0, 6);
-  const carouselImages = allImages.slice(6);
+  const tripHighlights = parseHtmlList(singlePackage?.tripHighlights);
 
   useEffect(() => {
     if (message && !error) {
@@ -111,6 +114,9 @@ const PackageDetails = ({ slug }) => {
       case "Destinations":
         ref = destinationsRef;
         break;
+      case "Map":
+        ref = mapRef;
+        break;
       case "Tour Itinerary":
         ref = itineraryRef;
         break;
@@ -140,6 +146,7 @@ const PackageDetails = ({ slug }) => {
         { ref: overviewRef, name: "Overview" },
         { ref: highlightsRef, name: "Trip Highlights" },
         { ref: destinationsRef, name: "Destinations" },
+        { ref: mapRef, name: "Map" },
         { ref: itineraryRef, name: "Tour Itinerary" },
         { ref: informationRef, name: "Information" },
         { ref: quoteRef, name: "Get a Quote" }
@@ -234,8 +241,7 @@ const PackageDetails = ({ slug }) => {
         )}
       </AnimatePresence>
       <PackageBaneer images={bannerImages} />
-      
-      {/* Sticky Header - WITHOUT Location Icon */}
+
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -255,7 +261,7 @@ const PackageDetails = ({ slug }) => {
               {singlePackage?.nights} Nights / {singlePackage?.days} Days
             </p>
           </motion.div>
-          
+
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -283,7 +289,7 @@ const PackageDetails = ({ slug }) => {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="md:hidden absolute left-0 right-0 top-full mt-2 bg-white shadow-xl rounded-xl overflow-hidden z-50"
+              className="md:hidden absolute left-0 right-0 top-full mt-2 bg-white shadow-xl rounded-xl overflow-hidden "
             >
               {tabs?.map((tab) => (
                 <button
@@ -302,7 +308,7 @@ const PackageDetails = ({ slug }) => {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="hidden md:flex gap-2 items-center overflow-x-auto scrollbar-hide p-4"
+            className="hidden md:flex gap-2 items-center overflow-x-auto scrollbar-hide p-4 "
           >
             {tabs?.map((tab) => (
               <motion.button
@@ -321,7 +327,7 @@ const PackageDetails = ({ slug }) => {
           </motion.div>
         </div>
       </div>
-      
+
       <motion.div
         ref={overviewRef}
         initial="initial"
@@ -396,18 +402,22 @@ const PackageDetails = ({ slug }) => {
               className="rounded-2xl p-6 sm:p-8 h-full bg-white shadow-lg"
             >
               <ul className="space-y-3 sm:space-y-4 text-sm sm:text-[17px] leading-relaxed">
-                {points?.map((item, index) => (
-                  <motion.li
-                    key={index}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    className="flex items-start gap-3"
-                  >
-                    <span className="mt-2 w-2 h-2 bg-red-600 rounded-full shrink-0"></span>
-                    <p>{item}</p>
-                  </motion.li>
-                ))}
+                {tripHighlights.length > 0 && (
+                  <ul className="space-y-3 sm:space-y-4 text-sm sm:text-[17px] leading-relaxed">
+                    {tripHighlights.map((item, index) => (
+                      <motion.li
+                        key={index}
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                        className="flex items-start gap-3"
+                      >
+                        <span className="mt-2 w-2 h-2 bg-red-600 rounded-full shrink-0" />
+                        <p>{item}</p>
+                      </motion.li>
+                    ))}
+                  </ul>
+                )}
               </ul>
             </motion.div>
             <motion.div
@@ -444,15 +454,14 @@ const PackageDetails = ({ slug }) => {
           </div>
         </div>
       </motion.div>
-      
       <motion.div
         ref={destinationsRef}
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
-        className="w-full bg-gradient-to-r from-red-600 to-red-500 py-6 sm:py-8"
+        className="w-full  bg-gradient-to-r from-red-600 to-red-500 py-6 sm:py-8"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-center text-white">
+        <div className="max-w-7xl  mx-auto flex items-center justify-center text-white">
           <motion.div
             animate={{
               x: [0, 10, 0],
@@ -461,13 +470,21 @@ const PackageDetails = ({ slug }) => {
             className="flex items-center gap-2 text-center flex-wrap justify-center"
           >
             <MapPin className="shrink-0 w-4 h-4 sm:w-5 sm:h-5" />
-            <h4 id="destinations" className="font-semibold text-sm sm:text-base md:text-lg">
-              Bangalore - Mysore - Hassan – Hospet - Hampi – Badami - Goa - Mumbai.
+            <h4
+              id="destinations"
+              className="font-semibold text-sm sm:text-base md:text-lg"
+            >
+              {singlePackage?.destinations?.join(", ")}
             </h4>
           </motion.div>
         </div>
       </motion.div>
-      
+      <div
+        ref={mapRef}
+        id="map"
+        className="max-w-7xl mx-auto mt-10 md:mt-25 hidden md:block px-6">
+        <RouteTimeline destinations={singlePackage?.destinations} />
+      </div>
       <motion.div
         ref={itineraryRef}
         initial="initial"
@@ -480,7 +497,7 @@ const PackageDetails = ({ slug }) => {
           <ItineraryAccordion items={singlePackage?.itinerary} />
         </motion.div>
       </motion.div>
-      
+
       <motion.div
         ref={informationRef}
         initial="initial"
@@ -564,7 +581,7 @@ const PackageDetails = ({ slug }) => {
           </div>
         </div>
       </motion.div>
-      
+
       <MainLayout className="w-full bg-gradient-to-r from-[#e6dcc8] to-[#d6ccb8] py-8 sm:py-12">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -595,7 +612,7 @@ const PackageDetails = ({ slug }) => {
           </Link>
         </motion.div>
       </MainLayout>
-      
+
       <Message_Popups
         isOpen={showConfirmPopup}
         type="confirm"

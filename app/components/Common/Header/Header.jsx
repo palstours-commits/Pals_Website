@@ -294,7 +294,7 @@ export default function Header() {
     { name: "Transport", slug: "service/transport", icon: <Bus size={16} /> },
     { name: "Money Exchange", icon: <CreditCard size={16} /> },
     { name: "Visa", slug: "service/visa", icon: <FileText size={16} /> },
-    { name: "Car Rental", slug: "car-rentals", icon:<Car size={16}/> }
+    { name: "Car Rental", slug: "car-rentals", icon: <Car size={16} /> }
   ];
 
   const COMPANY_MENU = [
@@ -348,18 +348,18 @@ export default function Header() {
           variants={headerContainerVariants}
           initial="hidden"
           animate="visible"
-          className="max-w-full mx-auto px-4 h-16 flex items-center relative"
+          className="max-w-full mx-auto px-4 h-20 flex items-center relative"
         >
           <motion.div variants={headerItemVariants} className="z-10 md:relative top-2">
             <Link href="/" className="flex items-center gap-3">
-<div className="h-[130px] w-[100px] overflow-hidden mt-10">
-  <Image
-    src={navbar_logo}
-    alt="Pals Holidays"
-    className="h-full w-auto object-cover"
-    priority
-  />
-</div></Link>
+              <div className="h-[138px] w-[100px] overflow-hidden mt-10">
+                <Image
+                  src={navbar_logo}
+                  alt="Pals Holidays"
+                  className="h-full w-auto object-cover"
+                  priority
+                />
+              </div></Link>
           </motion.div>
 
           <div
@@ -380,9 +380,9 @@ export default function Header() {
             </AnimatePresence>
 
             <div
-  ref={navRef}
-  className="hide-scrollbar flex overflow-x-auto overflow-y-hidden scroll-smooth whitespace-nowrap w-full"
->
+              ref={navRef}
+              className="hide-scrollbar flex overflow-x-auto overflow-y-hidden scroll-smooth whitespace-nowrap w-full"
+            >
               <div className="flex items-center gap-1 px-2 h-full flex-nowrap">
                 {sortedSubmenus?.map((menu) => (
                   <motion.div
@@ -471,7 +471,7 @@ export default function Header() {
                     </motion.div>
                   </motion.button>
                 </motion.div>
-                
+
               </div>
             </div>
 
@@ -506,7 +506,6 @@ export default function Header() {
             </motion.div>
           </motion.div>
 
-          {/* ── Desktop dropdowns rendered via shared component ── */}
           <AnimatePresence>
             {hoveredDropdown === "special-offers" && dropdownConfigs["special-offers"] && (
               <DesktopDropdown

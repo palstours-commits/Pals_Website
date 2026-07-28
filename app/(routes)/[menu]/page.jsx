@@ -1,12 +1,21 @@
-import ZoneSection from '@/app/components/Container/ZoneSection/ZoneSection';
-import React from 'react'
+import ZoneSection from "@/app/components/Container/ZoneSection/ZoneSection";
 
-async function page({ params }) {
-    const { menu } = await params
-    return (
-        <ZoneSection menu={menu} />
-    )
+export async function generateMetadata({ params }) {
+    const { menu } = await params;
+    const pageName = menu
+        .replace(/-/g, " ")
+        .replace(/\b\w/g, (char) => char.toUpperCase());
+    return {
+        title: pageName,
+        description: `Explore ${pageName} with Pals Holidays.`,
+        alternates: {
+            canonical: `/${menu}`,
+        },
+    };
 }
 
+export default async function Page({ params }) {
+    const { menu } = await params;
 
-export default page
+    return <ZoneSection menu={menu} />;
+}

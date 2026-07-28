@@ -1,17 +1,22 @@
 export const parseHtmlList = (html = "") => {
-  if (typeof html !== "string") {
-    return [];
-  }
+  if (typeof html !== "string") return [];
+
   return html
-    .replace(/<\/?ul>/gi, "")
-    .split("</li>")
-    .map(item =>
+    .replace(/&nbsp;/gi, "")
+    .split(/<\/p>|<\/li>/i)
+    .map((item) =>
       item
+        .replace(/<p>/gi, "")
         .replace(/<li>/gi, "")
-        .replace(/<br\s*\/?>/gi, "")
-        .replace(/<p>&nbsp;<\/p>/gi, "")
         .replace(/<\/?strong>/gi, "")
+        .replace(/<br\s*\/?>/gi, "")
         .trim()
     )
-    .filter(Boolean);
+    .filter(
+      (item) =>
+        item &&
+        item !== "" &&
+        item !== "<p>" &&
+        item !== "</p>"
+    );
 };

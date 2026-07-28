@@ -9,6 +9,11 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
+        protocol: "https",
+        hostname: "api-palstravels.webdadsprojects.com",
+        pathname: "/storage/**",
+      },
+      {
         protocol: "http",
         hostname: "192.168.1.86",
         port: "3000",
@@ -22,6 +27,7 @@ const nextConfig = {
       },
     ],
   },
+  compress: true,
 };
 
 module.exports = nextConfig;

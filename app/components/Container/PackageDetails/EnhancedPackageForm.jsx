@@ -133,15 +133,15 @@ export const EnhancedPackageForm = ({ packageId, packageName }) => {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className="bg-white p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-[2rem] shadow-2xl border border-gray-100 h-full overflow-y-auto"
+            className="bg-white p-4 sm:p-6 md:p-8 rounded-sm shadow-2xl border border-gray-100 h-full overflow-y-auto"
         >
             <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
-                <div className="bg-red-600 p-3 sm:p-4 rounded-xl sm:rounded-2xl text-white">
+                <div className="bg-red-600 p-3 sm:p-4  sm:rounded-2xl text-white">
                     <BookText size={24} className="sm:w-[30px] sm:h-[30px]" />
                 </div>
                 <div>
-                    <h2 className="text-xl sm:text-2xl font-black">Grab This Package</h2>
-                    <span className="text-gray-500 text-xs sm:text-sm">{packageName}</span>
+                    <h4 className=" font-black">Grab This Package</h4>
+                    <span className="text-gray-500 text-xs underline">{packageName}</span>
                 </div>
             </div>
             {hasErrors && (
@@ -153,7 +153,7 @@ export const EnhancedPackageForm = ({ packageId, packageName }) => {
                 </div>
             )}
 
-            <form onSubmit={handleSubmitClick}>
+            <form className="space-y-2" onSubmit={handleSubmitClick}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4">
                     <FloatingLabelInput
                         label="Full Name"

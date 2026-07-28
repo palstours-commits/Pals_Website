@@ -202,9 +202,9 @@ const FlightBookingSection = () => {
             <div className="flex flex-col h-full">
               <div className="p-6 md:p-8 h-full flex flex-col">
                 <div className="text-center lg:text-left mb-6">
-                  <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
+                  <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
                     Why Book Flights With Us
-                  </h2>
+                  </h3>
                   <p className="text-gray-600 text-sm max-w-2xl mx-auto lg:mx-0">
                     Discover your next adventure with seamless flight booking and exclusive deals.
                   </p>
@@ -308,7 +308,7 @@ const FlightBookingSection = () => {
                     <PlaneTakeoff size={22} />
                   </div>
                   <div>
-                    <h2 className="text-xl font-bold text-gray-900">Book Your Flight</h2>
+                    <h3 className="text-xl font-bold text-gray-900">Book Your Flight</h3>
                     <p className="text-gray-500 text-xs">Experience seamless travel with us</p>
                   </div>
                 </div>

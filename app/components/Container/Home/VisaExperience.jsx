@@ -77,7 +77,7 @@ const VisaExperience = () => {
               <h4 className="text-2xl font-bold text-white mb-2 leading-tight">
                 {item.title}
               </h4>
-              <p className="text-white/90 text-base ">
+              <p className="text-white/90 text-base leading-tight">
                 {item.desc}
               </p>
             </motion.div>

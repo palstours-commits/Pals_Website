@@ -1,14 +1,18 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 
-export const FloatingLabelSelect = ({ label, name, value, onChange, options = [], placeholder, required = false, error }) => {
+export const FloatingLabelSelect = ({ label, isLabel = true, name, value, onChange, options = [], placeholder, required = false, error }) => {
     const [isOpen, setIsOpen] = useState(false);
     const selectedOption = options.find(opt => opt._id === value);
     return (
         <div className="relative mt-4 w-full">
-            <label className="absolute -top-2.5 left-3 px-1.5 text-xs font-semibold text-gray-700 bg-white z-10">
-                {label} {required && <span className="text-red-500">*</span>}
-            </label>
+            {
+                isLabel &&
+                <label className="absolute -top-2.5 left-3 px-1.5 text-xs font-semibold text-gray-700 bg-white z-10">
+                    {label} {required && <span className="text-red-500">*</span>}
+                </label>
+            }
+
             <div
                 onClick={() => setIsOpen(!isOpen)}
                 className={`w-full px-4 py-3 text-sm rounded-xl border ${error ? 'border-red-500 bg-red-50' : 'border-gray-200'} cursor-pointer flex justify-between items-center bg-white hover:border-red-600 transition-all`}
