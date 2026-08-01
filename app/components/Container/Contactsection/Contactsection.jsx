@@ -243,16 +243,6 @@ const Contactsection = () => {
                   animate={{ opacity: 1, y: 0 }}
                   className="bg-white p-6 h-full"
                 >
-                  <div className="flex items-center gap-3 mb-6 text-center justify-center">
-                    <div className="bg-red-600 p-2.5 rounded-lg text-white">
-                      <PlaneTakeoff size={22} />
-                    </div>
-                    <div>
-                      <h4 className="text-xl font-bold text-gray-900">Book Your Flight</h4>
-                      <p className="text-gray-500 text-xs">Experience seamless travel with us</p>
-                    </div>
-                  </div>
-
                   <form onSubmit={handleSubmitClick} >
                     <div className="space-y-3">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">

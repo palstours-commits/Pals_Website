@@ -141,7 +141,7 @@ export const EnhancedPackageForm = ({ packageId, packageName }) => {
                 </div>
                 <div>
                     <h4 className=" font-black">Grab This Package</h4>
-                    <span className="text-gray-500 text-xs underline">{packageName}</span>
+                    <div className="text-gray-500 text-xs flex flex-col">{packageName}</div>
                 </div>
             </div>
             {hasErrors && (

@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
+import { motion, useAnimation, useInView } from "framer-motion";
 import { getImageUrl } from "../utils/getImageUrl";
 import { slugToTitle } from "../utils/slugToTitle";
 
@@ -21,6 +22,7 @@ const CommonHeroSection = ({
   description = "",
 }) => {
   const containerRef = useRef(null);
+  const isInView = useInView(containerRef, { once: true, amount: 0.1 });
   const bgImage = getImageUrl(backgroundImage);
 
   const hasContent = title || subtitle || tagline || description || (breadcrumbs?.length > 0);
@@ -49,6 +51,42 @@ const CommonHeroSection = ({
 
   const containerMaxWidth = maxWidthClasses[textAlign] || maxWidthClasses.left;
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: [0.22, 1, 0.36, 1],
+      },
+    },
+  };
+
+  const titleWordVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * 0.08,
+        duration: 0.5,
+        ease: [0.22, 1, 0.36, 1],
+      },
+    }),
+  };
+
   const renderHighlightedTitle = () => {
     if (!title) return null;
 
@@ -60,12 +98,16 @@ const CommonHeroSection = ({
       );
 
       return (
-        <span
+        <motion.span
           key={i}
+          custom={i}
+          variants={titleWordVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
           className={`inline-block ${isHighlighted ? highlightColor : textAlign === "left" ? "text-[#4A2E14]" : "text-white"}`}
         >
           {word}
-        </span>
+        </motion.span>
       );
     });
   };
@@ -75,8 +117,11 @@ const CommonHeroSection = ({
       ref={containerRef}
       className={`relative w-full ${height} flex overflow-hidden ${textAlign === "left" ? "items-end md:items-center justify-start" : "items-center justify-center"}`}
     >
-      <div
+      <motion.div
         className="absolute inset-0"
+        initial={{ scale: 1.1 }}
+        animate={isInView ? { scale: 1 } : { scale: 1.1 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
         style={{
           backgroundImage: `url(${bgImage})`,
           backgroundSize: "cover",
@@ -85,28 +130,44 @@ const CommonHeroSection = ({
       />
 
       {overlay && textAlign === "center" && (
-        <div className={`absolute inset-0 ${overlay}`} />
+        <motion.div
+          className={`absolute inset-0 ${overlay}`}
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        />
       )}
 
       <div className="md:px-10 lg:px-15">
         {hasContent && isTextVisible && (
-          <div className={`relative text-white ${containerPadding} py-10 z-10 w-full flex flex-col ${contentAlignment}`}>
+          <motion.div
+            className={`relative text-white ${containerPadding} py-10 z-10 w-full flex flex-col ${contentAlignment}`}
+            variants={containerVariants}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+          >
             <div className={containerMaxWidth}>
               {tagline && (
-                <p className="text-sm font-medium text-[#da251c] uppercase mb-2 tracking-wider">
+                <motion.p
+                  variants={itemVariants}
+                  className="text-sm font-medium text-[#da251c] uppercase mb-2 tracking-wider"
+                >
                   {tagline}
-                </p>
+                </motion.p>
               )}
 
               {showBadge && badgeText && !tagline && (
-                <span className="inline-block px-3 py-1 mb-3 text-xs font-semibold uppercase tracking-wider bg-white/20 backdrop-blur-sm rounded-full border border-white/30">
+                <motion.span
+                  variants={itemVariants}
+                  className="inline-block px-3 py-1 mb-3 text-xs font-semibold uppercase tracking-wider bg-white/20 backdrop-blur-sm rounded-full border border-white/30"
+                >
                   {badgeText}
-                </span>
+                </motion.span>
               )}
 
               {title && (
-                <h2
-                  className={`w-full max-w-md text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold drop-shadow-2xl  ${textAlign === "left"
+                <motion.h2
+                  className={`w-full max-w-md text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold drop-shadow-2xl ${textAlign === "left"
                     ? "text-left"
                     : textAlign === "right"
                       ? "text-right"
@@ -123,27 +184,30 @@ const CommonHeroSection = ({
                   >
                     {renderHighlightedTitle()}
                   </div>
-                </h2>
+                </motion.h2>
               )}
 
               {subtitle && (
-                <p
-                  className={`mt-3 sm:mt-4 max-w-md text-sm sm:text-base md:text-lg lg:text-xl  drop-shadow-2xl max-w-2xl ${textAlign === "center" ? "mx-auto" : textAlign === "left" ? "ml-0 mr-auto text-black" : "ml-auto mr-0 text-white/80"}`}
+                <motion.p
+                  variants={itemVariants}
+                  className={`mt-3 sm:mt-4 max-w-md text-sm sm:text-base md:text-lg lg:text-xl drop-shadow-2xl max-w-2xl ${textAlign === "center" ? "mx-auto" : textAlign === "left" ? "ml-0 mr-auto text-black" : "ml-auto mr-0 text-white/80"}`}
                 >
                   {subtitle}
-                </p>
+                </motion.p>
               )}
 
               {description && (
-                <p
-                  className={`mt-2 text-sm sm:text-base  drop-shadow-2xl max-w-2xl ${textAlign === "center" ? "mx-auto" : textAlign === "left" ? "ml-0 mr-auto text-black" : "ml-auto mr-0 text-white/80"}`}
+                <motion.p
+                  variants={itemVariants}
+                  className={`mt-2 text-sm sm:text-base drop-shadow-2xl max-w-2xl ${textAlign === "center" ? "mx-auto" : textAlign === "left" ? "ml-0 mr-auto text-black" : "ml-auto mr-0 text-white/80"}`}
                 >
                   {description}
-                </p>
+                </motion.p>
               )}
 
               {breadcrumbs?.length > 0 && (
-                <div
+                <motion.div
+                  variants={itemVariants}
                   className={`mt-4 flex flex-wrap ${textAlign === "center" ? "justify-center" : textAlign === "left" ? "justify-start" : "justify-end"} items-center gap-2 sm:gap-3`}
                 >
                   {breadcrumbs.map((item, index) => (
@@ -164,10 +228,10 @@ const CommonHeroSection = ({
                       )}
                     </span>
                   ))}
-                </div>
+                </motion.div>
               )}
             </div>
-          </div>
+          </motion.div>
         )}
       </div>
     </div>

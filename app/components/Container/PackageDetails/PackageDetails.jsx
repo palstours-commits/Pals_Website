@@ -54,9 +54,11 @@ const PackageDetails = ({ slug }) => {
   const quoteRef = useRef(null);
 
   const bannerImages = singlePackage?.images?.length > 0
-    ? singlePackage.images.map(img => `${process.env.NEXT_PUBLIC_BASE_IMAGE_URL}${img}`)
+    ? singlePackage.images.map(img => img)
     : [PackageBanner.src];
 
+    console.log(bannerImages[0]);
+    
   useEffect(() => {
     if (slug) {
       dispatch(getPackagesById(slug));
@@ -479,12 +481,12 @@ const PackageDetails = ({ slug }) => {
           </motion.div>
         </div>
       </motion.div>
-      <div
-        ref={mapRef}
-        id="map"
-        className="max-w-7xl mx-auto mt-10 md:mt-25 hidden md:block px-6">
-        <RouteTimeline destinations={singlePackage?.destinations} />
-      </div>
+        {/* <div
+          ref={mapRef}
+          id="map"
+          className="max-w-7xl mx-auto mt-10 md:mt-25 hidden md:block px-6">
+          <RouteTimeline destinations={singlePackage?.destinations} />
+        </div> */}
       <motion.div
         ref={itineraryRef}
         initial="initial"
