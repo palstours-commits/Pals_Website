@@ -361,7 +361,7 @@ export default function Header() {
           </motion.div>
 
           <div
-            className="hidden lg:flex ml-8 max-w-[900px] 2xl:max-w-[1060px] relative  items-center h-12 w-full"
+            className="hidden lg:flex ml-5 max-w-[900px] 2xl:max-w-[1060px] relative  items-center h-12 w-full"
             onMouseEnter={() => setIsNavHovered(true)}
             onMouseLeave={() => setIsNavHovered(false)}
           >
@@ -379,9 +379,9 @@ export default function Header() {
 
             <div
               ref={navRef}
-              className="hide-scrollbar flex overflow-x-auto overflow-y-hidden scroll-smooth whitespace-nowrap w-full justify-center-safe"
+              className="hide-scrollbar flex overflow-x-auto overflow-y-hidden scroll-smooth whitespace-nowrap w-full "
             >
-              <div className="flex items-center  gap-1 px-2 h-full flex-nowrap">
+              <div className="flex items-center  gap-1  h-full flex-nowrap">
                 {sortedSubmenus?.map((menu) => (
                   <motion.div
                     variants={headerItemVariants}

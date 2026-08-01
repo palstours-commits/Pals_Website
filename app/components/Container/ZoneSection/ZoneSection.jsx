@@ -53,7 +53,7 @@ const ZoneSection = ({ menu }) => {
         highlightWords: ["Unforgettable", "Honeymoon"],
       },
       cruise: {
-        title: "YOUR DREAM CRUISE STARTS HERE",
+        title: "Your Dream Cruise Starts Here",
         subtitle: "From breathtaking oceans to iconic destinations, experience luxury cruise holidays designed just for you.",
         highlightWords: ["CRUISE",],
         description: ""

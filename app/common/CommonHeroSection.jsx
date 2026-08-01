@@ -73,10 +73,10 @@ const CommonHeroSection = ({
   return (
     <div
       ref={containerRef}
-      className={`relative w-full ${height} flex  justify-start overflow-hidden ${textAlign === "left" ? "items-end md:items-center" :"items-center"} `}
+      className={`relative w-full ${height} flex   justify-start overflow-hidden ${textAlign === "left" ? "items-end md:items-center" : "items-center"} `}
     >
       <div
-        className="absolute inset-0"
+        className="absolute inset-0 "
         style={{
           backgroundImage: `url(${bgImage})`,
           backgroundSize: "cover",
@@ -84,87 +84,88 @@ const CommonHeroSection = ({
         }}
       />
       <div className={`absolute inset-0 ${overlay}`} />
+      <div className="md:px-10 lg:px-15">
+        {hasContent && isTextVisible && (
+          <div className={`relative text-white ${containerPadding} py-10 z-10 w-full flex flex-col ${contentAlignment}`}>
+            <div className={containerMaxWidth}>
+              {tagline && (
+                <p className="text-sm font-medium text-red-500 uppercase mb-2 tracking-wider">
+                  {tagline}
+                </p>
+              )}
 
-      {hasContent && isTextVisible && (
-        <div className={`relative text-white ${containerPadding} py-10 z-10 w-full flex flex-col ${contentAlignment}`}>
-          <div className={containerMaxWidth}>
-            {tagline && (
-              <p className="text-sm font-medium text-red-500 uppercase mb-2 tracking-wider">
-                {tagline}
-              </p>
-            )}
+              {showBadge && badgeText && !tagline && (
+                <span className="inline-block px-3 py-1 mb-3 text-xs font-semibold uppercase tracking-wider bg-white/20 backdrop-blur-sm rounded-full border border-white/30">
+                  {badgeText}
+                </span>
+              )}
 
-            {showBadge && badgeText && !tagline && (
-              <span className="inline-block px-3 py-1 mb-3 text-xs font-semibold uppercase tracking-wider bg-white/20 backdrop-blur-sm rounded-full border border-white/30">
-                {badgeText}
-              </span>
-            )}
-
-            {title && (
-              <h2
-                className={`w-full max-w-2xl mx-auto text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold drop-shadow-2xl leading-[1.1] ${textAlign === "left"
-                  ? "text-left"
-                  : textAlign === "right"
-                    ? "text-right"
-                    : " md:text-center"
-                  }`}
-              >
-                <div
-                  className={`flex flex-wrap ${textAlign === "center"
-                    ? "justify-center"
-                    : textAlign === "left"
-                      ? "justify-start"
-                      : "justify-end"
-                    } items-center gap-x-2 sm:gap-x-3 gap-y-1 sm:gap-y-2`}
+              {title && (
+                <h2
+                  className={`w-full max-w-md  text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold drop-shadow-2xl leading-[1.1] ${textAlign === "left"
+                    ? "text-left"
+                    : textAlign === "right"
+                      ? "text-right"
+                      : " md:text-center"
+                    }`}
                 >
-                  {renderHighlightedTitle()}
+                  <div
+                    className={`flex flex-wrap ${textAlign === "center"
+                      ? "justify-center"
+                      : textAlign === "left"
+                        ? "justify-start"
+                        : "justify-end"
+                      } items-center gap-x-2 sm:gap-x-3 gap-y-1 sm:gap-y-2`}
+                  >
+                    {renderHighlightedTitle()}
+                  </div>
+                </h2>
+              )}
+
+              {subtitle && (
+                <p
+                  className={`mt-3 sm:mt-4  max-w-lg text-sm sm:text-base md:text-lg lg:text-xl text-white/90 drop-shadow-2xl max-w-2xl ${textAlign === "center" ? "mx-auto" : textAlign === "left" ? "ml-0 mr-auto" : "ml-auto mr-0"}`}
+                >
+                  {subtitle}
+                </p>
+              )}
+
+              {description && (
+                <p
+                  className={`mt-2 text-sm sm:text-base text-white/80 drop-shadow-2xl max-w-2xl ${textAlign === "center" ? "mx-auto" : textAlign === "left" ? "ml-0 mr-auto" : "ml-auto mr-0"}`}
+                >
+                  {description}
+                </p>
+              )}
+
+              {breadcrumbs?.length > 0 && (
+                <div
+                  className={`mt-4 flex flex-wrap ${textAlign === "center" ? "justify-center" : textAlign === "left" ? "justify-start" : "justify-end"} items-center gap-2 sm:gap-3`}
+                >
+                  {breadcrumbs.map((item, index) => (
+                    <span key={index} className="flex items-center space-x-2 sm:space-x-3 text-xs sm:text-sm text-white/80">
+                      {item.href ? (
+                        <Link
+                          href={item.href}
+                          className="relative no-underline hover:text-white transition-all duration-300 hover:scale-105 inline-flex items-center py-1 group/link"
+                        >
+                          <span>{slugToTitle(item.label)}</span>
+                          <div className="absolute bottom-0 left-0 w-0 h-[2px] bg-gradient-to-r from-red-400/80 to-red-600/80 group-hover/link:w-full transition-all duration-300 rounded-full" />
+                        </Link>
+                      ) : (
+                        <span className="text-white font-medium px-1">{slugToTitle(item.label)}</span>
+                      )}
+                      {index !== breadcrumbs.length - 1 && (
+                        <span className="text-white/40 font-light text-xs">/</span>
+                      )}
+                    </span>
+                  ))}
                 </div>
-              </h2>
-            )}
-
-            {subtitle && (
-              <p
-                className={`mt-3 sm:mt-4 text-sm sm:text-base md:text-lg lg:text-xl text-white/90 drop-shadow-2xl max-w-2xl ${textAlign === "center" ? "mx-auto" : textAlign === "left" ? "ml-0 mr-auto" : "ml-auto mr-0"}`}
-              >
-                {subtitle}
-              </p>
-            )}
-
-            {description && (
-              <p
-                className={`mt-2 text-sm sm:text-base text-white/80 drop-shadow-2xl max-w-2xl ${textAlign === "center" ? "mx-auto" : textAlign === "left" ? "ml-0 mr-auto" : "ml-auto mr-0"}`}
-              >
-                {description}
-              </p>
-            )}
-
-            {breadcrumbs?.length > 0 && (
-              <div
-                className={`mt-4 flex flex-wrap ${textAlign === "center" ? "justify-center" : textAlign === "left" ? "justify-start" : "justify-end"} items-center gap-2 sm:gap-3`}
-              >
-                {breadcrumbs.map((item, index) => (
-                  <span key={index} className="flex items-center space-x-2 sm:space-x-3 text-xs sm:text-sm text-white/80">
-                    {item.href ? (
-                      <Link
-                        href={item.href}
-                        className="relative no-underline hover:text-white transition-all duration-300 hover:scale-105 inline-flex items-center py-1 group/link"
-                      >
-                        <span>{slugToTitle(item.label)}</span>
-                        <div className="absolute bottom-0 left-0 w-0 h-[2px] bg-gradient-to-r from-red-400/80 to-red-600/80 group-hover/link:w-full transition-all duration-300 rounded-full" />
-                      </Link>
-                    ) : (
-                      <span className="text-white font-medium px-1">{slugToTitle(item.label)}</span>
-                    )}
-                    {index !== breadcrumbs.length - 1 && (
-                      <span className="text-white/40 font-light text-xs">/</span>
-                    )}
-                  </span>
-                ))}
-              </div>
-            )}
+              )}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };
