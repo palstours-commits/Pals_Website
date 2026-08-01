@@ -51,6 +51,8 @@ const ZoneSection = ({ menu }) => {
       honeymoon: {
         title: "Begin Your Forever with an Unforgettable Honeymoon",
         highlightWords: ["Unforgettable", "Honeymoon"],
+        subtitle: "Where your forever begins with unforgettable moments.",
+
       },
       cruise: {
         title: "Your Dream Cruise Starts Here",
@@ -83,7 +85,7 @@ const ZoneSection = ({ menu }) => {
         isTextVisible={true}
         height="min-h-[300px] sm:min-h-[400px] md:h-[450px] lg:h-[500px]"
         overlay="bg-gradient-to-r from-black/70 via-black/40 to-transparent"
-        highlightColor="text-red-500"
+        highlightColor="text-[#da251c]"
         highlightWords={content.highlightWords}
       />
 

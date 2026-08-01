@@ -16,7 +16,7 @@ const CommonHeroSection = ({
   badgeText = "",
   isTextVisible = true,
   tagline = "",
-  highlightColor = "text-red-500",
+  highlightColor = "text-[#da251c]",
   highlightWords = [],
   description = "",
 }) => {
@@ -62,7 +62,7 @@ const CommonHeroSection = ({
       return (
         <span
           key={i}
-          className={`inline-block ${isHighlighted ? highlightColor : "text-white"}`}
+          className={`inline-block ${isHighlighted ? highlightColor : textAlign === "left" ? "text-[#4A2E14]" : "text-white"}`}
         >
           {word}
         </span>
@@ -73,23 +73,27 @@ const CommonHeroSection = ({
   return (
     <div
       ref={containerRef}
-      className={`relative w-full ${height} flex    overflow-hidden ${textAlign === "left" ? "items-end md:items-center justify-start" : "items-center justify-center"} `}
+      className={`relative w-full ${height} flex overflow-hidden ${textAlign === "left" ? "items-end md:items-center justify-start" : "items-center justify-center"}`}
     >
       <div
-        className="absolute inset-0 "
+        className="absolute inset-0"
         style={{
           backgroundImage: `url(${bgImage})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       />
-      <div className={`absolute inset-0 ${overlay}`} />
+
+      {overlay && textAlign === "center" && (
+        <div className={`absolute inset-0 ${overlay}`} />
+      )}
+
       <div className="md:px-10 lg:px-15">
         {hasContent && isTextVisible && (
           <div className={`relative text-white ${containerPadding} py-10 z-10 w-full flex flex-col ${contentAlignment}`}>
             <div className={containerMaxWidth}>
               {tagline && (
-                <p className="text-sm font-medium text-red-500 uppercase mb-2 tracking-wider">
+                <p className="text-sm font-medium text-[#da251c] uppercase mb-2 tracking-wider">
                   {tagline}
                 </p>
               )}
@@ -102,7 +106,7 @@ const CommonHeroSection = ({
 
               {title && (
                 <h2
-                  className={`w-full max-w-md  text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold drop-shadow-2xl leading-[1.1] ${textAlign === "left"
+                  className={`w-full max-w-md text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold drop-shadow-2xl  ${textAlign === "left"
                     ? "text-left"
                     : textAlign === "right"
                       ? "text-right"
@@ -124,7 +128,7 @@ const CommonHeroSection = ({
 
               {subtitle && (
                 <p
-                  className={`mt-3 sm:mt-4  max-w-lg text-sm sm:text-base md:text-lg lg:text-xl text-white/90 drop-shadow-2xl max-w-2xl ${textAlign === "center" ? "mx-auto" : textAlign === "left" ? "ml-0 mr-auto" : "ml-auto mr-0"}`}
+                  className={`mt-3 sm:mt-4 max-w-md text-sm sm:text-base md:text-lg lg:text-xl  drop-shadow-2xl max-w-2xl ${textAlign === "center" ? "mx-auto" : textAlign === "left" ? "ml-0 mr-auto text-black" : "ml-auto mr-0 text-white/80"}`}
                 >
                   {subtitle}
                 </p>
@@ -132,7 +136,7 @@ const CommonHeroSection = ({
 
               {description && (
                 <p
-                  className={`mt-2 text-sm sm:text-base text-white/80 drop-shadow-2xl max-w-2xl ${textAlign === "center" ? "mx-auto" : textAlign === "left" ? "ml-0 mr-auto" : "ml-auto mr-0"}`}
+                  className={`mt-2 text-sm sm:text-base  drop-shadow-2xl max-w-2xl ${textAlign === "center" ? "mx-auto" : textAlign === "left" ? "ml-0 mr-auto text-black" : "ml-auto mr-0 text-white/80"}`}
                 >
                   {description}
                 </p>
