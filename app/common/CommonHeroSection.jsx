@@ -73,7 +73,7 @@ const CommonHeroSection = ({
   return (
     <div
       ref={containerRef}
-      className={`relative w-full ${height} flex   justify-start overflow-hidden ${textAlign === "left" ? "items-end md:items-center" : "items-center"} `}
+      className={`relative w-full ${height} flex    overflow-hidden ${textAlign === "left" ? "items-end md:items-center justify-start" : "items-center justify-center"} `}
     >
       <div
         className="absolute inset-0 "

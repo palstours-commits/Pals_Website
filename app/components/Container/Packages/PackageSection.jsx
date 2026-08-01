@@ -84,13 +84,7 @@ const PackageSection = ({ zoneSlug, menuSlug }) => {
   return (
     <>
       <CommonHeroSection
-        title={
-          <>
-            Experience the Timeless Beauty
-            <br />
-            {title}
-          </>
-        }
+        title={`Discover the Soul of Incredible${title}`}
         backgroundImage={zone_banner}
         breadcrumbs={[
           { label: "Home", href: "/" },
