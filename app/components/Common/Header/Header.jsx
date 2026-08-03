@@ -124,6 +124,14 @@ const getMenuIcon = (menuName, iconPath) => {
 };
 
 function DesktopDropdown({ items, dropdownConfig, onClose, onMouseEnter, onMouseLeave }) {
+  const handleItemClick = (item, e) => {
+    if (item.external) {
+      e.preventDefault();
+      window.open(item.slug, '_blank');
+      onClose();
+    }
+  };
+
   return (
     <motion.div
       variants={glassmorphismDropdownVariants}
@@ -147,14 +155,31 @@ function DesktopDropdown({ items, dropdownConfig, onClose, onMouseEnter, onMouse
           {items.map((item) => (
             <motion.div key={item.slug || item.name} variants={floatingDropdownItemVariants} className="group/item">
               {item.slug ? (
-                <Link
-                  href={`/${item.slug}`}
-                  onClick={onClose}
-                  className="block w-full text-left px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-300 flex items-center gap-3 group-hover/item:bg-white rounded-xl hover:text-red-600 cursor-pointer"
-                >
-                  {item.icon && <span className="text-red-600">{item.icon}</span>}
-                  {item.name}
-                </Link>
+                item.external ? (
+                  <a
+                    href={item.slug}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      window.open(item.slug, '_blank');
+                      onClose();
+                    }}
+                    className="block w-full text-left px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-300 flex items-center gap-3 group-hover/item:bg-white rounded-xl hover:text-red-600 cursor-pointer"
+                  >
+                    {item.icon && <span className="text-red-600">{item.icon}</span>}
+                    {item.name}
+                  </a>
+                ) : (
+                  <Link
+                    href={`/${item.slug}`}
+                    onClick={onClose}
+                    className="block w-full text-left px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-300 flex items-center gap-3 group-hover/item:bg-white rounded-xl hover:text-red-600 cursor-pointer"
+                  >
+                    {item.icon && <span className="text-red-600">{item.icon}</span>}
+                    {item.name}
+                  </Link>
+                )
               ) : (
                 <span className="block w-full text-left px-4 py-3 text-sm font-medium text-gray-400 flex items-center gap-3 rounded-xl cursor-not-allowed">
                   {item.icon && <span className="text-red-300">{item.icon}</span>}
@@ -292,7 +317,12 @@ export default function Header() {
     { name: "Transport", slug: "service/transport", icon: <Bus size={16} /> },
     { name: "Money Exchange", icon: <CreditCard size={16} /> },
     { name: "Visa", slug: "service/visa", icon: <FileText size={16} /> },
-    { name: "Car Rental", slug: "car-rentals", icon: <Car size={16} /> }
+    {
+      name: "Car Rental",
+      slug: "https://royalmilesindia.webdadsprojects.com/",
+      icon: <Car size={16} />,
+      external: true,
+    }
   ];
 
   const COMPANY_MENU = [
@@ -303,7 +333,9 @@ export default function Header() {
   ];
 
   const handleMobileServiceClick = (service) => {
-    if (service.slug) {
+    if (service.external) {
+      window.open(service.slug, '_blank');
+    } else if (service.slug) {
       router.push(`/${service.slug}`);
     }
     setOpen(false);
