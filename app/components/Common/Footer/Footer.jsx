@@ -73,7 +73,7 @@ export default function Footer() {
             <ul className="space-y-3 text-sm text-gray-300">
               <li>
                 <Link
-                  href="india"
+                  href="/india"
                   className="hover:text-red-500 transition-colors block"
                 >
                   Indian Holidays
@@ -82,7 +82,7 @@ export default function Footer() {
 
               <li>
                 <Link
-                  href="international"
+                  href="/international"
                   className="hover:text-red-500 transition-colors block"
                 >
                   International Holidays
@@ -91,7 +91,7 @@ export default function Footer() {
 
               <li>
                 <Link
-                  href="spiritual"
+                  href="/spiritual"
                   className="hover:text-red-500 transition-colors block"
                 >
                   Spiritual Tour
@@ -100,7 +100,7 @@ export default function Footer() {
 
               <li>
                 <Link
-                  href="honeymoon"
+                  href="/honeymoon"
                   className="hover:text-red-500 transition-colors block"
                 >
                   Honeymoon Holidays
@@ -138,7 +138,8 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="car-rentals"
+                target="_blank"
+                  href="https://royalmilesindia.webdadsprojects.com/"
                   className="hover:text-red-500 transition-colors block"
                 >
                   Car Rental{" "}
