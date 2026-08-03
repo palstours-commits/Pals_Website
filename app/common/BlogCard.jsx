@@ -19,7 +19,6 @@ export default function BlogCard({ item }) {
         />
 
         <div className="absolute inset-0 bg-linear-to-t from-black/50 via-black/20 to-transparent" />
-
         <div className="absolute bottom-0 left-0 right-0 p-6 text-white z-10">
           <div className="flex justify-between items-end gap-4">
             <h5 className="flex-1 text-lg md:text-xl font-medium leading-snug">
