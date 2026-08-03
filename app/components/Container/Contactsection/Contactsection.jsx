@@ -19,7 +19,8 @@ const initialForm = {
   emailAddress: "",
   phone: "",
   tentativeDateOfArrival: "",
-  noOfNights: "",
+  departureDate: "",
+  guestCount: "",
   accommodationType: "",
   honeymoon: "",
   comments: "",
@@ -28,7 +29,7 @@ const initialForm = {
 const initialErrors = {
   emailAddress: "",
   phone: "",
-  noOfNights: "",
+  guestCount: "",
   comments: "",
 };
 
@@ -72,8 +73,11 @@ const Contactsection = () => {
       isValid = false;
     }
 
-    if (!form.noOfNights.toString().trim()) {
-      newErrors.noOfNights = "Number of nights is required";
+    if (!form.guestCount.toString().trim()) {
+      newErrors.guestCount = "Number of guests is required";
+      isValid = false;
+    } else if (parseInt(form.guestCount) < 1) {
+      newErrors.guestCount = "At least 1 guest is required";
       isValid = false;
     }
 
@@ -97,7 +101,8 @@ const Contactsection = () => {
           email: form.emailAddress,
           mobile: form.phone,
           tentativeArrivalDate: form.tentativeDateOfArrival,
-          numberOfNights: Number(form.noOfNights),
+          departureDate: form.departureDate,
+          guestCount: Number(form.guestCount),
           accommodationType: form.accommodationType,
           message: form.comments,
         })
@@ -229,7 +234,7 @@ const Contactsection = () => {
               id="contact-form-container"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-white p-6 sm:p-8 rounded-[2rem] shadow-2xl border border-gray-100 mt-4 lg:mt-0"
+              className="bg-white p-6 sm:p-8 rounded-xl shadow-xl border border-gray-100 mt-4 lg:mt-0"
             >
               <h3 className="text-xl sm:text-xl md:text-xl font-bold text-gray-900 text-center">
                 Plan Your Dream Trip Today
@@ -286,50 +291,75 @@ const Contactsection = () => {
                       </div>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
-                        <FloatingLabelInput
-                          label="Tentative Date of Arrival"
-                          name="tentativeDateOfArrival"
-                          type="date"
-                          value={form.tentativeDateOfArrival}
-                          onChange={handleChange}
-                          min={new Date().toISOString().split("T")[0]}
-                        />
+                        <div className="relative">
+                          <label className="block text-xs ps-1 font-medium text-gray-600">
+                            Arrival Date
+                          </label>
+                          <FloatingLabelInput
+                            name="tentativeDateOfArrival"
+                            type="date"
+                            value={form.tentativeDateOfArrival}
+                            onChange={handleChange}
+                            min={new Date().toISOString().split("T")[0]}
+                          />
+                        </div>
+
+                        <div className="relative">
+                          <label className="block text-xs font-medium ps-1 text-gray-600">
+                            Departure Date
+                          </label>
+                          <FloatingLabelInput
+                            name="departureDate"
+                            type="date"
+                            value={form.departureDate}
+                            onChange={handleChange}
+                            min={
+                              form.tentativeDateOfArrival ||
+                              new Date().toISOString().split("T")[0]
+                            }
+                          />
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
                         <div>
                           <FloatingLabelInput
-                            label="No. of Nights"
+                            label="Number of Guests"
                             type="number"
-                            name="noOfNights"
-                            value={form.noOfNights}
+                            name="guestCount"
+                            value={form.guestCount}
                             onChange={handleChange}
                             required
-                            error={errors.noOfNights}
-                            placeholder="e.g. 7"
+                            error={errors.guestCount}
+                            placeholder="e.g. 2"
+                            min="1"
                             max="99"
                           />
                           <p className="text-[10px] text-gray-500 mt-1 ml-1">Maximum of 2 digits.</p>
                         </div>
+                        <div>
+                          <FloatingLabelSelect
+                            isLabel={false}
+                            label="Select Accommodation Type"
+                            name="accommodationType"
+                            options={[
+                              { _id: "Not Yet Decided", name: "Not Yet Decided" },
+                              { _id: "Only HomeStays/Bead & Breakfast", name: "Only HomeStays/Bead & Breakfast" },
+                              { _id: "Budget Hotels", name: "Budget Hotels" },
+                              { _id: "3 Star Hotels/ HouseBoat", name: "3 Star Hotels/ HouseBoat" },
+                              { _id: "4 Star Hotels/ HouseBoat", name: "4 Star Hotels/ HouseBoat" },
+                              { _id: "Luxury 5 Star Hotels/ HouseBoat", name: "Luxury 5 Star Hotels/ HouseBoat" },
+                              { _id: "HouseBoat Day Cruise", name: "HouseBoat Day Cruise" },
+                              { _id: "HouseBoat Overnight Stay & Cruise", name: "HouseBoat Overnight Stay & Cruise" },
+                            ]}
+                            value={form.accommodationType}
+                            onChange={handleChange}
+                            placeholder="Select Type of Stay"
+                          />
+                        </div>
                       </div>
 
-                      <div className="grid grid-cols-1 gap-3 mt-3">
-                        <FloatingLabelSelect
-                          isLabel={false}
-                          label="Select Accommodation Type"
-                          name="accommodationType"
-                          options={[
-                            { _id: "Not Yet Decided", name: "Not Yet Decided" },
-                            { _id: "Only HomeStays/Bead & Breakfast", name: "Only HomeStays/Bead & Breakfast" },
-                            { _id: "Budget Hotels", name: "Budget Hotels" },
-                            { _id: "3 Star Hotels/ HouseBoat", name: "3 Star Hotels/ HouseBoat" },
-                            { _id: "4 Star Hotels/ HouseBoat", name: "4 Star Hotels/ HouseBoat" },
-                            { _id: "Luxury 5 Star Hotels/ HouseBoat", name: "Luxury 5 Star Hotels/ HouseBoat" },
-                            { _id: "HouseBoat Day Cruise", name: "HouseBoat Day Cruise" },
-                            { _id: "HouseBoat Overnight Stay & Cruise", name: "HouseBoat Overnight Stay & Cruise" },
-                          ]}
-                          value={form.accommodationType}
-                          onChange={handleChange}
-                          placeholder="Select Type of Stay"
-                        />
-                      </div>
+
 
                       <div className="mt-4">
                         <FloatingLabelInput

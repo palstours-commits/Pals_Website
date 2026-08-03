@@ -300,7 +300,7 @@ const FlightBookingSection = () => {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-white p-6 md:p-8 rounded-2xl border border-gray-100 h-full"
+                className="bg-white p-6 md:p-8 rounded-xl shadow-xl border border-gray-100 h-full"
               >
                 <div className="flex items-center gap-3 mb-6">
                   <div className="bg-red-600 p-2.5 rounded-lg text-white">

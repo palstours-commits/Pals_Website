@@ -8,7 +8,7 @@ const WhatsAppButton = () => {
       href="https://wa.me/9841255715?text=Hi%2C%20I%20am%20a%20new%20user%20and%20I%20would%20like%20to%20enquire%20about%20travel%20packages."
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-6 right-4 z-[9999]"
+      className="fixed bottom-2 md:bottom-6 right-4 z-[9999]"
     >
       <div
         className="

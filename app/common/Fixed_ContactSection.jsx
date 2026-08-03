@@ -1,11 +1,114 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
-import { Phone, Mail, MapPin } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter, usePathname } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { getMenus } from "@/app/store/slice/submenuSlice";
+import CustomImage from "@/app/common/Image";
+import navItemIcon from "@/app/assets/serive_home-icon-1.svg";
+import companyIcon from "@/app/assets/office-building.svg";
+
+import { 
+  FaPhone, 
+  FaEnvelope, 
+  FaMapMarkerAlt,
+  FaGlobe,
+  FaCompass,
+  FaMap,
+  FaUsers,
+  FaBuilding,
+  FaPlane,
+  FaShip,
+  FaHeart,
+  FaMountain,
+  FaChurch,
+  FaLandmark,
+  FaStar,
+  FaSuitcase,
+  FaUmbrellaBeach,
+  FaTree,
+  FaCamera,
+  FaBicycle,
+  FaHiking,
+  FaSpa,
+  FaShoppingBag,
+  FaUtensils,
+  FaMoon,
+  FaSun
+} from 'react-icons/fa';
+
+const getMenuIcon = (menuName, iconPath, size = 18, className = "text-red-600") => {
+  if (iconPath && iconPath !== navItemIcon && iconPath !== companyIcon) {
+    return (
+      <div className="w-5 h-5 flex items-center justify-center">
+        <CustomImage
+          src={iconPath}
+          alt="icon"
+          className={`object-contain ${iconPath ? "w-20 h-20" : "w-10 h-10"}`}
+          style={!iconPath ? { filter: "brightness(0) saturate(100%) invert(20%) sepia(89%) saturate(5000%) hue-rotate(355deg) brightness(90%) contrast(120%)" } : {}}
+        />
+      </div>
+    );
+  }
+
+  const iconMap = {
+    Destinations: <FaGlobe size={size} className={className} />,
+    Tours: <FaCompass size={size} className={className} />,
+    Packages: <FaMap size={size} className={className} />,
+    "Group Tours": <FaUsers size={size} className={className} />,
+    Corporate: <FaBuilding size={size} className={className} />,
+    India: <FaLandmark size={size} className={className} />,
+    International: <FaPlane size={size} className={className} />,
+    Honeymoon: <FaHeart size={size} className={className} />,
+    Cruise: <FaShip size={size} className={className} />,
+    Spiritual: <FaChurch size={size} className={className} />,
+    Adventure: <FaMountain size={size} className={className} />,
+    Beach: <FaUmbrellaBeach size={size} className={className} />,
+    Wildlife: <FaTree size={size} className={className} />,
+    Cultural: <FaCamera size={size} className={className} />,
+    Cycling: <FaBicycle size={size} className={className} />,
+    Hiking: <FaHiking size={size} className={className} />,
+    Wellness: <FaSpa size={size} className={className} />,
+    Shopping: <FaShoppingBag size={size} className={className} />,
+    Food: <FaUtensils size={size} className={className} />,
+    Nightlife: <FaMoon size={size} className={className} />,
+    Luxury: <FaStar size={size} className={className} />,
+    Budget: <FaSuitcase size={size} className={className} />,
+    Relaxation: <FaSun size={size} className={className} />,
+  };
+
+  return iconMap[menuName] || <FaGlobe size={size} className={className} />;
+};
+
+const getFirstMenuIcon = (menus, size = 22, className = "text-red-600") => {
+  if (!menus || menus.length === 0) {
+    return <FaMapMarkerAlt size={size} className={className} />;
+  }
+  
+  const firstMenu = menus[0];
+  return getMenuIcon(firstMenu.name, firstMenu?.imagePath, size, className);
+};
+
+const Tooltip = ({ children, text }) => {
+  const [show, setShow] = useState(false);
+
+  return (
+    <div 
+      className="relative inline-block"
+      onMouseEnter={() => setShow(true)}
+      onMouseLeave={() => setShow(false)}
+    >
+      {children}
+      {show && (
+        <div className="absolute bottom-1/2 right-full mr-3 transform translate-y-1/2 px-3 py-1.5 bg-gray-800 text-white text-xs rounded-md whitespace-nowrap pointer-events-none shadow-lg z-50">
+          {text}
+          <div className="absolute top-1/2 left-full transform -translate-y-1/2 -ml-1 border-4 border-transparent border-l-gray-800"></div>
+        </div>
+      )}
+    </div>
+  );
+};
 
 const MenuItem = ({
   menu,
@@ -13,7 +116,6 @@ const MenuItem = ({
   toggleAccordion,
   handleNavigate,
   depth = 0,
-  isLastItem = false
 }) => {
   const hasChildren = menu.children && menu.children.length > 0;
   const isExpanded = expandedMenus[menu._id] || false;
@@ -32,10 +134,11 @@ const MenuItem = ({
         }}
         className={`flex items-center justify-between px-4 py-3 w-full text-left rounded-xl transition-all duration-200 hover:bg-red-50 text-gray-700 font-medium hover:text-red-600 group cursor-pointer text-sm ${indentClass}`}
         style={{ paddingLeft: `${16 + (depth * 12)}px` }}
+        title={menu.name}
       >
         <div className="flex items-center gap-3 truncate flex-1">
           <span className="text-red-500 group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
-            <MapPin size={18} />
+            {getMenuIcon(menu.name, menu?.imagePath)}
           </span>
           <span className="truncate">{menu.name}</span>
         </div>
@@ -91,7 +194,14 @@ const Fixed_ContactSection = () => {
     return submenus ? [...submenus].sort((a, b) => (a.order || 0) - (b.order || 0)) : [];
   }, [submenus]);
 
-  // Check if it's a package details page (not the package listing page)
+  const mainButtonIcon = useMemo(() => {
+    return getFirstMenuIcon(sortedSubmenus, 22, "text-red-600");
+  }, [sortedSubmenus]);
+
+  const mainButtonIconWhite = useMemo(() => {
+    return getFirstMenuIcon(sortedSubmenus, 22, "text-white");
+  }, [sortedSubmenus]);
+
   const isPackageDetailsPage = pathname?.includes('/package/') && !pathname?.includes('/packages/');
 
   const [isDesktop, setIsDesktop] = useState(false);
@@ -145,16 +255,19 @@ const Fixed_ContactSection = () => {
   const LocationIcon = useMemo(() => {
     return () => (
       <div className="pointer-events-auto relative" ref={dropdownRef}>
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={() => setIsOpen(!isOpen)}
-          className={`w-12 h-12 rounded-full border border-gray-100 shadow-[0_4px_12px_rgba(0,0,0,0.1)] flex items-center justify-center transition-colors duration-200 cursor-pointer ${isOpen ? 'bg-red-600 text-white' : 'bg-white text-red-600'
-            }`}
-          aria-label="Destinations"
-        >
-          <MapPin size={22} />
-        </motion.button>
+        <Tooltip text={sortedSubmenus[0]?.name || "Destinations"}>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setIsOpen(!isOpen)}
+            className={`w-12 h-12 rounded-full border border-gray-100 shadow-[0_4px_12px_rgba(0,0,0,0.1)] flex items-center justify-center transition-colors duration-200 cursor-pointer bg-gray-300 shadow-lg`}
+            aria-label={sortedSubmenus[0]?.name || "Destinations"}
+          >
+            <span className="flex items-center justify-center w-full h-full">
+              {isOpen ? mainButtonIconWhite : mainButtonIcon}
+            </span>
+          </motion.button>
+        </Tooltip>
 
         <AnimatePresence>
           {isOpen && (
@@ -194,11 +307,11 @@ const Fixed_ContactSection = () => {
         </AnimatePresence>
       </div>
     );
-  }, [isOpen, sortedSubmenus, expandedMenus, toggleAccordion, handleNavigate]);
+  }, [isOpen, sortedSubmenus, expandedMenus, toggleAccordion, handleNavigate, mainButtonIcon, mainButtonIconWhite]);
 
   if (isPackageDetailsPage && isDesktop) {
     return (
-      <div className="fixed bottom-24 right-4 z-[9998] flex flex-col items-end gap-3 pb-safe pointer-events-none">
+      <div className="fixed bottom-16 right-4 z-[9998] flex flex-col items-end gap-3 pb-safe pointer-events-none">
         <LocationIcon />
       </div>
     );
@@ -206,26 +319,32 @@ const Fixed_ContactSection = () => {
 
   if (!isDesktop) {
     return (
-      <div className="fixed bottom-24 right-4 z-[9998] flex flex-col items-end gap-3 pb-safe pointer-events-none">
+      <div className="fixed bottom-18 right-4 z-[9998] flex flex-col items-end gap-2  pointer-events-none">
         <LocationIcon />
 
-        <motion.a
-          whileTap={{ scale: 0.9 }}
-          href="mailto:mail@palsholidays.com"
-          className="w-12 h-12 bg-white text-red-600 rounded-full border border-gray-100 shadow-[0_4px_12px_rgba(0,0,0,0.1)] flex items-center justify-center pointer-events-auto"
-          aria-label="Email Us"
-        >
-          <Mail size={22} />
-        </motion.a>
+        <Tooltip text="Email Us">
+          <motion.a
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.9 }}
+            href="mailto:mail@palsholidays.com"
+            className="w-12 h-12 bg-white text-red-600 rounded-full border border-gray-100 shadow-[0_4px_12px_rgba(0,0,0,0.1)] flex items-center justify-center pointer-events-auto hover:bg-red-50 transition-colors"
+            aria-label="Email Us"
+          >
+            <FaEnvelope size={22} />
+          </motion.a>
+        </Tooltip>
 
-        <motion.a
-          whileTap={{ scale: 0.9 }}
-          href="tel:+919841255715"
-          className="w-12 h-12 bg-white text-red-600 rounded-full border border-gray-100 shadow-[0_4px_12px_rgba(0,0,0,0.1)] flex items-center justify-center pointer-events-auto"
-          aria-label="Call Us"
-        >
-          <Phone size={22} />
-        </motion.a>
+        <Tooltip text="Call Us">
+          <motion.a
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.9 }}
+            href="tel:+919841255715"
+            className="w-12 h-12 bg-white text-red-600 rounded-full border border-gray-100 shadow-[0_4px_12px_rgba(0,0,0,0.1)] flex items-center justify-center pointer-events-auto hover:bg-red-50 transition-colors"
+            aria-label="Call Us"
+          >
+            <FaPhone size={22} />
+          </motion.a>
+        </Tooltip>
       </div>
     );
   }

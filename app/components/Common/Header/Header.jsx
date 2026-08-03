@@ -350,7 +350,7 @@ export default function Header() {
         >
           <motion.div variants={headerItemVariants} className="z-10 md:relative top-2">
             <Link href="/" className="flex items-center gap-3">
-              <div className="h-[138px] w-[100px] overflow-hidden mt-10">
+              <div className="h-[70px] md:h-[138px] w-[100px] overflow-hidden md:mt-10">
                 <Image
                   src={navbar_logo}
                   alt="Pals Holidays"

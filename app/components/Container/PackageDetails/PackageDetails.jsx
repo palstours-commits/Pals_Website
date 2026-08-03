@@ -23,7 +23,6 @@ const PackageDetails = ({ slug }) => {
     "Overview",
     "Trip Highlights",
     "Destinations",
-    "Map",
     "Tour Itinerary",
     "Information",
     "Get a Quote",
@@ -247,7 +246,7 @@ const PackageDetails = ({ slug }) => {
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full bg-secondary py-4 sm:py-6 md:py-8 sticky top-0 z-50"
+        className="w-full bg-secondary py-4 sm:py-6 md:py-8 sticky top-20 z-50"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
           <motion.div
@@ -275,7 +274,7 @@ const PackageDetails = ({ slug }) => {
         </div>
       </motion.div>
 
-      <div className="w-full pt-6 sm:pt-10 sticky top-[60px] sm:top-[72px] md:top-[80px] z-40 bg-white/80 backdrop-blur-md border-b">
+      <div className="w-full pt-6 sm:pt-10 sticky top-[60px] sm:top-[72px] md:top-[190px] z-40 bg-white/80 backdrop-blur-md border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

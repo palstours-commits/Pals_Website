@@ -8,6 +8,7 @@ import TrendingDestinations from "./TrendingDestinations";
 import TrendingOffers from "./TrendingOffers";
 import VisaExperience from "./VisaExperience";
 import NewZonePlanner from "./NewZonePlanner";
+import AssociationCarousel from "./AssociationCarousel";
 const HomeSection = () => {
   return (
     <>
@@ -19,6 +20,7 @@ const HomeSection = () => {
       <TrendingDestinations />
       <OurServices />
       <TrendingOffers />
+      <AssociationCarousel />
       <InspirationSection />
     </>
   );

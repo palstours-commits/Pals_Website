@@ -8,12 +8,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect } from "react";
 import { useDispatch, } from "react-redux";
-import Product1 from "@/app/assets/footerLogo/Product1.png";
-import Product2 from "@/app/assets/footerLogo/Product2.png";
-import Product3 from "@/app/assets/footerLogo/Product3.png";
-import Product4 from "@/app/assets/footerLogo/Product4.png";
-import Product5 from "@/app/assets/footerLogo/Product5.png";
-import Product6 from "@/app/assets/footerLogo/Product6.png";
 import navbar_logo from "@/app/assets/navbar_logo.svg";
 export default function Footer() {
   const dispatch = useDispatch();
@@ -23,14 +17,14 @@ export default function Footer() {
   }, [dispatch]);
 
   return (
-    <footer className="bg-[#0a0a0a] text-white pt-12 md:pt-16 pb-8">
+    <footer className="bg-[#7a3d3d] text-white pt-12 md:pt-16 pb-8">
       <div className="px-5 sm:px-6 md:px-8 max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-6 gap-y-12 lg:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-12 lg:gap-8">
           <div className="flex flex-col">
             <h4 className="font-semibold text-lg mb-5 text-white">
               Quick Links
             </h4>
-            <ul className="space-y-3 text-sm text-gray-400">
+            <ul className="space-y-3 text-sm text-gray-300">
               <li>
                 <Link
                   href="/about-us"
@@ -76,7 +70,7 @@ export default function Footer() {
 
           <div>
             <h4 className="font-semibold text-lg mb-5 text-white">Packages</h4>
-            <ul className="space-y-3 text-sm text-gray-400">
+            <ul className="space-y-3 text-sm text-gray-300">
               <li>
                 <Link
                   href="india"
@@ -117,7 +111,7 @@ export default function Footer() {
 
           <div>
             <h4 className="font-semibold text-lg mb-5 text-white">Services</h4>
-            <ul className="space-y-3 text-sm text-gray-400">
+            <ul className="space-y-3 text-sm text-gray-300">
               <li>
                 <Link
                   href="/service/hotel"
@@ -157,9 +151,9 @@ export default function Footer() {
             <h4 className="font-semibold text-lg mb-5 text-white">
               Contact Us
             </h4>
-            <div className="text-sm text-gray-400 space-y-6">
+            <div className="text-sm text-gray-300 space-y-6">
               <div>
-                <span className="block text-gray-500 text-xs uppercase tracking-wider mb-1.5 font-semibold">
+                <span className="block text-gray-300 text-xs uppercase tracking-wider mb-1.5 font-semibold">
                   Call / Whatsapp
                 </span>
                 <a
@@ -176,7 +170,7 @@ export default function Footer() {
                 </a>
               </div>
               <div>
-                <span className="block text-gray-500 text-xs uppercase tracking-wider mb-1.5 font-semibold">
+                <span className="block text-gray-300 text-xs uppercase tracking-wider mb-1.5 font-semibold">
                   Mail us at
                 </span>
                 <a
@@ -193,7 +187,7 @@ export default function Footer() {
                 </a>
               </div>
               <div>
-                <span className="block text-gray-500 text-xs uppercase tracking-wider mb-1.5 font-semibold">
+                <span className="block text-gray-300 text-xs uppercase tracking-wider mb-1.5 font-semibold">
                   Our Websites
                 </span>
                 <a
@@ -249,31 +243,11 @@ export default function Footer() {
             </div>
           </div>
 
-          <div>
-            <h4 className="font-semibold text-lg mb-5 text-white leading-tight">
-              Associate with Incredible India
-            </h4>
-            <div className="grid grid-cols-3 gap-3">
-              {[Product1, Product2, Product3, Product4, Product5, Product6].map(
-                (img, idx) => (
-                  <div
-                    key={idx}
-                    className="bg-white/5 rounded-lg p-1.5 flex items-center justify-center aspect-square hover:bg-white/10 transition-colors"
-                  >
-                    <Image
-                      src={img}
-                      alt={`Associate ${idx + 1}`}
-                      className="w-full h-full object-contain filter brightness-90 contrast-125"
-                    />
-                  </div>
-                ),
-              )}
-            </div>
-          </div>
+      
         </div>
 
-        <div className="border-t border-gray-800 mt-12 md:mt-16 pt-6 flex flex-col-reverse md:flex-row items-center justify-between gap-6">
-          <p className="text-xs text-gray-400 text-center md:text-left leading-relaxed">
+        <div className="border-t border-gray-500 mt-12 md:mt-16 pt-6 flex flex-col-reverse md:flex-row items-center justify-between gap-6">
+          <p className="text-xs text-gray-300 text-center md:text-left leading-relaxed">
             © {new Date().getFullYear()} PALS HOLIDAYS. All rights reserved
             <span className="hidden md:inline px-2">|</span>
             <br className="md:hidden" />
@@ -293,7 +267,7 @@ export default function Footer() {
                 key={i}
                 href={href}
                 target="_blank"
-                className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:bg-[#da251c] hover:text-white hover:border-transparent transition-all duration-300"
+                className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-300 hover:bg-[#da251c] hover:text-white hover:border-transparent transition-all duration-300"
               >
                 <Icon size={18} />
               </Link>
