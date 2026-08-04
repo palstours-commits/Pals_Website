@@ -2,27 +2,55 @@
 import CommonHeroSection from "@/app/common/CommonHeroSection";
 import HolidayPlanner from "../../../common/HolidayPlanner";
 import indiaBanner from "@/app/assets/india_banner.jpg";
+import indiaMobileBanner from "@/app/assets/indiaMobileBanner.png";
 import internationalBanner from "@/app/assets/international_banner.jpg";
+import internationalMobileBanner from "@/app/assets/international_mobile_banner.png";
 import spiritualBanner from "@/app/assets/spiritual_banner.jpg";
+import spiritualMoblieBanner from "@/app/assets/spiritual_mobile_banner.png";
 import honeymoonBanner from "@/app/assets/honeymoon_banner.jpg";
+import honeymoonMobileBanner from "@/app/assets/honeymoon_mobile_banner.png";
 import cruiseBanner from "@/app/assets/cruise_banner.jpg";
+import cruiseMobileBanner from "@/app/assets/cruise_mobile_banner.png";
 import defaultBanner from "@/app/assets/zone_banner.png";
 
 const ZoneSection = ({ menu }) => {
   const getBanner = () => {
     switch (menu?.toLowerCase()) {
       case "india":
-        return indiaBanner;
+        return {
+          desktop: indiaBanner,
+          mobile: indiaMobileBanner,
+        };
+
       case "international":
-        return internationalBanner;
+        return {
+          desktop: internationalBanner,
+          mobile: internationalMobileBanner,
+        };
+
       case "honeymoon":
-        return honeymoonBanner;
+        return {
+          desktop: honeymoonBanner,
+          mobile: honeymoonMobileBanner,
+        };
+
       case "spiritual":
-        return spiritualBanner;
+        return {
+          desktop: spiritualBanner,
+          mobile: spiritualMoblieBanner,
+        };
+
       case "cruise":
-        return cruiseBanner;
+        return {
+          desktop: cruiseBanner,
+          mobile: cruiseMobileBanner,
+        };
+
       default:
-        return defaultBanner;
+        return {
+          desktop: defaultBanner,
+          mobile: defaultBanner,
+        };
     }
   };
 

@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
-import { useRef, useEffect } from "react";
-import { motion, useAnimation, useInView } from "framer-motion";
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import { getImageUrl } from "../utils/getImageUrl";
 import { slugToTitle } from "../utils/slugToTitle";
 
@@ -10,7 +10,7 @@ const CommonHeroSection = ({
   subtitle,
   backgroundImage,
   breadcrumbs = [],
-  height = "min-h-[300px] sm:min-h-[400px] md:h-[450px] lg:h-[500px]",
+  height = "h-[450px] sm:h-[500px] md:h-[450px] lg:h-[500px]",
   overlay = "bg-gradient-to-r from-black/80 via-black/50 to-transparent",
   textAlign = "center",
   showBadge = false,
@@ -23,8 +23,14 @@ const CommonHeroSection = ({
 }) => {
   const containerRef = useRef(null);
   const isInView = useInView(containerRef, { once: true, amount: 0.1 });
-  const bgImage = getImageUrl(backgroundImage);
 
+  const desktopImage = getImageUrl(
+    backgroundImage?.desktop || backgroundImage
+  );
+
+  const mobileImage = getImageUrl(
+    backgroundImage?.mobile || backgroundImage
+  );
   const hasContent = title || subtitle || tagline || description || (breadcrumbs?.length > 0);
 
   const alignmentClasses = {
@@ -104,7 +110,12 @@ const CommonHeroSection = ({
           variants={titleWordVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className={`inline-block ${isHighlighted ? highlightColor : textAlign === "left" ? "text-[#4A2E14]" : "text-white"}`}
+          className={`inline-block ${isHighlighted
+            ? `${highlightColor}`
+            : textAlign === "left"
+              ? "text-[#fff] md:text-[#4A2E14]"
+              : "text-white md:text-white"
+            }`}
         >
           {word}
         </motion.span>
@@ -115,19 +126,35 @@ const CommonHeroSection = ({
   return (
     <div
       ref={containerRef}
-      className={`relative w-full ${height} flex overflow-hidden ${textAlign === "left" ? "items-end md:items-center justify-start" : "items-center justify-center"}`}
+      className={`relative w-full ${height} flex overflow-hidden ${textAlign === "left" ? "items-center justify-start" : "items-center justify-center"}`}
     >
       <motion.div
         className="absolute inset-0"
         initial={{ scale: 1.1 }}
         animate={isInView ? { scale: 1 } : { scale: 1.1 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        style={{
-          backgroundImage: `url(${bgImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      />
+      >
+        <div
+          className="hidden md:block absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `url(${desktopImage})`,
+          }}
+        />
+        <div
+          className="block md:hidden absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `url(${mobileImage})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+      </motion.div>
+      {
+        textAlign === "left" && (
+          <div className="block md:hidden absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-transparent" />
+
+        )
+      }
 
       {overlay && textAlign === "center" && (
         <motion.div
@@ -141,7 +168,7 @@ const CommonHeroSection = ({
       <div className="md:px-10 lg:px-15">
         {hasContent && isTextVisible && (
           <motion.div
-            className={`relative text-white ${containerPadding} py-10 z-10 w-full flex flex-col ${contentAlignment}`}
+            className={`relative text-white ${containerPadding}  py-10 z-10 w-full flex flex-col ${contentAlignment}`}
             variants={containerVariants}
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
@@ -167,11 +194,11 @@ const CommonHeroSection = ({
 
               {title && (
                 <motion.h2
-                  className={`w-full max-w-md text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold drop-shadow-2xl ${textAlign === "left"
+                  className={`w-full max-w-[250px] md:max-w-md text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold ${textAlign === "left"
                     ? "text-left"
                     : textAlign === "right"
                       ? "text-right"
-                      : " md:text-center"
+                      : "md:text-center"
                     }`}
                 >
                   <div
@@ -190,7 +217,12 @@ const CommonHeroSection = ({
               {subtitle && (
                 <motion.p
                   variants={itemVariants}
-                  className={`mt-3 sm:mt-4 max-w-md text-sm sm:text-base md:text-lg lg:text-xl drop-shadow-2xl max-w-2xl ${textAlign === "center" ? "mx-auto" : textAlign === "left" ? "ml-0 mr-auto text-black" : "ml-auto mr-0 text-white/80"}`}
+                  className={`mt-3 sm:mt-4 max-w-[250px] md:max-w-md text-sm sm:text-base md:text-lg lg:text-xl ${textAlign === "center"
+                    ? "mx-auto text-white md:text-white"
+                    : textAlign === "left"
+                      ? "ml-0 mr-auto text-white md:text-black"
+                      : "ml-auto mr-0 text-white md:text-white/80"
+                    } drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] md:drop-shadow-2xl max-w-2xl`}
                 >
                   {subtitle}
                 </motion.p>
@@ -199,7 +231,12 @@ const CommonHeroSection = ({
               {description && (
                 <motion.p
                   variants={itemVariants}
-                  className={`mt-2 text-sm sm:text-base drop-shadow-2xl max-w-2xl ${textAlign === "center" ? "mx-auto" : textAlign === "left" ? "ml-0 mr-auto text-black" : "ml-auto mr-0 text-white/80"}`}
+                  className={`mt-2 text-sm sm:text-base ${textAlign === "center"
+                    ? "mx-auto text-white md:text-white"
+                    : textAlign === "left"
+                      ? "ml-0 mr-auto text-white md:text-black"
+                      : "ml-auto mr-0 text-white md:text-white/80"
+                    } drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] md:drop-shadow-2xl max-w-2xl`}
                 >
                   {description}
                 </motion.p>
@@ -208,10 +245,11 @@ const CommonHeroSection = ({
               {breadcrumbs?.length > 0 && (
                 <motion.div
                   variants={itemVariants}
-                  className={`mt-4 flex flex-wrap ${textAlign === "center" ? "justify-center" : textAlign === "left" ? "justify-start" : "justify-end"} items-center gap-2 sm:gap-3`}
+                  className={`mt-4 flex flex-wrap ${textAlign === "center" ? "justify-center" : textAlign === "left" ? "justify-start" : "justify-end"
+                    } items-center gap-2 sm:gap-3`}
                 >
                   {breadcrumbs.map((item, index) => (
-                    <span key={index} className="flex items-center space-x-2 sm:space-x-3 text-xs sm:text-sm text-white/80">
+                    <span key={index} className="flex items-center space-x-2 sm:space-x-3 text-xs sm:text-sm text-white/80 drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)]">
                       {item.href ? (
                         <Link
                           href={item.href}
