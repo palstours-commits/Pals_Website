@@ -46,7 +46,6 @@ const initialErrors = {
   travelEndDate: "",
 };
 
-// --- Testimonial Data (8 items) - Visa focused ---
 const allTestimonials = [
   { id: 1, name: "John Miller", avatar: "https://randomuser.me/api/portraits/men/32.jpg", rating: 5, text: "Smooth visa process! Got my Schengen visa in just 5 working days. Excellent guidance throughout.", subtext: "Business Traveler" },
   { id: 2, name: "Sarah Chen", avatar: "https://randomuser.me/api/portraits/women/45.jpg", rating: 5, text: "The team helped me with my US visa application. Very professional and thorough documentation review.", subtext: "Student Visa" },
@@ -58,11 +57,9 @@ const allTestimonials = [
   { id: 8, name: "Lisa Thompson", avatar: "https://randomuser.me/api/portraits/women/32.jpg", rating: 5, text: "Stress-free visa experience! They guided me through every step of the application.", subtext: "Solo Traveler" }
 ];
 
-// Split into two rows for the animation
 const row1Testimonials = allTestimonials.slice(0, 4);
 const row2Testimonials = allTestimonials.slice(4, 8);
 
-// --- Compact Floating Label Components ---
 const FloatingLabelInput = ({ label, name, value, onChange, placeholder, required = false, isTextarea = false, type = "text", error, min, max }) => {
   const [isFocused, setIsFocused] = useState(false);
   const isFloating = isFocused || (value !== "" && value !== null && value !== undefined) || type === "date";
@@ -156,7 +153,6 @@ const VisaBookingSection = () => {
   const [formData, setFormData] = useState(initialVisaForm);
   const [errors, setErrors] = useState(initialErrors);
 
-  // Popup states
   const [showResultPopup, setShowResultPopup] = useState(false);
   const [popupType, setPopupType] = useState('success');
   const [popupMessage, setPopupMessage] = useState('');
@@ -165,7 +161,6 @@ const VisaBookingSection = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
 
-    // Clear error for this field when user starts typing
     if (errors[name]) {
       setErrors({ ...errors, [name]: "" });
     }
@@ -248,7 +243,6 @@ const VisaBookingSection = () => {
     setPopupMessage("");
   };
 
-  // Visa type options
   const visaTypeOptions = [
     { _id: "Tourist", name: "Tourist Visa" },
     { _id: "Business", name: "Business Visa" },
@@ -260,7 +254,6 @@ const VisaBookingSection = () => {
     { _id: "E-Visa", name: "E-Visa" },
   ];
 
-  // Popular countries list
   const countryOptions = [
     { _id: "USA", name: "United States" },
     { _id: "UK", name: "United Kingdom" },

@@ -11,7 +11,6 @@ import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { getMenus } from "@/app/store/slice/submenuSlice";
 
-// --- STATIC MENU DATA ---
 const SPECIAL_OFFERS_MENU = [
   { name: "Early Bird Offers", slug: "special-offers/early-bird" },
   { name: "EMI Offers", slug: "special-offers/emi" },
@@ -35,7 +34,6 @@ const COMPANY_MENU = [
   { name: "Contact Us", slug: "contact-us" },
 ];
 
-// Helper to assign icons to dynamic menus from the API based on name keywords
 const getDynamicIcon = (name) => {
   const lowerName = name.toLowerCase();
   if (lowerName.includes("india")) return <MapPin size={20} />;
@@ -105,7 +103,6 @@ const Destination = () => {
             .hide-scrollbar::-webkit-scrollbar { display: none; }
             .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
             
-            /* Main wrapper positioning */
             .destination-wrapper {
               position: fixed;
               z-index: 99999 !important;
@@ -113,7 +110,6 @@ const Destination = () => {
               right: 24px;
             }
             
-            /* Responsive adjustments */
             @media (max-width: 1024px) {
               .destination-wrapper {
                 bottom: 90px;
@@ -164,7 +160,6 @@ const Destination = () => {
               }
             }
             
-            /* Safe area for notched phones */
             @supports (padding: max(0px)) {
               .destination-wrapper {
                 bottom: max(100px, env(safe-area-inset-bottom, 0px) + 80px);
@@ -193,7 +188,6 @@ const Destination = () => {
             transition={{ type: "spring", stiffness: 400, damping: 30 }}
             className="absolute bottom-full mb-4 right-0 w-72 bg-[#FEF2F2] rounded-[24px] shadow-[0_10px_40px_-10px_rgba(0,0,0,0.2)] p-3 flex flex-col border border-red-100/50 max-h-[65vh] overflow-y-auto hide-scrollbar destination-popup"
           >
-            {/* Dynamic Menus */}
             {sortedSubmenus.length > 0 ? (
               sortedSubmenus.map((loc) => (
                 <button
@@ -213,7 +207,6 @@ const Destination = () => {
 
             <div className="h-px bg-red-200/50 my-2 mx-2"></div>
 
-            {/* Special Offers */}
             <div>
               <button
                 onClick={() => toggleAccordion("special-offers")}
@@ -250,7 +243,6 @@ const Destination = () => {
               </AnimatePresence>
             </div>
 
-            {/* Services */}
             <div>
               <button
                 onClick={() => toggleAccordion("services")}
@@ -288,7 +280,6 @@ const Destination = () => {
               </AnimatePresence>
             </div>
 
-            {/* Company */}
             <div>
               <button
                 onClick={() => toggleAccordion("company")}

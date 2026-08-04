@@ -17,6 +17,7 @@ export const EnhancedPackageForm = ({ packageId, packageName }) => {
         country: "",
         numberOfPersons: "",
         date: "",
+        departureDate: "",
         message: "",
     });
 
@@ -27,6 +28,8 @@ export const EnhancedPackageForm = ({ packageId, packageName }) => {
         country: "",
         numberOfPersons: "",
         date: "",
+        departureDate: "",
+        message: "",
     });
 
     useEffect(() => {
@@ -89,14 +92,26 @@ export const EnhancedPackageForm = ({ packageId, packageName }) => {
         }
 
         if (!formData.date) {
-            newErrors.date = "Departure date is required";
+            newErrors.date = "Arrival date is required";
             isValid = false;
         } else {
             const today = new Date();
             today.setHours(0, 0, 0, 0);
-            const departureDate = new Date(formData.date);
-            if (departureDate < today) {
-                newErrors.date = "Departure date must be in the future";
+            const arrivalDate = new Date(formData.date);
+            if (arrivalDate < today) {
+                newErrors.date = "Arrival date must be in the future";
+                isValid = false;
+            }
+        }
+
+        if (!formData.departureDate) {
+            newErrors.departureDate = "Departure date is required";
+            isValid = false;
+        } else if (formData.date) {
+            const arrivalDate = new Date(formData.date);
+            const departureDate = new Date(formData.departureDate);
+            if (departureDate < arrivalDate) {
+                newErrors.departureDate = "Departure date cannot be earlier than arrival date";
                 isValid = false;
             }
         }
@@ -133,14 +148,14 @@ export const EnhancedPackageForm = ({ packageId, packageName }) => {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className="bg-white p-4 sm:p-6 md:p-8 rounded-sm shadow-2xl border border-gray-100 h-full overflow-y-auto"
+            className="bg-white p-4 sm:p-6 md:p-8 rounded-sm shadow-2xl border border-gray-100 min-h-[650px] overflow-y-auto scrollbar-hide"
         >
             <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
-                <div className="bg-red-600 p-3 sm:p-4  sm:rounded-2xl text-white">
+                <div className="bg-red-600 p-3 sm:p-4 rounded-lg sm:rounded-2xl text-white">
                     <BookText size={24} className="sm:w-[30px] sm:h-[30px]" />
                 </div>
                 <div>
-                    <h4 className=" font-black">Grab This Package</h4>
+                    <h4 className="font-black">Grab This Package</h4>
                     <div className="text-gray-500 text-xs flex flex-col">{packageName}</div>
                 </div>
             </div>
@@ -206,16 +221,42 @@ export const EnhancedPackageForm = ({ packageId, packageName }) => {
                         error={errors.numberOfPersons}
                         placeholder="Enter number of travelers"
                     />
-                    <FloatingLabelInput
-                        label="Departure Date"
-                        name="date"
-                        value={formData.date}
-                        onChange={handleChange}
-                        type="date"
-                        required
-                        error={errors.date}
-                        min={new Date().toISOString().split('T')[0]}
-                    />
+                </div>
+
+                {/* Date Fields with Labels */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+                    <div className="relative">
+                        <label className="block text-xs ps-1 font-medium text-gray-600">
+                            Arrival Date
+                        </label>
+                        <FloatingLabelInput
+                            name="date"
+                            type="date"
+                            value={formData.date}
+                            onChange={handleChange}
+                            min={new Date().toISOString().split("T")[0]}
+                            required
+                            error={errors.date}
+                        />
+                    </div>
+
+                    <div className="relative">
+                        <label className="block text-xs font-medium ps-1 text-gray-600">
+                            Departure Date
+                        </label>
+                        <FloatingLabelInput
+                            name="departureDate"
+                            type="date"
+                            value={formData.departureDate}
+                            onChange={handleChange}
+                            min={
+                                formData.date ||
+                                new Date().toISOString().split("T")[0]
+                            }
+                            required
+                            error={errors.departureDate}
+                        />
+                    </div>
                 </div>
 
                 <FloatingLabelInput

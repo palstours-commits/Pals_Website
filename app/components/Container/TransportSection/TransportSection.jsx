@@ -50,7 +50,6 @@ const initialErrors = {
   noOfAdults: "",
 };
 
-// --- Testimonial Data (8 items) - Transport focused ---
 const allTestimonials = [
   { id: 1, name: "Robert Wilson", avatar: "https://randomuser.me/api/portraits/men/32.jpg", rating: 5, text: "Excellent car rental service! The vehicle was clean and well-maintained. Great value for money.", subtext: "Business Traveler" },
   { id: 2, name: "Patricia Lee", avatar: "https://randomuser.me/api/portraits/women/45.jpg", rating: 5, text: "Smooth airport transfer experience. Driver was punctual and professional. Highly recommended!", subtext: "Frequent Flyer" },
@@ -62,11 +61,9 @@ const allTestimonials = [
   { id: 8, name: "Nancy Thompson", avatar: "https://randomuser.me/api/portraits/women/32.jpg", rating: 5, text: "Clean cars, friendly staff, and hassle-free booking. This is my go-to transport service now.", subtext: "Solo Traveler" }
 ];
 
-// Split into two rows for the animation
 const row1Testimonials = allTestimonials.slice(0, 4);
 const row2Testimonials = allTestimonials.slice(4, 8);
 
-// --- Compact Floating Label Components ---
 const FloatingLabelInput = ({ label, name, value, onChange, placeholder, required = false, isTextarea = false, type = "text", error, min, max }) => {
   const [isFocused, setIsFocused] = useState(false);
   const isFloating = isFocused || (value !== "" && value !== null && value !== undefined) || type === "date";
@@ -159,7 +156,6 @@ const TransportSection = () => {
   const [formData, setFormData] = useState(initialTransportForm);
   const [errors, setErrors] = useState(initialErrors);
 
-  // Popup states
   const [showResultPopup, setShowResultPopup] = useState(false);
   const [popupType, setPopupType] = useState('success');
   const [popupMessage, setPopupMessage] = useState('');
@@ -167,7 +163,6 @@ const TransportSection = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // Handle number inputs
     if (name === 'noOfAdults' || name === 'noOfChildren') {
       const numValue = value === "" ? "" : parseInt(value);
       setFormData({ ...formData, [name]: numValue });
@@ -175,7 +170,6 @@ const TransportSection = () => {
       setFormData({ ...formData, [name]: value });
     }
 
-    // Clear error for this field when user starts typing
     if (errors[name]) {
       setErrors({ ...errors, [name]: "" });
     }
@@ -258,7 +252,6 @@ const TransportSection = () => {
     setPopupMessage("");
   };
 
-  // Rental type options
   const rentalTypeOptions = [
     { _id: "Airport Transfer", name: "Airport Transfer" },
     { _id: "Hourly Rental", name: "Hourly Rental" },
@@ -269,7 +262,6 @@ const TransportSection = () => {
     { _id: "Full Day Tour", name: "Full Day Tour" },
   ];
 
-  // Car type options
   const carTypeOptions = [
     { _id: "Hatchback", name: "Hatchback" },
     { _id: "Sedan", name: "Sedan" },

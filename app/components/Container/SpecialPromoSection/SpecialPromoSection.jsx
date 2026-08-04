@@ -4,6 +4,7 @@ import worldbg from "@/app/assets/world-bg.png";
 import MainLayout from '@/app/common/MainLayout';
 import Image from 'next/image';
 import Link from 'next/link';
+import { motion } from "framer-motion";
 
 function SpecialPromoSection() {
     const offers = [
@@ -28,32 +29,92 @@ function SpecialPromoSection() {
             className: "bottom-4 right-0",
         },
     ];
+
+    const fadeInUp = {
+        hidden: { opacity: 0, y: 30 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: { duration: 0.6, ease: "easeOut" }
+        }
+    };
+
+    const staggerContainer = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.2,
+                delayChildren: 0.1
+            }
+        }
+    };
+
+    const fadeInUpSmall = {
+        hidden: { opacity: 0, y: 20 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: { duration: 0.5, ease: "easeOut" }
+        }
+    };
+
+    const fadeInScale = {
+        hidden: { opacity: 0, scale: 0.95 },
+        visible: {
+            opacity: 1,
+            scale: 1,
+            transition: { duration: 0.6, ease: "easeOut" }
+        }
+    };
+
     return (
         <MainLayout>
-            <div className="bg-gradient-to-r from-[#FFEFEF] to-[#FFE5E3] py-3 md:py-16">
+            <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+                variants={fadeInUp}
+                className="bg-gradient-to-r from-[#FFEFEF] to-[#FFE5E3] py-3 md:py-16"
+            >
                 <div className="max-w-7xl mx-auto px-4 md:px-5">
                     <div className="flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0">
-                        <div className="text-center md:text-left">
-                            <h4 className="text-2xl md:text-4xl font-bold text-red-600">
+                        <motion.div
+                            variants={fadeInUp}
+                            className="text-center md:text-left"
+                        >
+                            <motion.h4
+                                variants={fadeInUp}
+                                className="text-2xl md:text-4xl font-bold text-red-600"
+                            >
                                 Special Offers
-                            </h4>
-                            <p className="mt-1 md:mt-2 text-gray-900 text-base md:text-lg font-semibold">
+                            </motion.h4>
+                            <motion.p
+                                variants={fadeInUp}
+                                className="mt-1 md:mt-2 text-gray-900 text-base md:text-lg font-semibold"
+                            >
                                 Exclusive Travel Deals from Pals Holidays
-                            </p>
-                        </div>
-                        <div>
+                            </motion.p>
+                        </motion.div>
+                        <motion.div variants={fadeInUp}>
                             <Image
                                 src={banner}
                                 alt="Special Offers Banner"
                                 className="w-40 md:w-90 h-auto"
                                 priority
                             />
-                        </div>
+                        </motion.div>
                     </div>
                 </div>
-            </div>
+            </motion.div>
 
-            <div className="relative my-8 md:my-10  md:py-20">
+            <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+                variants={fadeInUp}
+                className="relative my-8 md:my-10 md:py-20"
+            >
                 <div className="absolute inset-0 z-0">
                     <Image
                         src={worldbg}
@@ -66,8 +127,14 @@ function SpecialPromoSection() {
                 </div>
                 <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-5">
                     <div className="grid lg:grid-cols-2 gap-8 md:gap-16 items-center">
-                        <div className="order-2 lg:order-1">
-                            <p className="text-base md:text-lg  text-gray-800 bg-white/80 md:bg-transparent p-4 md:p-0 rounded-lg md:rounded-none">
+                        <motion.div
+                            variants={fadeInUp}
+                            className="order-2 lg:order-1"
+                        >
+                            <motion.p
+                                variants={fadeInUp}
+                                className="text-base md:text-lg text-gray-800 bg-white/80 md:bg-transparent p-4 md:p-0 rounded-lg md:rounded-none"
+                            >
                                 At Pals Holidays India Pvt. Ltd., we are committed to making your
                                 travel dreams a reality with exceptional value and unmatched
                                 service.
@@ -76,16 +143,21 @@ function SpecialPromoSection() {
                                 travel experiences. Whether you're planning a family vacation,
                                 honeymoon, pilgrimage, leisure getaway, or corporate tour, our
                                 special offers ensure you enjoy more while spending less.
-                            </p>
-                        </div>
-                        <div className="order-1 lg:order-2 flex justify-center">
-                            <div className="relative w-[360px] h-[430px]">
+                            </motion.p>
+                        </motion.div>
+                        <motion.div
+                            variants={fadeInScale}
+                            className="order-1 lg:order-2 flex justify-center"
+                        >
+                            <motion.div
+                                variants={staggerContainer}
+                                className="relative w-[360px] h-[430px]"
+                            >
                                 <svg
                                     className="absolute inset-0 w-full h-full pointer-events-none"
                                     viewBox="0 0 360 430"
                                     fill="none"
                                 >
-                                    {/* Early Bird -> EMI */}
                                     <path
                                         d="M95 40 C250 40 290 110 300 150"
                                         stroke="#F87171"
@@ -93,8 +165,6 @@ function SpecialPromoSection() {
                                         strokeDasharray="4 4"
                                         fill="none"
                                     />
-
-                                    {/* Group -> EMI */}
                                     <path
                                         d="M60 250 C130 180 220 180 260 170"
                                         stroke="#F87171"
@@ -102,8 +172,6 @@ function SpecialPromoSection() {
                                         strokeDasharray="4 4"
                                         fill="none"
                                     />
-
-                                    {/* Group -> Promo */}
                                     <path
                                         d="M90 275 C210 275 250 330 270 390"
                                         stroke="#F87171"
@@ -113,23 +181,25 @@ function SpecialPromoSection() {
                                     />
                                 </svg>
 
-                                {offers.map((offer) => (
-                                    <Link
+                                {offers.map((offer, index) => (
+                                    <motion.div
                                         key={offer.href}
-                                        href={offer.href}
+                                        variants={fadeInUpSmall}
+                                        custom={index}
                                         className={`absolute ${offer.className}`}
                                     >
-                                        <button className="bg-[#DA251C] text-white px-4 py-2 rounded-lg font-semibold shadow-lg hover:bg-red-700 transition cursor-pointer">
-                                            {offer.title}
-                                        </button>
-                                    </Link>
+                                        <Link href={offer.href}>
+                                            <button className="bg-[#DA251C] text-white px-4 py-2 rounded-lg font-semibold shadow-lg hover:bg-red-700 transition cursor-pointer">
+                                                {offer.title}
+                                            </button>
+                                        </Link>
+                                    </motion.div>
                                 ))}
-
-                            </div>
-                        </div>
+                            </motion.div>
+                        </motion.div>
                     </div>
                 </div>
-            </div>
+            </motion.div>
         </MainLayout>
     )
 }

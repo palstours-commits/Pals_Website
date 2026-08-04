@@ -1,5 +1,4 @@
 import FeaturesMarquee from "./FeaturesMarquee";
-import HolidayPlanner from "../../../common/HolidayPlanner";
 import HomeBanneSection from "./HomeBanneSection";
 import InspirationSection from "./InspirationSection";
 import OurServices from "./OurServices";

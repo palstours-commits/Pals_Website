@@ -8,7 +8,6 @@ import CustomImage from "@/app/common/Image";
 import MainLayout from "@/app/common/MainLayout";
 import { clearSearchResults, searchPackages } from "@/app/store/slice/searchSlice";
 import { AnimatePresence, motion } from "framer-motion";
-import { Search } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -46,49 +45,6 @@ const slides = [
     mobile: Mobile4,
   },
 ];
-
-
-// const slides = [
-//   {
-//     image: BannerImg1,
-//     // title: "Live the Moments",
-//     // subtitle: "Love the Journey.",
-//     // desc: "Discover unforgettable destinations, exciting adventures, and relaxing escapes tailored just for you.",
-//   },
-//   {
-//     image: BannerImg4,
-//     // title: "Where Every Trip",
-//     // subtitle: "Becomes a Story.",
-//     // desc: "Turn every vacation into a beautiful story filled with joy, adventure, and discovery.",
-//   },
-//   {
-//     image: BannerImg2,
-//     // title: "The World is Too",
-//     // subtitle: "Big to Stay Home.",                                                                                                     
-//     // desc: "Explore breathtaking places around the globe and create memories that last a lifetime.",
-//   },
-//   {
-//     image: BannerImg3,
-//     // title: "Go Somewhere You've",
-//     // subtitle: "Never Felt Before.",
-//     // desc: "Experience new cultures, hidden gems, and unique journeys beyond your imagination.",
-//   },
-//   {
-//     image: BannerImg5,
-//     // title: "Pack Your Bags",
-//     // subtitle: "We'll Handle the Rest.",
-//     // desc: "From booking to boarding, enjoy stress-free travel planning with complete comfort.",
-//   },
-//   {
-//     image: BannerImg6,
-//     // title: "Go Somewhere You've",
-//     // subtitle: "Never Felt Before.",
-//     // desc: "Experience new cultures, hidden gems, and unique journeys beyond your imagination.",
-//   },
-// ];
-
-
-
 
 
 const textVariants = {
@@ -171,7 +127,7 @@ const HomeBannerSection = () => {
   modules={[Autoplay, EffectFade, Pagination]}
   effect="fade"
   fadeEffect={{ crossFade: true }}
-  grabCursor={false}  // Changed from true to false
+  grabCursor={false}
   loop
   speed={1600}
   autoplay={{ delay: 4500, disableOnInteraction: false, pauseOnMouseEnter: false }}
@@ -183,14 +139,12 @@ const HomeBannerSection = () => {
   }}
   onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
   className="h-full w-full"
-  allowTouchMove={false}  // Add this to disable touch/drag interactions
+  allowTouchMove={false}
 >
           {slides.map((slide, index) => (
             <SwiperSlide key={index}>
               <div className="relative w-full h-full overflow-hidden">
                 <>
-<>
-{/* Desktop */}
 <Image
   src={slide.desktop}
   alt={`Desktop Banner ${index + 1}`}
@@ -201,7 +155,6 @@ const HomeBannerSection = () => {
   className="hidden md:block object-cover"
 />
 
-{/* Mobile */}
 <Image
   src={slide.mobile}
   alt={`Mobile Banner ${index + 1}`}
@@ -211,7 +164,6 @@ const HomeBannerSection = () => {
   sizes="100vw"
   className="block md:hidden object-cover"
 />
-</>
 </>
                 <div className="absolute inset-0 bg-gradient-to-br from-black/25 via-transparent to-black/55" />
               </div>
@@ -252,23 +204,6 @@ const HomeBannerSection = () => {
             </motion.p>
             <motion.div variants={textVariants} className="mb-12">
               <div ref={searchContainerRef} className="relative w-full max-w-2xl ">
-                {/* <div className="bg-white rounded-full p-1.5 flex items-center shadow-2xl relative z-[60] border-2 border-transparent">
-                  <input
-                    type="text"
-                    placeholder="Search destination, packages..."
-                    className="flex-1 bg-transparent px-4 sm:px-6 py-2 sm:py-3 text-gray-800 outline-none text-sm sm:text-base lg:text-lg placeholder:text-gray-400 font-medium w-full rounded-l-full"
-                    defaultValue=""
-                    onChange={handleSearchChange}
-                    onFocus={() => setShowDropdown(true)}
-                    onKeyDown={handleKeyDown}
-                  />
-                  <button
-                    onClick={handleSearchSubmit}
-                    className="bg-red-600 hover:bg-red-700 transition-colors text-white rounded-full h-10 w-10 sm:h-12 sm:w-12 lg:h-14 lg:w-14 flex items-center justify-center shadow-md flex-shrink-0"
-                  >
-                    <Search size={20} strokeWidth={2.5} className="sm:w-6 sm:h-6" />
-                  </button>
-                </div> */}
                 <AnimatePresence>
                   {showDropdown && (
                     <motion.div

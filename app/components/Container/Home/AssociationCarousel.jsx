@@ -22,14 +22,16 @@ const AssociationCarousel = () => {
     ];
 
     return (
-        <div className="px-5 max-w-7xl mx-auto my-26">
-            <div className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-sm rounded-xl p-6 md:p-8 shadow-2xl shadow-red-500/10 hover:shadow-red-500/20 transition-shadow duration-500 border border-white/5">
-                <div className="flex flex-col lg:flex-row items-start lg:items-center gap-6 lg:gap-12">
-                    <div className="lg:w-[30%] flex-shrink-0">
-                        <h4 className="text-xl md:text-2xl font-semibold mb-2">
+        <div className="px-3 sm:px-5 max-w-7xl mx-auto my-16 sm:my-20 lg:my-26">
+            <div className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-sm rounded-xl p-4 sm:p-6 md:p-8 shadow-xl shadow-red-500/5 hover:shadow-red-500/20 transition-shadow duration-500 border border-white/5 relative overflow-hidden">
+                <div className="absolute -inset-1 bg-gradient-to-r from-red-500/20 via-purple-500/20 to-blue-500/20 blur-xl rounded-2xl -z-10 md:hidden"></div>
+                
+                <div className="flex flex-col lg:flex-row items-start gap-6 lg:gap-12 relative z-10">
+                    <div className="lg:w-[30%] flex-shrink-0 w-full">
+                        <h4 className="text-xl md:text-2xl font-semibold mb-2 text-left">
                             Members & Approved By
                         </h4>
-                        <p className="text-sm text-gray-400 leading-relaxed">
+                        <p className="text-sm  text-left">
                             Indian Holiday is recognised by the Ministry of Tourism,
                             Government of India, and associated with respected travel
                             trade bodies.
@@ -37,11 +39,13 @@ const AssociationCarousel = () => {
                     </div>
 
                     <div className="lg:w-[70%] w-full relative">
-                        <div className="absolute -inset-4 bg-gradient-to-r from-red-500/10 via-purple-500/10 to-blue-500/10 blur-2xl rounded-3xl"></div>
-                        <div className="relative px-10">
+                        <div className="hidden md:block absolute -inset-4 bg-gradient-to-r from-red-500/10 via-purple-500/10 to-blue-500/10 blur-2xl rounded-3xl"></div>
+                        <div className="md:hidden absolute -inset-2 bg-gradient-to-r from-red-500/15 via-purple-500/15 to-blue-500/15 blur-xl rounded-2xl"></div>
+                        
+                        <div className="relative px-4 sm:px-6 md:px-10">
                             <Swiper
                                 modules={[Autoplay]}
-                                spaceBetween={20}
+                                spaceBetween={15}
                                 slidesPerView={1}  
                                 breakpoints={{
                                     480: {
@@ -76,7 +80,7 @@ const AssociationCarousel = () => {
                                 {associations.map((item) => (
                                     <SwiperSlide key={item.id}>
                                         <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm rounded-2xl p-4 hover:from-white/20 hover:to-white/10 transition-all duration-300 group border border-white/5 hover:border-white/20 shadow-lg hover:shadow-2xl shadow-red-500/5 hover:shadow-red-500/20 h-full flex flex-col items-center justify-center">
-                                            <div className="w-full h-24 md:h-28 lg:h-32 relative overflow-hidden rounded-xl">
+                                            <div className="w-full h-20 sm:h-24 md:h-28 lg:h-32 relative overflow-hidden rounded-xl">
                                                 <Image
                                                     src={item.img}
                                                     alt={item.name}
@@ -85,7 +89,7 @@ const AssociationCarousel = () => {
                                                     sizes="(max-width: 480px) 40vw, (max-width: 640px) 25vw, (max-width: 1024px) 20vw, 15vw"
                                                 />
                                             </div>
-                                            <p className="text-xs text-gray-400 text-center mt-3 transition-colors font-medium">
+                                            <p className="text-[10px] sm:text-xs text-gray-400 text-center mt-3 transition-colors font-medium">
                                                 {item.name}
                                             </p>
                                         </div>
@@ -111,6 +115,12 @@ const AssociationCarousel = () => {
                 }
                 .associations-swiper .swiper-slide {
                     height: auto;
+                }
+                
+                @media (max-width: 1023px) {
+                    .associations-swiper .swiper-slide {
+                        padding: 2px;
+                    }
                 }
             `}</style>
         </div>

@@ -3,6 +3,7 @@ import React from "react";
 import banner from "@/app/assets/earlybirdOffer-banner.png";
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 const HIGHLIGHTS = [
     "Exclusive Early Booking Discounts",
@@ -37,84 +38,175 @@ const EarlyBirdOfferSection = () => {
         setOpenIndex((prev) => (prev === index ? -1 : index));
     };
 
+    const fadeInUp = {
+        hidden: { opacity: 0, y: 30 },
+        visible: { 
+            opacity: 1, 
+            y: 0,
+            transition: { duration: 0.6, ease: "easeOut" }
+        }
+    };
+
+    const staggerContainer = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.15,
+                delayChildren: 0.1
+            }
+        }
+    };
+
+    const fadeInUpSmall = {
+        hidden: { opacity: 0, y: 15 },
+        visible: { 
+            opacity: 1, 
+            y: 0,
+            transition: { duration: 0.4, ease: "easeOut" }
+        }
+    };
+
     return (
         <div className="w-full bg-white">
-            <div className="bg-gradient-to-r from-[#FFEFEF] to-[#FFE5E3] py-3 md:py-16">
+            <motion.div 
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+                variants={fadeInUp}
+                className="bg-gradient-to-r from-[#FFEFEF] to-[#FFE5E3] py-3 md:py-16"
+            >
                 <div className="max-w-7xl mx-auto px-4 md:px-5">
                     <div className="flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0">
-                        <div className="text-center md:text-left">
-                            <h4 className="text-2xl md:text-4xl font-bold text-red-600">
+                        <motion.div 
+                            variants={fadeInUp}
+                            className="text-center md:text-left"
+                        >
+                            <motion.h2 
+                                variants={fadeInUp}
+                                className="text-2xl md:text-4xl font-bold text-red-600"
+                            >
                                 Early Bird Offers
-                            </h4>
-                            <p className="mt-1 md:mt-2 text-gray-900 text-base md:text-lg font-semibold">
+                            </motion.h2>
+                            <motion.p 
+                                variants={fadeInUp}
+                                className="mt-1 md:mt-2 text-gray-900 text-base md:text-lg font-semibold"
+                            >
                                 Plan Early. Save More. Travel Smart.
-                            </p>
-                        </div>
-                        <div>
+                            </motion.p>
+                        </motion.div>
+                        <motion.div variants={fadeInUp}>
                             <Image
                                 src={banner}
                                 alt="Special Offers Banner"
                                 className="w-40 md:w-90 h-auto"
                                 priority
                             />
-                        </div>
+                        </motion.div>
                     </div>
                 </div>
-            </div>
+            </motion.div>
 
-            <div className="max-w-7xl mx-auto px-4 md:px-5 py-10 md:py-16">
-                <p className="text-gray-700 text-sm md:text-base leading-relaxed">
+            <motion.div 
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+                variants={staggerContainer}
+                className="max-w-7xl mx-auto px-4 md:px-5 py-10 md:py-16"
+            >
+                <motion.p 
+                    variants={fadeInUp}
+                    className="text-gray-700 text-sm md:text-base leading-relaxed"
+                >
                     Take advantage of our Early Bird Offers by booking your holiday in
                     advance and enjoy exclusive discounts on selected domestic and
                     international tour packages.
-                </p>
+                </motion.p>
 
-                <p className="mt-4 text-gray-700 text-sm md:text-base leading-relaxed">
+                <motion.p 
+                    variants={fadeInUp}
+                    className="mt-4 text-gray-700 text-sm md:text-base leading-relaxed"
+                >
                     Early booking allows you to secure the best airfare, premium
                     accommodations, preferred travel dates, and attractive pricing
                     before peak season begins.
-                </p>
+                </motion.p>
 
-                <h4 className="mt-6 text-base md:text-lg font-semibold text-gray-900">
+                <motion.h4 
+                    variants={fadeInUp}
+                    className="mt-6 text-base md:text-lg font-semibold text-gray-900"
+                >
                     Offer Highlights
-                </h4>
+                </motion.h4>
 
-                <ul className="mt-3 space-y-1.5 list-disc list-inside text-gray-700 text-sm md:text-base">
+                <motion.ul 
+                    variants={staggerContainer}
+                    className="mt-3 space-y-1.5 list-disc list-inside text-gray-700 text-sm md:text-base"
+                >
                     {HIGHLIGHTS.map((item) => (
-                        <li key={item}>{item}</li>
+                        <motion.li key={item} variants={fadeInUpSmall}>
+                            {item}
+                        </motion.li>
                     ))}
-                </ul>
+                </motion.ul>
 
-                <p className="mt-6 text-gray-700 text-sm md:text-base leading-relaxed">
+                <motion.p 
+                    variants={fadeInUp}
+                    className="mt-6 text-gray-700 text-sm md:text-base leading-relaxed"
+                >
                     Book ahead and enjoy the confidence of a perfectly planned holiday
                     at the best possible price.
-                </p>
+                </motion.p>
 
-                <p className="mt-6 text-[#e02020] font-bold text-sm md:text-base tracking-wide">
+                <motion.p 
+                    variants={fadeInUp}
+                    className="mt-6 text-[#e02020] font-bold text-sm md:text-base tracking-wide"
+                >
                     BOOK EARLY &amp; ENJOY BIGGER SAVINGS !!!!
-                </p>
+                </motion.p>
 
-                <Link href="/contact-us cursor-pointer">
-                    <button
-                        type="button"
-                        className="mt-6 bg-[#e02020] hover:bg-[#c81c1c] transition-colors text-white text-sm font-semibold px-6 py-3 rounded-md"
+                <motion.div variants={fadeInUp}>
+                    <Link href="/contact-us" className="cursor-pointer">
+                        <button
+                            type="button"
+                            className="mt-6 bg-[#e02020] hover:bg-[#c81c1c] transition-colors text-white text-sm font-semibold px-6 py-3 rounded-md"
+                        >
+                            Book Now
+                        </button>
+                    </Link>
+                </motion.div>
+            </motion.div>
+
+            <motion.div 
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+                variants={fadeInUp}
+                className="bg-[#f4f4f4] px-4 md:px-5 py-10 md:py-16"
+            >
+                <motion.div 
+                    variants={staggerContainer}
+                    className="max-w-7xl mx-auto bg-white rounded-lg shadow-sm p-5"
+                >
+                    <motion.h3 
+                        variants={fadeInUp}
+                        className="text-center text-base md:text-lg font-semibold text-gray-900 mb-4"
                     >
-                        Book Now
-                    </button>
-                </Link>
-            </div>
-
-            <div className="bg-[#f4f4f4] px-4 md:px-5 py-10 md:py-16">
-                <div className="max-w-7xl mx-auto bg-white rounded-lg shadow-sm p-5">
-                    <h3 className="text-center text-base md:text-lg font-semibold text-gray-900 mb-4">
                         Traveller&apos;s Question Guide
-                    </h3>
+                    </motion.h3>
 
-                    <div className="divide-y divide-gray-200">
+                    <motion.div 
+                        variants={staggerContainer}
+                        className="divide-y divide-gray-200"
+                    >
                         {FAQS.map((faq, index) => {
                             const isOpen = openIndex === index;
                             return (
-                                <div key={faq.question} className="py-3">
+                                <motion.div 
+                                    key={faq.question} 
+                                    variants={fadeInUpSmall}
+                                    className="py-3"
+                                >
                                     <button
                                         type="button"
                                         onClick={() => toggleFaq(index)}
@@ -128,16 +220,21 @@ const EarlyBirdOfferSection = () => {
                                         </span>
                                     </button>
                                     {isOpen && faq.answer && (
-                                        <p className="mt-2 text-sm text-gray-600 leading-relaxed">
+                                        <motion.p 
+                                            initial={{ opacity: 0, y: 10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ duration: 0.3, ease: "easeOut" }}
+                                            className="mt-2 text-sm text-gray-600 leading-relaxed"
+                                        >
                                             {faq.answer}
-                                        </p>
+                                        </motion.p>
                                     )}
-                                </div>
+                                </motion.div>
                             );
                         })}
-                    </div>
-                </div>
-            </div>
+                    </motion.div>
+                </motion.div>
+            </motion.div>
         </div>
     );
 };

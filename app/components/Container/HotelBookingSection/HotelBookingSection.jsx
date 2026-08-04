@@ -60,11 +60,9 @@ const allTestimonials = [
   { id: 8, name: "Robert Taylor", avatar: "https://randomuser.me/api/portraits/men/32.jpg", rating: 5, text: "Smooth check-in process and the hotel was exactly as described. Highly recommended!", subtext: "Solo Traveler" }
 ];
 
-// Split into two rows for the animation
 const row1Testimonials = allTestimonials.slice(0, 4);
 const row2Testimonials = allTestimonials.slice(4, 8);
 
-// --- Compact Floating Label Components ---
 const FloatingLabelInput = ({ label, name, value, onChange, placeholder, required = false, isTextarea = false, type = "text", error, min, max }) => {
   const [isFocused, setIsFocused] = useState(false);
   const isFloating = isFocused || (value !== "" && value !== null && value !== undefined) || type === "date";
@@ -256,7 +254,6 @@ const HotelBookingSection = () => {
     { _id: "Presidential", name: "Presidential Suite" },
   ];
 
-  // Meal type options
   const mealTypeOptions = [
     { _id: "Room Only", name: "Room Only" },
     { _id: "Bed & Breakfast", name: "Bed & Breakfast" },

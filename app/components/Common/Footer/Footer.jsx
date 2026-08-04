@@ -138,7 +138,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                target="_blank"
+                  target="_blank"
                   href="https://royalmilesindia.webdadsprojects.com/"
                   className="hover:text-red-500 transition-colors block"
                 >
@@ -244,7 +244,7 @@ export default function Footer() {
             </div>
           </div>
 
-      
+
         </div>
 
         <div className="border-t border-gray-500 mt-12 md:mt-16 pt-6 flex flex-col-reverse md:flex-row items-center justify-between gap-6">
@@ -252,14 +252,22 @@ export default function Footer() {
             © {new Date().getFullYear()} PALS HOLIDAYS. All rights reserved
             <span className="hidden md:inline px-2">|</span>
             <br className="md:hidden" />
-            <span className="mt-3 md:mt-0 inline-flex items-center justify-center md:justify-start">
-              Developed by
-              <Image
-                src={whitelogo}
-                alt="Developer Logo"
-                className="inline h-3.5 md:h-4 w-auto mx-2 opacity-80 hover:opacity-100 transition-opacity"
-              />
-            </span>
+            <Link
+              href="https://www.webdads2u.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center"
+            >
+              <span className="mt-3 md:mt-0 inline-flex items-center justify-center md:justify-start">
+                Developed by
+
+                <Image
+                  src={whitelogo}
+                  alt="WebDads2U Logo"
+                  className="h-3.5 md:h-4 w-auto mx-2 opacity-80 hover:opacity-100 transition-opacity"
+                />
+              </span>
+            </Link>
           </p>
 
           <div className="flex gap-4">

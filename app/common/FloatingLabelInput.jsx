@@ -25,7 +25,7 @@ export const FloatingLabelInput = ({ label, name, value, onChange, placeholder, 
                     onFocus={() => setIsFocused(true)}
                     onBlur={() => setIsFocused(false)}
                     className={`w-full px-4 py-3 rounded-xl border ${error ? 'border-red-500 bg-red-50' : 'border-gray-200'} focus:border-red-600 focus:ring-2 focus:ring-red-100 outline-none transition-all resize-none`}
-                    rows="4"
+                    rows="3"
                     placeholder={isFocused ? placeholder : ""}
                 />
             ) : (

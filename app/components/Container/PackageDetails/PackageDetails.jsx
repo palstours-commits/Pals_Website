@@ -25,7 +25,6 @@ const PackageDetails = ({ slug }) => {
     "Destinations",
     "Tour Itinerary",
     "Information",
-    "Get a Quote",
   ];
 
   const dispatch = useDispatch();
@@ -50,14 +49,13 @@ const PackageDetails = ({ slug }) => {
   const destinationsRef = useRef(null);
   const itineraryRef = useRef(null);
   const informationRef = useRef(null);
-  const quoteRef = useRef(null);
 
   const bannerImages = singlePackage?.images?.length > 0
     ? singlePackage.images.map(img => img)
     : [PackageBanner.src];
 
-    console.log(bannerImages[0]);
-    
+  console.log(bannerImages[0]);
+
   useEffect(() => {
     if (slug) {
       dispatch(getPackagesById(slug));
@@ -124,9 +122,6 @@ const PackageDetails = ({ slug }) => {
       case "Information":
         ref = informationRef;
         break;
-      case "Get a Quote":
-        ref = quoteRef;
-        break;
       default:
         return;
     }
@@ -150,7 +145,6 @@ const PackageDetails = ({ slug }) => {
         { ref: mapRef, name: "Map" },
         { ref: itineraryRef, name: "Tour Itinerary" },
         { ref: informationRef, name: "Information" },
-        { ref: quoteRef, name: "Get a Quote" }
       ];
       const scrollPosition = window.scrollY + 200;
       for (const section of sections) {
@@ -274,7 +268,7 @@ const PackageDetails = ({ slug }) => {
         </div>
       </motion.div>
 
-      <div className="w-full pt-6 sm:pt-10 sticky top-[60px] sm:top-[72px] md:top-[190px] z-40 bg-white/80 backdrop-blur-md border-b">
+      <div className="w-full py-6   sticky top-[60px] sm:top-[72px] md:top-[200px] z-40 bg-white/80 backdrop-blur-md border-b border-gray-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -309,7 +303,7 @@ const PackageDetails = ({ slug }) => {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="hidden md:flex gap-2 items-center overflow-x-auto scrollbar-hide p-4 "
+            className="hidden md:flex gap-2 items-center overflow-x-auto scrollbar-hide py-4 "
           >
             {tabs?.map((tab) => (
               <motion.button
@@ -460,27 +454,28 @@ const PackageDetails = ({ slug }) => {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
-        className="w-full  bg-gradient-to-r from-red-600 to-red-500 py-6 sm:py-8"
+        className="w-full bg-gradient-to-r from-red-600 to-red-500 py-6 sm:py-8"
       >
-        <div className="max-w-7xl  mx-auto flex items-center justify-center text-white">
-          <motion.div
-            animate={{
-              x: [0, 10, 0],
-              transition: { duration: 2, repeat: Infinity }
-            }}
-            className="flex items-center gap-2 text-center flex-wrap justify-center"
-          >
-            <MapPin className="shrink-0 w-4 h-4 sm:w-5 sm:h-5" />
+        <div className="max-w-7xl mx-auto flex items-center justify-center text-white px-4">
+          <div className="flex items-center justify-center gap-2 text-center flex-wrap">
+            <motion.div
+              animate={{ x: [0, 6, 0] }}
+              transition={{ duration: 2, repeat: Infinity }}
+              className="flex-shrink-0"
+            >
+              <MapPin className="w-4 h-4 sm:w-5 sm:h-5" />
+            </motion.div>
+
             <h4
               id="destinations"
               className="font-semibold text-sm sm:text-base md:text-lg"
             >
               {singlePackage?.destinations?.join(", ")}
             </h4>
-          </motion.div>
+          </div>
         </div>
       </motion.div>
-        {/* <div
+      {/* <div
           ref={mapRef}
           id="map"
           className="max-w-7xl mx-auto mt-10 md:mt-25 hidden md:block px-6">
@@ -564,9 +559,8 @@ const PackageDetails = ({ slug }) => {
               </AnimatePresence>
             </motion.div>
             <motion.div
-              ref={quoteRef}
               variants={fadeInUp}
-              className="h-auto lg:h-[600px]"
+              className="h-auto "
             >
               <EnhancedPackageForm
                 packageId={singlePackage?._id}

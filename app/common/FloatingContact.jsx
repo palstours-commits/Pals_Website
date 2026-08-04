@@ -19,7 +19,7 @@ export default function FloatingContact() {
 
   return (
     <>
-      <div className="fixed bottom-65 md:bottom-25 right-4 z-[9998]">
+      <div className="fixed bottom-55 md:bottom-25 right-4 z-[9998]">
         <span className="absolute inset-0 rounded-full bg-green-500 animate-ping opacity-30"></span>
 
         <motion.button

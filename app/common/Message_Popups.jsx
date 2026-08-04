@@ -109,7 +109,6 @@ const Message_Popups = ({
     if (e.target === overlayRef.current) handleClose();
   };
 
-  // Animation variants for bottom-to-top entrance and top-to-bottom exit
   const popupVariants = shouldReduceMotion 
     ? {} 
     : {
@@ -158,7 +157,6 @@ const Message_Popups = ({
           exit="exit"
           variants={backdropVariants}
         >
-          {/* Backdrop */}
           <motion.div 
             ref={overlayRef}
             className="absolute inset-0 bg-black/40 backdrop-blur-sm"
@@ -166,13 +164,11 @@ const Message_Popups = ({
             onClick={handleBackdropClick}
           />
           
-          {/* Popup Card - Animates from bottom to top */}
           <motion.div
             variants={popupVariants}
             className="relative w-full max-w-[400px] bg-white rounded-2xl shadow-2xl overflow-hidden"
           >
             <div className="p-6">
-              {/* Icon and Title */}
               <div className="flex items-start gap-4 mb-4">
                 <div className={`p-3 rounded-xl ${config.iconBg}`}>
                   <Icon className={`w-6 h-6 ${config.iconColor}`} />
@@ -188,14 +184,12 @@ const Message_Popups = ({
                 </div>
               </div>
 
-              {/* Content */}
               <div className={`p-4 rounded-xl ${config.lightBg} border ${config.border} mb-5`}>
                 <div className="text-sm text-gray-700">
                   {children}
                 </div>
               </div>
 
-              {/* Action Buttons */}
               <div className="flex gap-3">
                 {type === 'confirm' ? (
                   <>
@@ -230,7 +224,6 @@ const Message_Popups = ({
               </div>
             </div>
 
-            {/* Close Button */}
             <motion.button
               whileHover={{ scale: 1.1, rotate: 90 }}
               whileTap={{ scale: 0.9 }}

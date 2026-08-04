@@ -13,9 +13,8 @@ const Flight_Movement = ({ isOpen = false, onAnimationComplete, autoTriggerOnSuc
   const [showSuccess, setShowSuccess] = useState(false);
 
   const hasFinishedRef = useRef(false);
-  const hasTriggeredRef = useRef(false); // prevents looping
+  const hasTriggeredRef = useRef(false);
 
-  // Trigger modal only once when success happens
   useEffect(() => {
     if (
       autoTriggerOnSuccess &&
@@ -32,7 +31,6 @@ const Flight_Movement = ({ isOpen = false, onAnimationComplete, autoTriggerOnSuc
     }
   }, [message, loading, error, autoTriggerOnSuccess]);
 
-  // Auto close after success screen
   useEffect(() => {
     if (showSuccess) {
       hasFinishedRef.current = true;
@@ -45,13 +43,11 @@ const Flight_Movement = ({ isOpen = false, onAnimationComplete, autoTriggerOnSuc
     }
   }, [showSuccess]);
 
-  // Fire confetti when modal closes
   useEffect(() => {
   if (!internalIsOpen && hasFinishedRef.current) {
 
     hasFinishedRef.current = false;
 
-    // RESET for next trigger
     hasTriggeredRef.current = false;
     setShowSuccess(false);
 
@@ -133,17 +129,14 @@ const Flight_Movement = ({ isOpen = false, onAnimationComplete, autoTriggerOnSuc
                     transition={{ type: "spring", stiffness: 200, damping: 10 }}
                   >
                     <svg width="60" height="60" viewBox="0 0 52 52">
-  {/* Airplane + Passport Success - NO CIRCLE/CHECK */}
   <motion.g initial={{ y: -15, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.7, type: "spring", stiffness: 350 }}>
     
-    {/* Airplane flies across */}
     <motion.g initial={{ x: -10, scale: 0.8 }} animate={{ x: 0, scale: 1 }} transition={{ delay: 0.2, type: "spring", stiffness: 400 }}>
       <path fill="#3b82f6" d="M12 20 L16 18 L20 22 L34 22 L32 26 L20 26 Z"/>
       <path fill="#60a5fa" d="M34 22 L38 20 L40 24 L38 26 Z" stroke="#1e40af" strokeWidth="0.5"/>
       <circle cx="17" cy="21" r="1.2" fill="#eab308"/>
     </motion.g>
 
-    {/* Passport/Ticket */}
     <motion.g initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.4, type: "spring", stiffness: 400 }}>
       <rect x="14" y="28" width="24" height="14" rx="8" fill="#fef3c7" stroke="#f59e0b" strokeWidth="2"/>
       <rect x="16" y="30" width="20" height="10" rx="4" fill="#fbbf24"/>
@@ -151,7 +144,6 @@ const Flight_Movement = ({ isOpen = false, onAnimationComplete, autoTriggerOnSuc
       <text x="24" y="42" textAnchor="middle" fontSize="6" fill="#dc2626">CONFIRMED</text>
     </motion.g>
 
-    {/* Luggage Tag */}
     <motion.g initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.6, type: "spring" }}>
       <rect x="36" y="32" width="8" height="6" rx="3" fill="#10b981" stroke="#059669" strokeWidth="0.5"/>
       <circle cx="40" cy="29" r="1.5" fill="#059669"/>
@@ -159,14 +151,12 @@ const Flight_Movement = ({ isOpen = false, onAnimationComplete, autoTriggerOnSuc
     </motion.g>
   </motion.g>
 
-  {/* Success Glow */}
   <motion.circle cx="26" cy="26" r="20" fill="none" stroke="#86efac" strokeWidth="2"
     initial={{ scale: 0, opacity: 0 }}
     animate={{ scale: [0, 1.5, 1], opacity: [0, 1, 0] }}
     transition={{ delay: 0.5, duration: 0.6 }}
   />
 
-  {/* Travel Sparkles - FIXED 2 KEYFRAMES ONLY */}
   <motion.g initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
     <motion.circle cx="8" cy="14" r="1.2" fill="#f59e0b" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.1, type: "spring", stiffness: 500 }}/>
     <motion.circle cx="44" cy="18" r="1" fill="#3b82f6" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.2, type: "spring", stiffness: 500 }}/>
