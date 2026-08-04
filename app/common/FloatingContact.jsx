@@ -20,7 +20,7 @@ export default function FloatingContact() {
   return (
     <>
       <div className="fixed bottom-55 md:bottom-25 right-2 md:right-4 z-[9998]">
-        <span className="absolute inset-0 rounded-full bg-green-500 animate-ping opacity-30"></span>
+        <span className="absolute inset-0 rounded-full bg-red-500 animate-ping opacity-30"></span>
 
         <motion.button
           onClick={() => setIsPopupOpen(true)}
