@@ -54,7 +54,7 @@ const TopDestination = () => {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="px-4  max-w-7xl mx-auto"
+        className="px-5  max-w-7xl mx-auto"
       >
         <motion.div
           variants={textVariants}
@@ -141,16 +141,6 @@ const TopDestination = () => {
           ))}
         </motion.div>
       </motion.div>
-
-      <style jsx>{`
-        .scrollbar-hide {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
     </MainLayout>
   );
 };

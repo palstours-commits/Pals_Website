@@ -269,7 +269,7 @@ const PackageDetails = ({ slug }) => {
       </motion.div>
 
       <div className="w-full py-6   sticky top-[60px] sm:top-[72px] md:top-[200px] z-40 bg-white/80 backdrop-blur-md border-b border-gray-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-5 ">
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="md:hidden w-full px-4 py-3 bg-gray-100 rounded-xl flex items-center justify-between"

@@ -63,7 +63,7 @@ const HolidayPlanner = ({ menuSlug = "holidays" }) => {
   };
 
   return (
-    <MainLayout className="px-4 md:p max-w-7xl mx-auto py-10 sm-py-6 lg:py-10">
+    <MainLayout className="px-5 md:p max-w-7xl mx-auto py-10 sm-py-6 lg:py-10">
       <motion.div
         initial="hidden"
         whileInView="visible"

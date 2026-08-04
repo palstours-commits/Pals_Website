@@ -77,7 +77,7 @@ const GroupTourOffersSection = () => {
                 variants={fadeInUp}
                 className="bg-gradient-to-r from-[#FFEFEF] to-[#FFE5E3] py-3 md:py-16"
             >
-                <div className="max-w-7xl mx-auto px-4 md:px-5">
+                <div className="max-w-7xl mx-auto px-5">
                     <div className="flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0">
                         <motion.div 
                             variants={fadeInUp}
@@ -113,7 +113,7 @@ const GroupTourOffersSection = () => {
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.2 }}
                 variants={staggerContainer}
-                className="max-w-7xl mx-auto px-4 md:px-5 py-10 md:py-16"
+                className="max-w-7xl mx-auto px-5 py-10 md:py-16"
             >
                 <motion.p 
                     variants={fadeInUp}
@@ -175,7 +175,7 @@ const GroupTourOffersSection = () => {
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.2 }}
                 variants={fadeInUp}
-                className="bg-[#f4f4f4] px-4 md:px-5 py-10 md:py-16"
+                className="bg-[#f4f4f4] px-5 py-10 md:py-16"
             >
                 <motion.div 
                     variants={staggerContainer}

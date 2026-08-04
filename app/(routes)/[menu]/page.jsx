@@ -16,6 +16,5 @@ export async function generateMetadata({ params }) {
 
 export default async function Page({ params }) {
     const { menu } = await params;
-
     return <ZoneSection menu={menu} />;
 }

@@ -84,7 +84,7 @@ const OurServices = () => {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.2 }}
-        className="px-4  max-w-7xl mx-auto py-10 md:py-15"
+        className="px-5  max-w-7xl mx-auto py-10 md:py-15"
       >
         <motion.div
           variants={fadeItem}

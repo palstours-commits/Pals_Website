@@ -319,7 +319,7 @@ const Fixed_ContactSection = () => {
 
   if (!isDesktop) {
     return (
-      <div className="fixed bottom-20 right-4 z-[9998] flex flex-col items-end   pointer-events-none">
+      <div className="fixed bottom-20 right-2 md:right-4 z-[9998] flex flex-col gap-4 items-end   pointer-events-none">
         <LocationIcon />
         <Tooltip text="Call Us">
           <motion.a

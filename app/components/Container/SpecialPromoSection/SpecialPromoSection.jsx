@@ -78,7 +78,7 @@ function SpecialPromoSection() {
                 variants={fadeInUp}
                 className="bg-gradient-to-r from-[#FFEFEF] to-[#FFE5E3] py-3 md:py-16"
             >
-                <div className="max-w-7xl mx-auto px-4 md:px-5">
+                <div className="max-w-7xl mx-auto px-5">
                     <div className="flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0">
                         <motion.div
                             variants={fadeInUp}
@@ -126,7 +126,7 @@ function SpecialPromoSection() {
                     />
                     <div className="absolute inset-0 bg-white/50"></div>
                 </div>
-                <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-5">
+                <div className="relative z-10 max-w-7xl mx-auto px-5">
                     <div className="grid lg:grid-cols-2 gap-8 md:gap-16 items-center">
                         <motion.div
                             variants={fadeInUp}

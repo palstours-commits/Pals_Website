@@ -18,7 +18,7 @@ export default function Footer() {
 
   return (
     <footer className="bg-[#7a3d3d] text-white pt-12 md:pt-16 pb-8">
-      <div className="px-5 sm:px-6 md:px-8 max-w-7xl mx-auto">
+      <div className="px-5  max-w-7xl mx-auto">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-12 lg:gap-8">
           <div className="flex flex-col">
             <h4 className="font-semibold text-lg mb-5 text-white">

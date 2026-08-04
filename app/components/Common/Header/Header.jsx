@@ -577,7 +577,6 @@ export default function Header() {
           </motion.button>
         </motion.div>
 
-        {/* ── Mobile drawer ── */}
         <AnimatePresence>
           {open && (
             <>
@@ -586,7 +585,7 @@ export default function Header() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={() => setOpen(false)}
-                className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[99998] lg:hidden"
+                className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[99999] lg:hidden"
               />
               <motion.div
                 initial={{ x: "100%" }}
@@ -596,7 +595,7 @@ export default function Header() {
                 className="fixed top-0 right-0 w-[85vw] max-w-sm h-[100dvh] bg-white shadow-2xl z-[99999] flex flex-col overflow-hidden lg:hidden"
               >
                 <div className="p-4 border-b border-gray-100 flex items-center justify-between bg-white shadow-sm">
-                  <Image src={navbar_logo} alt="Pals Holidays" className="h-8 w-auto" />
+                  <Image src={navbar_logo} alt="Pals Holidays" className="h-10 w-auto" />
                   <button
                     onClick={() => setOpen(false)}
                     className="p-2 bg-gray-50 rounded-full hover:bg-red-50 text-gray-500 hover:text-red-600 transition-colors cursor-pointer"
@@ -670,7 +669,6 @@ export default function Header() {
                     </AnimatePresence>
                   </div>
 
-                  {/* Company — accordion */}
                   <div className="border-b border-gray-50/50 pb-1">
                     <button
                       onClick={() => toggleMobileDropdown("company")}
@@ -712,7 +710,6 @@ export default function Header() {
                     </AnimatePresence>
                   </div>
 
-                  {/* Special Offers — accordion */}
                   <div className="border-b border-gray-50/50 pb-1">
                     <button
                       onClick={() => toggleMobileDropdown("special-offers")}
