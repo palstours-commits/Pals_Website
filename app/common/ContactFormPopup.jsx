@@ -157,7 +157,7 @@ const ContactFormPopup = ({ isOpen, onClose }) => {
                             initial={{ opacity: 0, scale: 0.9, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                            className="fixed inset-4 md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:max-w-2xl w-full md:w-[600px] max-h-[90vh] bg-white rounded-2xl shadow-2xl z-[99999] flex flex-col overflow-hidden"
+                            className="fixed inset-4 md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:max-w-2xl  md:w-[600px] max-h-[90vh] bg-white rounded-2xl shadow-2xl z-[99999] flex flex-col overflow-hidden"
                         >
                             <div className="sticky top-0 bg-white border-b border-gray-100 px-6 py-4 relative">
                                 <h3 className="text-xl font-bold text-gray-900 text-center">

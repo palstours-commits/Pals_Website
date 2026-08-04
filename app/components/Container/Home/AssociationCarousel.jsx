@@ -6,10 +6,10 @@ import "swiper/css";
 
 import Product1 from "@/app/assets/footerLogo/Product1.png";
 import Product2 from "@/app/assets/footerLogo/Product2.png";
-import Product3 from "@/app/assets/footerLogo/Product3.png";
+import Product3 from "@/app/assets/footerLogo/Product3.jpeg";
 import Product4 from "@/app/assets/footerLogo/Product4.png";
-import Product5 from "@/app/assets/footerLogo/Product5.png";
-import Product6 from "@/app/assets/footerLogo/Product6.png";
+import Product5 from "@/app/assets/footerLogo/Product5.jpeg";
+import Product6 from "@/app/assets/footerLogo/Product6.jpeg";
 
 const AssociationCarousel = () => {
     const associations = [

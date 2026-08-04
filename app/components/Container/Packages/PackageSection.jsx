@@ -83,15 +83,37 @@ const PackageSection = ({ zoneSlug, menuSlug }) => {
 
   return (
     <>
-      <CommonHeroSection
-        title={`Discover the Soul of Incredible${title}`}
-        backgroundImage={zone_banner}
-        breadcrumbs={[
-          { label: "Home", href: "/" },
-          { label: menuSlug, href: `/${menuSlug}` },
-          { label: title || "Destination" },
-        ]}
-      />
+      <section className="bg-[#f7d4d4] py-10 md:py-14">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <h3 className="text-2xl md:text-5xl font-bold text-black">
+            Discover the Soul of Incredible {title} 
+          </h3>
+          <div className="mt-3 flex items-center justify-center gap-2 text-sm">
+            <button
+              onClick={() => router.push("/")}
+              className="text-[#0e0505] hover:underline"
+            >
+              Home
+            </button>
+
+            <span className="text-gray-500">/</span>
+
+            <button
+              onClick={() => router.push(`/${menuSlug}`)}
+              className="text-gray-700 hover:text-[#da251c]"
+            >
+              {menuSlug}
+            </button>
+
+            {title && (
+              <>
+                <span className="text-gray-500">/</span>
+                <span className="text-gray-700 capitalize">{title}</span>
+              </>
+            )}
+          </div>
+        </div>
+      </section>
 
       {zones?.map((item) => {
         const zone = item?.zone;

@@ -8,7 +8,7 @@ import Message_Popups from "@/app/common/Message_Popups";
 import { clearContactState, submitContact } from "@/app/store/slice/contactSlice";
 import { getPackages } from "@/app/store/slice/packageSlice";
 import { motion } from "framer-motion";
-import { Mail, MapPin, Phone, PlaneTakeoff } from "lucide-react";
+import { Mail, MapPin, Phone, } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -161,7 +161,6 @@ const Contactsection = () => {
       <MainLayout className="bg-gray-50 py-10 md:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 items-start">
-
             <div className="space-y-6 md:space-y-8">
               <div>
                 <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-gray-900  leading-tight">
@@ -291,18 +290,7 @@ const Contactsection = () => {
                       </div>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
-                        <div className="relative">
-                          <label className="block text-xs ps-1 font-medium text-gray-600">
-                            Arrival Date
-                          </label>
-                          <FloatingLabelInput
-                            name="tentativeDateOfArrival"
-                            type="date"
-                            value={form.tentativeDateOfArrival}
-                            onChange={handleChange}
-                            min={new Date().toISOString().split("T")[0]}
-                          />
-                        </div>
+
 
                         <div className="relative">
                           <label className="block text-xs font-medium ps-1 text-gray-600">
@@ -317,6 +305,18 @@ const Contactsection = () => {
                               form.tentativeDateOfArrival ||
                               new Date().toISOString().split("T")[0]
                             }
+                          />
+                        </div>
+                        <div className="relative">
+                          <label className="block text-xs ps-1 font-medium text-gray-600">
+                            Arrival Date
+                          </label>
+                          <FloatingLabelInput
+                            name="tentativeDateOfArrival"
+                            type="date"
+                            value={form.tentativeDateOfArrival}
+                            onChange={handleChange}
+                            min={new Date().toISOString().split("T")[0]}
                           />
                         </div>
                       </div>

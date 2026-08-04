@@ -224,22 +224,8 @@ export const EnhancedPackageForm = ({ packageId, packageName }) => {
                 </div>
 
                 {/* Date Fields with Labels */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
-                    <div className="relative">
-                        <label className="block text-xs ps-1 font-medium text-gray-600">
-                            Arrival Date
-                        </label>
-                        <FloatingLabelInput
-                            name="date"
-                            type="date"
-                            value={formData.date}
-                            onChange={handleChange}
-                            min={new Date().toISOString().split("T")[0]}
-                            required
-                            error={errors.date}
-                        />
-                    </div>
 
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
                     <div className="relative">
                         <label className="block text-xs font-medium ps-1 text-gray-600">
                             Departure Date
@@ -257,6 +243,22 @@ export const EnhancedPackageForm = ({ packageId, packageName }) => {
                             error={errors.departureDate}
                         />
                     </div>
+                    <div className="relative">
+                        <label className="block text-xs ps-1 font-medium text-gray-600">
+                            Arrival Date
+                        </label>
+                        <FloatingLabelInput
+                            name="date"
+                            type="date"
+                            value={formData.date}
+                            onChange={handleChange}
+                            min={new Date().toISOString().split("T")[0]}
+                            required
+                            error={errors.date}
+                        />
+                    </div>
+
+
                 </div>
 
                 <FloatingLabelInput

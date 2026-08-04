@@ -1,5 +1,5 @@
 "use client";
-import bannerimg from "@/app/assets/visa_booking.svg";
+import bannerimg from "@/app/assets/visa_booking.png";
 import VisaVector from "@/app/assets/VisaVector.png"; // You'll need to add this image
 import CommonHeroSection from "@/app/common/CommonHeroSection";
 import MainLayout from "@/app/common/MainLayout";

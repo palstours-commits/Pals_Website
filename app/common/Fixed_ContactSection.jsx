@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter, usePathname } from "next/navigation";
@@ -10,6 +11,7 @@ import companyIcon from "@/app/assets/office-building.svg";
 
 import {
   FaPhone,
+  FaEnvelope,
   FaMapMarkerAlt,
   FaGlobe,
   FaCompass,
@@ -307,11 +309,19 @@ const Fixed_ContactSection = () => {
     );
   }, [isOpen, sortedSubmenus, expandedMenus, toggleAccordion, handleNavigate, mainButtonIcon, mainButtonIconWhite]);
 
+  if (isPackageDetailsPage && isDesktop) {
+    return (
+      <div className="fixed bottom-16 right-4 z-[9998] flex flex-col items-end gap-3 pb-safe pointer-events-none">
+        <LocationIcon />
+      </div>
+    );
+  }
+
   if (!isDesktop) {
     return (
-      <div className="fixed bottom-20 right-2 md:right-4 z-[9998] flex flex-col  items-end   pointer-events-none">
+      <div className="fixed bottom-30 right-2 md:right-4 z-[9998] flex flex-col  items-end   pointer-events-none">
         <LocationIcon />
-        <Tooltip text="Call Us">
+        {/* <Tooltip text="Call Us">
           <motion.a
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.9 }}
@@ -321,7 +331,7 @@ const Fixed_ContactSection = () => {
           >
             <FaPhone size={22} />
           </motion.a>
-        </Tooltip>
+        </Tooltip> */}
       </div>
     );
   }

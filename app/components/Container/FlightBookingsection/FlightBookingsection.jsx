@@ -1,5 +1,5 @@
 "use client";
-import bannerimg from "@/app/assets/flight-bg.svg";
+import bannerimg from "@/app/assets/flight-bg.png";
 import flightBookingVector from "@/app/assets/flightBookingVector.png";
 import CommonHeroSection from "@/app/common/CommonHeroSection";
 import { FloatingLabelInput } from "@/app/common/FloatingLabelInput";

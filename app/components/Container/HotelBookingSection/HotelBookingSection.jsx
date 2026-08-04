@@ -1,5 +1,5 @@
 "use client";
-import bannerimg from "@/app/assets/hotel_booking.svg";
+import bannerimg from "@/app/assets/hotel_booking.png";
 import hotelImageVector from "@/app/assets/hotelImageVector.png"; // You'll need to add this image
 import CommonHeroSection from "@/app/common/CommonHeroSection";
 import MainLayout from "@/app/common/MainLayout";

@@ -1,5 +1,5 @@
 "use client";
-import bannerimg from "@/app/assets/car_booking.svg";
+import bannerimg from "@/app/assets/car_booking.png";
 import transportVector from "@/app/assets/transportVector.png"; // You'll need to add this image
 import CommonHeroSection from "@/app/common/CommonHeroSection";
 import MainLayout from "@/app/common/MainLayout";
