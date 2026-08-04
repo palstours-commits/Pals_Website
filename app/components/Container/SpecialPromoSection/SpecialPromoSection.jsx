@@ -1,3 +1,4 @@
+"use client";
 import React from 'react'
 import banner from "@/app/assets/Special-Offers-banner.png";
 import worldbg from "@/app/assets/world-bg.png";
