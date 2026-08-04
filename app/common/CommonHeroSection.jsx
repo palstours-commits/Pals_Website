@@ -11,7 +11,7 @@ const CommonHeroSection = ({
   backgroundImage,
   breadcrumbs = [],
   height = "h-[450px] sm:h-[500px] md:h-[450px] lg:h-[500px]",
-  overlay = "bg-gradient-to-r from-black/80 via-black/50 to-transparent",
+  overlay = "bg-gradient-to-r from-black/10 via-black/10 to-transparent",
   textAlign = "center",
   showBadge = false,
   badgeText = "",
