@@ -251,7 +251,7 @@ const Fixed_ContactSection = () => {
   const LocationIcon = useMemo(() => {
     return () => (
       <div className="pointer-events-auto relative" ref={dropdownRef}>
-        <Tooltip text={sortedSubmenus[0]?.name || "Destinations"}>
+        <Tooltip text={"Enquire Now"}>
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
