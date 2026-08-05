@@ -6,11 +6,10 @@ export const submitCareerForm = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const response = await FetchApi({
-        endpoint: "/career",
+        endpoint: "/user/career",
         method: "POST",
         body: payload,
       });
-
       return response?.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -27,6 +26,7 @@ const careerSlice = createSlice({
     success: false,
     message: "",
     error: null,
+    showPopup: false,
   },
   reducers: {
     clearCareerState: (state) => {
@@ -34,6 +34,10 @@ const careerSlice = createSlice({
       state.success = false;
       state.message = "";
       state.error = null;
+      state.showPopup = false;
+    },
+    closePopup: (state) => {
+      state.showPopup = false;
     },
   },
   extraReducers: (builder) => {
@@ -42,20 +46,23 @@ const careerSlice = createSlice({
         state.loading = true;
         state.error = null;
         state.success = false;
+        state.showPopup = false;
       })
       .addCase(submitCareerForm.fulfilled, (state, action) => {
         state.loading = false;
         state.success = true;
         state.message =
-          action.payload?.message || "Form submitted successfully";
+          action.payload?.message || "Application submitted successfully!";
+        state.showPopup = true;
       })
       .addCase(submitCareerForm.rejected, (state, action) => {
         state.loading = false;
         state.success = false;
         state.error = action.payload;
+        state.showPopup = true;
       });
   },
 });
 
-export const { clearCareerState } = careerSlice.actions;
+export const { clearCareerState, closePopup } = careerSlice.actions;
 export default careerSlice.reducer;

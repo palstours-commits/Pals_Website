@@ -1,6 +1,4 @@
 "use client";
-import bannerimg from "@/app/assets/explore-bg.svg";
-import CommonHeroSection from "@/app/common/CommonHeroSection";
 import MainLayout from "@/app/common/MainLayout";
 import TravelCard from "@/app/common/TravelCard";
 import { TravelCardSkeleton } from "@/app/common/animations";

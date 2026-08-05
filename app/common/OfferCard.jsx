@@ -20,10 +20,10 @@ const OfferCard = ({ item, isColor = true }) => {
           router.push("/offers");
         }
       }}
-      className={`relative border-2 border-dashed rounded-xl p-8 min-h-[220px] flex flex-col justify-between cursor-pointer transition-all duration-300 hover:shadow-lg
+      className={`relative border-2 border-dashed rounded-xl p-6 md:p-8 min-h-[220px] flex flex-col justify-between cursor-pointer transition-all duration-300 hover:shadow-lg
       ${isColor ? "bg-[#BEEAF6] border-[#28B6E8]" : "border-gray-300"}`}
     >
-      <div className="absolute top-0 right-0 w-16 h-16">
+      <div className="absolute top-0 right-1 w-16 h-16">
         <Image
           src={item?.offerType === "package" ? Offericon1 : Offericon2}
           alt=""

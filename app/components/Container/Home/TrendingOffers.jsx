@@ -71,10 +71,9 @@ const TrendingOffers = () => {
           </div>
         </motion.div>
 
-        {/* Offers Slider */}
         <motion.div
           ref={sliderRef}
-          className="flex gap-6 overflow-x-auto scrollbar-hide pb-6"
+          className="flex  gap-6 overflow-x-auto scrollbar-hide pb-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6 }}
@@ -85,6 +84,7 @@ const TrendingOffers = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
+              className="flex-none w-[300px] lg:w-[360px] snap-start flex"
               transition={{ duration: 0.4, delay: i * 0.03 }}
             >
               <OfferCard item={item} />
@@ -92,16 +92,6 @@ const TrendingOffers = () => {
           ))}
         </motion.div>
       </motion.div>
-
-      <style jsx>{`
-        .scrollbar-hide {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
     </MainLayout>
   );
 };
