@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useRef, useState } from "react";
 import MainLayout from "@/app/common/MainLayout";
 import { motion } from "framer-motion";
@@ -7,20 +8,24 @@ import { useDispatch, useSelector } from "react-redux";
 import { getBlogs } from "@/app/store/slice/blogSlice";
 import CustomImage from "@/app/common/Image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const InspirationSection = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
+
   const { blogs } = useSelector((state) => state.blog);
 
   useEffect(() => {
     dispatch(getBlogs());
-  }, []);
+  }, [dispatch]);
 
   const containerRef = useRef(null);
   const [active, setActive] = useState(0);
+
   const cardWidth = 320;
   const visibleCards = 3;
-  const totalDots = Math.ceil(blogs.length / visibleCards);
+  const totalDots = Math.ceil((blogs?.length || 0) / visibleCards);
 
   const handleScroll = () => {
     if (!containerRef.current) return;
@@ -31,6 +36,7 @@ const InspirationSection = () => {
 
   const scrollToIndex = (index) => {
     if (!containerRef.current) return;
+
     containerRef.current.scrollTo({
       left: index * cardWidth * visibleCards,
       behavior: "smooth",
@@ -38,14 +44,17 @@ const InspirationSection = () => {
   };
 
   return (
-    <MainLayout className="w-full mb-20 px-5  max-w-7xl mx-auto overflow-x-hidden">
+    <MainLayout className="w-full mb-20 px-5 max-w-7xl mx-auto overflow-x-hidden">
       <motion.div
         variants={fadeContainer}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.2 }}
       >
-        <motion.h4 variants={fadeItem} className="font-bold text-center mb-8">
+        <motion.h4
+          variants={fadeItem}
+          className="font-bold text-center mb-8"
+        >
           Get inspiration for your next trip
         </motion.h4>
 
@@ -58,7 +67,8 @@ const InspirationSection = () => {
             <motion.div
               key={item._id}
               variants={fadeItem}
-              className="min-w-[241px] lg:min-w-[400px] shrink-0 text-left will-change-transform translate-z-0"
+              onClick={() => router.push("/blog")}
+              className="min-w-[241px] lg:min-w-[400px] shrink-0 text-left will-change-transform translate-z-0 cursor-pointer"
             >
               <div className="w-full h-44 rounded-xl overflow-hidden mb-3">
                 <CustomImage
@@ -67,24 +77,29 @@ const InspirationSection = () => {
                   className="w-full h-full object-cover"
                 />
               </div>
+
               <p className="text-xs text-gray-500 mb-1">
                 {new Date(item.createdAt).toLocaleDateString()}
               </p>
+
               <p className="text-sm font-medium leading-snug line-clamp-2 mb-2">
                 {item.title}
               </p>
+
               <Link
-                href={"/blog"}
-                className=" border border-gray-700 text-xs rounded-full px-4 py-1"
+                href="/blog"
+                onClick={(e) => e.stopPropagation()}
+                className="border border-gray-700 text-xs rounded-full px-4 py-1 inline-block"
               >
                 Know more
               </Link>
             </motion.div>
           ))}
         </div>
+
         <motion.div
           variants={fadeItem}
-          className="flex justify-center gap-2 mt-6 cursor-pointer"
+          className="flex justify-center gap-2 mt-6"
         >
           {Array.from({ length: totalDots }).map((_, i) => (
             <button

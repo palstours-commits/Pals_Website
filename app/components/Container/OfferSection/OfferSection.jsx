@@ -52,10 +52,8 @@ const OfferSection = () => {
         <div className="max-w-7xl mx-auto px-4">
           <h3 className="text-2xl font-bold mb-8">Flash Sale Live Now</h3>
           <Swiper
-            modules={[Pagination]}
             slidesPerView={1}
             spaceBetween={24}
-            pagination={{ clickable: true }}
             breakpoints={{
               768: { slidesPerView: 2 },
             }}

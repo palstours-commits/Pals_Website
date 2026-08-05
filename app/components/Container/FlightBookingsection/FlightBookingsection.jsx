@@ -312,7 +312,7 @@ const FlightBookingSection = () => {
                   </div>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-1">
+                <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <FloatingLabelInput
                       label="Full Name"

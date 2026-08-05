@@ -32,9 +32,8 @@ import {
   FaUtensils,
   FaMoon,
   FaSun,
-  FaPhoneAlt
 } from 'react-icons/fa';
-import { FaHeadset } from 'react-icons/fa6';
+import { FaBars, FaHeadset } from 'react-icons/fa6';
 
 const getMenuIcon = (menuName, iconPath, size = 18, className = "text-red-600") => {
   if (iconPath && iconPath !== navItemIcon && iconPath !== companyIcon) {
@@ -84,7 +83,7 @@ const getFirstMenuIcon = (menus, size = 22, className = "text-red-600") => {
     return null
   }
 
-  return <FaHeadset size={size} className={className} />;
+  return <FaBars  size={size} className={className} />;
 };
 
 const Tooltip = ({ children, text }) => {
@@ -184,6 +183,7 @@ const Fixed_ContactSection = () => {
   const pathname = usePathname();
   const dropdownRef = useRef(null);
   const dispatch = useDispatch();
+  const [hoverTimeout, setHoverTimeout] = useState(null);
 
   const { submenus } = useSelector((state) => state.submenu);
   const sortedSubmenus = useMemo(() => {
@@ -248,14 +248,36 @@ const Fixed_ContactSection = () => {
     }));
   }, []);
 
+  // Hover handlers
+  const handleMouseEnter = useCallback(() => {
+    // Clear any pending close timeout
+    if (hoverTimeout) {
+      clearTimeout(hoverTimeout);
+      setHoverTimeout(null);
+    }
+    setIsOpen(true);
+  }, [hoverTimeout]);
+
+  const handleMouseLeave = useCallback(() => {
+    // Delay closing to allow moving to dropdown content
+    const timeout = setTimeout(() => {
+      setIsOpen(false);
+    }, 100);
+    setHoverTimeout(timeout);
+  }, []);
+
   const LocationIcon = useMemo(() => {
     return () => (
-      <div className="pointer-events-auto relative" ref={dropdownRef}>
+      <div 
+        className="pointer-events-auto relative" 
+        ref={dropdownRef}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
         <Tooltip text={"Enquire Now"}>
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => setIsOpen(!isOpen)}
             className={`w-12 h-12 rounded-full border border-gray-100 shadow-[0_4px_12px_rgba(0,0,0,0.1)] flex items-center justify-center transition-colors duration-200 cursor-pointer bg-gray-300 shadow-lg`}
             aria-label={sortedSubmenus[0]?.name || "Destinations"}
           >
@@ -303,7 +325,7 @@ const Fixed_ContactSection = () => {
         </AnimatePresence>
       </div>
     );
-  }, [isOpen, sortedSubmenus, expandedMenus, toggleAccordion, handleNavigate, mainButtonIcon, mainButtonIconWhite]);
+  }, [isOpen, sortedSubmenus, expandedMenus, toggleAccordion, handleNavigate, mainButtonIcon, mainButtonIconWhite, handleMouseEnter, handleMouseLeave]);
 
   if (isPackageDetailsPage && isDesktop) {
     return (
@@ -312,7 +334,7 @@ const Fixed_ContactSection = () => {
       </div>
     );
   }
-
+  
   if (!isDesktop) {
     return (
       <div className="fixed bottom-33 right-2 md:right-4 z-[9998] flex flex-col  items-end   pointer-events-none">

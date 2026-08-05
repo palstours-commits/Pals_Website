@@ -55,7 +55,8 @@ const FloatingButtons = () => {
             transition-all duration-300
           "
         >
-          Certificate
+          Ministry of Tourism
+
         </span>
 
         <div

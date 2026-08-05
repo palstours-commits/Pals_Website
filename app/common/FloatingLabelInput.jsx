@@ -7,10 +7,14 @@ export const FloatingLabelInput = ({ label, name, value, onChange, placeholder, 
         (value !== "" && value !== null && value !== undefined);
     return (
         <div className="relative mt-2 w-full">
-            {type !== "date" && (
+            {type === "date"  ? (
+                <label className="block text-sm capitalize ps-2 text-gray-600 mb-1">
+                    {label} {required && <span className="text-red-500">*</span>}
+                </label>
+            ) : (
                 <label
-                    className={`absolute left-3 px-1.5 transition-all duration-200 pointer-events-none z-10 ${isFloating
-                            ? "-top-2.5 text-[11px] font-bold text-gray-800 bg-white"
+                    className={`absolute left-3 px-1 transition-all duration-200 pointer-events-none z-10 ${isFloating
+                            ? "-top-2.5 text-[11px] font-medium text-gray-600 bg-white"
                             : "top-3.5 text-gray-500 text-sm bg-transparent"
                         }`}
                 >

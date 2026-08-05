@@ -54,7 +54,6 @@ const PackageDetails = ({ slug }) => {
     ? singlePackage.images.map(img => img)
     : [PackageBanner.src];
 
-  console.log(bannerImages[0]);
 
   useEffect(() => {
     if (slug) {

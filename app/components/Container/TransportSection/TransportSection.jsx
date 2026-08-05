@@ -310,9 +310,9 @@ const TransportSection = () => {
             <div className="flex flex-col h-full">
               <div className=" p-6 md:p-8 h-full flex flex-col">
                 <div className="text-center lg:text-left mb-6">
-                  <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
+                  <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
                     Why Book Transport With Us
-                  </h2>
+                  </h3>
                   <p className="text-gray-600 text-sm max-w-2xl mx-auto lg:mx-0">
                     Reliable vehicles for your journey with comfort and safety guaranteed.
                   </p>
@@ -404,8 +404,6 @@ const TransportSection = () => {
                 </div>
               </div>
             </div>
-
-            {/* Right Column: Compact Form Component */}
             <div className="w-full h-full">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -417,12 +415,12 @@ const TransportSection = () => {
                     <Car size={22} />
                   </div>
                   <div>
-                    <h2 className="text-xl font-bold text-gray-900">Book Transport</h2>
+                    <h3 className="text-xl font-bold text-gray-900">Book Transport</h3>
                     <p className="text-gray-500 text-xs">Reliable cars for your journey</p>
                   </div>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-1">
+                <form onSubmit={handleSubmit} className="space-y-2">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <FloatingLabelInput
                       label="Full Name"

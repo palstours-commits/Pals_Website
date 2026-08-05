@@ -248,12 +248,9 @@ export const EnhancedPackageForm = ({ packageId, packageName }) => {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
-
                     <div className="relative">
-                        <label className="block text-xs ps-1 font-medium text-gray-600">
-                            Arrival Date
-                        </label>
                         <FloatingLabelInput
+                            label={"arrivalDate"}
                             name="arrivalDate"
                             type="date"
                             value={formData.arrivalDate}
@@ -265,10 +262,8 @@ export const EnhancedPackageForm = ({ packageId, packageName }) => {
                     </div>
 
                     <div className="relative">
-                        <label className="block text-xs font-medium ps-1 text-gray-600">
-                            Departure Date
-                        </label>
                         <FloatingLabelInput
+                            label={"departureDate"}
                             name="departureDate"
                             type="date"
                             value={formData.departureDate}
@@ -285,14 +280,16 @@ export const EnhancedPackageForm = ({ packageId, packageName }) => {
 
                 </div>
 
-                <FloatingLabelInput
-                    label="Special Requests"
-                    name="specialRequest"
-                    value={formData.specialRequest}
-                    onChange={handleChange}
-                    isTextarea
-                    placeholder="Tell us about your preferences, dietary requirements, or any special requests..."
-                />
+                <div className="py-2">
+                    <FloatingLabelInput
+                        label="Special Requests"
+                        name="specialRequest"
+                        value={formData.specialRequest}
+                        onChange={handleChange}
+                        isTextarea
+                        placeholder="Tell us about your preferences, dietary requirements, or any special requests..."
+                    />
+                </div>
 
                 <motion.button
                     whileHover={{ scale: 1.02 }}
