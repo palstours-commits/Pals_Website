@@ -15,6 +15,8 @@ const CareerSection = () => {
     (state) => state.career
   );
 
+  console.log(error);
+
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -164,8 +166,8 @@ const CareerSection = () => {
           <button
             onClick={handleClosePopup}
             className={`w-full py-3 text-white font-semibold rounded-lg transition ${isSuccess
-                ? "bg-green-600 hover:bg-green-700"
-                : "bg-red-600 hover:bg-red-700"
+              ? "bg-green-600 hover:bg-green-700"
+              : "bg-red-600 hover:bg-red-700"
               }`}
           >
             {isSuccess ? "Done" : "Try Again"}
@@ -304,8 +306,8 @@ const CareerSection = () => {
 
               <div
                 className={`relative border-2 border-dashed rounded-lg p-8 text-center transition ${dragActive
-                    ? "border-blue-500 bg-blue-50"
-                    : "border-gray-300 bg-gray-50"
+                  ? "border-blue-500 bg-blue-50"
+                  : "border-gray-300 bg-gray-50"
                   } ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
                 onDragEnter={handleDrag}
                 onDragLeave={handleDrag}

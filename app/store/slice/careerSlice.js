@@ -13,7 +13,7 @@ export const submitCareerForm = createAsyncThunk(
       return response?.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
-        error?.response?.data?.message || "Failed to submit career form",
+        error?.message || "Failed to submit career form",
       );
     }
   },
