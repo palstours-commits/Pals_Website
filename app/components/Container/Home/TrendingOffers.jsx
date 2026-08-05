@@ -45,7 +45,7 @@ const TrendingOffers = () => {
             <h4 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">
               Trending Offers
             </h4>
-            <p className="text-base lg:text-lg text-gray-600 mt-2 max-w-sm font-medium">
+            <p className="text-base lg:text-md   max-w-sm">
               Promotions, deals, and special offers for you
             </p>
           </div>

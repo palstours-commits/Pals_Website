@@ -22,7 +22,7 @@ const AssociationCarousel = () => {
     ];
 
     return (
-        <div className="px-5 max-w-7xl mx-auto my-16 sm:my-20 lg:my-26">
+        <div className="px-5 max-w-7xl mx-auto mb-20">
             <div className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-sm rounded-xl p-4 sm:p-6 md:p-8 shadow-xl shadow-red-500/5 hover:shadow-red-500/20 transition-shadow duration-500 border border-white/5 relative overflow-hidden">
                 <div className="absolute -inset-1 bg-gradient-to-r from-red-500/20 via-purple-500/20 to-blue-500/20 blur-xl rounded-2xl -z-10 md:hidden"></div>
                 

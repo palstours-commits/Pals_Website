@@ -19,6 +19,7 @@ const CareerSection = () => {
     fullName: "",
     email: "",
     phone: "",
+    address: "",
     resume: null,
   });
 
@@ -96,9 +97,10 @@ const CareerSection = () => {
     e.preventDefault();
 
     const formDataToSend = new FormData();
-    formDataToSend.append("fullName", formData.fullName);
+    formDataToSend.append("name", formData.fullName);
     formDataToSend.append("email", formData.email);
-    formDataToSend.append("phone", formData.phone);
+    formDataToSend.append("mobile", formData.phone);
+    formDataToSend.append("address", formData.address);
     if (formData.resume) {
       formDataToSend.append("resume", formData.resume);
     }
@@ -109,6 +111,7 @@ const CareerSection = () => {
         fullName: "",
         email: "",
         phone: "",
+        address: "",
         resume: null,
       });
     }
@@ -127,7 +130,7 @@ const CareerSection = () => {
 
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/50 backdrop-blur-sm">
-        <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6 transform transition-all">
+        <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6 transform transition-all relative">
           <button
             onClick={handleClosePopup}
             className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
@@ -136,8 +139,6 @@ const CareerSection = () => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
-
-          {/* Icon */}
           <div className="flex justify-center mb-4">
             <div className={`w-16 h-16 rounded-full flex items-center justify-center ${isSuccess ? "bg-green-100" : "bg-red-100"
               }`}>
@@ -227,7 +228,7 @@ const CareerSection = () => {
                 value={formData.fullName}
                 onChange={handleInputChange}
                 placeholder="Enter your full name"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-none transition focus:ring-2 focus:ring-primary"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-none transition "
                 required
                 disabled={loading}
               />
@@ -247,7 +248,7 @@ const CareerSection = () => {
                 value={formData.email}
                 onChange={handleInputChange}
                 placeholder="Enter your email address"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-none transition focus:ring-2 focus:ring-primary"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-none transition "
                 required
                 disabled={loading}
               />
@@ -267,7 +268,27 @@ const CareerSection = () => {
                 value={formData.phone}
                 onChange={handleInputChange}
                 placeholder="Enter your phone number"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-none transition focus:ring-2 focus:ring-primary"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-none transition "
+                required
+                disabled={loading}
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="address"
+                className="block text-sm font-semibold text-gray-700 mb-2"
+              >
+                Address
+              </label>
+              <textarea
+                id="address"
+                name="address"
+                value={formData.address}
+                onChange={handleInputChange}
+                placeholder="Enter your current address"
+                rows="3"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-none transition "
                 required
                 disabled={loading}
               />
@@ -375,8 +396,6 @@ const CareerSection = () => {
           </form>
         </div>
       </MainLayout>
-
-      {/* Redux Popup */}
       {showPopup && <Popup />}
     </>
   );
