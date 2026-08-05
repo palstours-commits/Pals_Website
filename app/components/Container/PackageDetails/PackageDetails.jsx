@@ -463,7 +463,7 @@ const PackageDetails = ({ slug }) => {
               transition={{ duration: 2, repeat: Infinity }}
               className="flex-shrink-0"
             >
-              <MapPin className="w-4 h-4 sm:w-5 sm:h-5" />
+              <MapPin className="w-8 h-8 sm:w-15 sm:h-15" />
             </motion.div>
 
             <h4

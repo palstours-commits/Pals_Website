@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter, usePathname } from "next/navigation";
@@ -10,7 +9,6 @@ import navItemIcon from "@/app/assets/serive_home-icon-1.svg";
 import companyIcon from "@/app/assets/office-building.svg";
 
 import {
-  FaMapMarkerAlt,
   FaGlobe,
   FaCompass,
   FaMap,
@@ -33,8 +31,10 @@ import {
   FaShoppingBag,
   FaUtensils,
   FaMoon,
-  FaSun
+  FaSun,
+  FaPhoneAlt
 } from 'react-icons/fa';
+import { FaHeadset } from 'react-icons/fa6';
 
 const getMenuIcon = (menuName, iconPath, size = 18, className = "text-red-600") => {
   if (iconPath && iconPath !== navItemIcon && iconPath !== companyIcon) {
@@ -84,7 +84,7 @@ const getFirstMenuIcon = (menus, size = 22, className = "text-red-600") => {
     return null
   }
 
-  return <FaMapMarkerAlt size={size} className={className} />;
+  return <FaHeadset size={size} className={className} />;
 };
 
 const Tooltip = ({ children, text }) => {
@@ -307,7 +307,7 @@ const Fixed_ContactSection = () => {
 
   if (isPackageDetailsPage && isDesktop) {
     return (
-      <div className="fixed bottom-16 right-4 z-[9998] flex flex-col items-end gap-3 pb-safe pointer-events-none">
+      <div className="fixed bottom-38 right-4 z-[9998] flex flex-col items-end gap-3 pb-safe pointer-events-none">
         <LocationIcon />
       </div>
     );
