@@ -32,15 +32,23 @@ const GetAllPackages = () => {
 
   return (
     <>
-      <CommonHeroSection
-        title="Explore All Packages"
-        backgroundImage={bannerimg.src}
-        breadcrumbs={[
-          { label: "Home", href: "/" },
-          { label: "All Packages" },
-        ]}
-      />
-
+      <MainLayout className="bg-[#f7d4d4] py-10 md:py-14">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <h3 className="text-2xl md:text-5xl font-bold text-black">
+            Explore All Packages
+          </h3>
+          <div className="mt-3 flex items-center justify-center gap-2 text-sm">
+            <button
+              onClick={() => router.push("/")}
+              className="text-[#0e0505] hover:underline"
+            >
+              Home
+            </button>
+            <span className="text-gray-500">/</span>
+            <span className="text-gray-700">All Packages</span>
+          </div>
+        </div>
+      </MainLayout>
       <MainLayout className="px-4  max-w-7xl mx-auto py-12 lg:py-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

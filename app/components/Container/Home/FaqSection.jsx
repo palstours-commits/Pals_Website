@@ -51,12 +51,12 @@ function FaqSection() {
         {
             question: "Why Travellers Choose Us?",
             answer:
-                "We are committed to providing exceptional travel experiences, backed by our extensive industry knowledge, strong supplier relationships, and a passion for creating unforgettable memories for our clients.",
+                "Trusted Travel Experts offering customized domestic & international holiday packages, competitive pricing, quality hotels, comfortable transportation, secure bookings, personalized tour planning, reliable customer support, and a commitment to customer satisfaction.",
         },
         {
             question: "Your Journey Begins Here",
             answer:
-                "Whether you are seeking a relaxing beach getaway, an adventurous trek, or a cultural exploration, Pals Holidays is your trusted partner in crafting the perfect holiday experience.",
+                "Whether you’re planning your next family vacation, honeymoon, pilgrimage, luxury escape, or international adventure, Pals Holidays is here to make every moment unforgettable",
         },
     ];
     return (

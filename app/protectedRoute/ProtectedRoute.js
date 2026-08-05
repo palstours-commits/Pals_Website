@@ -14,7 +14,6 @@ export default function AppWrapper({ children }) {
     <>
       {!isNotFound && <Header />}
       <main className="pb-5 sm:pb-24 md:pb-20 lg:pb-0">{children}</main>
-
       {!isNotFound && (
         <>
           <WhatsAppButton />
@@ -22,7 +21,6 @@ export default function AppWrapper({ children }) {
           <FloatingContact />
         </>
       )}
-
       {!isNotFound && <Footer />}
     </>
   );

@@ -1,4 +1,4 @@
-import { submitEnquiry } from "@/app/store/slice/enquirySlice";
+import { clearEnquiryState, submitEnquiry } from "@/app/store/slice/enquirySlice";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
@@ -7,29 +7,53 @@ import { BookText } from "lucide-react";
 
 export const EnhancedPackageForm = ({ packageId, packageName }) => {
     const dispatch = useDispatch();
-    const { loading } = useSelector((state) => state.enquiry);
+    const { loading, error, message } = useSelector((state) => state.enquiry);
+
+    useEffect(() => {
+        if (message) {
+            setFormData({
+                packageId,
+                fullName: "",
+                email: "",
+                phone: "",
+                country: "",
+                numberOfPersons: "",
+                arrivalDate: "",
+                departureDate: "",
+                specialRequest: "",
+            });
+            dispatch(clearEnquiryState());
+            setErrors({});
+        }
+        if (error) {
+            dispatch(clearEnquiryState());
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }, [message, packageId]);
+
+
 
     const [formData, setFormData] = useState({
         packageId: packageId,
-        name: "",
+        fullName: "",
         email: "",
         phone: "",
         country: "",
         numberOfPersons: "",
-        date: "",
+        arrivalDate: "",
         departureDate: "",
-        message: "",
+        specialRequest: "",
     });
 
     const [errors, setErrors] = useState({
-        name: "",
+        fullName: "",
         email: "",
         phone: "",
         country: "",
         numberOfPersons: "",
-        date: "",
+        arrivalDate: "",
         departureDate: "",
-        message: "",
+        specialRequest: "",
     });
 
     useEffect(() => {
@@ -62,11 +86,11 @@ export const EnhancedPackageForm = ({ packageId, packageName }) => {
             isValid = false;
         }
 
-        if (!formData.name.trim()) {
-            newErrors.name = "Full name is required";
+        if (!formData.fullName.trim()) {
+            newErrors.fullName = "Full name is required";
             isValid = false;
-        } else if (formData.name.trim().length < 2) {
-            newErrors.name = "Name must be at least 2 characters";
+        } else if (formData.fullName.trim().length < 2) {
+            newErrors.fullName = "Name must be at least 2 characters";
             isValid = false;
         }
 
@@ -91,15 +115,15 @@ export const EnhancedPackageForm = ({ packageId, packageName }) => {
             isValid = false;
         }
 
-        if (!formData.date) {
-            newErrors.date = "Arrival date is required";
+        if (!formData.arrivalDate) {
+            newErrors.arrivalDate = "Arrival date is required";
             isValid = false;
         } else {
             const today = new Date();
             today.setHours(0, 0, 0, 0);
-            const arrivalDate = new Date(formData.date);
+            const arrivalDate = new Date(formData.arrivalDate);
             if (arrivalDate < today) {
-                newErrors.date = "Arrival date must be in the future";
+                newErrors.arrivalDate = "Arrival date must be in the future";
                 isValid = false;
             }
         }
@@ -107,8 +131,8 @@ export const EnhancedPackageForm = ({ packageId, packageName }) => {
         if (!formData.departureDate) {
             newErrors.departureDate = "Departure date is required";
             isValid = false;
-        } else if (formData.date) {
-            const arrivalDate = new Date(formData.date);
+        } else if (formData.arrivalDate) {
+            const arrivalDate = new Date(formData.arrivalDate);
             const departureDate = new Date(formData.departureDate);
             if (departureDate < arrivalDate) {
                 newErrors.departureDate = "Departure date cannot be earlier than arrival date";
@@ -172,11 +196,11 @@ export const EnhancedPackageForm = ({ packageId, packageName }) => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4">
                     <FloatingLabelInput
                         label="Full Name"
-                        name="name"
-                        value={formData.name}
+                        name="fullName"
+                        value={formData.fullName}
                         onChange={handleChange}
                         required
-                        error={errors.name}
+                        error={errors.fullName}
                     />
                     <FloatingLabelInput
                         label="Email Address"
@@ -223,9 +247,23 @@ export const EnhancedPackageForm = ({ packageId, packageName }) => {
                     />
                 </div>
 
-                {/* Date Fields with Labels */}
-
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+
+                    <div className="relative">
+                        <label className="block text-xs ps-1 font-medium text-gray-600">
+                            Arrival Date
+                        </label>
+                        <FloatingLabelInput
+                            name="arrivalDate"
+                            type="date"
+                            value={formData.arrivalDate}
+                            onChange={handleChange}
+                            min={new Date().toISOString().split("T")[0]}
+                            required
+                            error={errors.arrivalDate}
+                        />
+                    </div>
+
                     <div className="relative">
                         <label className="block text-xs font-medium ps-1 text-gray-600">
                             Departure Date
@@ -236,25 +274,11 @@ export const EnhancedPackageForm = ({ packageId, packageName }) => {
                             value={formData.departureDate}
                             onChange={handleChange}
                             min={
-                                formData.date ||
+                                formData.arrivalDate ||
                                 new Date().toISOString().split("T")[0]
                             }
                             required
                             error={errors.departureDate}
-                        />
-                    </div>
-                    <div className="relative">
-                        <label className="block text-xs ps-1 font-medium text-gray-600">
-                            Arrival Date
-                        </label>
-                        <FloatingLabelInput
-                            name="date"
-                            type="date"
-                            value={formData.date}
-                            onChange={handleChange}
-                            min={new Date().toISOString().split("T")[0]}
-                            required
-                            error={errors.date}
                         />
                     </div>
 
@@ -263,8 +287,8 @@ export const EnhancedPackageForm = ({ packageId, packageName }) => {
 
                 <FloatingLabelInput
                     label="Special Requests"
-                    name="message"
-                    value={formData.message}
+                    name="specialRequest"
+                    value={formData.specialRequest}
                     onChange={handleChange}
                     isTextarea
                     placeholder="Tell us about your preferences, dietary requirements, or any special requests..."

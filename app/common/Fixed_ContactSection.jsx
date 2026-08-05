@@ -10,8 +10,6 @@ import navItemIcon from "@/app/assets/serive_home-icon-1.svg";
 import companyIcon from "@/app/assets/office-building.svg";
 
 import {
-  FaPhone,
-  FaEnvelope,
   FaMapMarkerAlt,
   FaGlobe,
   FaCompass,
@@ -83,16 +81,14 @@ const getMenuIcon = (menuName, iconPath, size = 18, className = "text-red-600") 
 
 const getFirstMenuIcon = (menus, size = 22, className = "text-red-600") => {
   if (!menus || menus.length === 0) {
-    return <FaMapMarkerAlt size={size} className={className} />;
+    return null
   }
 
-  const firstMenu = menus[0];
-  return getMenuIcon(firstMenu.name, firstMenu?.imagePath, size, className);
+  return <FaMapMarkerAlt size={size} className={className} />;
 };
 
 const Tooltip = ({ children, text }) => {
   const [show, setShow] = useState(false);
-
   return (
     <div
       className="relative inline-block"
@@ -319,19 +315,8 @@ const Fixed_ContactSection = () => {
 
   if (!isDesktop) {
     return (
-      <div className="fixed bottom-30 right-2 md:right-4 z-[9998] flex flex-col  items-end   pointer-events-none">
+      <div className="fixed bottom-33 right-2 md:right-4 z-[9998] flex flex-col  items-end   pointer-events-none">
         <LocationIcon />
-        {/* <Tooltip text="Call Us">
-          <motion.a
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.9 }}
-            href="tel:+919841255715"
-            className="w-12 h-12 bg-white text-red-600 rounded-full border border-gray-100 shadow-[0_4px_12px_rgba(0,0,0,0.1)] flex items-center justify-center pointer-events-auto hover:bg-red-50 transition-colors"
-            aria-label="Call Us"
-          >
-            <FaPhone size={22} />
-          </motion.a>
-        </Tooltip> */}
       </div>
     );
   }

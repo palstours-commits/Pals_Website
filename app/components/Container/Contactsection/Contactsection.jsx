@@ -99,11 +99,11 @@ const Contactsection = () => {
           firstName: form.firstName,
           lastName: form.lastName,
           email: form.emailAddress,
-          mobile: form.phone,
-          tentativeArrivalDate: form.tentativeDateOfArrival,
+          phone: form.phone,
+          arrivalDate: form.tentativeDateOfArrival,
           departureDate: form.departureDate,
-          guestCount: Number(form.guestCount),
-          accommodationType: form.accommodationType,
+          numberOfGuests: Number(form.guestCount),
+          stayType: form.accommodationType,
           message: form.comments,
         })
       );
@@ -290,7 +290,18 @@ const Contactsection = () => {
                       </div>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
-
+                        <div className="relative">
+                          <label className="block text-xs ps-1 font-medium text-gray-600">
+                            Arrival Date
+                          </label>
+                          <FloatingLabelInput
+                            name="tentativeDateOfArrival"
+                            type="date"
+                            value={form.tentativeDateOfArrival}
+                            onChange={handleChange}
+                            min={new Date().toISOString().split("T")[0]}
+                          />
+                        </div>
 
                         <div className="relative">
                           <label className="block text-xs font-medium ps-1 text-gray-600">
@@ -307,18 +318,7 @@ const Contactsection = () => {
                             }
                           />
                         </div>
-                        <div className="relative">
-                          <label className="block text-xs ps-1 font-medium text-gray-600">
-                            Arrival Date
-                          </label>
-                          <FloatingLabelInput
-                            name="tentativeDateOfArrival"
-                            type="date"
-                            value={form.tentativeDateOfArrival}
-                            onChange={handleChange}
-                            min={new Date().toISOString().split("T")[0]}
-                          />
-                        </div>
+
                       </div>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">

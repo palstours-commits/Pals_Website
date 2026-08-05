@@ -22,15 +22,14 @@ const FAQS = [
     {
         question: "Why Travellers Choose Us?",
         answer:
-            "We are committed to providing exceptional travel experiences, backed by our extensive industry knowledge, strong supplier relationships, and a passion for creating unforgettable memories for our clients.",
+            "Trusted Travel Experts offering customized domestic & international holiday packages, competitive pricing, quality hotels, comfortable transportation, secure bookings, personalized tour planning, reliable customer support, and a commitment to customer satisfaction.",
     },
     {
         question: "Your Journey Begins Here",
         answer:
-            "Whether you are seeking a relaxing beach getaway, an adventurous trek, or a cultural exploration, Pals Holidays is your trusted partner in crafting the perfect holiday experience.",
+            "Whether you’re planning your next family vacation, honeymoon, pilgrimage, luxury escape, or international adventure, Pals Holidays is here to make every moment unforgettable",
     },
 ];
-
 const EasyEMIHolidayPlansSection = () => {
     const [openIndex, setOpenIndex] = React.useState(0);
 
@@ -40,8 +39,8 @@ const EasyEMIHolidayPlansSection = () => {
 
     const fadeInUp = {
         hidden: { opacity: 0, y: 30 },
-        visible: { 
-            opacity: 1, 
+        visible: {
+            opacity: 1,
             y: 0,
             transition: { duration: 0.6, ease: "easeOut" }
         }
@@ -60,8 +59,8 @@ const EasyEMIHolidayPlansSection = () => {
 
     const fadeInUpSmall = {
         hidden: { opacity: 0, y: 15 },
-        visible: { 
-            opacity: 1, 
+        visible: {
+            opacity: 1,
             y: 0,
             transition: { duration: 0.4, ease: "easeOut" }
         }
@@ -69,7 +68,7 @@ const EasyEMIHolidayPlansSection = () => {
 
     return (
         <div className="w-full bg-white">
-            <motion.div 
+            <motion.div
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.2 }}
@@ -78,17 +77,17 @@ const EasyEMIHolidayPlansSection = () => {
             >
                 <div className="max-w-7xl mx-auto px-5">
                     <div className="flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0">
-                        <motion.div 
+                        <motion.div
                             variants={fadeInUp}
                             className="text-center md:text-left"
                         >
-                            <motion.h2 
+                            <motion.h2
                                 variants={fadeInUp}
                                 className="text-2xl md:text-4xl font-bold text-red-600"
                             >
                                 Easy EMI Holiday Plans
                             </motion.h2>
-                            <motion.p 
+                            <motion.p
                                 variants={fadeInUp}
                                 className="mt-1 md:mt-2 text-gray-900 text-base md:text-lg font-semibold"
                             >
@@ -107,14 +106,14 @@ const EasyEMIHolidayPlansSection = () => {
                 </div>
             </motion.div>
 
-            <motion.div 
+            <motion.div
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.2 }}
                 variants={staggerContainer}
                 className="max-w-7xl mx-auto px-5 py-10 md:py-16"
             >
-                <motion.p 
+                <motion.p
                     variants={fadeInUp}
                     className="text-gray-700 text-sm md:text-base leading-relaxed"
                 >
@@ -123,7 +122,7 @@ const EasyEMIHolidayPlansSection = () => {
                     and pay through convenient monthly instalments.
                 </motion.p>
 
-                <motion.p 
+                <motion.p
                     variants={fadeInUp}
                     className="mt-4 text-gray-700 text-sm md:text-base leading-relaxed"
                 >
@@ -131,14 +130,14 @@ const EasyEMIHolidayPlansSection = () => {
                     financing simple, secure, and affordable.
                 </motion.p>
 
-                <motion.h4 
+                <motion.h4
                     variants={fadeInUp}
                     className="mt-6 text-base md:text-lg font-semibold text-gray-900"
                 >
                     Offer Highlights
                 </motion.h4>
 
-                <motion.ul 
+                <motion.ul
                     variants={staggerContainer}
                     className="mt-3 space-y-1.5 list-disc list-inside text-gray-700 text-sm md:text-base"
                 >
@@ -149,7 +148,7 @@ const EasyEMIHolidayPlansSection = () => {
                     ))}
                 </motion.ul>
 
-                <motion.p 
+                <motion.p
                     variants={fadeInUp}
                     className="mt-6 text-gray-700 text-sm md:text-base leading-relaxed"
                 >
@@ -168,33 +167,33 @@ const EasyEMIHolidayPlansSection = () => {
                 </motion.div>
             </motion.div>
 
-            <motion.div 
+            <motion.div
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.2 }}
                 variants={fadeInUp}
                 className="bg-[#f4f4f4] px-5 py-10 md:py-16"
             >
-                <motion.div 
+                <motion.div
                     variants={staggerContainer}
                     className="max-w-7xl mx-auto bg-white rounded-lg shadow-sm p-5"
                 >
-                    <motion.h3 
+                    <motion.h3
                         variants={fadeInUp}
                         className="text-center text-base md:text-lg font-semibold text-gray-900 mb-4"
                     >
                         Traveller&apos;s Question Guide
                     </motion.h3>
 
-                    <motion.div 
+                    <motion.div
                         variants={staggerContainer}
                         className="divide-y divide-gray-200"
                     >
                         {FAQS.map((faq, index) => {
                             const isOpen = openIndex === index;
                             return (
-                                <motion.div 
-                                    key={faq.question} 
+                                <motion.div
+                                    key={faq.question}
                                     variants={fadeInUpSmall}
                                     className="py-3"
                                 >
@@ -211,7 +210,7 @@ const EasyEMIHolidayPlansSection = () => {
                                         </span>
                                     </button>
                                     {isOpen && faq.answer && (
-                                        <motion.p 
+                                        <motion.p
                                             initial={{ opacity: 0, y: 10 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ duration: 0.3, ease: "easeOut" }}

@@ -83,10 +83,10 @@ const PackageSection = ({ zoneSlug, menuSlug }) => {
 
   return (
     <>
-      <section className="bg-[#f7d4d4] py-10 md:py-14">
+      <MainLayout className="bg-[#f7d4d4] py-10 md:py-14">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <h3 className="text-2xl md:text-5xl font-bold text-black">
-            Discover the Soul of Incredible {title} 
+            Discover the Soul of Incredible {title}
           </h3>
           <div className="mt-3 flex items-center justify-center gap-2 text-sm">
             <button
@@ -113,7 +113,7 @@ const PackageSection = ({ zoneSlug, menuSlug }) => {
             )}
           </div>
         </div>
-      </section>
+      </MainLayout>
 
       {zones?.map((item) => {
         const zone = item?.zone;

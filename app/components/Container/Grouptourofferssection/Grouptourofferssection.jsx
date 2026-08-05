@@ -15,22 +15,22 @@ const HIGHLIGHTS = [
 ];
 
 const FAQS = [
-    {
-        question: "Why Book with Pals Holidays?",
-        answer:
-            "At Pals Holidays, we believe every journey should be seamless, memorable, and value-driven. Our experienced travel professionals are dedicated to delivering personalized service and carefully crafted holiday experiences that exceed expectations.",
-    },
-    {
-        question: "Why Travellers Choose Us?",
-        answer:
-            "We are committed to providing exceptional travel experiences, backed by our extensive industry knowledge, strong supplier relationships, and a passion for creating unforgettable memories for our clients.",
-    },
-    {
-        question: "Your Journey Begins Here",
-        answer:
-            "Whether you are seeking a relaxing beach getaway, an adventurous trek, or a cultural exploration, Pals Holidays is your trusted partner in crafting the perfect holiday experience.",
-    },
-];
+        {
+            question: "Why Book with Pals Holidays?",
+            answer:
+                "At Pals Holidays, we believe every journey should be seamless, memorable, and value-driven. Our experienced travel professionals are dedicated to delivering personalized service and carefully crafted holiday experiences that exceed expectations.",
+        },
+        {
+            question: "Why Travellers Choose Us?",
+            answer:
+                "Trusted Travel Experts offering customized domestic & international holiday packages, competitive pricing, quality hotels, comfortable transportation, secure bookings, personalized tour planning, reliable customer support, and a commitment to customer satisfaction.",
+        },
+        {
+            question: "Your Journey Begins Here",
+            answer:
+                "Whether you’re planning your next family vacation, honeymoon, pilgrimage, luxury escape, or international adventure, Pals Holidays is here to make every moment unforgettable",
+        },
+    ];
 
 const GroupTourOffersSection = () => {
     const [openIndex, setOpenIndex] = React.useState(0);
