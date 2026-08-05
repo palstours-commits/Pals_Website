@@ -125,11 +125,11 @@ const ContactFormPopup = ({ isOpen, onClose }) => {
                     firstName: form.firstName,
                     lastName: form.lastName,
                     email: form.emailAddress,
-                    mobile: form.phone,
-                    tentativeArrivalDate: form.tentativeDateOfArrival,
+                    phone: form.phone,
+                    arrivalDate: form.tentativeDateOfArrival,
                     departureDate: form.departureDate,
-                    guestCount: Number(form.guestCount),
-                    accommodationType: form.accommodationType,
+                    numberOfGuests: Number(form.guestCount),
+                    stayType: form.accommodationType,
                     message: form.comments,
                 })
             );
