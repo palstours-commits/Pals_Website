@@ -10,6 +10,7 @@ import Product3 from "@/app/assets/footerLogo/Product3.jpeg";
 import Product4 from "@/app/assets/footerLogo/Product4.png";
 import Product5 from "@/app/assets/footerLogo/Product5.jpeg";
 import Product6 from "@/app/assets/footerLogo/Product6.jpeg";
+import MainLayout from "@/app/common/MainLayout";
 
 const AssociationCarousel = () => {
     const associations = [
@@ -22,10 +23,10 @@ const AssociationCarousel = () => {
     ];
 
     return (
-        <div className="px-5 max-w-7xl mx-auto mb-20">
+        <MainLayout className="px-5 max-w-7xl mx-auto my-20">
             <div className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-sm rounded-xl p-4 sm:p-6 md:p-8 shadow-xl shadow-red-500/5 hover:shadow-red-500/20 transition-shadow duration-500 border border-white/5 relative overflow-hidden">
                 <div className="absolute -inset-1 bg-gradient-to-r from-red-500/20 via-purple-500/20 to-blue-500/20 blur-xl rounded-2xl -z-10 md:hidden"></div>
-                
+
                 <div className="flex flex-col lg:flex-row items-start gap-6 lg:gap-12 relative z-10">
                     <div className="lg:w-[30%] flex-shrink-0 w-full">
                         <h4 className="text-xl md:text-2xl font-semibold mb-2 text-left">
@@ -41,12 +42,12 @@ const AssociationCarousel = () => {
                     <div className="lg:w-[70%] w-full relative">
                         <div className="hidden md:block absolute -inset-4 bg-gradient-to-r from-red-500/10 via-purple-500/10 to-blue-500/10 blur-2xl rounded-3xl"></div>
                         <div className="md:hidden absolute -inset-2 bg-gradient-to-r from-red-500/15 via-purple-500/15 to-blue-500/15 blur-xl rounded-2xl"></div>
-                        
+
                         <div className="relative px-4 sm:px-6 md:px-10">
                             <Swiper
                                 modules={[Autoplay]}
                                 spaceBetween={15}
-                                slidesPerView={1}  
+                                slidesPerView={1}
                                 breakpoints={{
                                     480: {
                                         slidesPerView: 2,
@@ -123,7 +124,7 @@ const AssociationCarousel = () => {
                     }
                 }
             `}</style>
-        </div>
+        </MainLayout>
     );
 };
 

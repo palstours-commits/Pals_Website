@@ -78,13 +78,13 @@ const OurServices = () => {
   }, []);
 
   return (
-    <MainLayout className="bg-accent overflow-x-hidden">
+    <MainLayout className="bg-accent overflow-x-hidden  mt-10 md:mt-20">
       <motion.div
         variants={fadeContainer}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.2 }}
-        className="px-5  max-w-7xl mx-auto py-10 md:py-15"
+        className="px-5  max-w-7xl mx-auto py-10"
       >
         <motion.div
           variants={fadeItem}
@@ -126,7 +126,7 @@ const OurServices = () => {
         </motion.div>
         <div
           ref={sliderRef}
-          className="flex gap-2 sm:gap-base lg:gap-8 overflow-x-auto scrollbar-hide whitespace-nowrap pb-2"
+          className="flex gap-2 sm:gap-base  overflow-x-auto scrollbar-hide whitespace-nowrap pb-2"
         >
           {services.map(({ title, Icon, slug, disabled }, i) => {
             const Card = (

@@ -41,17 +41,16 @@ const TrendingDestinations = () => {
   };
 
   return (
-    <MainLayout className="bg-gradient-to-r from-[#FAF3E1] to-[#F8E8C8] py-4 lg:py-4">
+    <MainLayout>
       <motion.div
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
         className="px-5  max-w-7xl mx-auto"
       >
-
         <motion.div
           variants={textVariants}
-          className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10 lg:mb-12"
+          className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10"
         >
           <div>
             <h4 className="text-3xl md:text-4xl lg:text-5xl font-bold  leading-med">

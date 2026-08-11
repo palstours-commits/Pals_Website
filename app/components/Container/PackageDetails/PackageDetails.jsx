@@ -16,7 +16,6 @@ import PackageBaneer from "./PackageBanner";
 import { ImageCarousel } from "./ImageCarousel";
 import { EnhancedPackageForm } from "./EnhancedPackageForm";
 import { parseHtmlList } from "@/app/utils/textConvertor";
-import RouteTimeline from "./RouteTimeline";
 
 const PackageDetails = ({ slug }) => {
   const tabs = [
@@ -474,12 +473,6 @@ const PackageDetails = ({ slug }) => {
           </div>
         </div>
       </motion.div>
-      {/* <div
-          ref={mapRef}
-          id="map"
-          className="max-w-7xl mx-auto mt-10 md:mt-25 hidden md:block px-6">
-          <RouteTimeline destinations={singlePackage?.destinations} />
-        </div> */}
       <motion.div
         ref={itineraryRef}
         initial="initial"

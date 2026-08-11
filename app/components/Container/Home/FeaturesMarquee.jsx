@@ -1,4 +1,5 @@
 "use client";
+import MainLayout from "@/app/common/MainLayout";
 import { motion } from "framer-motion";
 const features = [
   "Your Trusted Travel Partner",
@@ -8,7 +9,7 @@ const features = [
 
 const FeaturesMarquee = () => {
   return (
-    <div className="bg-[#9adbe8] overflow-hidden py-3">
+    <MainLayout className="bg-[#9adbe8] overflow-hidden py-3">
       <motion.div
         className="flex whitespace-nowrap"
         animate={{ x: ["0%", "-50%"] }}
@@ -24,7 +25,7 @@ const FeaturesMarquee = () => {
           </div>
         ))}
       </motion.div>
-    </div>
+    </MainLayout>
   );
 };
 

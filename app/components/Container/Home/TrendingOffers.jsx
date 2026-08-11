@@ -21,6 +21,11 @@ const TrendingOffers = () => {
     dispatch(getOffers());
   }, [dispatch]);
 
+  if (!offers || offers.length === 0) {
+    return null;
+  }
+
+
   const scroll = (dir) => {
     if (!sliderRef.current) return;
     sliderRef.current.scrollBy({
@@ -30,7 +35,7 @@ const TrendingOffers = () => {
   };
 
   return (
-    <MainLayout className="py-10 lg:py-12">
+    <MainLayout className="pt-10 lg:pt-12">
       <motion.div
         initial="hidden"
         whileInView="visible"
