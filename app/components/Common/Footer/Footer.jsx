@@ -87,7 +87,7 @@ export default function Footer() {
             <ul className="space-y-3 text-sm text-gray-300">
               <li>
                 <Link
-                  href="/service/hotel"
+                  href="/service/hotel-booking"
                   className="hover:text-red-500 transition-colors block"
                 >
                   Hotels
@@ -95,7 +95,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/service/flight"
+                  href="/service/flight-booking"
                   className="hover:text-red-500 transition-colors block"
                 >
                   Flights
@@ -103,7 +103,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/service/visa"
+                  href="/service/visa-booking"
                   className="hover:text-red-500 transition-colors block"
                 >
                   Visa Services

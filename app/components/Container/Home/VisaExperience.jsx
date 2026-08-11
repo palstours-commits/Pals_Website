@@ -1,88 +1,102 @@
 "use client";
+
 import MainLayout from "@/app/common/MainLayout";
 import { motion } from "framer-motion";
-import { BadgeDollarSign, Headphones, Sparkles, UserCheck } from "lucide-react";
 
-const FEATURES = [
-  {
-    title: "Your Trusted Travel Partner",
-    desc: "Trusted Since 2005 – Recognised by the Ministry of Tourism, Government of India. Discover the world with a partner you can trust.",
-    Icon: UserCheck,
-  },
-  {
-    title: "Customer Focus",
-    desc: "Shaping unforgettable travel experiences centred entirely around your comfort and satisfaction.",
-    Icon: BadgeDollarSign,
-  },
-  {
-    title: "Customized Holidays",
-    desc: "Tailor-made itineraries designed to perfectly match your unique travel style and preferences.",
-    Icon: Sparkles,
-  },
-  {
-    title: "24/7 Support Partner",
-    desc: "Round-the-clock assistance, just a call away, wherever you are.",
-    Icon: Headphones,
-  },
-];
+import background from "@/app/assets/VisaExperience.svg";
+import feature1 from "@/app/assets/features-1.png";
+import feature2 from "@/app/assets/features-2.png";
+import feature3 from "@/app/assets/features-3.png";
+import feature4 from "@/app/assets/features-4.png";
+
+const FEATURES = [feature1, feature2, feature3, feature4];
 
 const textVariants = {
-  hidden: { opacity: 0, y: 30 },
+  hidden: {
+    opacity: 0,
+    y: 30,
+  },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6 }
-  }
+    transition: {
+      duration: 0.6,
+    },
+  },
 };
 
 const VisaExperience = () => {
   return (
-    <MainLayout className="bg-gradient-to-br from-[#FA812F] to-[#FF6B35] py-16 lg:py-10">
-      <div className=" max-w-7xl mx-auto px-5 ">
+    <MainLayout className="bg-gradient-to-b from-[#FFFBF4] to-[#FFE9D9] pt-16 lg:pt-20">
+      <div className="max-w-7xl mx-auto px-5">
+
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="text-center mb-16 lg:mb-20"
+          className="text-start mb-10 lg:mb-14"
         >
-          <motion.h3
+          <motion.h4
             variants={textVariants}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-white to-orange-100 bg-clip-text text-transparent mb-3"
+            className="text-4xl md:text-5xl lg:text-6xl font-bold text-black mb-1"
           >
             More Than Travel, We Create Experiences
-          </motion.h3>
+          </motion.h4>
+
           <motion.p
             variants={textVariants}
-            className="text-xl text-white/90 max-w-2xl mx-auto"
+            className="text-xl text-gray-700"
           >
             Travel with confidence. Explore with us.
           </motion.p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-          {FEATURES?.map((item, i) => (
-            <motion.div
-              key={i}
-              variants={textVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              whileHover={{ y: -8, scale: 1.02 }}
-              transition={{ duration: 0.3 }}
-              className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20 hover:border-white/40 transition-all duration-300 group"
-            >
-              <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                <item.Icon size={28} className="text-white" />
-              </div>
-              <h4 className="text-2xl font-bold text-white mb-2 leading-tight">
-                {item.title}
-              </h4>
-              <p className="text-white/90 text-base leading-tight">
-                {item.desc}
-              </p>
-            </motion.div>
-          ))}
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="relative"
+        >
+          <img
+            src={background.src}
+            alt="Travel Experience"
+            className="w-full h-auto rounded-2xl object-cover"
+          />
+
+          <div className="absolute left-0 right-0 bottom-[10px] px-2 sm:px-4 md:px-6 lg:px-10 overflow-x-auto overflow-y-hidden scrollbar-hide">
+            <div className="flex items-end gap-2 sm:gap-3 lg:gap-3">
+              {FEATURES.map((image, i) => (
+                <motion.div
+                  key={i}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  variants={textVariants}
+                  transition={{
+                    duration: 0.5,
+                    delay: i * 0.1,
+                  }}
+                  whileHover={{
+                    y: -3,
+                    scale: 1.02,
+                  }}
+                  className={`cursor-pointer flex-shrink-0 ${i === FEATURES.length - 1
+                      ? 'w-20 sm:w-28 md:w-36 lg:w-auto lg:flex-1'
+                      : 'w-28 sm:w-36 md:w-44 lg:w-auto lg:flex-1'
+                    }`}
+                >
+                  <img
+                    src={image.src}
+                    alt={`Travel feature ${i + 1}`}
+                    className="w-full h-auto object-contain"
+                  />
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+        <div className="h-16 md:h-20 lg:h-24" />
       </div>
     </MainLayout>
   );
