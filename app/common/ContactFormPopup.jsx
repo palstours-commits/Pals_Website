@@ -316,7 +316,6 @@ const ContactFormPopup = ({ isOpen, onClose }) => {
                     </>
                 )}
             </AnimatePresence>
-
             <Message_Popups
                 isOpen={showResultPopup}
                 type={popupType}

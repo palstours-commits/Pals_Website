@@ -298,10 +298,10 @@ const HotelBookingSection = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
             <div className="flex flex-col h-full">
               <div className=" p-6 md:p-8 h-full flex flex-col">
-                <div className="text-center lg:text-left mb-6">
-                  <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
+                <div className="text-center lg:text-left mb-10">
+                  <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
                     Why Book Hotels With Us
-                  </h2>
+                  </h3>
                   <p className="text-gray-600 text-sm max-w-2xl mx-auto lg:mx-0">
                     Find your perfect stay with exclusive deals and premium service.
                   </p>
@@ -313,7 +313,7 @@ const HotelBookingSection = () => {
                       <Building2 size={20} />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-900 text-sm mb-0.5">Best Hotel Deals</h4>
+                      <h4 className="font-semibold text-gray-900 text-sm">Best Hotel Deals</h4>
                       <p className="text-gray-500 text-xs leading-relaxed">
                         Exclusive rates at top hotels worldwide
                       </p>
@@ -380,7 +380,7 @@ const HotelBookingSection = () => {
                     <Building2 size={22} />
                   </div>
                   <div>
-                    <h2 className="text-xl font-bold text-gray-900">Book Your Hotel</h2>
+                    <h3 className="text-xl font-bold text-gray-900">Book Your Hotel</h3>
                     <p className="text-gray-500 text-xs">Find your perfect stay</p>
                   </div>
                 </div>
@@ -541,10 +541,10 @@ const HotelBookingSection = () => {
               </motion.div>
             </div>
           </div>
-          <div className="mt-16 md:mt-20">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-10 text-center">
+          <div className="mt-16 md:mt-30">
+            <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-10 text-center">
               How It Works
-            </h2>
+            </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
               <div className="flex flex-col items-center text-center group">
                 <div className="bg-red-50 p-4 rounded-xl text-red-600 mb-4 group-hover:bg-red-600 group-hover:text-white transition-all duration-300">
@@ -584,73 +584,7 @@ const HotelBookingSection = () => {
               </div>
             </div>
           </div>
-          <div className="mt-16 md:mt-20 overflow-hidden">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-10 text-center">
-              What Our Travelers Say
-            </h2>
-            <div className="flex flex-col gap-6">
-              <div className="flex w-max animate-scroll-left gap-4 px-4">
-                {[...row1Testimonials, ...row1Testimonials].map((testimonial, idx) => (
-                  <div
-                    key={`row1-${idx}`}
-                    className="w-[300px] shrink-0 bg-white p-5 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-all"
-                  >
-                    <div className="flex items-center gap-3 mb-3">
-                      <img
-                        src={testimonial.avatar}
-                        alt={testimonial.name}
-                        className="w-12 h-12 rounded-full object-cover border-2 border-gray-100"
-                      />
-                      <div>
-                        <h4 className="font-semibold text-gray-900 text-sm">{testimonial.name}</h4>
-                        <div className="flex text-yellow-400 gap-0.5 mt-0.5">
-                          {[...Array(testimonial.rating)].map((_, i) => (
-                            <Star key={i} size={12} className="fill-current" />
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                    <p className="text-gray-600 text-xs leading-relaxed mb-3 italic">
-                      "{testimonial.text}"
-                    </p>
-                    <p className="text-gray-400 text-xs">
-                      {testimonial.subtext}
-                    </p>
-                  </div>
-                ))}
-              </div>
-              <div className="flex w-max animate-scroll-right gap-4 px-4">
-                {[...row2Testimonials, ...row2Testimonials].map((testimonial, idx) => (
-                  <div
-                    key={`row2-${idx}`}
-                    className="w-[300px] shrink-0 bg-white p-5 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-all"
-                  >
-                    <div className="flex items-center gap-3 mb-3">
-                      <img
-                        src={testimonial.avatar}
-                        alt={testimonial.name}
-                        className="w-12 h-12 rounded-full object-cover border-2 border-gray-100"
-                      />
-                      <div>
-                        <h4 className="font-semibold text-gray-900 text-sm">{testimonial.name}</h4>
-                        <div className="flex text-yellow-400 gap-0.5 mt-0.5">
-                          {[...Array(testimonial.rating)].map((_, i) => (
-                            <Star key={i} size={12} className="fill-current" />
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                    <p className="text-gray-600 text-xs leading-relaxed mb-3 italic">
-                      "{testimonial.text}"
-                    </p>
-                    <p className="text-gray-400 text-xs">
-                      {testimonial.subtext}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+         
         </div>
       </MainLayout>
       <Message_Popups

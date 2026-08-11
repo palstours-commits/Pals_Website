@@ -1,11 +1,9 @@
 "use client";
 import { motion } from "framer-motion";
 const features = [
-  "Tailor-made travel plans",
-  "Best price guarantee",
-  "24/7 customer support",
-  "Verified hotels, flights & transport",
-  "Domestic + International expertise",
+  "Your Trusted Travel Partner",
+  "Government Recognised by the Ministry of Tourism",
+  "Exceptional Travel Experiences Across India",
 ];
 
 const FeaturesMarquee = () => {

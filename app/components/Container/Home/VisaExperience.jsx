@@ -5,23 +5,23 @@ import { BadgeDollarSign, Headphones, Sparkles, UserCheck } from "lucide-react";
 
 const FEATURES = [
   {
-    title: "Expert Guidance",
-    desc: "Our visa team knows exactly what documents you need and helps you avoid mistakes that cause delays.",
+    title: "Your Trusted Travel Partner",
+    desc: "Trusted Since 2005 – Recognised by the Ministry of Tourism, Government of India. Discover the world with a partner you can trust.",
     Icon: UserCheck,
   },
   {
-    title: "Best Price Guarantee",
-    desc: "Competitive pricing, no hidden charges. Get full value for your money with every application.",
+    title: "Customer Focus",
+    desc: "Shaping unforgettable travel experiences centred entirely around your comfort and satisfaction.",
     Icon: BadgeDollarSign,
   },
   {
-    title: "Curated Experiences",
-    desc: "We recommend the right visa options based on your purpose tourism, business, or transit so you never overpay.",
+    title: "Customized Holidays",
+    desc: "Tailor-made itineraries designed to perfectly match your unique travel style and preferences.",
     Icon: Sparkles,
   },
   {
-    title: "24/7 Support",
-    desc: "Got questions at midnight? No problem. Our support team is always available to help you.",
+    title: "24/7 Support Partner",
+    desc: "Round-the-clock assistance, just a call away, wherever you are.",
     Icon: Headphones,
   },
 ];
@@ -47,15 +47,15 @@ const VisaExperience = () => {
         >
           <motion.h3
             variants={textVariants}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-white to-orange-100 bg-clip-text text-transparent mb-6"
+            className="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-white to-orange-100 bg-clip-text text-transparent mb-3"
           >
-            Experience Hassle-free Visa Journey
+            More Than Travel, We Create Experiences
           </motion.h3>
           <motion.p
             variants={textVariants}
             className="text-xl text-white/90 max-w-2xl mx-auto"
           >
-            We handle every detail of your visa process, ensuring a smooth and stress-free start to your journey.
+            Travel with confidence. Explore with us.
           </motion.p>
         </motion.div>
 

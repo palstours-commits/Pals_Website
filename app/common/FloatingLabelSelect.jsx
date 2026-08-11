@@ -5,7 +5,7 @@ export const FloatingLabelSelect = ({ label, isLabel = true, name, value, onChan
     const [isOpen, setIsOpen] = useState(false);
     const selectedOption = options.find(opt => opt._id === value);
     return (
-        <div className="relative my-6 w-full">
+        <div className="relative mb-6 mt-1 w-full">
             {
                 isLabel &&
                 <label className="absolute -top-2.5 left-3 px-1.5 text-xs font-semibold text-gray-700 bg-white z-10">
@@ -15,7 +15,7 @@ export const FloatingLabelSelect = ({ label, isLabel = true, name, value, onChan
 
             <div
                 onClick={() => setIsOpen(!isOpen)}
-                className={`w-full px-4 py-4 text-sm rounded-xl border ${error ? 'border-red-500 bg-red-50' : 'border-gray-200'} cursor-pointer flex justify-between items-center bg-white hover:border-red-600 transition-all`}
+                className={`w-full px-4 py-3.5 text-sm rounded-xl border ${error ? 'border-red-500 bg-red-50' : 'border-gray-200'} cursor-pointer flex justify-between items-center bg-white hover:border-red-600 transition-all`}
             >
                 <span className={value ? "text-gray-900" : "text-gray-400"}>{selectedOption ? selectedOption.name : placeholder}</span>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" className={`transition-transform ${isOpen ? 'rotate-180 text-red-600' : 'text-gray-400'}`}>

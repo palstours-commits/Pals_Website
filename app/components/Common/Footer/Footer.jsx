@@ -2,19 +2,17 @@
 import google from "@/app/assets/google.svg";
 import { default as tripadvisor } from "@/app/assets/tripadvisor.svg";
 import whitelogo from "@/app/assets/whitelogo.png";
-import { getPackages } from "@/app/store/slice/packageSlice";
 import { socialLinks } from "@/app/utils/siteConstants";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect } from "react";
-import { useDispatch, } from "react-redux";
 import navbar_logo from "@/app/assets/navbar_logo.svg";
+import { useSelector } from "react-redux";
 export default function Footer() {
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getPackages());
-  }, [dispatch]);
+  const { submenus } = useSelector((state) => state.submenu);
+  const sortedSubmenus = submenus ? [...submenus].sort((a, b) => a.order - b.order) : [];
+
+
 
   return (
     <footer className="bg-[#7a3d3d] text-white pt-12 md:pt-16 pb-8">
@@ -71,41 +69,16 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold text-lg mb-5 text-white">Packages</h4>
             <ul className="space-y-3 text-sm text-gray-300">
-              <li>
-                <Link
-                  href="/india"
-                  className="hover:text-red-500 transition-colors block"
-                >
-                  Indian Holidays
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  href="/international"
-                  className="hover:text-red-500 transition-colors block"
-                >
-                  International Holidays
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  href="/spiritual"
-                  className="hover:text-red-500 transition-colors block"
-                >
-                  Spiritual Tour
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  href="/honeymoon"
-                  className="hover:text-red-500 transition-colors block"
-                >
-                  Honeymoon Holidays
-                </Link>
-              </li>
+              {sortedSubmenus?.map((item) => (
+                <li key={item._id}>
+                  <Link
+                    href={`/${item.slug}`}
+                    className="hover:text-red-500 transition-colors block"
+                  >
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 

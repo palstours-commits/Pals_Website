@@ -10,7 +10,6 @@ export async function generateMetadata({ params }) {
   return {
     title,
     description: `Read ${title} on Pals Holidays. Discover travel tips, destination guides, holiday ideas, and expert travel insights.`,
-
     keywords: [
       title,
       "Travel Blog",
@@ -20,7 +19,7 @@ export async function generateMetadata({ params }) {
     ],
 
     alternates: {
-      canonical: `/blog/${slug}`,
+      canonical: `/blog-details/${slug}`,
     },
 
     openGraph: {

@@ -1,7 +1,6 @@
 "use client";
-
 import React from "react";
-import { FaWhatsapp, FaFilePdf } from "react-icons/fa";
+import { FaWhatsapp, FaFilePdf, FaPhoneAlt } from "react-icons/fa";
 import Lion from "@/app/assets/lion.png";
 import Image from "next/image";
 
@@ -40,6 +39,34 @@ const FloatingButtons = () => {
         </div>
       </a>
       <a
+        href="tel:9841255715"
+        className="relative group md:hidden"
+      >
+        <span
+          className="
+      absolute right-14 top-1/2 -translate-y-1/2
+      bg-gray-900 text-white text-xs
+      px-3 py-1.5 rounded-md whitespace-nowrap
+      opacity-0 invisible
+      group-hover:opacity-100 group-hover:visible
+      transition-all duration-300
+    "
+        >
+          Call Us
+        </span>
+
+        <div
+          className="
+      w-12 h-12 bg-primary rounded-full
+      flex items-center justify-center
+      shadow-[0_4px_12px_rgba(0,0,0,0.2)]
+      transition-transform duration-300 hover:scale-110
+    "
+        >
+          <FaPhoneAlt size={20} className="text-white" />
+        </div>
+      </a>
+      {/* <a
         href="/certificate.pdf"
         target="_blank"
         rel="noopener noreferrer"
@@ -76,7 +103,7 @@ const FloatingButtons = () => {
             className="object-contain"
           />
         </div>
-      </a>
+      </a> */}
 
     </div>
   );

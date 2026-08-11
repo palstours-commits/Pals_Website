@@ -72,12 +72,12 @@ function FaqSection() {
                     variants={staggerContainer}
                     className="max-w-7xl mx-auto bg-white rounded-lg shadow-sm p-5"
                 >
-                    <motion.h3
+                    <motion.h4
                         variants={fadeInUp}
-                        className="text-center text-base md:text-lg font-semibold text-gray-900 mb-4"
+                        className="text-center text-base md:text-md font-semibold text-gray-900 mb-4"
                     >
                         Traveller&apos;s Question Guide
-                    </motion.h3>
+                    </motion.h4>
 
                     <motion.div
                         variants={staggerContainer}

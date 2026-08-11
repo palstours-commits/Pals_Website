@@ -124,13 +124,7 @@ const getMenuIcon = (menuName, iconPath) => {
 };
 
 function DesktopDropdown({ items, dropdownConfig, onClose, onMouseEnter, onMouseLeave }) {
-  const handleItemClick = (item, e) => {
-    if (item.external) {
-      e.preventDefault();
-      window.open(item.slug, '_blank');
-      onClose();
-    }
-  };
+
 
   return (
     <motion.div
@@ -312,11 +306,11 @@ export default function Header() {
   ];
 
   const STATIC_SERVICES = [
-    { name: "Flight", slug: "service/flight", icon: <Plane size={16} /> },
-    { name: "Hotel", slug: "service/hotel", icon: <Hotel size={16} /> },
+    { name: "Flight", slug: "service/flight-booking", icon: <Plane size={16} /> },
+    { name: "Hotel", slug: "service/hotel-booking", icon: <Hotel size={16} /> },
     { name: "Transport", slug: "service/transport", icon: <Bus size={16} /> },
     { name: "Money Exchange", icon: <CreditCard size={16} /> },
-    { name: "Visa", slug: "service/visa", icon: <FileText size={16} /> },
+    { name: "Visa", slug: "service/visa-booking", icon: <FileText size={16} /> },
     {
       name: "Car Rental",
       slug: "https://royalmilesindia.webdadsprojects.com/",

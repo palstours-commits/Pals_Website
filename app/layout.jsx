@@ -5,11 +5,22 @@ import ReduxProvider from "./provider/ReduxProvider";
 
 const jost = Jost({
   subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  weight: [
+    "100",
+    "200",
+    "300",
+    "400",
+    "500",
+    "600",
+    "700",
+    "800",
+    "900",
+  ],
   variable: "--font-jost",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://www.palsholidays.com";
 
 export const metadata = {
   metadataBase: new URL(siteUrl),

@@ -454,11 +454,10 @@ const FlightBookingSection = () => {
               </motion.div>
             </div>
           </div>
-          <div className="mt-16 md:mt-20">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-10 text-center">
+          <div className="mt-16 md:mt-30">
+            <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-10 text-center">
               How It Works
-            </h2>
-
+            </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
               <div className="flex flex-col items-center text-center group">
                 <div className="bg-red-50 p-4 rounded-xl text-red-600 mb-4 group-hover:bg-red-600 group-hover:text-white transition-all duration-300">
@@ -497,73 +496,6 @@ const FlightBookingSection = () => {
                     <p className="text-gray-500 text-xs">Complete your booking safely</p>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-          <div className="mt-16 md:mt-20 overflow-hidden">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-10 text-center">
-              What Our Travelers Say
-            </h2>
-            <div className="flex flex-col gap-6">
-              <div className="flex w-max animate-scroll-left gap-4 px-4">
-                {[...row1Testimonials, ...row1Testimonials].map((testimonial, idx) => (
-                  <div
-                    key={`row1-${idx}`}
-                    className="w-[300px] shrink-0 bg-white p-5 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-all"
-                  >
-                    <div className="flex items-center gap-3 mb-3">
-                      <img
-                        src={testimonial.avatar}
-                        alt={testimonial.name}
-                        className="w-12 h-12 rounded-full object-cover border-2 border-gray-100"
-                      />
-                      <div>
-                        <h4 className="font-semibold text-gray-900 text-sm">{testimonial.name}</h4>
-                        <div className="flex text-yellow-400 gap-0.5 mt-0.5">
-                          {[...Array(testimonial.rating)].map((_, i) => (
-                            <Star key={i} size={12} className="fill-current" />
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                    <p className="text-gray-600 text-xs leading-relaxed mb-3 italic">
-                      "{testimonial.text}"
-                    </p>
-                    <p className="text-gray-400 text-xs">
-                      {testimonial.subtext}
-                    </p>
-                  </div>
-                ))}
-              </div>
-              <div className="flex w-max animate-scroll-right gap-4 px-4">
-                {[...row2Testimonials, ...row2Testimonials].map((testimonial, idx) => (
-                  <div
-                    key={`row2-${idx}`}
-                    className="w-[300px] shrink-0 bg-white p-5 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-all"
-                  >
-                    <div className="flex items-center gap-3 mb-3">
-                      <img
-                        src={testimonial.avatar}
-                        alt={testimonial.name}
-                        className="w-12 h-12 rounded-full object-cover border-2 border-gray-100"
-                      />
-                      <div>
-                        <h4 className="font-semibold text-gray-900 text-sm">{testimonial.name}</h4>
-                        <div className="flex text-yellow-400 gap-0.5 mt-0.5">
-                          {[...Array(testimonial.rating)].map((_, i) => (
-                            <Star key={i} size={12} className="fill-current" />
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                    <p className="text-gray-600 text-xs leading-relaxed mb-3 italic">
-                      "{testimonial.text}"
-                    </p>
-                    <p className="text-gray-400 text-xs">
-                      {testimonial.subtext}
-                    </p>
-                  </div>
-                ))}
               </div>
             </div>
           </div>

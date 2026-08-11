@@ -14,7 +14,6 @@ import {
   MapPin,
   Settings,
   Shield,
-  Star,
   Wallet
 } from 'lucide-react';
 import Image from "next/image";
@@ -50,19 +49,7 @@ const initialErrors = {
   noOfAdults: "",
 };
 
-const allTestimonials = [
-  { id: 1, name: "Robert Wilson", avatar: "https://randomuser.me/api/portraits/men/32.jpg", rating: 5, text: "Excellent car rental service! The vehicle was clean and well-maintained. Great value for money.", subtext: "Business Traveler" },
-  { id: 2, name: "Patricia Lee", avatar: "https://randomuser.me/api/portraits/women/45.jpg", rating: 5, text: "Smooth airport transfer experience. Driver was punctual and professional. Highly recommended!", subtext: "Frequent Flyer" },
-  { id: 3, name: "Thomas Brown", avatar: "https://randomuser.me/api/portraits/men/44.jpg", rating: 5, text: "Booked an SUV for our family trip. Comfortable ride and excellent customer support throughout.", subtext: "Family Traveler" },
-  { id: 4, name: "Jennifer Clark", avatar: "https://randomuser.me/api/portraits/women/22.jpg", rating: 5, text: "The booking process was seamless. Got a luxury car for our anniversary at a great price.", subtext: "Luxury Seeker" },
-  { id: 5, name: "William Martinez", avatar: "https://randomuser.me/api/portraits/men/33.jpg", rating: 4, text: "Good selection of cars and transparent pricing. Will definitely use again for my next trip.", subtext: "Road Trip Enthusiast" },
-  { id: 6, name: "Margaret Davis", avatar: "https://randomuser.me/api/portraits/women/55.jpg", rating: 5, text: "24/7 support helped me extend my rental at midnight. Amazing service!", subtext: "Late Planner" },
-  { id: 7, name: "Joseph Rodriguez", avatar: "https://randomuser.me/api/portraits/men/66.jpg", rating: 5, text: "Best rates in town! Saved 40% compared to other rental companies.", subtext: "Deal Hunter" },
-  { id: 8, name: "Nancy Thompson", avatar: "https://randomuser.me/api/portraits/women/32.jpg", rating: 5, text: "Clean cars, friendly staff, and hassle-free booking. This is my go-to transport service now.", subtext: "Solo Traveler" }
-];
 
-const row1Testimonials = allTestimonials.slice(0, 4);
-const row2Testimonials = allTestimonials.slice(4, 8);
 
 const FloatingLabelInput = ({ label, name, value, onChange, placeholder, required = false, isTextarea = false, type = "text", error, min, max }) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -281,27 +268,6 @@ const TransportSection = () => {
         ]}
       />
 
-      <style dangerouslySetInnerHTML={{
-        __html: `
-        @keyframes scrollLeft {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        @keyframes scrollRight {
-          0% { transform: translateX(-50%); }
-          100% { transform: translateX(0); }
-        }
-        .animate-scroll-left {
-          animation: scrollLeft 40s linear infinite;
-        }
-        .animate-scroll-right {
-          animation: scrollRight 40s linear infinite;
-        }
-        .animate-scroll-left:hover,
-        .animate-scroll-right:hover {
-          animation-play-state: paused;
-        }
-      ` }} />
 
       <MainLayout className="bg-gray-50 py-12 md:py-16">
         <div className="max-w-7xl mx-auto px-4 ">
@@ -567,11 +533,10 @@ const TransportSection = () => {
             </div>
           </div>
 
-          {/* How It Works Section */}
-          <div className="mt-16 md:mt-20">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-10 text-center">
+          <div className="mt-16 md:mt-30">
+            <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-10 text-center">
               How It Works
-            </h2>
+            </h3>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
               <div className="flex flex-col items-center text-center group">
@@ -614,83 +579,8 @@ const TransportSection = () => {
               </div>
             </div>
           </div>
-
-          {/* Testimonials Section */}
-          <div className="mt-16 md:mt-20 overflow-hidden">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-10 text-center">
-              What Our Travelers Say
-            </h2>
-
-            <div className="flex flex-col gap-6">
-              {/* Row 1: Scrolls Right to Left */}
-              <div className="flex w-max animate-scroll-left gap-4 px-4">
-                {[...row1Testimonials, ...row1Testimonials].map((testimonial, idx) => (
-                  <div
-                    key={`row1-${idx}`}
-                    className="w-[300px] shrink-0 bg-white p-5 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-all"
-                  >
-                    <div className="flex items-center gap-3 mb-3">
-                      <img
-                        src={testimonial.avatar}
-                        alt={testimonial.name}
-                        className="w-12 h-12 rounded-full object-cover border-2 border-gray-100"
-                      />
-                      <div>
-                        <h4 className="font-semibold text-gray-900 text-sm">{testimonial.name}</h4>
-                        <div className="flex text-yellow-400 gap-0.5 mt-0.5">
-                          {[...Array(testimonial.rating)].map((_, i) => (
-                            <Star key={i} size={12} className="fill-current" />
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                    <p className="text-gray-600 text-xs leading-relaxed mb-3 italic">
-                      "{testimonial.text}"
-                    </p>
-                    <p className="text-gray-400 text-xs">
-                      {testimonial.subtext}
-                    </p>
-                  </div>
-                ))}
-              </div>
-
-              {/* Row 2: Scrolls Left to Right */}
-              <div className="flex w-max animate-scroll-right gap-4 px-4">
-                {[...row2Testimonials, ...row2Testimonials].map((testimonial, idx) => (
-                  <div
-                    key={`row2-${idx}`}
-                    className="w-[300px] shrink-0 bg-white p-5 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-all"
-                  >
-                    <div className="flex items-center gap-3 mb-3">
-                      <img
-                        src={testimonial.avatar}
-                        alt={testimonial.name}
-                        className="w-12 h-12 rounded-full object-cover border-2 border-gray-100"
-                      />
-                      <div>
-                        <h4 className="font-semibold text-gray-900 text-sm">{testimonial.name}</h4>
-                        <div className="flex text-yellow-400 gap-0.5 mt-0.5">
-                          {[...Array(testimonial.rating)].map((_, i) => (
-                            <Star key={i} size={12} className="fill-current" />
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                    <p className="text-gray-600 text-xs leading-relaxed mb-3 italic">
-                      "{testimonial.text}"
-                    </p>
-                    <p className="text-gray-400 text-xs">
-                      {testimonial.subtext}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
         </div>
       </MainLayout>
-
-      {/* Success/Error Popup */}
       <Message_Popups
         isOpen={showResultPopup}
         type={popupType}

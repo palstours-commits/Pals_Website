@@ -9,6 +9,7 @@ import VisaExperience from "./VisaExperience";
 import NewZonePlanner from "./NewZonePlanner";
 import AssociationCarousel from "./AssociationCarousel";
 import FaqSection from "./FaqSection";
+import TestimonialSection from "./TestimonialSection";
 const HomeSection = () => {
   return (
     <>
@@ -22,7 +23,8 @@ const HomeSection = () => {
       <TrendingOffers />
       <AssociationCarousel />
       <InspirationSection />
-      <FaqSection/>
+      <TestimonialSection />
+      <FaqSection />
     </>
   );
 };

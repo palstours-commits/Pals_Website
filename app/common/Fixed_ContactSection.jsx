@@ -33,7 +33,7 @@ import {
   FaMoon,
   FaSun,
 } from 'react-icons/fa';
-import { FaBars, FaHeadset } from 'react-icons/fa6';
+import { FaBars, } from 'react-icons/fa6';
 
 const getMenuIcon = (menuName, iconPath, size = 18, className = "text-red-600") => {
   if (iconPath && iconPath !== navItemIcon && iconPath !== companyIcon) {
@@ -83,7 +83,7 @@ const getFirstMenuIcon = (menus, size = 22, className = "text-red-600") => {
     return null
   }
 
-  return <FaBars  size={size} className={className} />;
+  return <FaBars size={size} className={className} />;
 };
 
 const Tooltip = ({ children, text }) => {
@@ -204,7 +204,7 @@ const Fixed_ContactSection = () => {
 
   useEffect(() => {
     const checkDesktop = () => {
-      setIsDesktop(window.innerWidth >= 1024);
+      setIsDesktop(window.innerWidth >= 768);
     };
     checkDesktop();
     window.addEventListener('resize', checkDesktop);
@@ -248,9 +248,7 @@ const Fixed_ContactSection = () => {
     }));
   }, []);
 
-  // Hover handlers
   const handleMouseEnter = useCallback(() => {
-    // Clear any pending close timeout
     if (hoverTimeout) {
       clearTimeout(hoverTimeout);
       setHoverTimeout(null);
@@ -259,7 +257,6 @@ const Fixed_ContactSection = () => {
   }, [hoverTimeout]);
 
   const handleMouseLeave = useCallback(() => {
-    // Delay closing to allow moving to dropdown content
     const timeout = setTimeout(() => {
       setIsOpen(false);
     }, 100);
@@ -268,8 +265,8 @@ const Fixed_ContactSection = () => {
 
   const LocationIcon = useMemo(() => {
     return () => (
-      <div 
-        className="pointer-events-auto relative" 
+      <div
+        className="pointer-events-auto relative"
         ref={dropdownRef}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
@@ -334,10 +331,10 @@ const Fixed_ContactSection = () => {
       </div>
     );
   }
-  
+
   if (!isDesktop) {
     return (
-      <div className="fixed bottom-33 right-2 md:right-4 z-[9998] flex flex-col  items-end   pointer-events-none">
+      <div className="fixed bottom-33 right-2   md:right-4 z-[9998] flex flex-col  items-end   pointer-events-none">
         <LocationIcon />
       </div>
     );

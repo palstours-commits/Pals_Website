@@ -32,7 +32,7 @@ const AssociationCarousel = () => {
                             Members & Approved By
                         </h4>
                         <p className="text-sm  text-left">
-                            Indian Holiday is recognised by the Ministry of Tourism,
+                            Plas Holiday is recognised by the Ministry of Tourism,
                             Government of India, and associated with respected travel
                             trade bodies.
                         </p>
