@@ -2,10 +2,12 @@
 import bannerimg from "@/app/assets/car_booking.png";
 import transportVector from "@/app/assets/transportVector.png"; // You'll need to add this image
 import CommonHeroSection from "@/app/common/CommonHeroSection";
+import { FloatingLabelInput } from "@/app/common/FloatingLabelInput";
+import { FloatingLabelSelect } from "@/app/common/FloatingLabelSelect";
 import MainLayout from "@/app/common/MainLayout";
 import Message_Popups from "@/app/common/Message_Popups";
 import { clearServiceFormState, submitTransportForm } from "@/app/store/slice/serviceFormSlice";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   Car,
   Clock,
@@ -50,92 +52,6 @@ const initialErrors = {
 };
 
 
-
-const FloatingLabelInput = ({ label, name, value, onChange, placeholder, required = false, isTextarea = false, type = "text", error, min, max }) => {
-  const [isFocused, setIsFocused] = useState(false);
-  const isFloating = isFocused || (value !== "" && value !== null && value !== undefined) || type === "date";
-
-  return (
-    <div className="relative mt-4 w-full">
-      <label className={`absolute left-3 px-1.5 transition-all duration-200 pointer-events-none z-10 ${isFloating ? "-top-2.5 text-xs font-semibold text-gray-700 bg-white" : "top-3 text-sm text-gray-500 bg-transparent"
-        }`}>
-        {label} {required && <span className="text-red-500">*</span>}
-      </label>
-      {isTextarea ? (
-        <textarea
-          name={name}
-          value={value}
-          onChange={onChange}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
-          className={`w-full px-4 py-3 text-sm rounded-xl border ${error ? 'border-red-500 bg-red-50' : 'border-gray-200'} focus:border-red-600 focus:ring-2 focus:ring-red-100 outline-none transition-all resize-none`}
-          rows="3"
-          placeholder={isFocused ? placeholder : ""}
-        />
-      ) : (
-        <input
-          type={type}
-          name={name}
-          value={value}
-          onChange={onChange}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
-          min={min}
-          max={max}
-          className={`w-full px-4 py-3 text-sm rounded-xl border ${error ? 'border-red-500 bg-red-50' : 'border-gray-200'} focus:border-red-600 focus:ring-2 focus:ring-red-100 outline-none transition-all`}
-          placeholder={isFocused ? placeholder : ""}
-        />
-      )}
-      {error && <p className="text-red-500 text-xs mt-1 ml-1">{error}</p>}
-    </div>
-  );
-};
-
-const FloatingLabelSelect = ({ label, name, value, onChange, options = [], placeholder, required = false, error }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const selectedOption = options.find(opt => opt._id === value);
-
-  return (
-    <div className="relative mt-4 w-full">
-      <label className="absolute -top-2.5 left-3 px-1.5 text-xs font-semibold text-gray-700 bg-white z-10">
-        {label} {required && <span className="text-red-500">*</span>}
-      </label>
-      <div
-        onClick={() => setIsOpen(!isOpen)}
-        className={`w-full px-4 py-3 text-sm rounded-xl border ${error ? 'border-red-500 bg-red-50' : 'border-gray-200'} cursor-pointer flex justify-between items-center bg-white hover:border-red-600 transition-all`}
-      >
-        <span className={value ? "text-gray-900" : "text-gray-400"}>{selectedOption ? selectedOption.name : placeholder}</span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" className={`transition-transform ${isOpen ? 'rotate-180 text-red-600' : 'text-gray-400'}`}>
-          <path d="M6 9l6 6 6-6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </div>
-      {error && <p className="text-red-500 text-xs mt-1 ml-1">{error}</p>}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -5 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -5 }}
-            className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-xl shadow-lg p-1 max-h-60 overflow-y-auto"
-          >
-            {options.map(opt => (
-              <div
-                key={opt._id}
-                className="px-4 py-2.5 hover:bg-red-50 rounded-lg cursor-pointer text-sm transition-all"
-                onClick={() => {
-                  onChange({ target: { name, value: opt._id } });
-                  setIsOpen(false);
-                }}
-              >
-                {opt.name}
-              </div>
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-};
 
 const TransportSection = () => {
   const dispatch = useDispatch();
@@ -386,7 +302,7 @@ const TransportSection = () => {
                   </div>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-2">
+                <form onSubmit={handleSubmit} className="space-y-5">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <FloatingLabelInput
                       label="Full Name"
@@ -431,23 +347,19 @@ const TransportSection = () => {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <FloatingLabelSelect
-                      label="Rental Type"
                       name="rentalType"
                       options={rentalTypeOptions}
                       value={formData.rentalType}
                       onChange={handleChange}
                       placeholder="Select rental type"
-                      required
                       error={errors.rentalType}
                     />
                     <FloatingLabelSelect
-                      label="Car Type"
                       name="carType"
                       options={carTypeOptions}
                       value={formData.carType}
                       onChange={handleChange}
                       placeholder="Select car type"
-                      required
                       error={errors.carType}
                     />
                   </div>

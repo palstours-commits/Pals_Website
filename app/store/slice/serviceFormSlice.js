@@ -81,6 +81,27 @@ export const submitVisaForm = createAsyncThunk(
   },
 );
 
+export const submitForexForm = createAsyncThunk(
+  "serviceForm/submitForexForm",
+  async (payload, thunkAPI) => {
+    try {
+      const response = await FetchApi({
+        endpoint: "/user/form/forex",
+        method: "POST",
+        body: payload,
+      });
+
+      return response?.data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(
+        err?.response?.data?.message ||
+          err.message ||
+          "Failed to submit forex form",
+      );
+    }
+  },
+);
+
 const serviceFormSlice = createSlice({
   name: "serviceForm",
   initialState: {
@@ -149,6 +170,21 @@ const serviceFormSlice = createSlice({
           action.payload?.message || "Visa enquiry submitted successfully";
       })
       .addCase(submitVisaForm.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      
+      .addCase(submitForexForm.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.message = "";
+      })
+      .addCase(submitForexForm.fulfilled, (state, action) => {
+        state.loading = false;
+        state.message =
+          action.payload?.message || "Forex enquiry submitted successfully";
+      })
+      .addCase(submitForexForm.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

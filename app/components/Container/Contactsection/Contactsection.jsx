@@ -8,29 +8,28 @@ import Message_Popups from "@/app/common/Message_Popups";
 import { clearContactState, submitContact } from "@/app/store/slice/contactSlice";
 import { getPackages } from "@/app/store/slice/packageSlice";
 import { motion } from "framer-motion";
-import { Mail, MapPin, Phone, } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const initialForm = {
   serviceType: "flight",
-  firstName: "",
-  lastName: "",
-  emailAddress: "",
-  phone: "",
-  tentativeDateOfArrival: "",
+  name: "",
+  email: "",
+  mobile: "",
+  country: "",
+  tourDescription: "",
+  arrivalDate: "",
   departureDate: "",
-  guestCount: "",
-  accommodationType: "",
-  honeymoon: "",
-  comments: "",
+  stayType: "",
+  numberOfGuests: "",
 };
 
 const initialErrors = {
-  emailAddress: "",
-  phone: "",
-  guestCount: "",
-  comments: "",
+  email: "",
+  mobile: "",
+  numberOfGuests: "",
+  tourDescription: "",
 };
 
 const Contactsection = () => {
@@ -60,29 +59,29 @@ const Contactsection = () => {
     const newErrors = {};
     let isValid = true;
 
-    if (!form.emailAddress.trim()) {
-      newErrors.emailAddress = "Email is required";
+    if (!form.email.trim()) {
+      newErrors.email = "Email is required";
       isValid = false;
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.emailAddress)) {
-      newErrors.emailAddress = "Please enter a valid email address";
-      isValid = false;
-    }
-
-    if (!form.phone.trim()) {
-      newErrors.phone = "Phone number is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      newErrors.email = "Please enter a valid email address";
       isValid = false;
     }
 
-    if (!form.guestCount.toString().trim()) {
-      newErrors.guestCount = "Number of guests is required";
-      isValid = false;
-    } else if (parseInt(form.guestCount) < 1) {
-      newErrors.guestCount = "At least 1 guest is required";
+    if (!form.mobile.trim()) {
+      newErrors.mobile = "Phone number is required";
       isValid = false;
     }
 
-    if (!form.comments.trim()) {
-      newErrors.comments = "Comments are required";
+    if (!form.numberOfGuests.toString().trim()) {
+      newErrors.numberOfGuests = "Number of guests is required";
+      isValid = false;
+    } else if (parseInt(form.numberOfGuests) < 1) {
+      newErrors.numberOfGuests = "At least 1 guest is required";
+      isValid = false;
+    }
+
+    if (!form.tourDescription.trim()) {
+      newErrors.tourDescription = "Tour description is required";
       isValid = false;
     }
 
@@ -96,15 +95,15 @@ const Contactsection = () => {
     if (validateForm()) {
       dispatch(
         submitContact({
-          firstName: form.firstName,
-          lastName: form.lastName,
-          email: form.emailAddress,
-          phone: form.phone,
-          arrivalDate: form.tentativeDateOfArrival,
+          name: form.name,
+          email: form.email,
+          mobile: form.mobile,
+          country: form.country,
+          tourDescription: form.tourDescription,
+          arrivalDate: form.arrivalDate,
           departureDate: form.departureDate,
-          numberOfGuests: Number(form.guestCount),
-          stayType: form.accommodationType,
-          message: form.comments,
+          stayType: form.stayType,
+          numberOfGuests: Number(form.numberOfGuests),
         })
       );
     } else {
@@ -163,7 +162,7 @@ const Contactsection = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 items-start">
             <div className="space-y-6 md:space-y-8">
               <div>
-                <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-gray-900  leading-tight">
+                <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-gray-900 leading-tight">
                   Get in Touch
                 </h3>
                 <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
@@ -217,7 +216,7 @@ const Contactsection = () => {
                               {line.text}
                             </a>
                           ) : (
-                            <p key={j} className="text-gray-600 text-xs sm:text-sm ">
+                            <p key={j} className="text-gray-600 text-xs sm:text-sm">
                               {line.text}
                             </p>
                           )
@@ -247,57 +246,56 @@ const Contactsection = () => {
                   animate={{ opacity: 1, y: 0 }}
                   className="bg-white p-6 h-full"
                 >
-                  <form onSubmit={handleSubmitClick} >
-                    <div className="space-y-3">
+                  <form onSubmit={handleSubmitClick}>
+                    <div className="space-y-5">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                         <FloatingLabelInput
-                          label="First Name"
-                          name="firstName"
-                          value={form.firstName}
+                          label="Full Name"
+                          name="name"
+                          value={form.name}
                           onChange={handleChange}
-                          placeholder="First Name"
+                          placeholder="John Doe"
                         />
                         <FloatingLabelInput
-                          label="Last Name"
-                          name="lastName"
-                          value={form.lastName}
+                          label="Email Address"
+                          name="email"
+                          value={form.email}
                           onChange={handleChange}
-                          placeholder="Last Name"
+                          required
+                          type="email"
+                          error={errors.email}
+                          placeholder="user@example.com"
                         />
                       </div>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
                         <FloatingLabelInput
-                          label="Email Address"
-                          name="emailAddress"
-                          value={form.emailAddress}
-                          onChange={handleChange}
-                          required
-                          type="email"
-                          error={errors.emailAddress}
-                          placeholder="Email Address"
-                        />
-                        <FloatingLabelInput
-                          label="Phone Number"
-                          name="phone"
-                          value={form.phone}
+                          label="Mobile Number"
+                          name="mobile"
+                          value={form.mobile}
                           onChange={handleChange}
                           required
                           type="tel"
-                          error={errors.phone}
-                          placeholder="Phone"
+                          error={errors.mobile}
+                          placeholder="9876543210"
+                        />
+                        <FloatingLabelInput
+                          label="Country"
+                          name="country"
+                          value={form.country}
+                          onChange={handleChange}
+                          placeholder="India"
                         />
                       </div>
-
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
                         <div className="relative">
                           <label className="block text-xs ps-1 font-medium text-gray-600">
                             Arrival Date
                           </label>
                           <FloatingLabelInput
-                            name="tentativeDateOfArrival"
+                            name="arrivalDate"
                             type="date"
-                            value={form.tentativeDateOfArrival}
+                            value={form.arrivalDate}
                             onChange={handleChange}
                             min={new Date().toISOString().split("T")[0]}
                           />
@@ -313,64 +311,55 @@ const Contactsection = () => {
                             value={form.departureDate}
                             onChange={handleChange}
                             min={
-                              form.tentativeDateOfArrival ||
+                              form.arrivalDate ||
                               new Date().toISOString().split("T")[0]
                             }
                           />
                         </div>
-
                       </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 items-center">
                         <div>
                           <FloatingLabelInput
                             label="Number of Guests"
                             type="number"
-                            name="guestCount"
-                            value={form.guestCount}
+                            name="numberOfGuests"
+                            value={form.numberOfGuests}
                             onChange={handleChange}
                             required
-                            error={errors.guestCount}
-                            placeholder="e.g. 2"
+                            error={errors.numberOfGuests}
+                            placeholder="4"
                             min="1"
                             max="99"
                           />
-                          <p className="text-[10px] text-gray-500 mt-1 ml-1">Maximum of 2 digits.</p>
                         </div>
                         <div>
                           <FloatingLabelSelect
                             isLabel={false}
                             label="Select Accommodation Type"
-                            name="accommodationType"
+                            name="stayType"
                             options={[
-                              { _id: "Not Yet Decided", name: "Not Yet Decided" },
-                              { _id: "Only HomeStays/Bead & Breakfast", name: "Only HomeStays/Bead & Breakfast" },
-                              { _id: "Budget Hotels", name: "Budget Hotels" },
-                              { _id: "3 Star Hotels/ HouseBoat", name: "3 Star Hotels/ HouseBoat" },
-                              { _id: "4 Star Hotels/ HouseBoat", name: "4 Star Hotels/ HouseBoat" },
-                              { _id: "Luxury 5 Star Hotels/ HouseBoat", name: "Luxury 5 Star Hotels/ HouseBoat" },
-                              { _id: "HouseBoat Day Cruise", name: "HouseBoat Day Cruise" },
-                              { _id: "HouseBoat Overnight Stay & Cruise", name: "HouseBoat Overnight Stay & Cruise" },
+                              { _id: "2 Star ", name: "2 Star " },
+                              { _id: "3 Star ", name: "3 Star " },
+                              { _id: "5 Star ", name: "5 Star " },
                             ]}
-                            value={form.accommodationType}
+                            value={form.stayType}
                             onChange={handleChange}
                             placeholder="Select Type of Stay"
                           />
                         </div>
                       </div>
 
-
-
                       <div className="mt-4">
                         <FloatingLabelInput
-                          label="Comments/ Questions/ Queries"
-                          name="comments"
-                          value={form.comments}
+                          label="Tour Description"
+                          name="tourDescription"
+                          value={form.tourDescription}
                           onChange={handleChange}
                           required
                           isTextarea
-                          error={errors.comments}
-                          placeholder="Indicate the number of people travelling with you and submit more details about your request including destinations and activities you may want in your holiday"
+                          error={errors.tourDescription}
+                          placeholder="We are planning a 7-day South India tour covering Kerala and Tamil Nadu."
                         />
                       </div>
                     </div>
@@ -388,7 +377,6 @@ const Contactsection = () => {
                 </motion.div>
               </div>
             </motion.div>
-
           </div>
         </div>
       </MainLayout>

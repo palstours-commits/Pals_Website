@@ -52,20 +52,6 @@ const initialErrors = {
   flightType: "",
 };
 
-const allTestimonials = [
-  { id: 1, name: "Nam Smith", avatar: "https://randomuser.me/api/portraits/men/32.jpg", rating: 5, text: "Easy booking dolor sit amet, consectetur adipiscing... easy booking and great service.", subtext: "Name Komin" },
-  { id: 2, name: "Kerow R.", avatar: "https://randomuser.me/api/portraits/men/45.jpg", rating: 5, text: "Easy booking, dolor sit amet, consectetur adipiscing elit, booking and great service.", subtext: "Kame Kome" },
-  { id: 3, name: "Jonn R.", avatar: "https://randomuser.me/api/portraits/women/44.jpg", rating: 5, text: "\"Lorem ipsum dolor sit amet, consectetur adipiscing.., easy booking and great service.\"", subtext: "Nanne Sensin" },
-  { id: 4, name: "Sarah Connor", avatar: "https://randomuser.me/api/portraits/women/12.jpg", rating: 5, text: "The fastest flight booking experience I have ever had. Highly recommended!", subtext: "Frequent Flyer" },
-  { id: 5, name: "David Miller", avatar: "https://randomuser.me/api/portraits/men/22.jpg", rating: 4, text: "Great prices and excellent customer support when I needed to change my flight.", subtext: "Business Traveler" },
-  { id: 6, name: "Emily Davis", avatar: "https://randomuser.me/api/portraits/women/33.jpg", rating: 5, text: "Customized plans worked out perfectly for my family vacation. Thank you!", subtext: "Family Vacationer" },
-  { id: 7, name: "Michael Chang", avatar: "https://randomuser.me/api/portraits/men/55.jpg", rating: 5, text: "Simple, intuitive, and secure. Will definitely use this service again.", subtext: "Tech Enthusiast" },
-  { id: 8, name: "Jessica Alba", avatar: "https://randomuser.me/api/portraits/women/66.jpg", rating: 5, text: "Amazing platform! Booking a flight has never been this stress-free and easy.", subtext: "Solo Traveler" }
-];
-
-const row1Testimonials = allTestimonials.slice(0, 4);
-const row2Testimonials = allTestimonials.slice(4, 8);
-
 
 const FlightBookingSection = () => {
   const dispatch = useDispatch();
@@ -174,28 +160,6 @@ const FlightBookingSection = () => {
         { label: "Home", href: "/" },
         { label: "Flight" || "Destination" },
       ]} />
-      <style dangerouslySetInnerHTML={{
-        __html: `
-        @keyframes scrollLeft {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        @keyframes scrollRight {
-          0% { transform: translateX(-50%); }
-          100% { transform: translateX(0); }
-        }
-        .animate-scroll-left {
-          animation: scrollLeft 40s linear infinite;
-        }
-        .animate-scroll-right {
-          animation: scrollRight 40s linear infinite;
-        }
-        .animate-scroll-left:hover,
-        .animate-scroll-right:hover {
-          animation-play-state: paused;
-        }
-      ` }} />
-
       <MainLayout className="bg-gray-50 py-12 md:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
@@ -312,7 +276,7 @@ const FlightBookingSection = () => {
                   </div>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-5">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <FloatingLabelInput
                       label="Full Name"
@@ -356,13 +320,11 @@ const FlightBookingSection = () => {
                   </div>
 
                   <FloatingLabelSelect
-                    label="Flight Class"
                     name="flightType"
                     options={flightClassOptions}
                     value={formData.flightType}
                     onChange={handleChange}
                     placeholder="Select flight class"
-                    required
                     error={errors.flightType}
                   />
 

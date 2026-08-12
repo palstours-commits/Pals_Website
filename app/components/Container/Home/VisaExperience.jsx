@@ -27,25 +27,25 @@ const textVariants = {
 
 const VisaExperience = () => {
   return (
-    <MainLayout className="bg-gradient-to-b from-[#FFFBF4] to-[#FFE9D9] pt-16 lg:pt-20">
+    <MainLayout className="bg-gradient-to-b from-[#FFFBF4] to-[#FFE9D9] pt-16">
       <div className="max-w-7xl mx-auto px-5">
 
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="text-start mb-10 lg:mb-14"
+          className="text-start mb-10"
         >
-          <motion.h4
+          <motion.h3
             variants={textVariants}
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-black mb-1"
           >
             More Than Travel, We Create Experiences
-          </motion.h4>
+          </motion.h3>
 
           <motion.p
             variants={textVariants}
-            className="text-xl text-gray-700"
+            className="text-md mt-2"
           >
             Travel with confidence. Explore with us.
           </motion.p>

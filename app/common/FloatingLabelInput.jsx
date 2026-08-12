@@ -6,7 +6,7 @@ export const FloatingLabelInput = ({ label, name, value, onChange, placeholder, 
         isFocused ||
         (value !== "" && value !== null && value !== undefined);
     return (
-        <div className="relative mt-2 w-full">
+        <div className="relative  w-full">
             {type === "date"  ? (
                 <label className="block text-sm capitalize ps-2 text-gray-600 mb-1">
                     {label} {required && <span className="text-red-500">*</span>}

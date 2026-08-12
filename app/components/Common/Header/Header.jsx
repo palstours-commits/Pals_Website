@@ -2,6 +2,7 @@
 import navbar_logo from "@/app/assets/navbar_logo.svg";
 import companyIcon from "@/app/assets/office-building.svg";
 import navItemIcon from "@/app/assets/serive_home-icon-1.svg";
+import { HeaderSkeleton } from "@/app/common/animations";
 import CustomImage from "@/app/common/Image";
 import { getMenus } from "@/app/store/slice/submenuSlice";
 import { AnimatePresence, motion } from "framer-motion";
@@ -188,12 +189,14 @@ function DesktopDropdown({ items, dropdownConfig, onClose, onMouseEnter, onMouse
   );
 }
 
+
+
 export default function Header() {
   const router = useRouter();
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [mobileDropdownOpen, setMobileDropdownOpen] = useState({});
-  const { submenus } = useSelector((state) => state.submenu);
+  const { submenus, loading } = useSelector((state) => state.submenu);
   const sortedSubmenus = submenus ? [...submenus].sort((a, b) => a.order - b.order) : [];
   const navRef = useRef(null);
   const [showLeftArrow, setShowLeftArrow] = useState(false);
@@ -203,6 +206,7 @@ export default function Header() {
   const timeoutRef = useRef(null);
   const [hoveredDropdown, setHoveredDropdown] = useState(null);
   const [dropdownConfigs, setDropdownConfigs] = useState({});
+  const scrollDirRef = useRef(1);
 
   useEffect(() => {
     if (open) {
@@ -342,17 +346,12 @@ export default function Header() {
       : "text-gray-700 hover:text-red-600 hover:bg-white hover:shadow-md hover:shadow-gray-100/50 group-hover:border-red-200/50"
     }`;
 
+  if (loading) {
+    return <HeaderSkeleton />;
+  }
+
   return (
     <>
-      <style
-        dangerouslySetInnerHTML={{
-          __html: `
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-      `,
-        }}
-      />
-
       <motion.div
         variants={headerItemVariants}
         initial="hidden"
@@ -405,7 +404,7 @@ export default function Header() {
 
             <div
               ref={navRef}
-              className="hide-scrollbar flex overflow-x-auto overflow-y-hidden scroll-smooth whitespace-nowrap w-full "
+              className="scrollbar-hide flex overflow-x-auto overflow-y-hidden scroll-smooth whitespace-nowrap w-full "
             >
               <div className="flex items-center  gap-1  h-full flex-nowrap">
                 {sortedSubmenus?.map((menu) => (
