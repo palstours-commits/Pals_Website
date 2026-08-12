@@ -13,7 +13,6 @@ export default function Footer() {
   const sortedSubmenus = submenus ? [...submenus].sort((a, b) => a.order - b.order) : [];
 
 
-
   return (
     <footer className="bg-[#7a3d3d] text-white pt-12 md:pt-16 pb-8">
       <div className="px-5  max-w-7xl mx-auto">

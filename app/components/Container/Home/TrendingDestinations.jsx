@@ -1,11 +1,12 @@
 "use client";
 import CustomImage from "@/app/common/Image";
 import MainLayout from "@/app/common/MainLayout";
+import { getNewArrivals } from "@/app/store/slice/packageSlice";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useMemo, useRef } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const textVariants = {
   hidden: { opacity: 0, y: 25 },
@@ -15,17 +16,14 @@ const textVariants = {
 const TrendingDestinations = () => {
   const router = useRouter();
   const sliderRef = useRef(null);
-  const { zones } = useSelector((state) => state.zones);
-  
-  const topDestinationZones = useMemo(
-    () => zones?.filter((z) => z.istrending === true),
-    [zones],
-  );
+  const dispatch = useDispatch()
+  const { newArrivals,
+  } = useSelector((state) => state.packages);
 
-  const discoverSubMenu = useMemo(() => {
-    if (!topDestinationZones?.length) return null;
-    return topDestinationZones[0].subMenuId;
-  }, [topDestinationZones]);
+  useEffect(() => {
+    dispatch(getNewArrivals())
+  }, [dispatch])
+
 
   const scroll = (dir) => {
     if (!sliderRef.current) return;
@@ -36,8 +34,10 @@ const TrendingDestinations = () => {
   };
 
   const handleDiscoverMore = () => {
-    if (!discoverSubMenu?.menuId?.slug || !discoverSubMenu?.slug) return;
-    router.push(`/${discoverSubMenu.menuId.slug}/${discoverSubMenu.slug}`);
+    if (!newArrivals?.length) return;
+    const zone = newArrivals[0];
+    if (!zone?.slug) return;
+    router.push(`/explore?zone=${zone.slug}`);
   };
 
   return (
@@ -54,11 +54,11 @@ const TrendingDestinations = () => {
         >
           <div>
             <h4 className="text-3xl md:text-4xl lg:text-5xl font-bold  leading-med">
-              Trending International Destinations
+              Discover Our Newest Journeys
+
             </h4>
             <p className="text-md  mt-3 max-w-sm ">
-              Fly beyond borders with customized itineraries for the world’s
-              most loved spots.
+              Explore freshly curated travel packages designed to turn your next getaway into an unforgettable experience.
             </p>
           </div>
 
@@ -101,13 +101,13 @@ const TrendingDestinations = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6 }}
         >
-          {topDestinationZones?.map((item, i) => (
+          {newArrivals?.map((item, i) => (
             <motion.div
               key={item._id}
               className="relative min-w-[260px] h-[300px] rounded-2xl overflow-hidden cursor-pointer shadow-lg group"
               transition={{ duration: 0.3 }}
               onClick={() =>
-                router.push(`/packages/${item.menuId}/${item.slug}`)
+                router.push(`/package/${item.slug}`)
               }
             >
               <motion.div
@@ -116,8 +116,8 @@ const TrendingDestinations = () => {
                 transition={{ duration: 0.5 }}
               >
                 <CustomImage
-                  src={item.image}
-                  alt={item.name}
+                  src={item.images[0]}
+                  alt={item.packageName}
                   fill
                   className="object-cover transition-transform duration-500"
                 />
@@ -126,7 +126,7 @@ const TrendingDestinations = () => {
               <div className="absolute bottom-6 left-6 right-6 z-20">
                 <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4 border border-white/30 shadow-xl">
                   <h5 className="text-xl font-semibold text-center text-white leading-tight drop-shadow-lg">
-                    {item.name}
+                    {item.packageName}
                   </h5>
                 </div>
               </div>
@@ -134,17 +134,7 @@ const TrendingDestinations = () => {
           ))}
         </motion.div>
       </motion.div>
-
-      <style jsx>{`
-        .scrollbar-hide {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
-    </MainLayout>
+    </MainLayout >
   );
 };
 

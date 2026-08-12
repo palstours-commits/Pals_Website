@@ -39,9 +39,6 @@ const ContactFormPopup = ({ isOpen, onClose }) => {
     const dispatch = useDispatch();
     const { error, message, loading } = useSelector((state) => state.contact);
 
-    useEffect(() => {
-        dispatch(getPackages());
-    }, [dispatch]);
 
     useEffect(() => {
         if (message) {

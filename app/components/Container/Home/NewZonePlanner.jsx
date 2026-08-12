@@ -26,13 +26,9 @@ const NewZonePlanner = () => {
         (state) => state.zones
     );
 
-    
-
     const scroll = (dir) => {
         const el = sliderRef.current;
-
         if (!el) return;
-
         el.scrollBy({
             left: dir === "left" ? -300 : 300,
             behavior: "smooth",

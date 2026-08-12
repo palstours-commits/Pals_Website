@@ -38,7 +38,6 @@ const Contactsection = () => {
 
   const [form, setForm] = useState(initialForm);
   const [errors, setErrors] = useState(initialErrors);
-
   const [showResultPopup, setShowResultPopup] = useState(false);
   const [popupType, setPopupType] = useState("success");
   const [popupMessage, setPopupMessage] = useState("");

@@ -196,7 +196,7 @@ export default function Header() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [mobileDropdownOpen, setMobileDropdownOpen] = useState({});
-  const { submenus, loading } = useSelector((state) => state.submenu);
+  const { submenus, loading, loaded } = useSelector((state) => state.submenu);
   const sortedSubmenus = submenus ? [...submenus].sort((a, b) => a.order - b.order) : [];
   const navRef = useRef(null);
   const [showLeftArrow, setShowLeftArrow] = useState(false);
@@ -263,8 +263,9 @@ export default function Header() {
   };
 
   useEffect(() => {
+    if (loaded) return;
     dispatch(getMenus());
-  }, [dispatch]);
+  }, [dispatch, loaded]);
 
   useEffect(() => {
     checkScroll();
@@ -346,7 +347,7 @@ export default function Header() {
       : "text-gray-700 hover:text-red-600 hover:bg-white hover:shadow-md hover:shadow-gray-100/50 group-hover:border-red-200/50"
     }`;
 
-  if (loading) {
+  if (loading && !submenus?.length) {
     return <HeaderSkeleton />;
   }
 

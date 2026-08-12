@@ -8,7 +8,6 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import zone_banner from "@/app/assets/zone_banner.png";
 import { getPackagesByMenuAndZone } from "@/app/store/slice/packageSlice";
 
 const PackageSection = ({ zoneSlug, menuSlug }) => {

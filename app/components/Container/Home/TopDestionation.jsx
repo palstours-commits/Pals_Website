@@ -1,11 +1,11 @@
 "use client";
 import CustomImage from "@/app/common/Image";
 import MainLayout from "@/app/common/MainLayout";
-import { getZones } from "@/app/store/slice/zoneSlice";
+import { getTopDestinations } from "@/app/store/slice/packageSlice";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const textVariants = {
@@ -14,24 +14,11 @@ const textVariants = {
 };
 
 const TopDestination = () => {
-  const dispatch = useDispatch();
   const router = useRouter();
+  const dispatch = useDispatch()
   const sliderRef = useRef(null);
-  const { zones } = useSelector((state) => state.zones);
-
-  useEffect(() => {
-    dispatch(getZones());
-  }, [dispatch]);
-
-  const topDestinationZones = useMemo(
-    () => zones?.filter((z) => z.istopdestination === true),
-    [zones],
-  );
-
-  const discoverSubMenu = useMemo(() => {
-    if (!topDestinationZones?.length) return null;
-    return topDestinationZones[0].subMenuId;
-  }, [topDestinationZones]);
+  const { topDestinations,
+  } = useSelector((state) => state.packages);
 
   const scroll = (dir) => {
     if (!sliderRef.current) return;
@@ -41,9 +28,15 @@ const TopDestination = () => {
     });
   };
 
+  useEffect(() => {
+    dispatch(getTopDestinations())
+  }, [dispatch])
+
   const handleDiscoverMore = () => {
-    if (!discoverSubMenu?.menuId?.slug || !discoverSubMenu?.slug) return;
-    router.push(`/${discoverSubMenu.menuId.slug}/${discoverSubMenu.slug}`);
+    if (!topDestinations?.length) return;
+    const zone = topDestinations[0];
+    if (!zone?.slug) return;
+    router.push(`/explore?zone=${zone.slug}`);
   };
 
 
@@ -62,7 +55,7 @@ const TopDestination = () => {
         >
           <div>
             <h4 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-00 leading-tight">
-              Top Indian Destinations
+              Top  Destinations
             </h4>
             <p className="text-md mt-3 max-w-sm">
               Explore the diversity of India—from mountains to beaches, temples
@@ -108,12 +101,14 @@ const TopDestination = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6 }}
         >
-          {topDestinationZones?.map((item, i) => (
+          {topDestinations?.map((item, i) => (
             <motion.div
               key={item._id}
               className="relative min-w-[260px] h-[300px] rounded-2xl overflow-hidden cursor-pointer shadow-lg group"
               transition={{ duration: 0.3 }}
-              onClick={() => router.push(`/packages/${item.subMenuId.slug}/${item.slug}`)}
+              onClick={() => router.push(`/packages/${item?.menuId.slug}/${item.slug}`)
+              }
+
             >
               <motion.div
                 className="absolute inset-0 rounded-2xl overflow-hidden"

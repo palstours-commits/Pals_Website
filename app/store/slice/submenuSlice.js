@@ -48,6 +48,7 @@ const submenuSlice = createSlice({
     selectedSubmenu: null,
     selectedData: null,
     zones: [],
+    loaded: false,
     menuZones: [],
     currentMenu: null,
     currentSubmenu: null,
@@ -78,6 +79,7 @@ const submenuSlice = createSlice({
       })
       .addCase(getMenus.fulfilled, (state, action) => {
         state.loading = false;
+        state.loaded = true;
         state.submenus = action.payload?.menus || [];
         if (action.payload?.menus?.length > 0) {
           const holidaysMenu = action.payload.menus.find(

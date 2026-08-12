@@ -20,6 +20,24 @@ export const getPackages = createAsyncThunk(
   },
 );
 
+export const getNewArrivals = createAsyncThunk(
+  "package/getNewArrivals",
+  async (_, thunkAPI) => {
+    try {
+      const response = await FetchApi({
+        endpoint: "/user/package/new-arrivals",
+        method: "GET",
+      });
+
+      return response?.data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(
+        err?.message || "Failed to fetch new arrival packages",
+      );
+    }
+  },
+);
+
 export const getPackagesById = createAsyncThunk(
   "package/getPackagesById",
   async (id, thunkAPI) => {
@@ -73,18 +91,43 @@ export const getPackagesByMenuAndZone = createAsyncThunk(
   },
 );
 
+export const getTopDestinations = createAsyncThunk(
+  "package/getTopDestinations",
+  async (_, thunkAPI) => {
+    try {
+      const response = await FetchApi({
+        endpoint: "/user/zone/top-destinations",
+        method: "GET",
+      });
+
+      return response?.data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(
+        err?.message || "Failed to fetch top destinations",
+      );
+    }
+  },
+);
+
 const packageSlice = createSlice({
   name: "package",
   initialState: {
     packages: [],
+    newArrivals: [],
     packagesBySubmenu: [],
     packagesByMenuAndZone: [],
+    topDestinations: [],
     singlePackage: null,
     loading: false,
+    newArrivalsLoading: false,
     error: null,
+    newArrivalsError: null,
+    topDestinationsLoading: false,
+    topDestinationsError: null,
   },
   reducers: {
     clearPackageError: (state) => {
+      state.newArrivalsError = null;
       state.error = null;
     },
   },
@@ -101,6 +144,19 @@ const packageSlice = createSlice({
       .addCase(getPackages.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+
+      .addCase(getNewArrivals.pending, (state) => {
+        state.newArrivalsLoading = true;
+        state.newArrivalsError = null;
+      })
+      .addCase(getNewArrivals.fulfilled, (state, action) => {
+        state.newArrivalsLoading = false;
+        state.newArrivals = action.payload?.packages || [];
+      })
+      .addCase(getNewArrivals.rejected, (state, action) => {
+        state.newArrivalsLoading = false;
+        state.newArrivalsError = action.payload;
       })
 
       .addCase(getPackagesById.pending, (state) => {
@@ -145,6 +201,19 @@ const packageSlice = createSlice({
       .addCase(getPackagesByMenuAndZone.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+
+      .addCase(getTopDestinations.pending, (state) => {
+        state.topDestinationsLoading = true;
+        state.topDestinationsError = null;
+      })
+      .addCase(getTopDestinations.fulfilled, (state, action) => {
+        state.topDestinationsLoading = false;
+        state.topDestinations = action.payload?.zones || action.payload || [];
+      })
+      .addCase(getTopDestinations.rejected, (state, action) => {
+        state.topDestinationsLoading = false;
+        state.topDestinationsError = action.payload;
       });
   },
 });
