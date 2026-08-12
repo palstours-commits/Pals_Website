@@ -153,55 +153,60 @@ function MoneyExchangeSection() {
                 ]}
             />
 
-            <MainLayout className="bg-gray-50 py-12">
+            <MainLayout className="bg-gray-50 py-5">
                 <div className="max-w-5xl mx-auto px-5">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
-                        className="rounded-2xl p-6 md:p-8 mb-8"
+                        className="rounded-2xl py-6 mb-8"
                     >
                         <div className="flex items-center justify-between flex-wrap gap-2">
-                            <h3 className="text-lg md:text-xl font-bold text-gray-800">
+                            <h3 className="text-lg md:text-xl font-bold text-gray-800 capitalize" >
                                 Fast, secure, and hassle-free currency exchange at competitive rates
                             </h3>
-                            <div className="flex items-center gap-3">
-                                {loading && (
-                                    <span className="text-xs text-gray-500 animate-pulse">Updating rates...</span>
-                                )}
-                                {lastUpdated && !loading && (
-                                    <span className="text-xs text-gray-400">
-                                        Updated: {lastUpdated}
-                                    </span>
-                                )}
-                                {error && (
-                                    <span className="text-xs text-amber-500">{error}</span>
-                                )}
-                            </div>
                         </div>
                     </motion.div>
-
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
-                        className="bg-white p-6 md:p-8 rounded-xl shadow-xl border border-gray-100 max-w-5xl mx-auto"
-                    >
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3 mb-5">
+                    <div className="bg-red-600 p-4 rounded-t-xl overflow-x-auto md:overflow-visible">
+                        <div className="flex gap-3 md:grid md:grid-cols-4 lg:grid-cols-7">
                             {exchangeRates.map((rate, index) => (
                                 <motion.div
                                     key={rate.currency}
                                     initial={{ opacity: 0, scale: 0.9 }}
                                     animate={{ opacity: 1, scale: 1 }}
                                     transition={{ delay: index * 0.05 }}
-                                    className="bg-white rounded-xl p-3 text-center shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100"
+                                    className="
+                    bg-white
+                    p-3
+                    text-center
+                    shadow-sm
+                    hover:shadow-md
+                    transition-all
+                    duration-300
+                    border
+                    border-gray-300
+                    min-w-[130px]
+                    flex-shrink-0
+                    md:min-w-0
+                "
                                 >
-                                    <div className="text-sm font-bold text-gray-700">{rate.name}</div>
-                                    <div className="text-xs text-gray-500 mt-1">{rate.rate} INR</div>
+                                    <div className="text-sm font-bold text-gray-700">
+                                        {rate.name}
+                                    </div>
+
+                                    <div className="text-xs text-gray-500 mt-1">
+                                        {rate.rate} INR
+                                    </div>
                                 </motion.div>
                             ))}
                         </div>
-
+                    </div>
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                        className="bg-white p-6 md:p-8 rounded-xl shadow-xl border border-gray-100"
+                    >
                         <div className="flex items-center gap-3 mb-6">
                             <div>
                                 <h3 className="text-xl font-semibold text-gray-900">Get Your Forex Quote</h3>
@@ -210,69 +215,69 @@ function MoneyExchangeSection() {
                         </div>
 
                         <form onSubmit={handleSubmit} className="space-y-5">
-                            <div className="bg-gray-50 p-4 md:p-5 rounded-xl border border-gray-200">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div>
-                                        <FloatingLabelSelect
-                                            label="Forex Amount"
-                                            name="currencyFrom"
-                                            options={currencyOptions}
-                                            value={formData.currencyFrom}
-                                            onChange={handleChange}
-                                            placeholder="Select currency"
-                                        />
+                            <div className="bg-gray-50 p-4 md:p-5  rounded-xl border border-gray-200">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+                                    <div className="space-y-1">
+                                        <label className="text-sm font-medium text-gray-700 block">
+                                            Forex Amount
+                                        </label>
+                                        <div className="relative flex">
+                                            <select
+                                                name="currencyFrom"
+                                                value={formData.currencyFrom}
+                                                onChange={handleChange}
+                                                className="w-23 pl-3 pr-8 py-2.5 bg-white border border-gray-300 rounded-l-lg   outline-none text-sm shrink-0"
+                                            >
+                                                {currencyOptions.map((option) => (
+                                                    <option key={option._id} value={option._id}>
+                                                        {option._id}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                            <input
+                                                type="number"
+                                                name="forexAmount"
+                                                value={formData.forexAmount}
+                                                onChange={handleChange}
+                                                placeholder="Enter amount"
+                                                className="w-full pl-3 pr-4 py-2.5 bg-white border border-l-0 border-gray-300 rounded-r-lg   outline-none text-sm"
+                                            />
+                                        </div>
                                     </div>
-                                    <div>
-                                        <FloatingLabelSelect
-                                            label="Indian Amount"
-                                            name="currencyTo"
-                                            options={[{ _id: "INR", name: "INR - Indian Rupee" }]}
-                                            value={formData.currencyTo}
-                                            onChange={handleChange}
-                                            placeholder="Select currency"
-                                        />
-                                    </div>
-                                </div>
 
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
-                                    <div>
-                                        <FloatingLabelInput
-                                            label="Enter amount"
-                                            name="forexAmount"
-                                            type="number"
-                                            value={formData.forexAmount}
-                                            onChange={handleChange}
-                                            placeholder="Enter amount"
-                                            step="0.01"
-                                            min="0"
-                                        />
+                                    <div className="space-y-1">
+                                        <label className="text-sm font-medium text-gray-700 block">
+                                            Indian Amount
+                                        </label>
+                                        <div className="relative flex">
+                                            <select
+                                                name="currencyTo"
+                                                value={formData.currencyTo}
+                                                onChange={handleChange}
+                                                className="w-23 px-3 py-2.5 bg-white border border-gray-300 rounded-l-lg text-sm shrink-0"
+                                            >
+                                                <option value="INR">INR</option>
+                                            </select>
+                                            <input
+                                                type="number"
+                                                name="indianAmount"
+                                                value={formData.indianAmount}
+                                                onChange={handleChange}
+                                                placeholder="Enter amount"
+                                                className="w-full pl-3 pr-4 py-2.5 bg-white border border-l-0 border-gray-300 rounded-r-lg   outline-none text-sm"
+                                            />
+                                        </div>
                                     </div>
-                                    <div>
-                                        <FloatingLabelInput
-                                            label="Enter amount"
-                                            name="indianAmount"
-                                            type="number"
-                                            value={formData.indianAmount}
-                                            onChange={handleChange}
-                                            placeholder="Enter amount"
-                                            step="0.01"
-                                            min="0"
-                                            disabled
-                                            className="bg-gray-100 cursor-not-allowed"
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className="text-center mt-3">
-                                    <p className="text-xs text-gray-500">
-                                        Indicative exchange rate • Final rate confirmed at booking
-                                    </p>
-                                    <p className="text-xs text-green-600 font-medium mt-1">
-                                        1 {formData.currencyFrom} = {currentRate.toFixed(2)} INR
-                                    </p>
                                 </div>
                             </div>
-
+                            <div className="text-start  flex items-center gap-1">
+                                <p className="text-xs text-gray-500">
+                                    Indicative exchange rate • Final rate confirmed at booking
+                                </p>
+                                <p className="text-xs text-green-600 font-medium">
+                                    1 {formData.currencyFrom} = {currentRate.toFixed(2)} INR
+                                </p>
+                            </div>
                             <h4 className="text-sm font-semibold text-gray-700 mb-4">Share your details to view quote</h4>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
