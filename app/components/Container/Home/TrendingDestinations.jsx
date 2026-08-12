@@ -50,7 +50,7 @@ const TrendingDestinations = () => {
       >
         <motion.div
           variants={textVariants}
-          className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10"
+          className="flex flex-col md:flex-row lg:items-end justify-between gap-6 mb-10"
         >
           <div>
             <h4 className="text-3xl md:text-4xl lg:text-5xl font-bold  leading-med">

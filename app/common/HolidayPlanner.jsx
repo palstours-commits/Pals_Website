@@ -70,7 +70,7 @@ const HolidayPlanner = ({ menuSlug = "holidays" }) => {
         viewport={{ once: true }}
         className="mb-12"
       >
-        <div className="flex flex-col lg:flex-row justify-between gap-6 mb-8">
+        <div className="flex flex-col md:flex-row justify-between gap-6 mb-8">
           <motion.h3
             variants={textVariants}
             className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900"

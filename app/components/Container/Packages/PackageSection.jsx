@@ -130,7 +130,7 @@ const PackageSection = ({ zoneSlug, menuSlug }) => {
             className="bg-white"
           >
             <MainLayout className="px-4  max-w-7xl mx-auto py-10 md:pt-15">
-              <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
+              <div className="flex flex-col md:flex-row lg:items-end justify-between gap-6 mb-10">
                 <div>
                   <h4 className="text-2xl md:text-3xl font-bold text-gray-900">
                     Explore the Heart of {zone?.name}
