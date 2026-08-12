@@ -19,27 +19,42 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 const services = [
-  { title: "Flight\nBookings", Icon: Plane, slug: "flight" },
-  { title: "Hotel & Resort\nReservations", Icon: Hotel, slug: "hotel" },
+  {
+    title: "Flight\nBookings",
+    Icon: Plane,
+    slug: "/service/flight-booking",
+  },
+  {
+    title: "Hotel & Resort\nReservations",
+    Icon: Hotel,
+    slug: "/service/hotel-booking",
+  },
   {
     title: "Customized\nHoliday Packages",
     Icon: SlidersHorizontal,
-    slug: "packages",
+    slug: "/contact-us",
   },
   {
     title: "Money\nExchange",
     Icon: Banknote,
-    disabled: true,
+    slug: "/service/money-exchange",
   },
-  { title: "Visa\nAssistance", Icon: FileText, slug: "visa" },
-  { title: "Travel\nInsurance", Icon: ShieldCheck, slug: "insurance" },
+  {
+    title: "Visa\nAssistance",
+    Icon: FileText,
+    slug: "/service/visa-booking",
+  },
   {
     title: "Adventure Travel\n& Activities",
     Icon: Mountain,
-    slug: "adventure",
+    slug: "https://royalmilesindia.webdadsprojects.com/",
+    external: true,
   },
-  { title: "Cruise\nBookings", Icon: Ship, slug: "cruise" },
-  { title: "Transport\n& Transfers", Icon: Car, slug: "transport" },
+  {
+    title: "Transport\n& Transfers",
+    Icon: Car,
+    slug: "/service/transport",
+  },
 ];
 
 const OurServices = () => {
@@ -128,7 +143,7 @@ const OurServices = () => {
           ref={sliderRef}
           className="flex gap-2 sm:gap-base  overflow-x-auto scrollbar-hide whitespace-nowrap pb-2"
         >
-          {services.map(({ title, Icon, slug, disabled }, i) => {
+          {services.map(({ title, Icon, slug, disabled, external }, i) => {
             const Card = (
               <motion.div
                 variants={fadeItem}
@@ -139,17 +154,41 @@ const OurServices = () => {
                 <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mb-4 relative">
                   <Icon size={36} className="text-primary" />
                 </div>
+
                 <p className="text-white text-xs font-medium whitespace-pre-line">
                   {title}
                 </p>
               </motion.div>
             );
-            return disabled ? (
-              <div key={i} className="shrink-0">
-                {Card}
-              </div>
-            ) : (
-              <Link key={i} href={`/service/${slug}`} className="shrink-0">
+
+            if (disabled) {
+              return (
+                <div key={i} className="shrink-0">
+                  {Card}
+                </div>
+              );
+            }
+
+            if (external) {
+              return (
+                <a
+                  key={i}
+                  href={slug}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="shrink-0"
+                >
+                  {Card}
+                </a>
+              );
+            }
+
+            return (
+              <Link
+                key={i}
+                href={`${slug}`}
+                className="shrink-0"
+              >
                 {Card}
               </Link>
             );

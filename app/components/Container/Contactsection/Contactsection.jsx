@@ -232,7 +232,7 @@ const Contactsection = () => {
               id="contact-form-container"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-white p-6 sm:p-8 rounded-xl shadow-xl border border-gray-100 mt-4 lg:mt-0"
+              className="bg-white p-5 sm:p-8 rounded-xl shadow-xl border border-gray-100 mt-4 lg:mt-0"
             >
               <h3 className="text-xl sm:text-xl md:text-xl font-bold text-gray-900 text-center">
                 Plan Your Dream Trip Today
@@ -244,7 +244,7 @@ const Contactsection = () => {
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="bg-white p-6 h-full"
+                  className="bg-white p-3 md:p-6 h-full"
                 >
                   <form onSubmit={handleSubmitClick}>
                     <div className="space-y-5">

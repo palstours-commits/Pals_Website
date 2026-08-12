@@ -164,7 +164,7 @@ const FlightBookingSection = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
             <div className="flex flex-col h-full">
-              <div className="p-6 md:p-8 h-full flex flex-col">
+              <div className="md:p-8 h-full flex flex-col">
                 <div className="text-center lg:text-left mb-6">
                   <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
                     Why Book Flights With Us
