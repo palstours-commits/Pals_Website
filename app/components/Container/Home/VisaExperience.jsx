@@ -29,13 +29,11 @@ const VisaExperience = () => {
   return (
     <MainLayout className="bg-gradient-to-b from-[#FFFBF4] to-[#FFE9D9] pt-10 sm:pt-16">
       <div className="max-w-7xl mx-auto px-5">
-
-        {/* Heading */}
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="text-start mb-8 sm:mb-10"
+          className="text-center mb-8 sm:mb-10"
         >
           <motion.h3
             variants={textVariants}
@@ -51,8 +49,6 @@ const VisaExperience = () => {
             Travel with confidence. Explore with us.
           </motion.p>
         </motion.div>
-
-        {/* Experience Section */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
