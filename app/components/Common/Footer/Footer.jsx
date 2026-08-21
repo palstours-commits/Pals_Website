@@ -54,6 +54,14 @@ export default function Footer() {
                   Contact Us
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/gallery"
+                  className="hover:text-red-500 transition-colors block"
+                >
+                  Gallery
+                </Link>
+              </li>
             </ul>
             <div className="mt-8 md:mt-auto pt-8">
               <Image
