@@ -110,6 +110,14 @@ export default function Footer() {
               </li>
               <li>
                 <Link
+                  href="/service/money-exchange"
+                  className="hover:text-red-500 transition-colors block"
+                >
+                  Money Exchange
+                </Link>
+              </li>
+              <li>
+                <Link
                   target="_blank"
                   href="https://royalmilesindia.webdadsprojects.com/"
                   className="hover:text-red-500 transition-colors block"

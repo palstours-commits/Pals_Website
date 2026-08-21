@@ -17,7 +17,7 @@ const features = [
     image: features2,
   },
   {
-    text: "Exceptional Travel Experiences Across India",
+    text: "Creating Exceptional Travel Experiences Across India",
     image: features3,
   },
 ];

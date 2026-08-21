@@ -313,7 +313,6 @@ export default function Header() {
   const STATIC_SERVICES = [
     { name: "Flight", slug: "service/flight-booking", icon: <Plane size={16} /> },
     { name: "Hotel", slug: "service/hotel-booking", icon: <Hotel size={16} /> },
-    { name: "Transport", slug: "service/transport", icon: <Bus size={16} /> },
     { name: "Money Exchange", slug: "service/money-exchange", icon: <CreditCard size={16} /> },
     { name: "Visa", slug: "service/visa-booking", icon: <FileText size={16} /> },
     {
@@ -329,6 +328,7 @@ export default function Header() {
     { name: "Blog", slug: "blog" },
     { name: "Career", slug: "career" },
     { name: "Contact Us", slug: "contact-us" },
+    { name: "Gallery", slug: "gallery" },
   ];
 
   const handleMobileServiceClick = (service) => {

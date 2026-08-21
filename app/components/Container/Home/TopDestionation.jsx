@@ -55,7 +55,7 @@ const TopDestination = () => {
         >
           <div>
             <h4 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-00 leading-tight">
-              Top  Destinations
+              Discover the Wonders of India
             </h4>
             <p className="text-md mt-3 max-w-sm">
               Explore the diversity of India—from mountains to beaches, temples

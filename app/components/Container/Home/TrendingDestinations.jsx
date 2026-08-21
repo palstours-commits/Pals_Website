@@ -54,8 +54,7 @@ const TrendingDestinations = () => {
         >
           <div>
             <h4 className="text-3xl md:text-4xl lg:text-5xl font-bold  leading-med">
-              Discover Our Newest Journeys
-
+              Discover the Wonders of International Travel
             </h4>
             <p className="text-md  mt-3 max-w-sm ">
               Explore freshly curated travel packages designed to turn your next getaway into an unforgettable experience.

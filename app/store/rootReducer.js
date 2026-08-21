@@ -11,6 +11,7 @@ import offersReducer from "./slice/offerSlice";
 import blogReducer from "./slice/blogSlice";
 import careerReducer from "./slice/careerSlice";
 import searchReducer from "./slice/searchSlice";
+import galleryReducer from "./slice/gallerySlice";
 
 const reducer = combineReducers({
   menu: menuReducer,
@@ -25,5 +26,6 @@ const reducer = combineReducers({
   blog: blogReducer,
   career: careerReducer,
   search: searchReducer,
+  gallery: galleryReducer,
 });
 export default reducer;

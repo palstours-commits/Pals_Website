@@ -234,7 +234,7 @@ const Contactsection = () => {
               className="bg-white p-5 sm:p-8 rounded-xl shadow-xl border border-gray-100 mt-4 lg:mt-0"
             >
               <h3 className="text-xl sm:text-xl md:text-xl font-bold text-gray-900 text-center">
-                Plan Your Dream Trip Today
+                Plan My Tour
               </h3>
               <div className="flex justify-center mt-1">
                 <div className="h-1 w-16 md:w-30 bg-red-600 rounded-full"></div>
@@ -338,9 +338,10 @@ const Contactsection = () => {
                             label="Select Accommodation Type"
                             name="stayType"
                             options={[
-                              { _id: "2 Star ", name: "2 Star " },
-                              { _id: "3 Star ", name: "3 Star " },
-                              { _id: "5 Star ", name: "5 Star " },
+                              { _id: "Standard", name: "Standard" },
+                              { _id: "Deluxe", name: "Deluxe" },
+                              { _id: "Premium", name: "Premium" },
+                              { _id: "Luxury", name: "Luxury" },
                             ]}
                             value={form.stayType}
                             onChange={handleChange}

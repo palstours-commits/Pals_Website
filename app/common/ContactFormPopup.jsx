@@ -8,13 +8,13 @@ import { FloatingLabelInput } from "@/app/common/FloatingLabelInput";
 import { FloatingLabelSelect } from "@/app/common/FloatingLabelSelect";
 import Message_Popups from "@/app/common/Message_Popups";
 import { clearContactState, submitContact } from "@/app/store/slice/contactSlice";
-import { getPackages } from "@/app/store/slice/packageSlice";
 
 const initialForm = {
     firstName: "",
     lastName: "",
     emailAddress: "",
     phone: "",
+    country: "", // ✅ Added country field
     tentativeDateOfArrival: "",
     departureDate: "",
     guestCount: "",
@@ -38,7 +38,6 @@ const ContactFormPopup = ({ isOpen, onClose }) => {
 
     const dispatch = useDispatch();
     const { error, message, loading } = useSelector((state) => state.contact);
-
 
     useEffect(() => {
         if (message) {
@@ -119,15 +118,15 @@ const ContactFormPopup = ({ isOpen, onClose }) => {
         if (validateForm()) {
             dispatch(
                 submitContact({
-                    firstName: form.firstName,
-                    lastName: form.lastName,
+                    name: `${form.firstName} ${form.lastName}`.trim(),
                     email: form.emailAddress,
-                    phone: form.phone,
+                    mobile: form.phone,
+                    country: form.country, // ✅ Now sending country from form
+                    tourDescription: form.comments,
                     arrivalDate: form.tentativeDateOfArrival,
                     departureDate: form.departureDate,
-                    numberOfGuests: Number(form.guestCount),
                     stayType: form.accommodationType,
-                    message: form.comments,
+                    numberOfGuests: Number(form.guestCount),
                 })
             );
         }
@@ -154,12 +153,13 @@ const ContactFormPopup = ({ isOpen, onClose }) => {
                             initial={{ opacity: 0, scale: 0.9, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                            className="fixed inset-4 md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:max-w-2xl  md:w-[600px] max-h-[90vh] bg-white rounded-2xl shadow-2xl z-[99999] flex flex-col overflow-hidden"
+                            className="fixed inset-4 md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:max-w-2xl md:w-[600px] max-h-[90vh] bg-white rounded-2xl shadow-2xl z-[99999] flex flex-col overflow-hidden"
                         >
+                            {/* Header */}
                             <div className="sticky top-0 bg-white border-b border-gray-100 px-6 py-4 relative">
                                 <h3 className="text-xl font-bold text-gray-900 text-center">
                                     <span className="inline-block border-b-2 border-red-600 pb-1">
-                                        Plan Your Dream Trip
+                                        Plan My Tour
                                     </span>
                                 </h3>
 
@@ -171,6 +171,7 @@ const ContactFormPopup = ({ isOpen, onClose }) => {
                                 </button>
                             </div>
 
+                            {/* Form */}
                             <div className="flex-1 overflow-y-auto px-6 py-4">
                                 <form onSubmit={handleSubmitClick}>
                                     <div className="space-y-3">
@@ -214,6 +215,32 @@ const ContactFormPopup = ({ isOpen, onClose }) => {
                                             />
                                         </div>
 
+                                        {/* ✅ NEW: Country Field */}
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+                                            <FloatingLabelInput
+                                                label="Country"
+                                                name="country"
+                                                value={form.country}
+                                                onChange={handleChange}
+                                                placeholder="e.g. India, USA, UK"
+                                            />
+                                            <div>
+                                                <FloatingLabelInput
+                                                    label="Number of Guests"
+                                                    type="number"
+                                                    name="guestCount"
+                                                    value={form.guestCount}
+                                                    onChange={handleChange}
+                                                    required
+                                                    error={errors.guestCount}
+                                                    placeholder="e.g. 2"
+                                                    min="1"
+                                                    max="99"
+                                                />
+                                            </div>
+
+                                        </div>
+
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
                                             <div className="relative">
                                                 <label className="block text-xs ps-1 font-medium text-gray-600">
@@ -228,6 +255,7 @@ const ContactFormPopup = ({ isOpen, onClose }) => {
                                                 />
                                             </div>
                                             <div className="relative">
+
                                                 <label className="block text-xs ps-1 font-medium text-gray-600">
                                                     Departure Date
                                                 </label>
@@ -242,47 +270,25 @@ const ContactFormPopup = ({ isOpen, onClose }) => {
                                                     }
                                                 />
                                             </div>
+
                                         </div>
 
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
-                                            <div>
-                                                <FloatingLabelInput
-                                                    label="Number of Guests"
-                                                    type="number"
-                                                    name="guestCount"
-                                                    value={form.guestCount}
-                                                    onChange={handleChange}
-                                                    required
-                                                    error={errors.guestCount}
-                                                    placeholder="e.g. 2"
-                                                    min="1"
-                                                    max="99"
-                                                />
-                                                <p className="text-[10px] text-gray-500 mt-1 ml-1">Maximum of 2 digits.</p>
-                                            </div>
-                                            <div >
-                                                <FloatingLabelSelect
-                                                    isLabel={false}
-                                                    label="Select Accommodation Type"
-                                                    name="accommodationType"
-                                                    options={[
-                                                        { _id: "Not Yet Decided", name: "Not Yet Decided" },
-                                                        { _id: "Only HomeStays/Bed & Breakfast", name: "Only HomeStays/Bed & Breakfast" },
-                                                        { _id: "Budget Hotels", name: "Budget Hotels" },
-                                                        { _id: "3 Star Hotels/HouseBoat", name: "3 Star Hotels/HouseBoat" },
-                                                        { _id: "4 Star Hotels/HouseBoat", name: "4 Star Hotels/HouseBoat" },
-                                                        { _id: "Luxury 5 Star Hotels/HouseBoat", name: "Luxury 5 Star Hotels/HouseBoat" },
-                                                        { _id: "HouseBoat Day Cruise", name: "HouseBoat Day Cruise" },
-                                                        { _id: "HouseBoat Overnight Stay & Cruise", name: "HouseBoat Overnight Stay & Cruise" },
-                                                    ]}
-                                                    value={form.accommodationType}
-                                                    onChange={handleChange}
-                                                    placeholder="Select Type of Stay"
-                                                />
-                                            </div>
+                                        <div className="grid grid-cols-1 md:grid-cols-1 gap-3 mt-3">
+                                            <FloatingLabelSelect
+                                                isLabel={false}
+                                                label="Select Accommodation Type"
+                                                name="accommodationType"
+                                                options={[
+                                                    { _id: "Standard", name: "Standard" },
+                                                    { _id: "Deluxe", name: "Deluxe" },
+                                                    { _id: "Premium", name: "Premium" },
+                                                    { _id: "Luxury", name: "Luxury" },
+                                                ]}
+                                                value={form.accommodationType}
+                                                onChange={handleChange}
+                                                placeholder="Select Type of Stay"
+                                            />
                                         </div>
-
-
 
                                         <div className="mt-4">
                                             <FloatingLabelInput
@@ -313,6 +319,7 @@ const ContactFormPopup = ({ isOpen, onClose }) => {
                     </>
                 )}
             </AnimatePresence>
+
             <Message_Popups
                 isOpen={showResultPopup}
                 type={popupType}

@@ -62,6 +62,42 @@ const HolidayPlanner = ({ menuSlug = "holidays" }) => {
       .join(" ");
   };
 
+
+  const headingContent = {
+    india: {
+      normal: "Discover Iconic Destinations Across",
+      highlight: "India",
+      suffix: "and the Perfect Holidays Crafted Just for You.",
+    },
+    cruise: {
+      normal: "Plan Your Perfect",
+      highlight: "Cruise Escape",
+      suffix: "",
+    },
+    spiritual: {
+      normal: "Discover India's Holiest Temples &",
+      highlight: "Spiritual Heritage",
+      suffix: "",
+    },
+    honeymoon: {
+      normal: "Escape to Paradise with Our Exclusive",
+      highlight: "Honeymoon Packages.",
+      suffix: "",
+    },
+    international: {
+      normal: "Let Us Plan the Perfect",
+      highlight: "International Holiday",
+      suffix: "for You.",
+    },
+  };
+
+  const currentHeading =
+    headingContent[menuSlug] || {
+      normal: "Discover Iconic Destinations Across",
+      highlight: formatMenuName(menuSlug),
+      suffix: "and the Perfect Holidays Crafted Just for You.",
+    };
+
   return (
     <MainLayout className="px-5 md:p max-w-7xl mx-auto py-10 sm-py-6 lg:py-10">
       <motion.div
@@ -73,12 +109,13 @@ const HolidayPlanner = ({ menuSlug = "holidays" }) => {
         <div className="flex flex-col md:flex-row justify-between gap-6 mb-8">
           <motion.h3
             variants={textVariants}
-            className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900"
+            className="max-w-4xl text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900"
           >
-            Quick and easy{" "}
+            {currentHeading.normal} {" "}
             <span className="text-[#da251c]">
-              {formatMenuName(menuSlug)} Trip Planner
-            </span>
+              {currentHeading.highlight}
+            </span>{" "}
+            {currentHeading.suffix}
           </motion.h3>
           {zones?.length > 0 && (
             <div className="hidden md:flex items-center gap-3">
