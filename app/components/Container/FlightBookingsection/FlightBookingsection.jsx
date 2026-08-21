@@ -8,6 +8,7 @@ import MainLayout from "@/app/common/MainLayout";
 import Message_Popups from "@/app/common/Message_Popups";
 import { clearServiceFormState, submitFlightForm } from "@/app/store/slice/serviceFormSlice";
 import { motion } from "framer-motion";
+import flightmobile from "@/app/assets/flightmobile.png";
 import {
   Clock,
   CreditCard,
@@ -153,13 +154,20 @@ const FlightBookingSection = () => {
     { _id: "First Class", name: "First Class" }
   ];
 
-
   return (
     <>
-      <CommonHeroSection title="Flight Booking" backgroundImage={bannerimg.src} breadcrumbs={[
-        { label: "Home", href: "/" },
-        { label: "Flight" || "Destination" },
-      ]} />
+      <CommonHeroSection
+        height="min-h-[300px] sm:min-h-[380px]"
+        title="Flight Booking"
+        backgroundImage={{
+          desktop: bannerimg.src,
+          mobile: flightmobile.src,
+        }}
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "Flight" },
+        ]}
+      />
       <MainLayout className="bg-gray-50 py-12 md:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">

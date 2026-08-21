@@ -6,8 +6,8 @@ import { FaUsers, FaHeadset, FaTags } from "react-icons/fa";
 import MainLayout from "@/app/common/MainLayout";
 import CommonHeroSection from "@/app/common/CommonHeroSection";
 import bannerimg from "@/app/assets/about-bg.svg";
+import bannerimgMobile from "@/app/assets/about-bg-mobile.svg";
 import { motion } from "framer-motion";
-import { fadeFromTop, fadeFromBottom } from "@/app/common/animations";
 import Link from "next/link";
 
 const AboutPalsSection = () => {
@@ -15,8 +15,8 @@ const AboutPalsSection = () => {
 
   const fadeInUp = {
     hidden: { opacity: 0, y: 30 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
       transition: { duration: 0.6, ease: "easeOut" }
     }
@@ -24,8 +24,8 @@ const AboutPalsSection = () => {
 
   const fadeInUpImage = {
     hidden: { opacity: 0, y: 30 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
       transition: { duration: 0.6, ease: "easeOut" }
     }
@@ -46,7 +46,11 @@ const AboutPalsSection = () => {
     <>
       <CommonHeroSection
         title={`Your Trusted One-Stop Travel Partner `}
-        backgroundImage={bannerimg.src}
+        height="min-h-[300px] sm:min-h-[380px]"
+        backgroundImage={{
+          desktop: bannerimg.src,
+          mobile: bannerimgMobile.src,
+        }}
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: title || "Destination" },
@@ -77,13 +81,13 @@ const AboutPalsSection = () => {
                 </motion.div>
 
                 <motion.div variants={fadeInUp}>
-                  <motion.h4 
+                  <motion.h4
                     variants={fadeInUp}
                     className="text-2xl md:text-3xl font-bold mb-4"
                   >
                     About Pals Holidays
                   </motion.h4>
-                  <motion.p 
+                  <motion.p
                     variants={fadeInUp}
                     className="leading-relaxed mb-6"
                   >
@@ -112,18 +116,18 @@ const AboutPalsSection = () => {
                 variants={fadeInUp}
                 className="mt-16"
               >
-                <motion.h4 
+                <motion.h4
                   variants={fadeInUp}
                   className="text-xl font-bold mb-8"
                 >
                   Why Pals?
                 </motion.h4>
 
-                <motion.div 
+                <motion.div
                   variants={staggerContainer}
                   className="grid grid-cols-1 md:grid-cols-3 gap-10"
                 >
-                  <motion.div 
+                  <motion.div
                     variants={fadeInUp}
                     className="flex gap-4"
                   >
@@ -140,7 +144,7 @@ const AboutPalsSection = () => {
                     </div>
                   </motion.div>
 
-                  <motion.div 
+                  <motion.div
                     variants={fadeInUp}
                     className="flex gap-4"
                   >
@@ -157,7 +161,7 @@ const AboutPalsSection = () => {
                     </div>
                   </motion.div>
 
-                  <motion.div 
+                  <motion.div
                     variants={fadeInUp}
                     className="flex gap-4"
                   >

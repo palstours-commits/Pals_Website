@@ -1,5 +1,6 @@
 "use client";
 import bannerimg from "@/app/assets/contact-banner.svg";
+import bannerimgMobile from "@/app/assets/contact-banner-mobile.png";
 import CommonHeroSection from "@/app/common/CommonHeroSection";
 import { FloatingLabelInput } from "@/app/common/FloatingLabelInput";
 import { FloatingLabelSelect } from "@/app/common/FloatingLabelSelect";
@@ -152,10 +153,17 @@ const Contactsection = () => {
 
   return (
     <>
-      <CommonHeroSection title="Contact Us" backgroundImage={bannerimg.src} breadcrumbs={[
-        { label: "Home", href: "/" },
-        { label: "Contact" || "Destination" },
-      ]} />
+      <CommonHeroSection title="Contact Us"
+        height="min-h-[300px] sm:min-h-[380px]"
+        backgroundImage={{
+          desktop: bannerimg.src,
+          mobile: bannerimgMobile.src,
+        }}
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "Contact" || "Destination" },
+
+        ]} />
       <MainLayout className="bg-gray-50 py-10 md:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 items-start">

@@ -1,5 +1,6 @@
 "use client";
 import bannerimg from "@/app/assets/hotel_booking.png";
+import bannerimgMobile from "@/app/assets/hotel_booking_mobile.png";
 import hotelImageVector from "@/app/assets/hotelImageVector.png";
 import CommonHeroSection from "@/app/common/CommonHeroSection";
 import { FloatingLabelInput } from "@/app/common/FloatingLabelInput";
@@ -7,7 +8,7 @@ import { FloatingLabelSelect } from "@/app/common/FloatingLabelSelect";
 import MainLayout from "@/app/common/MainLayout";
 import Message_Popups from "@/app/common/Message_Popups";
 import { clearServiceFormState, submitHotelForm } from "@/app/store/slice/serviceFormSlice";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   Building2,
   Calendar,
@@ -15,7 +16,6 @@ import {
   Headset,
   MapPin,
   Sparkles,
-  Star,
   Wifi
 } from 'lucide-react';
 import Image from "next/image";
@@ -168,7 +168,12 @@ const HotelBookingSection = () => {
 
   return (
     <>
-      <CommonHeroSection title="Hotel Booking" backgroundImage={bannerimg.src}
+      <CommonHeroSection title="Hotel Booking"
+        height="min-h-[300px] sm:min-h-[380px]"
+        backgroundImage={{
+          desktop: bannerimg.src,
+          mobile: bannerimgMobile.src,
+        }}
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Hotel Booking", href: "/service/hotel" },

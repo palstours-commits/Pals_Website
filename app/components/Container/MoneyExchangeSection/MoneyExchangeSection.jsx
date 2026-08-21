@@ -2,6 +2,7 @@
 import CommonHeroSection from '@/app/common/CommonHeroSection';
 import MainLayout from "@/app/common/MainLayout";
 import MoneyExchangeImg from "@/app/assets/money-exchange.png";
+import MoneyExchangeImgMobile from "@/app/assets/money-exchange-mobile.png";
 import { motion } from "framer-motion";
 import {
     Mail,
@@ -195,7 +196,11 @@ function MoneyExchangeSection() {
         <>
             <CommonHeroSection
                 title="Money Exchange"
-                backgroundImage={MoneyExchangeImg.src}
+                height="min-h-[300px] sm:min-h-[380px]"
+                backgroundImage={{
+                    desktop: MoneyExchangeImg.src,
+                    mobile: MoneyExchangeImgMobile.src,
+                }}
                 breadcrumbs={[
                     { label: "Home", href: "/" },
                     { label: "Money exchange" || "Destination" },

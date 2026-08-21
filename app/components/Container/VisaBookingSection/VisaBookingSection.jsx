@@ -1,13 +1,14 @@
 "use client";
 import bannerimg from "@/app/assets/visa_booking.png";
-import VisaVector from "@/app/assets/VisaVector.png"; // You'll need to add this image
+import bannerimgMobile from "@/app/assets/visa_booking-mobile.png";
+import VisaVector from "@/app/assets/VisaVector.png";
 import CommonHeroSection from "@/app/common/CommonHeroSection";
 import { FloatingLabelInput } from "@/app/common/FloatingLabelInput";
 import { FloatingLabelSelect } from "@/app/common/FloatingLabelSelect";
 import MainLayout from "@/app/common/MainLayout";
 import Message_Popups from "@/app/common/Message_Popups";
 import { clearServiceFormState, submitVisaForm } from "@/app/store/slice/serviceFormSlice";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   CheckCircle,
   FileText,
@@ -191,14 +192,19 @@ const VisaBookingSection = () => {
 
   return (
     <>
-      <CommonHeroSection title="Visa Services" backgroundImage={bannerimg.src}
+      <CommonHeroSection title="Visa Services"
+
+        backgroundImage={{
+          desktop: bannerimg.src,
+          mobile: bannerimgMobile.src,
+        }}
+        height="min-h-[300px] sm:min-h-[380px]"
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Visa Services", href: "/service/visa" },
         ]}
       />
 
-      {/* --- Inline Styles for Marquee Animation --- */}
       <style dangerouslySetInnerHTML={{
         __html: `
         @keyframes scrollLeft {

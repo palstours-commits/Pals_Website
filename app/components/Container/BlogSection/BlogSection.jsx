@@ -2,6 +2,7 @@
 import React, { useEffect } from "react";
 import CommonHeroSection from "@/app/common/CommonHeroSection";
 import bannerimg from "@/app/assets/blog-bg.svg";
+import bannerimgMobile from "@/app/assets/blog-bg-mobile.svg";
 import BlogCard from "@/app/common/BlogCard";
 import { useDispatch, useSelector } from "react-redux";
 import { getBlogs } from "@/app/store/slice/blogSlice";
@@ -20,7 +21,11 @@ const BlogSection = () => {
     <>
       <CommonHeroSection
         title="Journey Journals Travel Tales"
-        backgroundImage={bannerimg.src}
+        height="min-h-[300px] sm:min-h-[380px]"
+        backgroundImage={{
+          desktop: bannerimg.src,
+          mobile: bannerimgMobile.src,
+        }}
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Blog", href: "/blog" },
