@@ -59,7 +59,7 @@ const TopDestination = () => {
             </h4>
             <p className="text-md mt-3 max-w-sm">
               Explore the diversity of India—from mountains to beaches, temples
-              to adventure zones.
+              to adventure zones
             </p>
           </div>
           <div className="flex items-center gap-3 flex-shrink-0">
