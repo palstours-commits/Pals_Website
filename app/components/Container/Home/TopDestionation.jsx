@@ -42,7 +42,7 @@ const TopDestination = () => {
 
 
   return (
-    <MainLayout className="bg-gradient-to-r from-[#FAF3E1] to-[#F8E8C8] my-10 md:my-20 py-5 md:py-10">
+    <MainLayout className="bg-gradient-to-r from-[#FAF3E1] to-[#F8E8C8] mb-10 md: mb-20  py-5 md:py-20">
       <motion.div
         initial="hidden"
         whileInView="visible"
