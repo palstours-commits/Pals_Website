@@ -41,6 +41,7 @@ const PackageDetails = ({ slug }) => {
   const [galleryIndex, setGalleryIndex] = useState(0);
   const [allImages, setAllImages] = useState([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const quoteFormRef = useRef(null);
 
   const overviewRef = useRef(null);
   const mapRef = useRef(null)
@@ -238,7 +239,7 @@ const PackageDetails = ({ slug }) => {
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full bg-secondary py-4 sm:py-6 md:py-8 sticky top-20 z-50"
+        className="w-full bg-secondary py-3  sticky top-20 z-50"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
           <motion.div
@@ -250,27 +251,40 @@ const PackageDetails = ({ slug }) => {
               {singlePackage?.packageName}
             </h4>
             <p className="flex items-center gap-2 text-sm sm:text-base">
-              <Clock size={16} className="sm:w-[18px] sm:h-[18px]" />
+              <Clock size={16} className="sm:w-[18px] sm:h-[14px]" />
               {singlePackage?.nights} Nights / {singlePackage?.days} Days
             </p>
           </motion.div>
 
           <motion.button
+            onClick={() => {
+              if (informationRef.current) {
+                const offset = 180;
+
+                const elementPosition =
+                  informationRef.current.getBoundingClientRect().top +
+                  window.pageYOffset;
+
+                window.scrollTo({
+                  top: elementPosition - offset,
+                  behavior: "smooth",
+                });
+              }
+            }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => handleTabClick("Get a Quote")}
-            className="text-sm bg-primary hover:opacity-90 transition text-white px-4 sm:px-6 py-1.5 sm:py-2 rounded-full font-semibold w-full sm:w-auto cursor-pointer"
+            className="text-sm bg-primary hover:opacity-90 transition text-white p-4 rounded-sm md:rounded-2xl font-semibold  sm:w-auto cursor-pointer"
           >
             Get a Quote
           </motion.button>
         </div>
       </motion.div>
 
-      <div className="w-full py-6   sticky top-[60px] sm:top-[72px] md:top-[200px] z-40 bg-white/80 backdrop-blur-md border-b border-gray-300">
-        <div className="max-w-7xl mx-auto px-5 ">
+      <div className="w-full   sticky top-[60px] sm:top-[72px] md:top-[165px] z-40 bg-white/80 backdrop-blur-md border-b border-gray-300">
+        <div className="max-w-7xl mx-auto  mt-3">
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden w-full px-4 py-3 bg-gray-100 rounded-xl flex items-center justify-between"
+            className="md:hidden w-full px-4 py-3 bg-gray-100 md:rounded-xl flex items-center justify-between"
           >
             <span className="font-semibold">{active}</span>
             <svg className={`w-5 h-5 transition-transform ${isMobileMenuOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -282,7 +296,7 @@ const PackageDetails = ({ slug }) => {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="md:hidden absolute left-0 right-0 top-full mt-2 bg-white shadow-xl rounded-xl overflow-hidden "
+              className="md:hidden absolute left-0 right-0 top-full  bg-white shadow-xl md:rounded-xl overflow-hidden "
             >
               {tabs?.map((tab) => (
                 <button
@@ -552,7 +566,7 @@ const PackageDetails = ({ slug }) => {
             </motion.div>
             <motion.div
               variants={fadeInUp}
-              className="h-auto "
+              className="h-auto"
             >
               <EnhancedPackageForm
                 packageId={singlePackage?._id}

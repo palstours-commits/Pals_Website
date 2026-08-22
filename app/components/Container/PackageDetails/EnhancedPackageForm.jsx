@@ -224,17 +224,6 @@ export const EnhancedPackageForm = ({ packageId, packageName }) => {
                         error={errors.phone}
                     />
                     <FloatingLabelInput
-                        label="Country"
-                        name="country"
-                        value={formData.country}
-                        onChange={handleChange}
-                        required
-                        error={errors.country}
-                    />
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4">
-                    <FloatingLabelInput
                         label="Number of Persons"
                         name="numberOfPersons"
                         value={formData.numberOfPersons}
@@ -244,6 +233,18 @@ export const EnhancedPackageForm = ({ packageId, packageName }) => {
                         required
                         error={errors.numberOfPersons}
                         placeholder="Enter number of travelers"
+                    />
+                </div>
+
+                <div className="grid grid-cols-1  gap-x-4">
+
+                    <FloatingLabelInput
+                        label="Country"
+                        name="country"
+                        value={formData.country}
+                        onChange={handleChange}
+                        required
+                        error={errors.country}
                     />
                 </div>
 
