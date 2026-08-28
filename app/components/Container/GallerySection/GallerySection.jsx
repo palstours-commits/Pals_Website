@@ -42,7 +42,7 @@ const GallerSection = () => {
 
     return (
         <div>
-            <div className="px-4 md:px-20 py-10">
+            <div className="px-4 md:px-20 py-20">
                 <div className="columns-1 sm:columns-2 lg:columns-4 gap-4 -mt-16">
                     {imageLoading ? (
                         Array.from({ length: 8 }).map((_, index) => (
@@ -113,7 +113,7 @@ const GallerSection = () => {
             </div>
             {selectedImage && (
                 <div
-                    className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center px-4"
+                    className="fixed inset-0 bg-black/80 z-9999 flex items-center justify-center px-4"
                     onClick={() => setSelectedImage(null)}
                 >
                     <img
