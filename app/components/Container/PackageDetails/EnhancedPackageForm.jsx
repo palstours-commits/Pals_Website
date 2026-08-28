@@ -192,8 +192,8 @@ export const EnhancedPackageForm = ({ packageId, packageName }) => {
                 </div>
             )}
 
-            <form className="space-y-2" onSubmit={handleSubmitClick}>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4">
+            <form className="space-y-4" onSubmit={handleSubmitClick}>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <FloatingLabelInput
                         label="Full Name"
                         name="fullName"
@@ -213,7 +213,7 @@ export const EnhancedPackageForm = ({ packageId, packageName }) => {
                     />
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <FloatingLabelInput
                         label="Phone Number"
                         name="phone"

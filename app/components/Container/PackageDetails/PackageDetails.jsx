@@ -16,6 +16,7 @@ import PackageBaneer from "./PackageBanner";
 import { ImageCarousel } from "./ImageCarousel";
 import { EnhancedPackageForm } from "./EnhancedPackageForm";
 import { parseHtmlList } from "@/app/utils/textConvertor";
+import ContactFormPopup from "@/app/common/ContactFormPopup";
 
 const PackageDetails = ({ slug }) => {
   const tabs = [
@@ -41,7 +42,8 @@ const PackageDetails = ({ slug }) => {
   const [galleryIndex, setGalleryIndex] = useState(0);
   const [allImages, setAllImages] = useState([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const quoteFormRef = useRef(null);
+  const [showQuotePopup, setShowQuotePopup] = useState(false);
+
 
   const overviewRef = useRef(null);
   const mapRef = useRef(null)
@@ -241,7 +243,7 @@ const PackageDetails = ({ slug }) => {
         animate={{ opacity: 1, y: 0 }}
         className="w-full bg-secondary py-3  sticky top-20 z-50"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-end sm:items-center justify-between gap-3 sm:gap-4">
           <motion.div
             initial={{ x: -20 }}
             animate={{ x: 0 }}
@@ -250,6 +252,7 @@ const PackageDetails = ({ slug }) => {
             <h4 className="mb-1 font-semibold capitalize text-lg sm:text-xl">
               {singlePackage?.packageName}
             </h4>
+
             <p className="flex items-center gap-2 text-sm sm:text-base">
               <Clock size={16} className="sm:w-[18px] sm:h-[14px]" />
               {singlePackage?.nights} Nights / {singlePackage?.days} Days
@@ -257,23 +260,10 @@ const PackageDetails = ({ slug }) => {
           </motion.div>
 
           <motion.button
-            onClick={() => {
-              if (informationRef.current) {
-                const offset = 180;
-
-                const elementPosition =
-                  informationRef.current.getBoundingClientRect().top +
-                  window.pageYOffset;
-
-                window.scrollTo({
-                  top: elementPosition - offset,
-                  behavior: "smooth",
-                });
-              }
-            }}
+            onClick={() => setShowQuotePopup(true)}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="text-sm bg-primary hover:opacity-90 transition text-white p-4 rounded-sm md:rounded-2xl font-semibold  sm:w-auto cursor-pointer"
+            className="text-sm bg-primary hover:opacity-90 transition text-white p-4 rounded-sm md:rounded-2xl font-semibold sm:w-auto cursor-pointer"
           >
             Get a Quote
           </motion.button>
@@ -281,7 +271,7 @@ const PackageDetails = ({ slug }) => {
       </motion.div>
 
       <div className="w-full   sticky top-[60px] sm:top-[72px] md:top-[165px] z-40 bg-white/80 backdrop-blur-md border-b border-gray-300">
-        <div className="max-w-7xl mx-auto  mt-3">
+        <div className="max-w-7xl mx-auto  my-3">
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="md:hidden w-full px-4 py-3 bg-gray-100 md:rounded-xl flex items-center justify-between"
@@ -620,6 +610,13 @@ const PackageDetails = ({ slug }) => {
         onClose={handleClosePopups}
         onConfirm={handleConfirmSubmit}
       />
+
+      <ContactFormPopup
+        isOpen={showQuotePopup}
+        onClose={() => setShowQuotePopup(false)}
+      />
+
+
       {popupType === "error" && (
         <Message_Popups
           isOpen={showResultPopup}
