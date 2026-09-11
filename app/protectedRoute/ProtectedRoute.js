@@ -1,4 +1,5 @@
 "use client";
+
 import { useSelectedLayoutSegments } from "next/navigation";
 import Header from "../components/Common/Header/Header";
 import Footer from "../components/Common/Footer/Footer";
@@ -13,7 +14,11 @@ export default function AppWrapper({ children }) {
   return (
     <>
       {!isNotFound && <Header />}
-      <main className="pb-5 sm:pb-24 md:pb-20 lg:pb-0">{children}</main>
+
+      <main className="pb-5 sm:pb-24 md:pb-20 lg:pb-0">
+        {children}
+      </main>
+
       {!isNotFound && (
         <>
           <WhatsAppButton />
@@ -21,6 +26,7 @@ export default function AppWrapper({ children }) {
           <FloatingContact />
         </>
       )}
+
       {!isNotFound && <Footer />}
     </>
   );
