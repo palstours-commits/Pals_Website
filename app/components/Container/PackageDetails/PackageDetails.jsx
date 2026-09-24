@@ -18,6 +18,15 @@ import { EnhancedPackageForm } from "./EnhancedPackageForm";
 import { parseHtmlList } from "@/app/utils/textConvertor";
 import ContactFormPopup from "@/app/common/ContactFormPopup";
 
+const renderPreservedParts = (text) =>
+  text.split(/(<strong>.*?<\/strong>)/gi).map((part, index) =>
+    /^<strong>.*<\/strong>$/i.test(part) ? (
+      <strong key={index}>{part.replace(/<\/?strong>/gi, "")}</strong>
+    ) : (
+      part
+    )
+  );
+
 const PackageDetails = ({ slug }) => {
   const tabs = [
     "Overview",
@@ -398,24 +407,24 @@ const PackageDetails = ({ slug }) => {
               variants={fadeInUp}
               className="rounded-2xl p-6 sm:p-8 h-full bg-white shadow-lg"
             >
-              <ul className="space-y-3 sm:space-y-4 text-sm sm:text-[17px] leading-relaxed">
-                {tripHighlights.length > 0 && (
-                  <ul className="space-y-3 sm:space-y-4 text-sm sm:text-[17px] leading-relaxed">
-                    {tripHighlights.map((item, index) => (
-                      <motion.li
-                        key={index}
-                        initial={{ opacity: 0, x: -20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ delay: index * 0.1 }}
-                        className="flex items-start gap-3"
-                      >
-                        <span className="mt-2 w-2 h-2 bg-red-600 rounded-full shrink-0" />
-                        <p>{item}</p>
-                      </motion.li>
-                    ))}
-                  </ul>
-                )}
-              </ul>
+              {tripHighlights.length > 0 ? (
+                <ul className="space-y-3 sm:space-y-4 text-sm sm:text-[17px] leading-relaxed">
+                  {tripHighlights.map((item, index) => (
+                    <motion.li
+                      key={index}
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      className="flex items-start gap-3"
+                    >
+                      <span className="mt-2 w-2 h-2 bg-red-600 rounded-full shrink-0" />
+                      <p>{item}</p>
+                    </motion.li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-gray-400 text-sm">No highlights available</p>
+              )}
             </motion.div>
             <motion.div
               variants={fadeInUp}
@@ -544,12 +553,14 @@ const PackageDetails = ({ slug }) => {
                     Hotel Accommodation Details
                   </h4>
                   {importantInfo[activeInfoIndex] && (
-                    <div
-                      className="text-gray-700 leading-relaxed text-sm sm:text-base prose prose-red max-w-none"
-                      dangerouslySetInnerHTML={{
-                        __html: importantInfo[activeInfoIndex].content,
-                      }}
-                    />
+                    <ul className="space-y-3 text-sm sm:text-base">
+                      {parseHtmlList(importantInfo[activeInfoIndex].content, { preserveStrong: true }).map((point, index) => (
+                        <li key={index} className="flex items-start gap-2">
+                          <span className="mt-2 w-2 h-2 bg-red-600 rounded-full shrink-0" />
+                          <p className="text-gray-700 leading-relaxed">{renderPreservedParts(point)}</p>
+                        </li>
+                      ))}
+                    </ul>
                   )}
                 </motion.div>
               </AnimatePresence>
