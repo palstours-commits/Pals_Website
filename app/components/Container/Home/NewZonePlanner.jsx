@@ -132,7 +132,7 @@ const NewZonePlanner = () => {
                             </motion.div>
 
                             <div className="absolute bottom-6 left-6 right-6 z-20">
-                                <div className="flex items-end justify-between gap-3 border-b border-white/70 pb-3">
+                                <div className="flex items-end justify-between gap-3 pb-1">
                                     <h5 className="travel-serif text-lg font-semibold text-white leading-tight drop-shadow-lg max-w-[calc(100%-42px)]">
                                         {zone.name}
                                     </h5>
@@ -140,10 +140,10 @@ const NewZonePlanner = () => {
                                         <ArrowUpRight size={17} strokeWidth={2.2} />
                                     </span>
                                 </div>
-                                <div className="flex items-center gap-1 pt-2 text-[11px] text-white/90">
+                                {(zone.description || zone.name) !== zone.name && <div className="flex min-w-0 max-w-full items-center gap-1 truncate pt-1 text-[11px] text-white/90" title={zone.description}>
                                     <MapPin size={12} />
-                                    <span>{zone.description || zone.name}</span>
-                                </div>
+                                    <span className="truncate">{zone.description || zone.name}</span>
+                                </div>}
                             </div>
                         </motion.div>
                     ))}

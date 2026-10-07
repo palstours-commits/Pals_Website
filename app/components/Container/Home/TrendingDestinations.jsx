@@ -12,9 +12,9 @@ import { useDispatch, useSelector } from "react-redux";
 
 const getPackageHighlights = (item) => {
   const apiPlaces = item?.destinations || item?.locations || item?.places || item?.bestPlaces;
-  if (Array.isArray(apiPlaces) && apiPlaces.length) return apiPlaces.slice(0, 4).join(" · ");
+  if (Array.isArray(apiPlaces) && apiPlaces.length) return apiPlaces.join(" · ");
   if (typeof apiPlaces === "string" && apiPlaces.trim()) {
-    return apiPlaces.split(/[,|·]/).map((place) => place.trim()).filter(Boolean).slice(0, 4).join(" · ");
+    return apiPlaces.split(/[,|·]/).map((place) => place.trim()).filter(Boolean).join(" · ");
   }
 
   return null;
@@ -49,8 +49,13 @@ const TrendingDestinations = () => {
           if (!cached) return true;
           try {
             const parsed = JSON.parse(cached);
-            if (parsed?.savedAt && Date.now() - parsed.savedAt < cacheTtl) {
-              details[pkg.slug] = parsed.destinations;
+            if (
+              parsed?.savedAt &&
+              Date.now() - parsed.savedAt < cacheTtl &&
+              parsed?.days != null &&
+              parsed?.nights != null
+            ) {
+              details[pkg.slug] = parsed;
               return false;
             }
           } catch {
@@ -66,13 +71,19 @@ const TrendingDestinations = () => {
                 endpoint: `/user/package/getPackageById/${pkg.slug}`,
                 method: "GET",
               });
-              const destinations = response?.data?.package?.destinations || response?.data?.destinations;
-              if (destinations) {
+              const packageData = response?.data?.package || response?.data;
+              const destinations = packageData?.destinations;
+              if (destinations || packageData?.days != null || packageData?.nights != null) {
+                const detail = {
+                  destinations,
+                  days: packageData?.days,
+                  nights: packageData?.nights,
+                };
                 window.localStorage.setItem(
                   `pals:package:${pkg.slug}`,
-                  JSON.stringify({ savedAt: Date.now(), destinations }),
+                  JSON.stringify({ savedAt: Date.now(), ...detail }),
                 );
-                return [pkg.slug, destinations];
+                return [pkg.slug, detail];
               }
             } catch {
               return null;
@@ -193,15 +204,15 @@ const TrendingDestinations = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent/0" />
               </motion.div>
               <div className="absolute bottom-6 left-6 right-6 z-20">
-                <div className="flex items-end justify-between gap-3 border-b border-white/70 pb-3">
+                <div className="flex items-end justify-between gap-3 pb-1">
                   <h5 className="travel-serif text-lg font-semibold text-white leading-tight drop-shadow-lg max-w-[calc(100%-42px)]">
                     {item.packageName}
                   </h5>
                   <span className="w-9 h-9 shrink-0 rounded-full border border-white/70 text-white flex items-center justify-center group-hover:bg-white group-hover:text-gray-900 transition-colors duration-300"><ArrowUpRight size={17} /></span>
                 </div>
-                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 pt-2 text-[11px] text-white/90">
-                  {getPackageHighlights({ ...item, destinations: item.destinations || internationalDetails[item.slug] }) && <span className="inline-flex items-start gap-1 leading-tight"><MapPin size={12} className="mt-0.5 shrink-0" />{getPackageHighlights({ ...item, destinations: item.destinations || internationalDetails[item.slug] })}</span>}
-                  {item.nights != null && <span>{item.nights} Nights / {item.days} Days</span>}
+                <div className="flex w-full flex-col items-start gap-1 overflow-hidden pt-1 text-[11px] text-white/90">
+                  {(item.nights != null || internationalDetails[item.slug]?.nights != null) && <span>{item.nights ?? internationalDetails[item.slug]?.nights} Nights / {item.days ?? internationalDetails[item.slug]?.days} Days</span>}
+                  {getPackageHighlights({ ...item, destinations: item.destinations || internationalDetails[item.slug]?.destinations }) && <span className="inline-flex min-w-0 max-w-full items-center gap-1 truncate leading-tight" title={getPackageHighlights({ ...item, destinations: item.destinations || internationalDetails[item.slug]?.destinations })}><MapPin size={12} className="shrink-0" /><span className="truncate">{getPackageHighlights({ ...item, destinations: item.destinations || internationalDetails[item.slug]?.destinations })}</span></span>}
                 </div>
               </div>
             </motion.div>
