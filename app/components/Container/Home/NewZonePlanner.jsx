@@ -140,10 +140,10 @@ const NewZonePlanner = () => {
                                         <ArrowUpRight size={17} strokeWidth={2.2} />
                                     </span>
                                 </div>
-                                <div className="flex min-w-0 max-w-full items-center gap-1 truncate pt-1 text-[11px] text-white/90" title={zone.description || zone.name}>
+                                {(zone.description || zone.name) !== zone.name && <div className="flex min-w-0 max-w-full items-center gap-1 truncate pt-1 text-[11px] text-white/90" title={zone.description}>
                                     <MapPin size={12} />
                                     <span className="truncate">{zone.description || zone.name}</span>
-                                </div>
+                                </div>}
                             </div>
                         </motion.div>
                     ))}

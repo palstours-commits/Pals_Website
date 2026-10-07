@@ -133,7 +133,7 @@ const TopDestination = () => {
                   </h5>
                   <span className="w-9 h-9 shrink-0 rounded-full border border-white/70 text-white flex items-center justify-center group-hover:bg-white group-hover:text-gray-900 transition-colors duration-300"><ArrowUpRight size={17} /></span>
                 </div>
-                <div className="flex items-center gap-1 pt-2 text-[11px] text-white/90"><MapPin size={12} />{item.description || item.name}</div>
+                {item.description && item.description !== item.name && <div className="flex items-center gap-1 pt-2 text-[11px] text-white/90"><MapPin size={12} />{item.description}</div>}
               </div>
             </motion.div>
           ))}

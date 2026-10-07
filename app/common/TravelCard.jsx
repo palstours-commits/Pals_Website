@@ -44,7 +44,7 @@ const TravelCard = ({
               <ArrowUpRight size={17} strokeWidth={2.2} />
             </span>
           </div>
-          <div className="flex w-full flex-col items-start gap-1 overflow-hidden pt-1 text-[11px] text-white/90" title={location || undefined}>
+          <div className={`flex w-full flex-col items-start gap-1 overflow-hidden pt-1 text-[11px] text-white/90 ${title === location ? "hidden" : ""}`} title={title === location ? undefined : location || undefined}>
             {location && <span className="inline-flex min-w-0 max-w-full items-center gap-1 truncate" title={location}>{showLocationIcon && <MapPin size={12} className="shrink-0" />}<span className="truncate">{location.replace(/[–—→]/g, " · ")}</span></span>}
             {duration && <span className="order-first">{duration}</span>}
           </div>
