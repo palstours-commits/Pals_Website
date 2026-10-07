@@ -4,7 +4,7 @@ import CustomImage from "@/app/common/Image";
 import MainLayout from "@/app/common/MainLayout";
 import { getAllNewZones } from "@/app/store/slice/zoneSlice";
 import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ArrowUpRight, MapPin } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -110,7 +110,7 @@ const NewZonePlanner = () => {
                     {newZones?.map((zone) => (
                         <motion.div
                             key={zone._id}
-                            className="relative min-w-[260px] h-[300px] rounded-2xl overflow-hidden cursor-pointer shadow-lg group"
+                            className="relative min-w-[245px] h-[300px] rounded-2xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl group transition-shadow duration-300"
                             transition={{ duration: 0.3 }}
                             onClick={() =>
                                 router.push(`/packages/${zone?.menuId.slug}/${zone.slug}`)
@@ -132,10 +132,17 @@ const NewZonePlanner = () => {
                             </motion.div>
 
                             <div className="absolute bottom-6 left-6 right-6 z-20">
-                                <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4 border border-white/30 shadow-xl">
-                                    <h5 className="text-xl font-semibold text-white text-center leading-tight drop-shadow-lg">
+                                <div className="flex items-end justify-between gap-3 border-b border-white/70 pb-3">
+                                    <h5 className="travel-serif text-lg font-semibold text-white leading-tight drop-shadow-lg max-w-[calc(100%-42px)]">
                                         {zone.name}
                                     </h5>
+                                    <span className="w-9 h-9 shrink-0 rounded-full border border-white/70 text-white flex items-center justify-center group-hover:bg-white group-hover:text-gray-900 transition-colors duration-300">
+                                        <ArrowUpRight size={17} strokeWidth={2.2} />
+                                    </span>
+                                </div>
+                                <div className="flex items-center gap-1 pt-2 text-[11px] text-white/90">
+                                    <MapPin size={12} />
+                                    <span>{zone.description || zone.name}</span>
                                 </div>
                             </div>
                         </motion.div>
