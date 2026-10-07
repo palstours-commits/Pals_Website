@@ -205,6 +205,7 @@ const PackageSection = ({ zoneSlug, menuSlug }) => {
                           img={pkg.images?.[0]}
                           title={pkg.packageName}
                           duration={`${pkg.nights} Nights / ${pkg.days} Days`}
+                          location={pkg.destinations?.slice(0, 4).join(" · ")}
                           slug={pkg.slug}
                           zoneSlug={zone?.slug}
                           submenuSlug={menuSlug}
@@ -232,6 +233,7 @@ const PackageSection = ({ zoneSlug, menuSlug }) => {
                       img={pkg.images?.[0]}
                       title={pkg.packageName}
                       duration={`${pkg.nights} Nights / ${pkg.days} Days`}
+                      location={pkg.destinations?.slice(0, 4).join(" · ")}
                       slug={pkg.slug}
                       zoneSlug={zone?.slug}
                       submenuSlug={menuSlug}

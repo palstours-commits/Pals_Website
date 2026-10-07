@@ -5,9 +5,51 @@ import MainLayout from "@/app/common/MainLayout";
 import { getMenuByZone } from "@/app/store/slice/submenuSlice";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowUpRight, MapPin } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
+
+const indiaZoneDescriptions = {
+  "South India": "Temples, Beaches & Breathtaking Backwaters",
+  "North India": "Mountains, Heritage & Unforgettable Adventures",
+  Kerala: "Backwaters, Beaches & Serene Hill Stations",
+  Karnataka: "Heritage, Wildlife & Scenic Landscapes",
+  "Andhra Pradesh": "Temples, Nature & Cultural Treasures",
+  Hyderabad: "Heritage, Cuisine & City Experiences",
+  Rajasthan: "Royal Heritage, Forts & Desert Landscapes",
+  Himachal: "Mountains, Valleys & Unforgettable Adventures",
+  Amritsar: "Spiritual Heritage, Culture & History",
+  Uttarkhand: "Mountains, Pilgrimage & Wildlife Escapes",
+  Chardham: "Sacred Temples, Mountains & Spiritual Journeys",
+  Kashmir: "Lakes, Valleys & Himalayan Landscapes",
+  Ladakh: "High-Altitude Landscapes, Monasteries & Adventure",
+  Odisha: "Temples, Beaches & Rich Cultural Heritage",
+  Gujarat: "Heritage, Wildlife & Vibrant Culture",
+  Mumbai: "City Life, Coastlines & Cultural Experiences",
+  "North East": "Mountains, Culture & Untouched Landscapes",
+  "Madhya Pradesh - Indore": "Heritage, Wildlife & Central India Experiences",
+  Goa: "Beaches, Heritage & Laid-back Coastal Escapes",
+  "Andaman and Nicobar Islands": "Pristine Beaches, Islands & Marine Adventures",
+  "Tamil Nadu": "Ancient Temples, Heritage & Coastal Landscapes",
+};
+
+const getZoneHighlights = (zone, menuSlug) => {
+  if (menuSlug === "india" && indiaZoneDescriptions[zone?.name]) {
+    return indiaZoneDescriptions[zone.name];
+  }
+
+  const apiPlaces = zone?.destinations || zone?.locations || zone?.places || zone?.bestPlaces;
+  if (Array.isArray(apiPlaces) && apiPlaces.length) {
+    return apiPlaces.slice(0, 4).join(" · ");
+  }
+
+  if (typeof apiPlaces === "string" && apiPlaces.trim()) {
+    return apiPlaces.split(/[,|·]/).map((place) => place.trim()).filter(Boolean).slice(0, 4).join(" · ");
+  }
+
+  return null;
+};
 
 const textVariants = {
   hidden: { opacity: 0, y: 25 },
@@ -109,7 +151,7 @@ const HolidayPlanner = ({ menuSlug = "holidays" }) => {
         <div className="flex flex-col md:flex-row justify-between gap-6 mb-8">
           <motion.h3
             variants={textVariants}
-            className="max-w-4xl text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900"
+            className="travel-serif max-w-4xl text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900"
           >
             {currentHeading.normal} {" "}
             <span className="text-[#da251c]">
@@ -166,7 +208,7 @@ const HolidayPlanner = ({ menuSlug = "holidays" }) => {
           {zones?.map((zone) => (
             <motion.div
               key={zone._id}
-              className="relative min-w-[260px] h-[300px] rounded-2xl overflow-hidden cursor-pointer shadow-lg group"
+              className="relative min-w-[245px] h-[300px] rounded-2xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl group transition-shadow duration-300"
               transition={{ duration: 0.3 }}
               onClick={() =>
                 router.push(
@@ -189,11 +231,16 @@ const HolidayPlanner = ({ menuSlug = "holidays" }) => {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent/0" />
               </motion.div>
               <div className="absolute bottom-6 left-6 right-6 z-20">
-                <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4 border border-white/30 shadow-xl">
-                  <h5 className="text-xl font-semibold text-white text-center leading-tight drop-shadow-lg">
+                <div className="flex items-end justify-between gap-3 border-b border-white/70 pb-3">
+                  <h5 className="travel-serif text-lg font-semibold text-white leading-tight drop-shadow-lg max-w-[calc(100%-42px)]">
                     {zone.name}
                   </h5>
+                  <span className="w-9 h-9 shrink-0 rounded-full border border-white/70 text-white flex items-center justify-center group-hover:bg-white group-hover:text-gray-900 transition-colors duration-300"><ArrowUpRight size={17} /></span>
                 </div>
+                {getZoneHighlights(zone, menuSlug) && <div className="flex items-start gap-1 pt-2 text-[11px] leading-tight text-white/90">
+                  <MapPin size={12} className="mt-0.5 shrink-0" />
+                  <span>{getZoneHighlights(zone, menuSlug)}</span>
+                </div>}
               </div>
             </motion.div>
           ))}

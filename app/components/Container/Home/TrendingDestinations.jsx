@@ -1,12 +1,24 @@
 "use client";
 import CustomImage from "@/app/common/Image";
 import MainLayout from "@/app/common/MainLayout";
+import { FetchApi } from "@/app/api/FetchApi";
 import { getNewArrivals } from "@/app/store/slice/packageSlice";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowUpRight, MapPin } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
+const getPackageHighlights = (item) => {
+  const apiPlaces = item?.destinations || item?.locations || item?.places || item?.bestPlaces;
+  if (Array.isArray(apiPlaces) && apiPlaces.length) return apiPlaces.slice(0, 4).join(" · ");
+  if (typeof apiPlaces === "string" && apiPlaces.trim()) {
+    return apiPlaces.split(/[,|·]/).map((place) => place.trim()).filter(Boolean).slice(0, 4).join(" · ");
+  }
+
+  return null;
+};
 
 const textVariants = {
   hidden: { opacity: 0, y: 25 },
@@ -17,12 +29,70 @@ const TrendingDestinations = () => {
   const router = useRouter();
   const sliderRef = useRef(null);
   const dispatch = useDispatch()
-  const { newArrivals,
-  } = useSelector((state) => state.packages);
+  const { newArrivals } = useSelector((state) => state.packages);
+  const [internationalDetails, setInternationalDetails] = useState({});
 
   useEffect(() => {
-    dispatch(getNewArrivals())
+    dispatch(getNewArrivals());
   }, [dispatch])
+
+  useEffect(() => {
+    let cancelled = false;
+    const cacheTtl = 15 * 60 * 1000;
+
+    const loadInternationalDetails = async () => {
+      try {
+        const details = {};
+        const packagesToFetch = (newArrivals || []).filter((pkg) => {
+          if (!pkg?.slug || pkg.destinations) return false;
+          const cached = window.localStorage.getItem(`pals:package:${pkg.slug}`);
+          if (!cached) return true;
+          try {
+            const parsed = JSON.parse(cached);
+            if (parsed?.savedAt && Date.now() - parsed.savedAt < cacheTtl) {
+              details[pkg.slug] = parsed.destinations;
+              return false;
+            }
+          } catch {
+            // Fetch again when a cache entry is invalid.
+          }
+          return true;
+        });
+
+        const fetchedDetails = await Promise.all(
+          packagesToFetch.map(async (pkg) => {
+            try {
+              const response = await FetchApi({
+                endpoint: `/user/package/getPackageById/${pkg.slug}`,
+                method: "GET",
+              });
+              const destinations = response?.data?.package?.destinations || response?.data?.destinations;
+              if (destinations) {
+                window.localStorage.setItem(
+                  `pals:package:${pkg.slug}`,
+                  JSON.stringify({ savedAt: Date.now(), destinations }),
+                );
+                return [pkg.slug, destinations];
+              }
+            } catch {
+              return null;
+            }
+            return null;
+          }),
+        );
+
+        fetchedDetails.forEach((entry) => {
+          if (entry) details[entry[0]] = entry[1];
+        });
+        if (!cancelled) setInternationalDetails(details);
+      } catch {
+        // Keep the original new-arrivals cards usable if enrichment fails.
+      }
+    };
+
+    loadInternationalDetails();
+    return () => { cancelled = true; };
+  }, [newArrivals]);
 
 
   const scroll = (dir) => {
@@ -53,7 +123,7 @@ const TrendingDestinations = () => {
           className="flex flex-col md:flex-row lg:items-end justify-between gap-6 mb-10"
         >
           <div>
-            <h4 className="text-3xl md:text-4xl lg:text-5xl font-bold  leading-med">
+            <h4 className="travel-serif text-3xl md:text-4xl lg:text-5xl font-bold leading-med">
               Discover the Wonders of International Travel
             </h4>
             <p className="text-md  mt-3 max-w-sm ">
@@ -100,10 +170,10 @@ const TrendingDestinations = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6 }}
         >
-          {newArrivals?.map((item, i) => (
+          {newArrivals?.map((item) => (
             <motion.div
               key={item._id}
-              className="relative min-w-[260px] h-[300px] rounded-2xl overflow-hidden cursor-pointer shadow-lg group"
+              className="relative min-w-[245px] h-[300px] rounded-2xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl group transition-shadow duration-300"
               transition={{ duration: 0.3 }}
               onClick={() =>
                 router.push(`/package/${item.slug}`)
@@ -123,10 +193,15 @@ const TrendingDestinations = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent/0" />
               </motion.div>
               <div className="absolute bottom-6 left-6 right-6 z-20">
-                <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4 border border-white/30 shadow-xl">
-                  <h5 className="text-xl font-semibold text-center text-white leading-tight drop-shadow-lg">
+                <div className="flex items-end justify-between gap-3 border-b border-white/70 pb-3">
+                  <h5 className="travel-serif text-lg font-semibold text-white leading-tight drop-shadow-lg max-w-[calc(100%-42px)]">
                     {item.packageName}
                   </h5>
+                  <span className="w-9 h-9 shrink-0 rounded-full border border-white/70 text-white flex items-center justify-center group-hover:bg-white group-hover:text-gray-900 transition-colors duration-300"><ArrowUpRight size={17} /></span>
+                </div>
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 pt-2 text-[11px] text-white/90">
+                  {getPackageHighlights({ ...item, destinations: item.destinations || internationalDetails[item.slug] }) && <span className="inline-flex items-start gap-1 leading-tight"><MapPin size={12} className="mt-0.5 shrink-0" />{getPackageHighlights({ ...item, destinations: item.destinations || internationalDetails[item.slug] })}</span>}
+                  {item.nights != null && <span>{item.nights} Nights / {item.days} Days</span>}
                 </div>
               </div>
             </motion.div>

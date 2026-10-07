@@ -40,6 +40,10 @@ body {
   font-family: var(--font-primary);
 }
 
+.travel-serif {
+  font-family: Georgia, "Times New Roman", serif !important;
+}
+
 .text-primary {
   color: var(--color-primary);
 }

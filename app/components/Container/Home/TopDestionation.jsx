@@ -4,6 +4,7 @@ import MainLayout from "@/app/common/MainLayout";
 import { getTopDestinations } from "@/app/store/slice/packageSlice";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowUpRight, MapPin } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -54,7 +55,7 @@ const TopDestination = () => {
           className="flex flex-col md:flex-row lg:items-end justify-between gap-6 mb-10 lg:mb-12"
         >
           <div>
-            <h4 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-00 leading-tight">
+            <h4 className="travel-serif text-3xl md:text-4xl lg:text-5xl font-bold text-gray-00 leading-tight">
               Discover the Wonders of India
             </h4>
             <p className="text-md mt-3 max-w-sm">
@@ -104,7 +105,7 @@ const TopDestination = () => {
           {topDestinations?.map((item, i) => (
             <motion.div
               key={item._id}
-              className="relative min-w-[260px] h-[300px] rounded-2xl overflow-hidden cursor-pointer shadow-lg group"
+              className="relative min-w-[245px] h-[300px] rounded-2xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl group transition-shadow duration-300"
               transition={{ duration: 0.3 }}
               onClick={() => router.push(`/packages/${item?.menuId.slug}/${item.slug}`)
               }
@@ -126,11 +127,13 @@ const TopDestination = () => {
               </motion.div>
 
               <div className="absolute bottom-6 left-6 right-6 z-20">
-                <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4 border border-white/30 shadow-xl">
-                  <h5 className="text-xl font-semibold text-center text-white leading-tight drop-shadow-lg">
+                <div className="flex items-end justify-between gap-3 border-b border-white/70 pb-3">
+                  <h5 className="travel-serif text-lg font-semibold text-white leading-tight drop-shadow-lg max-w-[calc(100%-42px)]">
                     {item.name}
                   </h5>
+                  <span className="w-9 h-9 shrink-0 rounded-full border border-white/70 text-white flex items-center justify-center group-hover:bg-white group-hover:text-gray-900 transition-colors duration-300"><ArrowUpRight size={17} /></span>
                 </div>
+                <div className="flex items-center gap-1 pt-2 text-[11px] text-white/90"><MapPin size={12} />{item.description || item.name}</div>
               </div>
             </motion.div>
           ))}
