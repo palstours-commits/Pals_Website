@@ -4,6 +4,11 @@ import { useState } from "react";
 export const ItineraryAccordion = ({ items }) => {
   const [openIndex, setOpenIndex] = useState(0);
 
+  const getDayTitle = (title) => {
+    const normalizedTitle = String(title ?? "").trim();
+    return normalizedTitle.replace(/^day\s*/i, "");
+  };
+
   const toggle = (index) => {
     setOpenIndex(openIndex === index ? null : index);
   };
@@ -22,7 +27,7 @@ export const ItineraryAccordion = ({ items }) => {
                        px-6 py-5 text-left cursor-pointer"
           >
             <h5 className="text-orange-500 font-semibold text-lg">
-              Day {item.title} {item?.location}
+              Day {getDayTitle(item.title)} {item?.location}
             </h5>
             {openIndex === index ? (
               <ChevronUp size={20} />
