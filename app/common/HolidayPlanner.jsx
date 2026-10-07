@@ -41,11 +41,11 @@ const getZoneHighlights = (zone, menuSlug) => {
 
   const apiPlaces = zone?.destinations || zone?.locations || zone?.places || zone?.bestPlaces;
   if (Array.isArray(apiPlaces) && apiPlaces.length) {
-    return apiPlaces.slice(0, 4).join(" · ");
+    return apiPlaces.join(" · ");
   }
 
   if (typeof apiPlaces === "string" && apiPlaces.trim()) {
-    return apiPlaces.split(/[,|·]/).map((place) => place.trim()).filter(Boolean).slice(0, 4).join(" · ");
+    return apiPlaces.split(/[,|·]/).map((place) => place.trim()).filter(Boolean).join(" · ");
   }
 
   return null;
@@ -231,15 +231,15 @@ const HolidayPlanner = ({ menuSlug = "holidays" }) => {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent/0" />
               </motion.div>
               <div className="absolute bottom-6 left-6 right-6 z-20">
-                <div className="flex items-end justify-between gap-3 border-b border-white/70 pb-3">
+                <div className="flex items-end justify-between gap-3 pb-1">
                   <h5 className="travel-serif text-lg font-semibold text-white leading-tight drop-shadow-lg max-w-[calc(100%-42px)]">
                     {zone.name}
                   </h5>
                   <span className="w-9 h-9 shrink-0 rounded-full border border-white/70 text-white flex items-center justify-center group-hover:bg-white group-hover:text-gray-900 transition-colors duration-300"><ArrowUpRight size={17} /></span>
                 </div>
-                {getZoneHighlights(zone, menuSlug) && <div className="flex items-start gap-1 pt-2 text-[11px] leading-tight text-white/90">
-                  <MapPin size={12} className="mt-0.5 shrink-0" />
-                  <span>{getZoneHighlights(zone, menuSlug)}</span>
+                {getZoneHighlights(zone, menuSlug) && <div className="flex min-w-0 max-w-full items-start gap-1 truncate pt-1 text-[11px] leading-tight text-white/90" title={getZoneHighlights(zone, menuSlug)}>
+                  {menuSlug !== "india" && <MapPin size={12} className="mt-0.5 shrink-0" />}
+                  <span className="truncate">{getZoneHighlights(zone, menuSlug)}</span>
                 </div>}
               </div>
             </motion.div>

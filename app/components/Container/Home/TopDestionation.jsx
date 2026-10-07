@@ -127,7 +127,7 @@ const TopDestination = () => {
               </motion.div>
 
               <div className="absolute bottom-6 left-6 right-6 z-20">
-                <div className="flex items-end justify-between gap-3 border-b border-white/70 pb-3">
+                <div className="flex items-end justify-between gap-3 pb-1">
                   <h5 className="travel-serif text-lg font-semibold text-white leading-tight drop-shadow-lg max-w-[calc(100%-42px)]">
                     {item.name}
                   </h5>

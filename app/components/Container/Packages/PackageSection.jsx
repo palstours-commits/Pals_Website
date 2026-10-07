@@ -205,7 +205,8 @@ const PackageSection = ({ zoneSlug, menuSlug }) => {
                           img={pkg.images?.[0]}
                           title={pkg.packageName}
                           duration={`${pkg.nights} Nights / ${pkg.days} Days`}
-                          location={pkg.destinations?.slice(0, 4).join(" · ")}
+                          location={pkg.destinations?.join(" · ")}
+                          showLocationIcon={menuSlug !== "india"}
                           slug={pkg.slug}
                           zoneSlug={zone?.slug}
                           submenuSlug={menuSlug}
@@ -233,7 +234,8 @@ const PackageSection = ({ zoneSlug, menuSlug }) => {
                       img={pkg.images?.[0]}
                       title={pkg.packageName}
                       duration={`${pkg.nights} Nights / ${pkg.days} Days`}
-                      location={pkg.destinations?.slice(0, 4).join(" · ")}
+                      location={pkg.destinations?.join(" · ")}
+                      showLocationIcon={menuSlug !== "india"}
                       slug={pkg.slug}
                       zoneSlug={zone?.slug}
                       submenuSlug={menuSlug}
