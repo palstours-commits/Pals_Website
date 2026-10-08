@@ -146,7 +146,7 @@ const TrendingDestinations = () => {
             <div className="hidden md:flex flex items-center gap-2">
               <motion.button
                 onClick={() => scroll("left")}
-                className="w-12 h-12 rounded-xl bg-white border-2 border-gray-200 flex items-center justify-center shadow-md hover:shadow-lg hover:border-[#da251c] transition-all duration-300 cursor-pointer"
+                className="glass-arrow-btn w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 cursor-pointer"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -155,7 +155,7 @@ const TrendingDestinations = () => {
 
               <motion.button
                 onClick={() => scroll("right")}
-                className="w-12 h-12 rounded-xl bg-white border-2 border-gray-200 flex items-center justify-center shadow-md hover:shadow-lg hover:border-[#da251c] transition-all duration-300 cursor-pointer"
+                className="glass-arrow-btn w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 cursor-pointer"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -208,8 +208,9 @@ const TrendingDestinations = () => {
                   <h5 className="travel-serif text-lg font-semibold text-white leading-tight drop-shadow-lg max-w-[calc(100%-42px)]">
                     {item.packageName}
                   </h5>
-                  <span className="w-9 h-9 shrink-0 rounded-full border border-white/70 text-white flex items-center justify-center group-hover:bg-white group-hover:text-gray-900 transition-colors duration-300"><ArrowUpRight size={17} /></span>
+                  <span className="glass-arrow-btn w-9 h-9 shrink-0 rounded-full flex items-center justify-center transition-all duration-300"><ArrowUpRight size={17} /></span>
                 </div>
+                {getPackageHighlights({ ...item, destinations: item.destinations || internationalDetails[item.slug]?.destinations }) && <div className="my-1 h-px w-10 bg-white/80" aria-hidden="true" />}
                 <div className="flex w-full flex-col items-start gap-1 overflow-hidden pt-1 text-[11px] text-white/90">
                   {(item.nights != null || internationalDetails[item.slug]?.nights != null) && <span>{item.nights ?? internationalDetails[item.slug]?.nights} Nights / {item.days ?? internationalDetails[item.slug]?.days} Days</span>}
                   {getPackageHighlights({ ...item, destinations: item.destinations || internationalDetails[item.slug]?.destinations }) && <span className="inline-flex min-w-0 max-w-full items-center gap-1 truncate leading-tight" title={getPackageHighlights({ ...item, destinations: item.destinations || internationalDetails[item.slug]?.destinations })}><MapPin size={12} className="shrink-0" /><span className="truncate">{getPackageHighlights({ ...item, destinations: item.destinations || internationalDetails[item.slug]?.destinations })}</span></span>}

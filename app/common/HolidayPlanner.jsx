@@ -163,7 +163,7 @@ const HolidayPlanner = ({ menuSlug = "holidays" }) => {
             <div className="hidden md:flex items-center gap-3">
               <motion.button
                 onClick={() => scroll("left")}
-                className="w-12 h-12 rounded-xl bg-white border-2 border-gray-200 flex items-center justify-center shadow-md hover:shadow-lg hover:border-[#da251c] transition-all duration-300 cursor-pointer"
+                className="glass-arrow-btn w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 cursor-pointer"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -175,7 +175,7 @@ const HolidayPlanner = ({ menuSlug = "holidays" }) => {
 
               <motion.button
                 onClick={() => scroll("right")}
-                className="w-12 h-12 rounded-xl bg-white border-2 border-gray-200 flex items-center justify-center shadow-md hover:shadow-lg hover:border-[#da251c] transition-all duration-300 cursor-pointer"
+                className="glass-arrow-btn w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 cursor-pointer"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -235,7 +235,7 @@ const HolidayPlanner = ({ menuSlug = "holidays" }) => {
                   <h5 className="travel-serif text-lg font-semibold text-white leading-tight drop-shadow-lg max-w-[calc(100%-42px)]">
                     {zone.name}
                   </h5>
-                  <span className="w-9 h-9 shrink-0 rounded-full border border-white/70 text-white flex items-center justify-center group-hover:bg-white group-hover:text-gray-900 transition-colors duration-300"><ArrowUpRight size={17} /></span>
+                  <span className="glass-arrow-btn w-9 h-9 shrink-0 rounded-full flex items-center justify-center transition-all duration-300"><ArrowUpRight size={17} /></span>
                 </div>
                 {getZoneHighlights(zone, menuSlug) && <div className="flex min-w-0 max-w-full items-start gap-1 truncate pt-1 text-[11px] leading-tight text-white/90" title={getZoneHighlights(zone, menuSlug)}>
                   {menuSlug !== "india" && <MapPin size={12} className="mt-0.5 shrink-0" />}

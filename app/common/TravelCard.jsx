@@ -13,6 +13,8 @@ const TravelCard = ({
   location,
   showLocationIcon = true,
 }) => {
+  const hasDistinctLocation = Boolean(location && title !== location);
+
   return (
     <Link href={`/package/${slug}`} className="block">
       <div className="relative rounded-2xl overflow-hidden min-w-[241px] h-[320px] cursor-pointer group bg-gray-900 shadow-md hover:shadow-xl transition-shadow duration-300">
@@ -39,13 +41,31 @@ const TravelCard = ({
         </div>
         <div className="absolute bottom-0 left-4 right-4 text-white z-10 pb-4">
           <div className="flex items-end justify-between gap-3 pb-1">
-            <h5 className="travel-serif font-semibold text-[17px] leading-tight max-w-[calc(100%-42px)]">{title}</h5>
-            <span className="w-9 h-9 shrink-0 rounded-full border border-white/70 flex items-center justify-center group-hover:bg-white group-hover:text-gray-900 transition-colors duration-300">
+            <h5 className="travel-serif font-semibold text-[17px] leading-tight max-w-[calc(100%-42px)]">
+              {title}
+            </h5>
+            <span className="glass-arrow-btn w-10 h-10 shrink-0 rounded-full flex items-center justify-center transition-all duration-300 group-hover:-translate-y-0.5">
               <ArrowUpRight size={17} strokeWidth={2.2} />
             </span>
           </div>
-          <div className={`flex w-full flex-col items-start gap-1 overflow-hidden pt-1 text-[11px] text-white/90 ${title === location ? "hidden" : ""}`} title={title === location ? undefined : location || undefined}>
-            {location && <span className="inline-flex min-w-0 max-w-full items-center gap-1 truncate" title={location}>{showLocationIcon && <MapPin size={12} className="shrink-0" />}<span className="truncate">{location.replace(/[–—→]/g, " · ")}</span></span>}
+          {hasDistinctLocation && (
+            <hr className="my-1 w-10 border-0 border-t border-white/70" />
+          )}
+          <div
+            className="flex w-full flex-col items-start gap-1 overflow-hidden pt-1 text-[11px] text-white/90"
+            title={location || undefined}
+          >
+            {hasDistinctLocation && (
+              <span
+                className="inline-flex min-w-0 max-w-full items-center gap-1 truncate"
+                title={location}
+              >
+                {showLocationIcon && <MapPin size={12} className="shrink-0" />}
+                <span className="truncate">
+                  {location.replace(/[–—→]/g, " · ")}
+                </span>
+              </span>
+            )}
             {duration && <span className="order-first">{duration}</span>}
           </div>
         </div>

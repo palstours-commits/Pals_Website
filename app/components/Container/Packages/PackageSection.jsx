@@ -144,9 +144,9 @@ const PackageSection = ({ zoneSlug, menuSlug }) => {
                     <motion.button
                       onClick={() => scroll(zone?._id, "left")}
                       disabled={!canScrollLeft[zone?._id]}
-                      className={`w-10 h-10 rounded-xl bg-white border-2 flex items-center justify-center shadow-md transition-all duration-300 cursor-pointer ${canScrollLeft[zone?._id]
-                        ? "border-[#da251c] text-[#da251c] hover:shadow-lg hover:border-[#da251c]/80"
-                        : "border-gray-200 text-gray-400 cursor-not-allowed"
+                      className={`w-11 h-11 rounded-2xl border flex items-center justify-center backdrop-blur-xl shadow-[0_8px_24px_rgba(93,25,25,0.12)] transition-all duration-300 cursor-pointer ${canScrollLeft[zone?._id]
+                        ? "border-[#da251c]/40 bg-white/55 text-[#da251c] hover:bg-white/80 hover:shadow-[0_12px_30px_rgba(218,37,28,0.2)] hover:border-[#da251c]/70"
+                        : "border-gray-300/70 bg-white/35 text-gray-400 cursor-not-allowed"
                         }`}
                       whileHover={
                         canScrollLeft[zone?._id] ? { scale: 1.05 } : {}
@@ -159,9 +159,9 @@ const PackageSection = ({ zoneSlug, menuSlug }) => {
                     <motion.button
                       onClick={() => scroll(zone?._id, "right")}
                       disabled={!canScrollRight[zone?._id]}
-                      className={`w-10 h-10 rounded-xl bg-white border-2 flex items-center justify-center shadow-md transition-all duration-300 cursor-pointer ${canScrollRight[zone?._id]
-                        ? "border-[#da251c] text-[#da251c] hover:shadow-lg hover:border-[#da251c]/80"
-                        : "border-gray-200 text-gray-400 cursor-not-allowed"
+                      className={`w-11 h-11 rounded-2xl border flex items-center justify-center backdrop-blur-xl shadow-[0_8px_24px_rgba(93,25,25,0.12)] transition-all duration-300 cursor-pointer ${canScrollRight[zone?._id]
+                        ? "border-[#da251c]/40 bg-white/55 text-[#da251c] hover:bg-white/80 hover:shadow-[0_12px_30px_rgba(218,37,28,0.2)] hover:border-[#da251c]/70"
+                        : "border-gray-300/70 bg-white/35 text-gray-400 cursor-not-allowed"
                         }`}
                       whileHover={
                         canScrollRight[zone?._id] ? { scale: 1.05 } : {}
