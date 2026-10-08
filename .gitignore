@@ -78,3 +78,5 @@ $RECYCLE.BIN/
 /bower_components/
 jspm_packages/
 
+.temp-sh
+
