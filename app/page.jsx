@@ -1,45 +1,30 @@
 import HomeSection from "./components/Container/Home/HomeSection";
 
 export const metadata = {
-  title: "Pals Holidays | Luxury Villas & Holiday Packages",
+  title: "Best Tour Operators & Holiday Packages in India",
   description:
-    "Discover luxury villas, resorts, and curated holiday packages with Pals Holidays. Book your perfect getaway today.",
-
+    "Discover curated South & North India holiday packages, family tours, and travel deals with Pals Holidays. Book your perfect getaway today.",
   keywords: [
     "Pals Holidays",
-    "Holiday Packages",
-    "Luxury Villas",
-    "Villa Booking",
-    "Travel",
-    "Resorts",
-    "Vacation",
+    "Holiday Packages India",
+    "South India Tour Packages",
+    "Golden Triangle Tour Operator",
+    "Family Vacation Planning",
   ],
-
   alternates: {
     canonical: "/",
   },
-
   openGraph: {
-    title: "Pals Holidays | Luxury Villas & Holiday Packages",
+    title: "Best Tour Operators & Holiday Packages in India | Pals Holidays",
     description:
-      "Book luxury villas and holiday packages with Pals Holidays.",
+      "Book customized holiday packages and family tours with Pals Holidays.",
     url: "/",
-    images: [
-      {
-        url: "/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Pals Holidays",
-      },
-    ],
   },
-
   twitter: {
     card: "summary_large_image",
-    title: "Pals Holidays",
+    title: "Best Tour Operators & Holiday Packages in India | Pals Holidays",
     description:
-      "Book luxury villas and holiday packages with Pals Holidays.",
-    images: ["/og-image.jpg"],
+      "Book holiday packages and travel experiences with Pals Holidays.",
   },
 };
 

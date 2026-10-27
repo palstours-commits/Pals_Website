@@ -1,13 +1,26 @@
-import EasyEMIHolidayPlansSection from '@/app/components/Container/EmiSection/EmiSection';
-import React from 'react';
+import EasyEMIHolidayPlansSection from "@/app/components/Container/EmiSection/EmiSection";
+import React from "react";
 
 export const metadata = {
-  title: 'Easy EMI Holiday Plans | Book Your Dream Holiday',
+  title: "Holiday Packages on Easy EMI | Travel Now Pay Later",
   description:
-    'Make your dream holiday affordable with easy EMI holiday plans. Explore flexible payment options and book your perfect holiday with ease.',
-
+    "Don’t worry about budget! Book your dream holiday package with easy monthly installments (EMI). Simple payment options with Pals Holidays.",
+  keywords: [
+    "Travel on EMI",
+    "Holiday package monthly installment",
+    "Affordable vacation payment plans",
+  ],
   alternates: {
-    canonical: '/special-offers/emi',
+    canonical: "/special-offers/emi",
+  },
+  openGraph: {
+    title:
+      "Holiday Packages on Easy EMI | Travel Now Pay Later | Pals Holidays",
+    description:
+      "Book your dream holiday package with easy monthly installments (EMI).",
+    url: "/special-offers/emi",
+    locale: "en_IN",
+    type: "website",
   },
 };
 

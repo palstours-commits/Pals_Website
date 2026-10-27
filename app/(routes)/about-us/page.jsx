@@ -4,41 +4,26 @@ import React from "react";
 export const metadata = {
   title: "About Us",
   description:
-    "Learn about Pals Holidays, our mission, travel expertise, luxury villa bookings, and commitment to creating unforgettable holiday experiences.",
-
+    "Learn about Pals Holidays, our travel expertise, customized tour operations, and commitment to creating unforgettable domestic and international trips.",
   keywords: [
     "About Pals Holidays",
-    "Travel Company",
-    "Holiday Packages",
-    "Luxury Villas",
-    "Vacation Planning",
+    "Travel Company Chennai",
+    "Holiday Tour Operators India",
+    "Travel Planners",
   ],
-
   alternates: {
     canonical: "/about-us",
   },
-
   openGraph: {
     title: "About Us | Pals Holidays",
     description:
-      "Learn about Pals Holidays and our travel services.",
+      "Learn about Pals Holidays and our trusted travel planning services.",
     url: "/about-us",
-    images: [
-      {
-        url: "/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "About Pals Holidays",
-      },
-    ],
   },
-
   twitter: {
     card: "summary_large_image",
     title: "About Us | Pals Holidays",
-    description:
-      "Learn about Pals Holidays and our travel services.",
-    images: ["/og-image.jpg"],
+    description: "Learn about Pals Holidays and our travel services.",
   },
 };
 

@@ -2,11 +2,18 @@ import EarlyBirdOffers from '@/app/components/Container/EarlyBirdOfferSection/Ea
 import React from 'react';
 
 export const metadata = {
-  title: 'Early Bird Offers | Exclusive Travel Deals',
-  description:
-    'Explore our early bird travel offers and enjoy exclusive deals on holiday packages, stays, and unforgettable travel experiences.',
+  title: 'Early Bird Travel Deals | Book Early & Save More',
+  description: 'Plan your trip early and grab massive discounts on holiday packages. Book early with Pals Holidays and save big on your next vacation.',
+  keywords: ['Early bird holiday offers', 'Advance booking discount travel', 'Cheap holiday packages India'],
   alternates: {
     canonical: '/special-offers/early-bird',
+  },
+  openGraph: {
+    title: 'Early Bird Travel Deals | Book Early & Save More | Pals Holidays',
+    description: 'Plan your trip early and grab massive discounts on holiday packages.',
+    url: '/special-offers/early-bird',
+    locale: 'en_IN',
+    type: 'website',
   },
 };
 
