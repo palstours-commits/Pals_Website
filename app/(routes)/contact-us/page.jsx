@@ -4,42 +4,27 @@ import React from "react";
 export const metadata = {
   title: "Contact Us",
   description:
-    "Get in touch with Pals Holidays for holiday packages, villa bookings, travel assistance, and customer support. We're here to help plan your perfect trip.",
-
+    "Get in touch with Pals Holidays for holiday packages, flight bookings, and travel assistance. Contact our Chennai office to plan your trip today.",
   keywords: [
     "Contact Pals Holidays",
-    "Travel Support",
-    "Holiday Packages",
-    "Villa Booking",
-    "Customer Service",
-    "Travel Agency Contact",
+    "Travel Support Chennai",
+    "Holiday Package Enquiries",
+    "Travel Agency Contact Number",
   ],
-
   alternates: {
     canonical: "/contact-us",
   },
-
   openGraph: {
     title: "Contact Us | Pals Holidays",
     description:
-      "Contact Pals Holidays for holiday packages, villa bookings, and travel assistance.",
-    url: "/contact",
-    images: [
-      {
-        url: "/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Contact Pals Holidays",
-      },
-    ],
+      "Contact Pals Holidays for holiday packages and travel assistance.",
+    url: "/contact-us",
   },
-
   twitter: {
     card: "summary_large_image",
     title: "Contact Us | Pals Holidays",
     description:
-      "Contact Pals Holidays for holiday packages, villa bookings, and travel assistance.",
-    images: ["/og-image.jpg"],
+      "Contact Pals Holidays for holiday packages and travel assistance.",
   },
 };
 

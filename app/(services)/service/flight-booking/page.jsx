@@ -2,12 +2,18 @@ import FlightBookingSection from '@/app/components/Container/FlightBookingsectio
 import React from 'react';
 
 export const metadata = {
-  title: 'Flight Booking Services | Book Flights Easily',
-  description:
-    'Book domestic and international flights with ease. Find convenient flight options, competitive fares, and hassle-free flight booking services for your next trip.',
-
+  title: 'Book Cheap Flights | Domestic & International Flight Tickets',
+  description: 'Book domestic and international flight tickets easily at the best prices. Fast booking, great airline options, and helpful customer support.',
+  keywords: ['Book flight tickets online', 'Cheap domestic flights India', 'International flight booking service'],
   alternates: {
-    canonical: 'service/flight-booking',
+    canonical: '/service/flight-booking',
+  },
+  openGraph: {
+    title: 'Book Cheap Flights | Domestic & International Flight Tickets | Pals Holidays',
+    description: 'Book domestic and international flight tickets easily at the best prices.',
+    url: '/service/flight-booking',
+    locale: 'en_IN',
+    type: 'website',
   },
 };
 
