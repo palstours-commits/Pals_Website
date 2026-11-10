@@ -10,6 +10,33 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getPackagesByMenuAndZone } from "@/app/store/slice/packageSlice";
 
+const TypewriterText = ({ text = "" }) => {
+  const [visibleCharacters, setVisibleCharacters] = useState(0);
+
+  useEffect(() => {
+    setVisibleCharacters(0);
+    if (!text) return;
+
+    let characterIndex = 0;
+    const timer = setInterval(() => {
+      characterIndex += 1;
+      setVisibleCharacters(characterIndex);
+      if (characterIndex >= text.length) clearInterval(timer);
+    }, 180);
+
+    return () => clearInterval(timer);
+  }, [text]);
+
+  return (
+    <span aria-hidden="true">
+      {text.slice(0, visibleCharacters)}
+      {visibleCharacters < text.length && (
+        <span className="ml-0.5 animate-pulse">|</span>
+      )}
+    </span>
+  );
+};
+
 const PackageSection = ({ zoneSlug, menuSlug }) => {
   const dispatch = useDispatch();
   // console.log("zoneSlug", zoneSlug, "menuSlug", menuSlug);
@@ -139,8 +166,14 @@ const PackageSection = ({ zoneSlug, menuSlug }) => {
             <MainLayout className="px-4  max-w-7xl mx-auto py-10 md:pt-15">
               <div className="flex flex-col md:flex-row lg:items-end justify-between gap-6 mb-10">
                 <div>
-                  <h4 className="text-2xl md:text-3xl font-bold text-gray-900">
-                    {sectionTitlePrefix} {zone?.name}
+                  <h4
+                    aria-label={`${sectionTitlePrefix} ${zone?.name || ""}`}
+                    className="text-2xl md:text-3xl font-bold text-gray-900"
+                  >
+                    {sectionTitlePrefix}{" "}
+                    <span className="text-[#da251c] text-4xl">
+                      <TypewriterText text={zone?.name || ""} />
+                    </span>
                   </h4>
                   <p className="text-gray-600 mt-2 text-sm md:text-base max-w-2xl">
                     {zone?.description}
