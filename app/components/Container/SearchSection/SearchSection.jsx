@@ -9,52 +9,82 @@ import {
   clearSearchResults,
 } from "@/app/store/slice/searchSlice";
 import { Camera, Search } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import CustomImage from "@/app/common/Image";
 
-const SearchSection = () => {
+const SearchSection = ({ initialQuery = "" }) => {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const { results, loading: searchLoading } = useSelector(
-    (state) => state.search,
-  );
+  const {
+    results,
+    loading: searchLoading,
+    error: searchError,
+  } = useSelector((state) => state.search);
 
   const { packages, loading: packageLoading } = useSelector(
     (state) => state.packages,
   );
 
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(initialQuery);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [isDebouncing, setIsDebouncing] = useState(false);
 
   useEffect(() => {
     dispatch(getPackages());
   }, [dispatch]);
 
   useEffect(() => {
-    if (search.trim().length >= 2) {
-      dispatch(searchPackages(search));
+    const query = search.trim();
+    if (query) {
+      dispatch(clearSearchResults());
+      setIsDebouncing(true);
+      const timer = setTimeout(() => {
+        dispatch(searchPackages(query));
+        setIsDebouncing(false);
+      }, 300);
       setShowDropdown(true);
+      return () => clearTimeout(timer);
     } else {
       dispatch(clearSearchResults());
       setShowDropdown(false);
+      setIsDebouncing(false);
     }
   }, [search, dispatch]);
 
-  const listToShow = search.trim().length >= 2 ? results : packages;
+  useEffect(() => {
+    setSearch(initialQuery);
+  }, [initialQuery]);
 
-  const isLoading = search.trim().length >= 2 ? searchLoading : packageLoading;
+  const submitSearch = (event) => {
+    event.preventDefault();
+    const query = search.trim();
+    if (query) {
+      router.push(`/search?query=${encodeURIComponent(query)}`);
+    }
+  };
+
+  const listToShow = search.trim() ? results : packages;
+
+  const isLoading =
+    search.trim() ? searchLoading || isDebouncing : packageLoading;
 
   return (
-    <div className="max-w-7xl mx-auto px-4  py-10">
+    <div className="max-w-7xl mx-auto px-4 py-10">
       <MainLayout>
-        <div className="relative backdrop-blur-lg bg-white/30 border border-white/40 rounded-full flex items-center gap-4 shadow-xl my-10 px-5 sm:px-6 py-3">
+        {/* <form
+          onSubmit={submitSearch}
+          role="search"
+          aria-label="Search holiday packages"
+          className="relative backdrop-blur-lg bg-white/30 border border-white/40 rounded-full flex items-center gap-4 shadow-xl my-10 px-5 sm:px-6 py-3"
+        >
           <Camera size={18} className="text-gray-700 shrink-0" />
           <div className="relative w-full">
             <input
-              type="text"
+              type="search"
+              aria-label="Search holiday packages"
               placeholder="Where do you want to go?"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -121,12 +151,16 @@ const SearchSection = () => {
               </div>
             )}
           </div>
-          <button className="bg-red-600/90 hover:bg-red-600 transition h-9 w-9 sm:h-8 sm:w-8 rounded-full flex items-center justify-center shadow-md">
+          <button
+            type="submit"
+            aria-label="Search packages"
+            className="bg-red-600/90 hover:bg-red-600 transition h-9 w-9 sm:h-8 sm:w-8 rounded-full flex items-center justify-center shadow-md"
+          >
             <Search size={16} className="text-white sm:size-[18px]" />
           </button>
-        </div>
+        </form> */}
       </MainLayout>
-      <MainLayout className="mt-50">
+      <MainLayout className="mt-10">
         <h4 className="font-semibold mb-3">
           {search ? "Search Results" : "Recently View"}
         </h4>
@@ -148,8 +182,11 @@ const SearchSection = () => {
               />
             ))
           ) : (
-            <p className="text-gray-400 text-sm">
-              {search ? "No results found" : "No packages available"}
+            <p
+              className={`text-sm ${searchError ? "text-red-600" : "text-gray-400"}`}
+            >
+              {searchError ||
+                (search ? "No results found" : "No packages available")}
             </p>
           )}
         </div>

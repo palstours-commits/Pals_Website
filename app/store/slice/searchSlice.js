@@ -6,15 +6,13 @@ export const searchPackages = createAsyncThunk(
   async (query, thunkAPI) => {
     try {
       const response = await FetchApi({
-        endpoint: `/user/search?query=${query}`,
+        endpoint: `/user/search?${new URLSearchParams({ query })}`,
         method: "GET",
       });
 
       return response?.data;
     } catch (err) {
-      return thunkAPI.rejectWithValue(
-        err?.response?.data?.message || "Search failed",
-      );
+      return thunkAPI.rejectWithValue(err?.message || "Search failed");
     }
   },
 );
@@ -25,6 +23,7 @@ const searchSlice = createSlice({
     results: [],
     loading: false,
     error: null,
+    activeRequestId: null,
   },
 
   reducers: {
@@ -33,22 +32,30 @@ const searchSlice = createSlice({
     },
     clearSearchResults: (state) => {
       state.results = [];
+      state.loading = false;
+      state.error = null;
+      state.activeRequestId = null;
     },
   },
 
   extraReducers: (builder) => {
     builder
-      .addCase(searchPackages.pending, (state) => {
+      .addCase(searchPackages.pending, (state, action) => {
         state.loading = true;
         state.error = null;
+        state.activeRequestId = action.meta.requestId;
       })
       .addCase(searchPackages.fulfilled, (state, action) => {
+        if (state.activeRequestId !== action.meta.requestId) return;
         state.loading = false;
         state.results = action.payload?.packages || [];
+        state.activeRequestId = null;
       })
       .addCase(searchPackages.rejected, (state, action) => {
+        if (state.activeRequestId !== action.meta.requestId) return;
         state.loading = false;
         state.error = action.payload;
+        state.activeRequestId = null;
       });
   },
 });
