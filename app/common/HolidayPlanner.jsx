@@ -151,7 +151,8 @@ const HolidayPlanner = ({ menuSlug = "holidays" }) => {
         <div className="flex flex-col md:flex-row justify-between gap-6 mb-8">
           <motion.h3
             variants={textVariants}
-            className="travel-serif max-w-4xl text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900"
+            // className="travel-serif max-w-4xl text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900"
+            className="max-w-4xl text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900"
           >
             {currentHeading.normal} {" "}
             <span className="text-[#da251c]">
@@ -232,7 +233,8 @@ const HolidayPlanner = ({ menuSlug = "holidays" }) => {
               </motion.div>
               <div className="absolute bottom-6 left-6 right-6 z-20">
                 <div className="flex items-end justify-between gap-3 pb-1">
-                  <h5 className="travel-serif text-lg font-semibold text-white leading-tight drop-shadow-lg max-w-[calc(100%-42px)]">
+                  {/* <h5 className="travel-serif text-lg font-semibold text-white leading-tight drop-shadow-lg max-w-[calc(100%-42px)]"> */}
+                    <h5 className="text-lg font-semibold text-white leading-tight drop-shadow-lg max-w-[calc(100%-42px)]">
                     {zone.name}
                   </h5>
                   <span className="glass-arrow-btn w-9 h-9 shrink-0 rounded-full flex items-center justify-center transition-all duration-300"><ArrowUpRight size={17} /></span>

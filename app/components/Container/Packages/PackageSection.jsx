@@ -12,8 +12,16 @@ import { getPackagesByMenuAndZone } from "@/app/store/slice/packageSlice";
 
 const PackageSection = ({ zoneSlug, menuSlug }) => {
   const dispatch = useDispatch();
+  // console.log("zoneSlug", zoneSlug, "menuSlug", menuSlug);
   const router = useRouter();
   const title = zoneSlug?.replace(/-/g, " ");
+  const sectionTitlePrefix = {
+    india: "Explore the Heart of",
+    international: "Explore the Heart of",
+    spiritual: "Spiritual Journey of",
+    honeymoon: "Romantic Escapes of",
+    cruise: "Discover the Beauty of",
+  }[menuSlug] || "Explore the Heart of";
   const sliderRefs = useRef({});
   const [canScrollLeft, setCanScrollLeft] = useState({});
   const [canScrollRight, setCanScrollRight] = useState({});
@@ -132,7 +140,7 @@ const PackageSection = ({ zoneSlug, menuSlug }) => {
               <div className="flex flex-col md:flex-row lg:items-end justify-between gap-6 mb-10">
                 <div>
                   <h4 className="text-2xl md:text-3xl font-bold text-gray-900">
-                    Explore the Heart of {zone?.name}
+                    {sectionTitlePrefix} {zone?.name}
                   </h4>
                   <p className="text-gray-600 mt-2 text-sm md:text-base max-w-2xl">
                     {zone?.description}

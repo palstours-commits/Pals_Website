@@ -41,7 +41,8 @@ const TravelCard = ({
         </div>
         <div className="absolute bottom-0 left-4 right-4 text-white z-10 pb-4">
           <div className="flex items-end justify-between gap-3 pb-1">
-            <h5 className="travel-serif font-semibold text-[17px] leading-tight max-w-[calc(100%-42px)]">
+            {/* <h5 className="travel-serif font-semibold text-[17px] leading-tight max-w-[calc(100%-42px)]"> */}
+              <h5 className="font-semibold text-[17px] leading-tight max-w-[calc(100%-42px)]">
               {title}
             </h5>
             <span className="glass-arrow-btn w-10 h-10 shrink-0 rounded-full flex items-center justify-center transition-all duration-300 group-hover:-translate-y-0.5">

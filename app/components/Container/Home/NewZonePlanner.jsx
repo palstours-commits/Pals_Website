@@ -133,7 +133,8 @@ const NewZonePlanner = () => {
 
                             <div className="absolute bottom-6 left-6 right-6 z-20">
                                 <div className="flex items-end justify-between gap-3 pb-1">
-                                    <h5 className="travel-serif text-lg font-semibold text-white leading-tight drop-shadow-lg max-w-[calc(100%-42px)]">
+                                    {/* <h5 className="travel-serif text-lg font-semibold text-white leading-tight drop-shadow-lg max-w-[calc(100%-42px)]"> */}
+                                        <h5 className="text-lg font-semibold text-white leading-tight drop-shadow-lg max-w-[calc(100%-42px)]">
                                         {zone.name}
                                     </h5>
                                     <span className="glass-arrow-btn w-9 h-9 shrink-0 rounded-full flex items-center justify-center transition-all duration-300">
